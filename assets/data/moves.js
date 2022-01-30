@@ -174,7 +174,7 @@ var movedex = [
         "jname": "\u304b\u305c\u304a\u3053\u3057",
         "power": 40,
         "pp": 35,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -185,7 +185,7 @@ var movedex = [
         "jname": "\u3064\u3070\u3055\u3067\u3046\u3064",
         "power": 60,
         "pp": 35,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -207,7 +207,7 @@ var movedex = [
         "jname": "\u305d\u3089\u3092\u3068\u3076",
         "power": 90,
         "pp": 15,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 85,

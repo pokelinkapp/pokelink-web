@@ -125,6 +125,52 @@ var badges = [
     ]
   },
   {
+    id: 'POKEMON_GLDA',
+    folder: 'jhoto',
+    badges: [
+      'Zephyr',
+      'Hive',
+      'Plain',
+      'Fog',
+      'Storm',
+      'Mineral',
+      'Glacier',
+      'Rising',
+
+      'Boulder',
+      'Cascade',
+      'Thunder',
+      'Rainbow',
+      'Soul',
+      'Marsh',
+      'Volcano',
+      'Earth'
+    ]
+  },
+  {
+    id: 'POKEMON_SLVA',
+    folder: 'jhoto',
+    badges: [
+      'Zephyr',
+      'Hive',
+      'Plain',
+      'Fog',
+      'Storm',
+      'Mineral',
+      'Glacier',
+      'Rising',
+
+      'Boulder',
+      'Cascade',
+      'Thunder',
+      'Rainbow',
+      'Soul',
+      'Marsh',
+      'Volcano',
+      'Earth'
+    ]
+  },
+  {
     id: 'POKEMON RUBY',
     folder: 'hoenn',
     badges: [
@@ -504,6 +550,34 @@ var badges = [
       'Ice',
       'Dark',
       'Dragon'
+    ]
+  },
+  {
+    id: 'POKEMON BD',
+    folder: 'sinnoh',
+    badges: [
+      'Coal',
+      'Forest',
+      'Cobble',
+      'Fen',
+      'Relic',
+      'Mine',
+      'Icicle',
+      'Beacon'
+    ]
+  },
+  {
+    id: 'POKEMON SP',
+    folder: 'sinnoh',
+    badges: [
+      'Coal',
+      'Forest',
+      'Cobble',
+      'Fen',
+      'Relic',
+      'Mine',
+      'Icicle',
+      'Beacon'
     ]
   }
 ]
