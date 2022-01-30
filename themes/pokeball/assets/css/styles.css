@@ -57,7 +57,12 @@
         color: blue;
     }
 
+    .pokemon__nick {
+        white-space: nowrap;
+        overflow: hidden;
         text-overflow: ellipsis;
+    }
+
     .pokemon__level-bar, .pokemon__nick, .pokemon__dead-label {
         font-size: 11px;
         font-family: "PokemonGB";

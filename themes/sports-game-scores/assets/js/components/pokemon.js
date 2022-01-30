@@ -130,11 +130,15 @@ Vue.component( "Pokemon", {
 
       if (this.isDead) return 'DEAD'
 
+      if (this.pokemon.ability && this.pokemon.ability !== '--' && Number.isInteger(this.pokemon.ability) === false) {
+        return `${this.pokemon.ability}`
+      }
+
       if (this.pokemon.nature) {
         return `${this.pokemon.nature} natured`
       }
 
-      return `${this.pokemon.ability}`
+      return ``
     },
 
     selectedPokemon: {
@@ -214,6 +218,16 @@ Vue.component( "Pokemon", {
     actionOnImageLoaded () {
       this.fixedSprite = true
       this.$emit('loaded')
+    },
+    getCardArtForSpecies (species) {
+      let cachedCards = localStorage.getItem('TCGCardArt').find(card => card.species === species)
+
+      if (cachedCards.length) return new Promise(resolve => resolve(cachedCards))
+
+      let apiResponse = fetch('https://api.pokemontcg.io/v1/cards?setCode=' + this.sets.join('|') + '&supertype=pokemon&nationalPokedexNumber=' + poke.species)
+
+      apiResponse.then(response => response.json())
+      apiResponse.then(cards => localStorage.setItem('TCGCardArt', JSON.stringify(cards)))
     }
   },
   watch: {

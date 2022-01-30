@@ -3,6 +3,8 @@ var themeSettings = {
         name: 'swsh-team',
         hideGender: params.get('hideGender') === 'true',
         hideLevel: params.get('hideLevel') === 'true',
+        vertical: params.get('vertical') === 'true',
+        noGap: params.get('noGap') === 'true',
         pokemonTCGCardSets: function () {
           let userDefinedSets = params.get('sets')
 

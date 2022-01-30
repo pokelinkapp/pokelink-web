@@ -4,27 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Deaths
-    <title>Pkmn</title>
-    <script
-      src="https://browser.sentry-cdn.com/6.2.5/bundle.min.js"
-      integrity="sha384-+0tgGyP4idWu9/NA6Jbmnj3SApxIg65/GR1zo3qSieRNyzmmDQ/5a1Yu6mfmUw+v"
-      crossorigin="anonymous"
-    ></script>
-    <script>
-    Sentry.init({
-    dsn: "https://2a8a7d0d10d14bd4ac199ee8769876a5@o300672.ingest.sentry.io/5726670",
-    integrations: [new Sentry.Integrations.BrowserTracing()],
-
-    // We recommend adjusting this value in production, or using tracesSampler
-    // for finer control
-    tracesSampleRate: 1.0,
-    });
-    </script>
+    <title>Deaths</title>
     <link rel="stylesheet" href="./assets/css/styles.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.0.3/vue.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script> -->
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139026483-5"></script>
     <script>
@@ -39,7 +23,7 @@
 <body>
 <div id="deaths" style="display: none" :class="{ 'browser-connected' : true }">
     <div class="deaths" v-if="showCounter">
-        <strong>{{deaths.length + addCountOffset}}</strong>
+        <strong>{{prefixText}}{{deathCount + addCountOffset}}</strong>
     </div>
     <div class="deaths" v-if="!showCounter">
         <transition-group
@@ -48,7 +32,11 @@
             :class="['deaths__list', {'flipped': flipped === true, 'marquee': scroll}]"
             v-if="loaded"
         >
-            <div class="deaths__pokemon" v-for="pokemon in deathsToShow" :key="pokemon.pid">
+            <div
+                class="deaths__pokemon"
+                v-for="pokemon in deathsToShow"
+                :key="pokemon.pid + '_' + pokemon.metadata.timeOfDeath"
+            >
                 <div class="pokemon__image"><img :src="pokemon.img" alt=""></div>
                 <div class="pokemon__name" v-if="showNames">{{pokemon.nickname || pokemon.speciesName}}</div>
             </div>

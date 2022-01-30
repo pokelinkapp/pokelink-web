@@ -6,14 +6,12 @@ new Vue({
       loaded: false,
       settings: {},
       badges: [],
-      gymAces: [],
       game: {}
     };
   },
   created: function () {
     this.loaded = true
     this.settings = window.settings;
-    this.gymAces = window.settings.theme.gymAces();
   },
   mounted: function () {
     var vm = this;

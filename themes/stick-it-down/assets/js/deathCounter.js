@@ -2,6 +2,7 @@
 // const VIEW_TYPE_GRAVEYARD = 'VIEW_TYPE_GRAVEYARD'
 // const VIEW_TYPES = [VIEW_TYPE_COUNTER]
 // window.settings.pokeImg.usePath = 'party'
+
 new Vue({
   el: '#deaths',
   data: function () {
@@ -50,7 +51,15 @@ new Vue({
 
       // if (this.deaths.map(pokemon => pokemon.pid).includes(payload.update.death.pid)) return
 
-      this.deaths = [...this.deaths, transformPokemon(payload.update.death)]
+      let existingDeaths = this.deaths.filter(pokemon => {
+        return !(
+          pokemon.pid === payload.update.death.pid
+          && pokemon.metadata.timeOfDeath === payload.update.death.metadata.timeOfDeath
+        )
+      })
+
+      this.deaths = [...existingDeaths, transformPokemon(payload.update.death)]
+      this.deathCount = this.deaths.length
     },
     updateDeaths (payload) {
       if (window.settings.debug) {
@@ -60,6 +69,7 @@ new Vue({
       if (payload.username !== settings.currentUser) return;
 
       this.deaths = payload.pokedex.dead.map(pokemon => transformPokemon(pokemon))
+
       try {
         this.deathCount = payload.pokedex.stats.dead
       } catch (e) {}
@@ -69,6 +79,8 @@ new Vue({
         console.log(`Pokemon Revive recieved for ${payload.username}`)
         console.log(payload)
       }
+
+      // remove duplicates
 
       this.deaths = this.deaths.filter(pokemon => {
         return !(

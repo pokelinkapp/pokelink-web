@@ -18,6 +18,16 @@ html, body {
   grid-template-rows: 1fr;
   gap: 15px 15px;
 }
+.pokemon__list.noGap {
+  gap: 0 0;
+}
+
+.pokemon__list.vertical {
+  display: grid;
+  grid-template-columns: repeat(1, 275px);
+  grid-template-columns: repeat(1, minmax(260px, 307px));
+  grid-template-rows: repeat(6, 75px);
+}
 
 .pokemon__list .pokemon {
   background: black;
@@ -29,6 +39,9 @@ html, body {
   margin-bottom: 20px;
   opacity: 1;
   transition: all 0.3s;
+}
+.pokemon__list .pokemon.isDead{
+  filter: grayscale(1);
 }
 
 .pokemon__list .pokemon.opaque {

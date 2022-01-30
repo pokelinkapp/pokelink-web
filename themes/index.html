@@ -4,7 +4,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Pokélink Themes</title>
+  <title>Pokélink Themes
+    <title>Pkmn</title>
+    <script
+      src="https://browser.sentry-cdn.com/6.2.5/bundle.min.js"
+      integrity="sha384-+0tgGyP4idWu9/NA6Jbmnj3SApxIg65/GR1zo3qSieRNyzmmDQ/5a1Yu6mfmUw+v"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+    Sentry.init({
+    dsn: "https://2a8a7d0d10d14bd4ac199ee8769876a5@o300672.ingest.sentry.io/5726670",
+    integrations: [new Sentry.Integrations.BrowserTracing()],
+
+    // We recommend adjusting this value in production, or using tracesSampler
+    // for finer control
+    tracesSampleRate: 1.0,
+    });
+    </script>
   <style>
 
 .vc-chrome {

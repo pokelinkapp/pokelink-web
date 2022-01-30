@@ -39,7 +39,13 @@
 <body>
 <div id="party" :data-user="settings.currentUser">
     <div style="display: none" :class="{ 'browser-connected' : true, 'loaded': isLoaded | true }" class="pokes">
-        <transition-group :name="switchSpeed" tag="div" class="pokemon__list" v-if="loaded">
+        <transition-group
+            :name="switchSpeed"
+            tag="div"
+            class="pokemon__list"
+            :class="{'vertical': settings.theme.vertical, 'noGap': settings.theme.noGap}"
+            v-if="loaded"
+        >
             <Pokemon
                 v-for="(poke, idx) in pokemonToShow"
                 :key="poke === null || poke.hasOwnProperty('pid') === false ? `slot${idx}` : poke.pid"

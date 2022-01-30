@@ -205,6 +205,12 @@
     align-items: center;
 }
 
+
+
+.pokemon.isDamaged .pokemon__image .sprite {
+  animation: takeDamage 0.5s;
+}
+
 .pokemon .pokemon__image .sprite {
   /* max-height: -webkit-fill-available; */
   /* padding-right: 12px; */
