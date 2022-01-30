@@ -1,6 +1,6 @@
 Vue.component( "Pokemon", {
   template: `
-    <div :class="{ 'pokemon': true, 'opaque': !fixedSprite}" :style="backgroundGradientStyle">
+    <div :class="{ 'pokemon': true, 'isDead': isDead,  'opaque': !fixedSprite}" :style="backgroundGradientStyle">
       <div
         v-if="pokemonExists"
         class="pokemon__card-art"

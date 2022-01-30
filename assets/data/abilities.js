@@ -268,7 +268,7 @@ let abilities = [
     { id: 267, name: 'As One', description: 'This Ability combines the effects of both Calyrex\'s Unnerve Ability and Glastrier\'s Chilling Neigh Ability/Spectrier\'s Grim Neigh Ability.', gen: 8 }
 ]
 
-function     (abilityId) {
+function getAbilityById (abilityId) {
     if (abilityId === 0) return null
     return abilities.find(ability => ability.id === parseInt(abilityId))
 }
