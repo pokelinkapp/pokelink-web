@@ -494,7 +494,29 @@ var defaultSettings = {
       'melmetal',
       'toxtricity',
       'garbodor'
-    ]
+    ],
+
+    "hisuian": [
+      "arcanine",
+      "avalugg",
+      "braviary",
+      "decidueye",
+      "electrode",
+      "goodra",
+      "growlithe",
+      "lilligant",
+      "qwilfish",
+      "samurott",
+      "sliggoo",
+      "typhlosion",
+      "voltorb",
+      "zoroark",
+      "zorua",
+    ],
+
+    'palkia': { 'origin': 'palkia-origin' },
+    'dialga': { 'origin': 'dialga-origin' },
+    'giratina': { 'origin': 'giratina-origin' },
   },
 
   natures: {
