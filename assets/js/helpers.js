@@ -45,7 +45,7 @@ function transformPokemon(pokemon) {
 
   // handle forms
   if (settings.pokeImg.ignoreForms === false) {
-    if (pokemon.hasOwnProperty('alternateForm') && pokemon.alternateForm pokemon.alternateForm.len > 0) {
+    if (pokemon.hasOwnProperty('alternateForm') && pokemon.alternateForm && pokemon.alternateForm.len > 0) {
       try {
         switch (pokemon.alternateForm) {
           case 'gmax':
