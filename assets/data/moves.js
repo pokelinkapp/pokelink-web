@@ -933,17 +933,6 @@ var movedex = [
     {
         "accuracy": 100,
         "category": "\u7279\u6b8a",
-        "cname": "\u7535\u51fb",
-        "ename": "ThunderShock",
-        "id": 84,
-        "jname": "\u3067\u3093\u304d\u30b7\u30e7\u30c3\u30af",
-        "power": 40,
-        "pp": 30,
-        "type": "Electric"
-    },
-    {
-        "accuracy": 100,
-        "category": "\u7279\u6b8a",
         "cname": "\u5341\u4e07\u4f0f\u7279",
         "ename": "Thunderbolt",
         "id": 85,
