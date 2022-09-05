@@ -707,7 +707,7 @@ var movedex = [
         "jname": "\u3064\u3064\u304f",
         "power": 35,
         "pp": 35,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -718,7 +718,7 @@ var movedex = [
         "jname": "\u30c9\u30ea\u30eb\u304f\u3061\u3070\u3057",
         "power": 80,
         "pp": 20,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 80,
@@ -1334,7 +1334,7 @@ var movedex = [
         "jname": "\u30aa\u30a6\u30e0\u304c\u3048\u3057",
         "power": null,
         "pp": 20,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -1600,7 +1600,7 @@ var movedex = [
         "jname": "\u30b4\u30c3\u30c9\u30d0\u30fc\u30c9",
         "power": 140,
         "pp": 5,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": null,
@@ -1980,7 +1980,7 @@ var movedex = [
         "jname": "\u30a8\u30a2\u30ed\u30d6\u30e9\u30b9\u30c8",
         "power": 100,
         "pp": 5,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -3324,7 +3324,7 @@ var movedex = [
         "jname": "\u30d5\u30a7\u30b6\u30fc\u30c0\u30f3\u30b9",
         "power": null,
         "pp": 15,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -3511,7 +3511,7 @@ var movedex = [
         "jname": "\u30a8\u30a2\u30ab\u30c3\u30bf\u30fc",
         "power": 60,
         "pp": 25,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 90,
@@ -3712,7 +3712,7 @@ var movedex = [
         "power": 60,
         "pp": 20,
         "tm": 40,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -3802,7 +3802,7 @@ var movedex = [
         "jname": "\u3068\u3073\u306f\u306d\u308b",
         "power": 85,
         "pp": 5,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 95,
@@ -3969,7 +3969,7 @@ var movedex = [
         "power": null,
         "pp": 10,
         "tm": 19,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": null,
@@ -4080,7 +4080,7 @@ var movedex = [
         "jname": "\u3064\u3044\u3070\u3080",
         "power": 60,
         "pp": 20,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": null,
@@ -4091,7 +4091,7 @@ var movedex = [
         "jname": "\u304a\u3044\u304b\u305c",
         "power": null,
         "pp": 30,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": null,
@@ -4505,7 +4505,7 @@ var movedex = [
         "jname": "\u30a8\u30a2\u30b9\u30e9\u30c3\u30b7\u30e5",
         "power": 75,
         "pp": 15,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -4618,7 +4618,7 @@ var movedex = [
         "jname": "\u30d6\u30ec\u30a4\u30d6\u30d0\u30fc\u30c9",
         "power": 120,
         "pp": 15,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -4830,7 +4830,7 @@ var movedex = [
         "jname": "\u304d\u308a\u3070\u3089\u3044",
         "power": null,
         "pp": 15,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": null,
@@ -5009,7 +5009,7 @@ var movedex = [
         "jname": "\u304a\u3057\u3083\u3079\u308a",
         "power": 60,
         "pp": 20,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -5670,7 +5670,7 @@ var movedex = [
         "power": 60,
         "pp": 10,
         "tm": 58,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": null,
@@ -5728,7 +5728,7 @@ var movedex = [
         "power": 55,
         "pp": 15,
         "tm": 62,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": null,
@@ -6065,7 +6065,7 @@ var movedex = [
         "jname": "\u307c\u3046\u3075\u3046",
         "power": 120,
         "pp": 10,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
@@ -6796,7 +6796,7 @@ var movedex = [
         "jname": "\u30c7\u30b9\u30a6\u30a4\u30f3\u30b0",
         "power": 80,
         "pp": 10,
-        "type": "Fighting"
+        "type": "Flying"
     },
     {
         "accuracy": 100,
