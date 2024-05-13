@@ -1,0 +1,73 @@
+syntax = "proto3";
+package Pokelink.Core.Proto.V1;
+
+message PartyMessage {
+  string channel = 1;
+  string username = 2;
+  repeated PartyObject party = 3;
+}
+
+message PartyObject {
+  optional Pokemon pokemon = 1;
+  uint32 slotId = 2;
+  uint32 changeId = 3;
+}
+
+message Pokemon {
+  optional bool isEgg = 1;
+  uint32 exp = 2;
+  HP hp = 3;
+  optional string nature = 4;
+  Move move1 = 5;
+  Move move2 = 6;
+  Move move3 = 7;
+  Move move4 = 8;
+  optional bool isGenderless = 9;
+  uint32 species = 10;
+  string speciesName = 11;
+  Status status = 12;
+  optional string nickname = 13;
+  optional uint32 levelMet = 14;
+  optional bool isShiny = 15;
+  optional uint32 ability = 16;
+  optional uint32 level = 17;
+  optional string hiddenpower = 18;
+  optional uint32 pokerus = 19;
+  optional EVIV evs = 20;
+  optional EVIV dvs = 21;
+  optional bool isFemale = 22;
+  optional uint32 heldItem = 23;
+  optional uint32 pid = 24;
+  optional EVIV ivs = 25;
+  optional uint32 locationMet = 26;
+  optional string alternateForm = 27;
+  optional uint32 friendship = 28;
+  optional uint32 pokeball = 29;
+}
+
+message HP {
+  uint32 max = 1;
+  uint32 current = 2;
+}
+
+message Move {
+  string name = 1;
+  uint32 pp = 2;
+}
+
+message Status {
+  optional uint32 psn = 1;
+  optional uint32 slp = 2;
+  optional uint32 par = 3;
+  optional uint32 fzn = 4;
+  optional uint32 brn = 5;
+}
+
+message EVIV {
+  optional uint32 atk = 1;
+  optional uint32 def = 2;
+  optional uint32 spatk = 3;
+  optional uint32 spd = 4;
+  optional uint32 spdef = 5;
+  optional uint32 hp = 6;
+}
