@@ -3,7 +3,7 @@ function transformPokemon(pokemon) {
   if (pokemon.hasOwnProperty('transformed') || typeof pokemon.transformed != 'undefined') {
     return pokemon;
   }
-  if (window.settings.hasOwnProperty('debug')) {
+  if (window.settings.debug) {
     console.info(pokemon);
   }
   // try and get pokedex info

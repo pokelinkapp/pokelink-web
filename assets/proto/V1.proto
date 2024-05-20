@@ -1,10 +1,30 @@
 syntax = "proto3";
 package Pokelink.Core.Proto.V1;
 
+message Base {
+  string channel = 1;
+}
+
 message PartyMessage {
   string channel = 1;
   string username = 2;
   repeated PartyObject party = 3;
+}
+
+message SettingsMessage {
+  string channel = 1;
+  string username = 2;
+  SettingsPayload settings = 3;
+}
+
+message SettingsPayload {
+  bool debug = 3;
+  GameSettings game = 4;
+}
+
+message GameSettings {
+  uint32 generation = 1;
+  string game = 2;
 }
 
 message PartyObject {

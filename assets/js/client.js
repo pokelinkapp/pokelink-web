@@ -337,20 +337,23 @@ var client = {
     handleRemotePlayerSettings(socket, payload, cb) {
         if (settings.currentUser !== payload.username) return
 
-        window.settings = deepmerge(window.settings, payload.updatedSettings.settings)
+        window.settings = deepmerge(window.settings, payload.updatedSettings?.settings ?? payload.update.settings)
 
-        const transformedParty = Object.values(this.players[payload.username])
-            .map(poke => {
-                if (poke !== null && poke.pokemon !== null) delete poke['pokemon']['transformed']
+        if (this.players[payload.username] !== undefined) {
+            const transformedParty = Object.values(this.players[payload.username])
+                .map(poke => {
+                    if (poke !== null && poke.pokemon !== null && poke.pokemon !== undefined) delete poke['pokemon']['transformed']
+    
+                    return poke
+                })
 
-                return poke
-            })
+            console.info(transformedParty)
+            cb(payload.username, transformedParty)
+            this.events.emit('client:party:updated', transformedParty)
+        }
 
-        console.info(transformedParty)
 
         console.info(`Settings updated`)
-        cb(payload.username, transformedParty)
-        this.events.emit('client:party:updated', transformedParty)
         this.events.emit('settings:updated', window.settings)
     },
 

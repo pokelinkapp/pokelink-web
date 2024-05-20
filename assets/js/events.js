@@ -72,6 +72,7 @@ EventEmitter.prototype.once = function (event, listener) {
 /* Polyfill NeoClient. */
 const NeoClient = function (address) {
     let events = new EventEmitter()
+    let firstTimeConnect = true
     let connection
     let protobufTypes = {}
     protobufTypes['v1'] = {}
@@ -82,30 +83,50 @@ const NeoClient = function (address) {
                 throw err
             }
 
-            protobufTypes['v1']['party'] = root.lookupType('Pokelink.Core.Proto.V1.PartyMessage')
+            protobufTypes['v1']['client:party:updated'] = root.lookupType('Pokelink.Core.Proto.V1.PartyMessage')
+            protobufTypes['v1']['player:settings:updated'] = root.lookupType('Pokelink.Core.Proto.V1.SettingsMessage')
+            protobufTypes['v1']['base'] = root.lookupType('Pokelink.Core.Proto.V1.Base')
             openConnection()
         })
     }
 
     function openConnection() {
-        connection = new WebSocket(address)
+        try {
+            connection = new WebSocket(address)
+        } catch {
+            setTimeout(openConnection, 2000)
+            return
+        }
         connection.binaryType = 'arraybuffer'
 
         connection.onopen = function (ev) {
-            events.emit('connect', ev.target)
+            if (firstTimeConnect) {
+                events.emit('connect', ev.target)
+                firstTimeConnect = false;
+            }
             connection.onmessage = event => {
                 let buffer = new Uint8Array(event.data)
+                let data = null
+                let user = null
+                let channel = null
                 try {
-                    const party = protobufTypes['v1']['party'].decode(buffer)
-                    let data = protobufTypes['v1']['party'].toObject(party)
-                    var channel = data.channel
+                    const base = protobufTypes['v1']['base'].decode(buffer)
+                    channel = base.channel
+                    if (!protobufTypes['v1'].hasOwnProperty(channel)) {
+                        console.error(`Unknown channel ${channel}`)
+                        return
+                    } 
+                    let decoded = protobufTypes['v1'][channel].decode(buffer)
+                    data = protobufTypes['v1'][channel].toObject(decoded)
                     delete data.channel
-                    var user = data.username
+                    user = data.username
                     delete data.username
 
-                    events.emit(channel, {username: user, update: data})
-                } catch {}
+                } catch (ex) {
+                    console.error(ex)
+                }
 
+                events.emit(channel, {username: user, update: data})
             }
 
             connection.send(JSON.stringify({
@@ -113,6 +134,9 @@ const NeoClient = function (address) {
                     version: 1, client: 'WebSource', dataType: 'Protobuf', gzip: false
                 }
             }))
+        }
+        connection.onclose = () => {
+            setTimeout(openConnection, 250)
         }
         this.connection = connection
     }
