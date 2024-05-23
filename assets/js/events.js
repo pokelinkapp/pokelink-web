@@ -85,6 +85,7 @@ const NeoClient = function (address) {
 
             protobufTypes['v1']['client:party:updated'] = root.lookupType('Pokelink.Core.Proto.V1.PartyMessage')
             protobufTypes['v1']['player:settings:updated'] = root.lookupType('Pokelink.Core.Proto.V1.SettingsMessage')
+            protobufTypes['v1']['client:badges:updated'] = root.lookupType('Pokelink.Core.Proto.V1.BadgesMessage')
             protobufTypes['v1']['base'] = root.lookupType('Pokelink.Core.Proto.V1.Base')
             openConnection()
         })
@@ -126,7 +127,11 @@ const NeoClient = function (address) {
                     console.error(ex)
                 }
 
-                events.emit(channel, {username: user, update: data})
+                if (channel === 'client:badges:updated') {
+                    events.emit(channel, {username: user, trainer: data.trainer})
+                } else {
+                    events.emit(channel, {username: user, update: data})
+                }
             }
 
             connection.send(JSON.stringify({

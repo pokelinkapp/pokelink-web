@@ -17,6 +17,26 @@ message SettingsMessage {
   SettingsPayload settings = 3;
 }
 
+message BadgesMessage {
+  string channel = 1;
+  string username = 2;
+  TrainerObject trainer = 3;
+}
+
+message TrainerObject {
+  TrainerGameObject game = 1;
+  repeated BadgesObject badges = 2;
+}
+
+message TrainerGameObject {
+  string id = 1;
+}
+
+message BadgesObject {
+  string name = 1;
+  bool value = 2;
+}
+
 message SettingsPayload {
   bool debug = 3;
   GameSettings game = 4;
