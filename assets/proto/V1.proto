@@ -23,6 +23,18 @@ message BadgesMessage {
   TrainerObject trainer = 3;
 }
 
+message DeathMessage {
+  string channel = 1;
+  string username = 2;
+  Pokemon death = 3;
+}
+
+message ReviveMessage {
+  string channel = 1;
+  string username = 2;
+  Pokemon pokemon = 3;
+}
+
 message TrainerObject {
   TrainerGameObject game = 1;
   repeated BadgesObject badges = 2;
@@ -51,6 +63,10 @@ message PartyObject {
   optional Pokemon pokemon = 1;
   uint32 slotId = 2;
   uint32 changeId = 3;
+}
+
+message GraveMeta {
+  int64 timeOfDeath = 1;
 }
 
 message Pokemon {
@@ -83,6 +99,7 @@ message Pokemon {
   optional string alternateForm = 27;
   optional uint32 friendship = 28;
   optional uint32 pokeball = 29;
+  optional GraveMeta metadata = 30;
 }
 
 message HP {

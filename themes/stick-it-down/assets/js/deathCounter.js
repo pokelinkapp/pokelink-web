@@ -79,6 +79,7 @@ new Vue({
         console.log(`Pokemon Revive recieved for ${payload.username}`)
         console.log(payload)
       }
+      if (payload.update.username !== settings.currentUser) return;
 
       // remove duplicates
 

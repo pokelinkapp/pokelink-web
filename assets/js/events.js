@@ -86,6 +86,8 @@ const NeoClient = function (address) {
             protobufTypes['v1']['client:party:updated'] = root.lookupType('Pokelink.Core.Proto.V1.PartyMessage')
             protobufTypes['v1']['player:settings:updated'] = root.lookupType('Pokelink.Core.Proto.V1.SettingsMessage')
             protobufTypes['v1']['client:badges:updated'] = root.lookupType('Pokelink.Core.Proto.V1.BadgesMessage')
+            protobufTypes['v1']['player:party:death'] = root.lookupType('Pokelink.Core.Proto.V1.DeathMessage')
+            protobufTypes['v1']['player:party:revive'] = root.lookupType('Pokelink.Core.Proto.V1.ReviveMessage')
             protobufTypes['v1']['base'] = root.lookupType('Pokelink.Core.Proto.V1.Base')
             openConnection()
         })
@@ -129,6 +131,8 @@ const NeoClient = function (address) {
 
                 if (channel === 'client:badges:updated') {
                     events.emit(channel, {username: user, trainer: data.trainer})
+                } else if (channel === 'player:party:death' || channel === 'player:party:revive') {
+                    events.emit(channel, {username: user, update: {username: user, ...data}})
                 } else {
                     events.emit(channel, {username: user, update: data})
                 }
