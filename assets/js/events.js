@@ -134,6 +134,16 @@ const NeoClient = function (address) {
                 } else if (channel === 'player:party:death' || channel === 'player:party:revive') {
                     events.emit(channel, {username: user, update: {username: user, ...data}})
                 } else {
+                    if (channel === 'client:party:updated') {
+                        for (let member of data.party) {
+                            if (member.pokemon === undefined || member.pokemon === null) {
+                                continue;
+                            }
+                            if (member.pokemon.hp.current === undefined) {
+                                member.pokemon.hp.current = 0
+                            }
+                        }
+                    }
                     events.emit(channel, {username: user, update: data})
                 }
             }
