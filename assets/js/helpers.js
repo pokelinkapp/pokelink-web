@@ -45,7 +45,7 @@ function transformPokemon(pokemon) {
 
   // handle forms
   if (settings.pokeImg.ignoreForms === false) {
-    if (pokemon.hasOwnProperty('alternateForm') && pokemon.alternateForm && pokemon.alternateForm.len > 0) {
+    if (pokemon.hasOwnProperty('alternateForm') && pokemon.alternateForm && pokemon.alternateForm.length > 0) {
       try {
         switch (pokemon.alternateForm) {
           case 'gmax':
@@ -56,11 +56,16 @@ function transformPokemon(pokemon) {
             break
 
           case 'normal':
+          case 'none':
 
             break
 
           default:
-            filename = settings.pokemonForms[pokemon.speciesName.toLowerCase()][pokemon.alternateForm];
+            let normalizedForm = pokemon.alternateForm
+            .toLowerCase()
+            .replace(/[é]/g, 'e')
+            .replace(/[^a-zA-Z0-9]/g, '')
+            filename = settings.pokemonForms[pokemon.speciesName.toLowerCase()][normalizedForm];
         }
       } catch (e) {
         filename = backupFilename
@@ -193,7 +198,7 @@ function transformPokemon(pokemon) {
 }
 
 function unCamelCase (str){
-  if (typeof str === 'undefined' || str.len === 0) {
+  if (typeof str === 'undefined' || str.length === 0) {
     return null;
   }
 
@@ -248,13 +253,13 @@ function string2Hex(str) {
 
 function getTypeColor(type) {
   if (typeof type !== 'string') { return 'white'; }
-  if (type.len == 0) { return 'white'; }
+  if (type.length == 0) { return 'white'; }
 
   return settings.typeColors[type.toLowerCase()];
 }
 function getStatusColor(status) {
   if (typeof status !== 'string') { return 'white'; }
-  if (status.len == 0) { return 'white'; }
+  if (status.length == 0) { return 'white'; }
 
   return settings.statusColors[status.toLowerCase()];
 }

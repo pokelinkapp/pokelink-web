@@ -19,7 +19,7 @@ var defaultSettings = {
     // if your sprite set doesnt have shiny variants, set this to true
     ignoreShinies: false,
     // if this is true, pokelink will just show the base form pokemon
-    ignoreForms: true,
+    ignoreForms: false,
     // if true, the browser sources will identify what pokemon is in the egg
     determineEggs: false,
     // static or animated
