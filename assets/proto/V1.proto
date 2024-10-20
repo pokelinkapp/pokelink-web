@@ -69,6 +69,13 @@ message GraveMeta {
   int64 timeOfDeath = 1;
 }
 
+message LocalizedNames {
+  optional string speciesName = 1;
+  optional string alternateForm = 2;
+  optional string heldItem = 3;
+  optional string locationMet = 4;
+}
+
 message Pokemon {
   optional bool isEgg = 1;
   uint32 exp = 2;
@@ -100,6 +107,7 @@ message Pokemon {
   optional uint32 friendship = 28;
   optional uint32 pokeball = 29;
   optional GraveMeta metadata = 30;
+  optional LocalizedNames localizedNames = 31;
 }
 
 message HP {
