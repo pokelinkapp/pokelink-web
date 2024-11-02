@@ -106,7 +106,7 @@ const createParty = () => {
 const normalizeAndParseHost = (serverHost) => {
     try {
         let URLParts = new URL(serverHost)
-        if (params.get('neo').toLowerCase() === 'true') {
+        if (params.get('neo')?.toLowerCase() === 'true') {
             URLParts.protocol = 'ws:'
         } else {
             URLParts.protocol = 'http:'
@@ -114,7 +114,7 @@ const normalizeAndParseHost = (serverHost) => {
 
         return URLParts.href
     } catch (e) {
-        if (params.get('neo').toLowerCase() === 'true') {
+        if (params.get('neo')?.toLowerCase() === 'true') {
             `ws://${serverHost}/`
         }
         return `http://${serverHost}/`
