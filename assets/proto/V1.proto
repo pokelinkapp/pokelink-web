@@ -56,7 +56,7 @@ message SettingsPayload {
 
 message GameSettings {
   uint32 generation = 1;
-  string game = 2;
+  string id = 2;
 }
 
 message PartyObject {
