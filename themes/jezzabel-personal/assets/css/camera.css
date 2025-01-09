@@ -1,0 +1,93 @@
+:root {
+    --borderWidth: 15px;
+  }
+
+  html,
+  body {
+    height: 100%;
+    min-height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
+
+  .wrapper.justTookDamage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+  .wrapper.justTookDamage:before, .wrapper.justTookDamage:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(var(--customWidth) - var(--borderWidth)*2);
+    height: calc(var(--customHeight) - var(--borderWidth)*2);
+    border: var(--borderWidth) solid rgba(255, 0, 0, 0.5);
+    filter: blur(0);
+    transform-origin: 50%;
+    z-index: -2;
+  }
+  .noBG.gradient-border {
+    background: transparent !important;
+  }
+  .wrapper.justTookDamage:before {
+    animation: ripple 1.5s ease-in-out infinite;
+  }
+  .wrapper.justTookDamage:after {
+    animation: ripple 1.5s 0.4s ease-in-out infinite;
+  }
+
+  @keyframes ripple {
+    0% {
+      opacity: 0.5;
+      border-width: var(--borderWidth);
+    }
+    100% {
+      border-width: var(--borderWidth)/2;
+      opacity: 0;
+      transform: scale(2);
+    }
+  }
+  #box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--customWidth);
+    height: var(--customHeight);
+    color: white;
+    font-family: "Raleway";
+    font-size: 2.5rem;
+    text-align: center;
+  }
+
+  .gradient-border {
+    background: #1D1F20;
+    position: relative;
+    /*   border-radius: var(--borderWidth); */
+  }
+
+  .gradient-border:after {
+    content: "";
+    position: absolute;
+    top: calc(-1 * var(--borderWidth));
+    left: calc(-1 * var(--borderWidth));
+    height: calc(100% + var(--borderWidth) * 2);
+    width: calc(100% + var(--borderWidth) * 2);
+    /* background: linear-gradient(45deg, #3f84fd 1%, #3f84fd 57%, #ec3f46 50%, #ec3f46 100%); */
+    /*   border-radius: calc(2 * var(--borderWidth)); */
+    z-index: -1;
+    /*   animation: animatedgradient 3s ease alternate infinite; */
+    background-size: 300% 300%;
+  }

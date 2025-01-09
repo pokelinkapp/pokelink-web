@@ -5,7 +5,7 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;600;500;700;900&display=swap');
-@font-face{font-family:'FOT-UDKakugoC80Pro-B';src:local("FOT-UDKakugoC80Pro-B"),url("../../../../assets/fonts/FOT-UDKakugo_SmallPr6N-B.otf")}
+@font-face{font-family:'FOT-UDKakugoC80Pro-B';src:local("FOT-UDKakugoC80Pro-B"),url("../fonts/FOT-UDKakugoC80Pro-B.otf")}
 
 * {
   /* font-family: 'Open Sans', sans-serif; */

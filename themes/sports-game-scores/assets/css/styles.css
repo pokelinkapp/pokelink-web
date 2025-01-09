@@ -25,7 +25,7 @@ html, body {
 .pokemon__list.vertical {
   display: grid;
   grid-template-columns: repeat(1, 275px);
-  grid-template-columns: repeat(1, minmax(260px, 307px));
+  grid-template-columns: repeat(1, minmax(260px, 307px)); /** FIX ME **/
   grid-template-rows: repeat(6, 75px);
 }
 
@@ -49,7 +49,7 @@ html, body {
 }
 
 .pokemon__list .pokemon .pokemon__card-art {
-  height: 75px;
+  /* height: 75px;
   width: -webkit-fill-available;
   content: "-";
   display: block;
@@ -58,28 +58,45 @@ html, body {
   background-size: 391px;
   background-attachment: local;
   background-position: -46px -101px;
+  opacity: 0.2; */
+
+  height: 75px;
+  width: 100%;
+  content: "-";
+  display: block;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: 407px;
+  background-attachment: local;
+  background-position: -46px -101px;
   opacity: 0.2;
 }
 
 .pokemon__list .pokemon .pokemon__sprite .pokemon__image {
-  display: flex;
+  /* display: flex;
   width: 40%;
   justify-content: end;
   align-items: center;
   height: 100%;
+  padding: 0px 20px; */
+  display: flex;
+  width: 40%;
+  /* justify-content: end; */
+  align-items: center;
+  height: 100%;
   padding: 0px 20px;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .pokemon__list .pokemon .pokemon__sprite {
   width: 100px;
 }
 .pokemon__list .pokemon .pokemon__sprite canvas.sprite {
-  /* max-height: 75px;
-  max-width: 75px; */
   height: 120%;
-  top: 50%;
-  position: relative;
-  transform: translateX(-16px) translateY(-46%);
+  /* top: 50%; */
+  /* position: relative; */
+  /* transform: translateX(50%) translateY(-46%); */
 }
 
 .pokemon__details {
@@ -126,10 +143,10 @@ html, body {
 }
 @keyframes rotateWord {
     0%, 2% { opacity: 0; transform: translateY(-30px); }
-	  5% { opacity: 1; transform: translateY(0px);}
+      5% { opacity: 1; transform: translateY(0px);}
     17%, 33% { opacity: 1; transform: translateY(0px); }
-	  36% { opacity: 0; transform: translateY(30px); }
-	  100% { opacity: 0; }
+      36% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 0; }
 }
 
 .browser-connected {

@@ -44,8 +44,8 @@ Vue.component( "Pokemon", {
           <div v-for="move in moves" class="move">
             <div class="move__icon"></div>
             <div class="move__name">
-              <svg :viewBox="getViewBox(move.name)">
-                <text x="50%" y="28" fill="white" text-anchor="middle">{{ move.name }}</text>
+              <svg>
+                <text x="50%" y="28" fill="white" text-anchor="middle">{{ move.name }} {{ move.pp }}</text>
               </svg>
             </div>
             <div class="move__pp">{{move.pp}}</div>
@@ -64,10 +64,16 @@ Vue.component( "Pokemon", {
   },
   methods: {
     getViewBox(moveName) {
-      let width = moveName.length * 17
+      let wordLength = 0
+      if (moveName) wordLength = moveName.length
+
+      let width = wordLength * 35
 
       if (width < 70) width = 120
       return `0 0 ${width} 30`
+    },
+    isValidMoveName (moveName) {
+      return /[0-9a-zA-Z]+$/.test(moveName)
     }
   },
   computed: {
@@ -105,8 +111,6 @@ Vue.component( "Pokemon", {
 
     experienceRemaining () {
       const expGroup = exp_groups_table.find(group => this.pokemon.species === group.id)
-      if (!expGroup) return '0%'
-
       const levelExp = experience_table.filter((expRange) => {
         return expRange.level === this.pokemon.level+1
             || expRange.level === this.pokemon.level
@@ -120,6 +124,7 @@ Vue.component( "Pokemon", {
 
     moves () {
       return [this.pokemon.move1, this.pokemon.move2, this.pokemon.move3, this.pokemon.move4]
+        .filter(move => move.hasOwnProperty('name') && this.isValidMoveName(move.name))
     },
 
     selectedPokemon: {

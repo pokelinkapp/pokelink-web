@@ -2,6 +2,25 @@
 /* @font-face{font-family:RifficFree;src:local("RifficFree"),url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap")} */
 /* @font-face{font-family:RifficFree;src:local("RifficFree"),url("../RifficFree-Bold.ttf")} */
 
+.badges {}
+    .badge__slot {
+        display: block;
+        float: left;
+    }
+
+    .badge__slot img {
+        width: 100px;
+    }
+    .badge__slot--inactive img {
+        -webkit-filter: grayscale(100%) brightness(0);
+        filter: grayscale(100%) brightness(0);
+        opacity: 0.6;
+    }
+
+.browser-connected {
+  display: block !important;
+}
+
 * {
   /* font-family: "Riffic Free"; */
   font-family: 'Noto Sans', sans-serif;

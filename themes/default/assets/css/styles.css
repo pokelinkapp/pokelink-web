@@ -286,3 +286,36 @@
     top: 0px;
     height: auto;
 }
+
+/** Grouped Badges **/
+.badge-groups {
+  display: flex;
+  flex-direction: column;
+  row-gap: 15px;
+}
+.badge-groups .badge-group h1 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.badge-groups .badge-group .trainer-badges {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: 100px;
+}
+.badge-groups .badge-group .trainer-badges.trainer-badges--no-badges {
+  grid-template-columns: repeat(1, 1fr);
+}
+.badge-groups .badge-group .trainer-badges .trainer-badges__badge {
+  max-height: 130px;
+}
+.badge-groups .badge-group .trainer-badges .trainer-badges__badge .trainer-badges__badge-image {
+  max-width: 100%;
+  max-height: 100%;
+}
+.badge-groups .badge-group .trainer-badges .trainer-badges__badge .trainer-badges__badge-image.trainer-badges__badge-image--not-earned {
+  -webkit-filter: grayscale(70%) brightness(0.2);
+  filter: grayscale(70%) brightness(0.2);
+  opacity: 1;
+}

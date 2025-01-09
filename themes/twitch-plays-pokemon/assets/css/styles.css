@@ -186,6 +186,8 @@ img.sprite {
     width: 420px;
     top: 50px;
     z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .move {
@@ -193,7 +195,7 @@ img.sprite {
   z-index: 10;
   color: #ffff;
   display: inline-block;
-  height: 29px;
+  height: 35px;
   margin-top: 16px;
 }
 
@@ -205,6 +207,7 @@ img.sprite {
 .move__icon {
   width: 30px;
   height: 20px;
+  display: none;
 }
 
 .move__name {
@@ -219,7 +222,7 @@ img.sprite {
 }
 
 .move__name text  {
-  font-family: "Pokemon GB";
+  font-family: "PokemonGB";
 }
 
 .move__pp {

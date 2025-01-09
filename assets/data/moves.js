@@ -443,6 +443,17 @@ var movedex = [
     {
         "accuracy": 100,
         "category": "\u7269\u7406",
+        "cname": "\u6bd2\u9488",
+        "ename": "PoisonSting",
+        "id": 40,
+        "jname": "\u3069\u304f\u3070\u308a",
+        "power": 15,
+        "pp": 35,
+        "type": "Poison"
+    },
+    {
+        "accuracy": 100,
+        "category": "\u7269\u7406",
         "cname": "\u53cc\u9488",
         "ename": "Twineedle",
         "id": 41,
@@ -847,6 +858,17 @@ var movedex = [
         "category": "\u53d8\u5316",
         "cname": "\u6bd2\u7c89\u672b",
         "ename": "Poison Powder",
+        "id": 77,
+        "jname": "\u3069\u304f\u306e\u3053\u306a",
+        "power": null,
+        "pp": 35,
+        "type": "Poison"
+    },
+    {
+        "accuracy": 75,
+        "category": "\u53d8\u5316",
+        "cname": "\u6bd2\u7c89\u672b",
+        "ename": "PoisonPowder",
         "id": 77,
         "jname": "\u3069\u304f\u306e\u3053\u306a",
         "power": null,

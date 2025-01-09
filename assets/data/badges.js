@@ -579,5 +579,98 @@ var badges = [
       'Icicle',
       'Beacon'
     ]
-  }
+  },
+  {
+      id: 'POKEMON LA',
+      folder: 'hisui',
+      badges: [
+        'plate_mind',
+        'plate_insect',
+        'plate_earth',
+        'plate_splash',
+        'plate_flame',
+        'plate_toxic',
+        'plate_zap',
+        'plate_icicle',
+        'plate_stone',
+        'plate_fist',
+        'plate_draco',
+        'plate_iron',
+        'plate_pixie',
+        'plate_spooky',
+        'plate_legend',
+        'star_rank_1',
+        'star_rank_2',
+        'star_rank_3',
+        'star_rank_4',
+        'star_rank_5',
+        'star_rank_6',
+        'star_rank_7',
+        'star_rank_8',
+        'star_rank_9',
+        'star_rank_10'
+      ],
+      groups: [
+        {translationKey: 'Arceus Plates', key: 'plate_'},
+        {translationKey: 'Rank Star', key: 'star_'}
+      ]
+    },
+    {
+      id: 'POKEMON SC',
+      folder: 'paldea',
+      badges: [
+        'gym_bug',
+        'gym_ghost',
+        'gym_ice',
+        'gym_psychic',
+        'star_dark',
+        'star_fighting',
+        'star_poison',
+        'titan_flying',
+        'titan_rock',
+        'gym_electric',
+        'gym_grass',
+        'gym_normal',
+        'gym_water',
+        'star_fairy',
+        'star_fire',
+        'titan_dragon',
+        'titan_ground',
+        'titan_steel'
+      ],
+      groups: [
+        {translationKey: 'Gym Badges', key: 'gym_'},
+        {translationKey: 'Operation Starfall', key: 'star_'},
+        {translationKey: 'Path Of Legends (Titans)', key: 'titan_'}
+      ]
+    },
+    {
+      id: 'POKEMON VI',
+      folder: 'paldea',
+      badges: [
+        'gym_bug',
+        'gym_ghost',
+        'gym_ice',
+        'gym_psychic',
+        'star_dark',
+        'star_fighting',
+        'star_poison',
+        'titan_flying',
+        'titan_rock',
+        'gym_electric',
+        'gym_grass',
+        'gym_normal',
+        'gym_water',
+        'star_fairy',
+        'star_fire',
+        'titan_dragon',
+        'titan_ground',
+        'titan_steel'
+      ],
+      groups: [
+        {translationKey: 'Gym Badges', key: 'gym_'},
+        {translationKey: 'Operation Starfall', key: 'star_'},
+        {translationKey: 'Path Of Legends (Titans)', key: 'titan_'}
+      ]
+    }
 ]
