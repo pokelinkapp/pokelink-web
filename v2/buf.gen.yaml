@@ -1,0 +1,7 @@
+version: v2
+inputs:
+  - directory: assets/proto
+plugins:
+  - local: protoc-gen-es
+    out: assets/js
+    opt: target=ts

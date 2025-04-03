@@ -1,0 +1,167 @@
+syntax = "proto3";
+package Pokelink.Core.Proto.V2;
+
+enum Gender {
+  male = 0;
+  female = 1;
+  genderless = 2;
+}
+
+enum Pokerus {
+  clean = 0;
+  infected = 1;
+  cured = 2;
+}
+
+enum SourceType {
+  all = 0;
+  party = 1;
+  graveyard = 2;
+  badges = 3;
+}
+
+message Base {
+  string channel = 1;
+  optional string username = 2;
+}
+
+message SourceTypeRequest {
+  string channel = 1;
+  repeated SourceType sourceTypes = 2;
+}
+
+message Party {
+  string channel = 1;
+  string username = 2;
+  repeated PartyObject party = 3;
+}
+
+message PartyObject {
+  optional Pokemon pokemon = 1;
+  uint32 changeId = 2;
+}
+
+message Settings {
+  string channel = 1;
+  string username = 2;
+}
+
+message Badges {
+  string channel = 1;
+  string username = 2;
+  repeated Badge badges = 3;
+}
+
+message Badge {
+  string localeName = 1;
+  string englishName = 2;
+  bool value = 3;
+  optional string levelText = 4;
+  optional uint32 levelCap = 5;
+}
+
+message PokemonDeath {
+  string channel = 1;
+  string username = 2;
+  Pokemon pokemon = 3;
+}
+
+message PokemonRevive {
+  string channel = 1;
+  string username = 2;
+  Pokemon pokemon = 3;
+}
+
+message Pokemon {
+  uint32 pid = 1;
+  uint32 species = 2;
+  uint32 level = 3;
+  uint32 exp = 4;
+  uint32 expToNextLevel = 5;
+  HP hp = 6;
+  repeated Move moves = 7;
+  EVIV ivs = 8;
+  EVIV evs = 9;
+  BaseStats baseStats = 10;
+  PokemonTranslations translations = 11;
+  string fallbackSprite = 12;
+
+  optional uint32 heldItem = 13;
+  optional Gender gender = 14;
+  optional uint32 form = 15;
+  optional bool isEgg = 16;
+  optional uint32 hiddenPower = 17;
+  optional uint32 nature = 18;
+  optional bool isShiny = 19;
+  optional uint32 pokeball = 20;
+  optional uint32 friendship = 21;
+  optional uint32 ability = 22;
+  optional Pokerus pokerus = 23;
+  optional uint32 locationMet = 24;
+  optional GraveMeta graveyardMeta = 25;
+}
+
+message PokemonTranslations {
+  TranslationsObject english = 1;
+  TranslationsObject locale = 2;
+}
+
+message TranslationsObject {
+  string speciesName = 1;
+  string type1Name = 2;
+  string status = 3;
+  repeated string moveNames = 4;
+  optional string formName = 5;
+  optional string heldItemName = 6;
+  optional string gender = 7;
+  optional string type2Name = 8;
+  optional string hiddenPowerName = 9;
+  optional string pokeballName = 10;
+  optional string abilityName = 11;
+  optional string pokerusStatus = 12;
+  optional string metLocationName = 13;
+}
+
+message HP {
+  uint32 max = 1;
+  uint32 current = 2;
+}
+
+message Move {
+  uint32 id = 1;
+  uint32 pp = 2;
+  uint32 maxPP = 3;
+  string type = 4;
+  optional string secondType = 5;
+}
+
+message Status {
+  bool psn = 1;
+  bool slp = 2;
+  bool par = 3;
+  bool fzn = 4;
+  bool brn = 5;
+}
+
+message EVIV {
+  uint32 atk = 1;
+  uint32 def = 2;
+  uint32 spatk = 3;
+  uint32 spdef = 4;
+  uint32 spd = 5;
+  uint32 hp = 6;
+}
+
+message BaseStats {
+  uint32 atk = 1;
+  uint32 def = 2;
+  uint32 spatk = 3;
+  uint32 spdef = 4;
+  uint32 spd = 5;
+  uint32 hp = 6;
+  uint32 bst = 7;
+}
+
+message GraveMeta {
+  int64 timeOfDeath = 1;
+}

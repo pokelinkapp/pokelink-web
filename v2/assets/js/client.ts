@@ -1,0 +1,47 @@
+import {EventEmitter, Nullable} from './global.js'
+import {clientSettings} from './pokelink.js'
+
+export abstract class PokelinkClientBase {
+    protected connection: Nullable<WebSocket> = null
+    private firstConnect: boolean = true
+    public readonly events: EventEmitter = new EventEmitter()
+
+    public openConnection() {
+        try {
+            this.connection = new WebSocket(`ws://${clientSettings.host}:${clientSettings.port}`)
+        } catch {
+            console.error(`Unable to connect to ${clientSettings.host}:${clientSettings.port} please check that you have a session open and that you have web sources enabled`)
+            setTimeout(this.openConnection, 2000)
+            return
+        }
+
+        this.connection.binaryType = 'arraybuffer'
+
+        this.connection.onopen = ev => {
+            if (this.firstConnect) {
+                this.firstConnect = false
+                this.events.emit('connect')
+                console.log('Successfully connected to server')
+            }
+            this.connection!.onmessage = event => {
+                this.OnMessageReceived(new Uint8Array(event.data))
+            }
+            this.SendHandshake()
+        }
+
+        this.connection.onclose = () => {
+            setTimeout(this.openConnection, 250)
+        }
+    }
+
+    protected ShowUser(user: Nullable<string>): boolean {
+        if (user === null || user === undefined) {
+            return false;
+        }
+        return clientSettings.users.indexOf(user) !== -1
+    }
+
+    protected abstract SendHandshake(): void
+
+    protected abstract OnMessageReceived(buffer: Uint8Array): void
+}

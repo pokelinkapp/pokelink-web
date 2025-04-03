@@ -1,0 +1,7 @@
+assets/js/*.js
+assets/js/*.d.ts
+assets/dist/client*.ts
+assets/js/*_pb.ts
+node_modules
+.idea/*
+yarn.lock
