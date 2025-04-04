@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>Sprite Only</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"
-          type="text/css"/>
+    <title>Basic Card</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/styles.css">
 </head>
 <body>
 <div id="party" :data-user="settings.users[0]">
     <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
-        <transition-group :name="switchSpeed" tag="div" class="pokemon__list" v-if="loaded">
+        <transition-group :name="switchSpeed" tag="div" class="pokemon" :class="{ 'vertical-column': settings.verticalPokemon }" v-if="loaded">
             <pokemon-card v-for="poke in party" v-if="poke !== null"
-                          :pokemon="poke" :key="poke?.pid"></pokemon-card>
+                          :pokemon="poke" :key="poke?.pid" :settings="settings"></pokemon-card>
             <pokemon-card v-for="index in 6-party.length" v-if="loaded && showEmptySlots" :key="index"></pokemon-card>
         </transition-group>
         <div class="no-connection" v-if="!connected">

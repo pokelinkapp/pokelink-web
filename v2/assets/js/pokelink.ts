@@ -13,7 +13,7 @@ import {
     PokemonReviveSchema, PokemonSchema
 } from './v2_pb.js'
 import {toJson} from '@bufbuild/protobuf'
-import {checkUrl, EventEmitter, Nullable} from './global.js'
+import {checkImageUrl, EventEmitter, Nullable} from './global.js'
 import type {ClientSettings} from './global'
 import Handlebars from 'handlebars'
 
@@ -143,15 +143,8 @@ export namespace V2 {
     }
 
     export function getSprite(pokemon: Pokemon) {
-        let url = clientSettings.spriteTemplate(pokemon)
-
-        if (checkUrl(url)) {
-            if (clientSettings.debug) {
-                console.debug(`${url} returned a fail code. Falling back to ${pokemon.fallbackSprite}`)
-            }
-            return pokemon.fallbackSprite
-        }
-
-        return url
+        return clientSettings.spriteTemplate(pokemon)
     }
 }
+
+export {checkImageUrl}

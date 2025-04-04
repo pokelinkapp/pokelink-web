@@ -7,7 +7,7 @@ export default defineComponent({
       <div>
         <div :class="{ 'pokemon__slot': true }" v-if="pokemon !== null">
           <div :class="{ 'pokemon__image': true, 'pokemon__dead': (pokemon.hp.current === 0)}">
-            <img :src="sprite"/>
+            <img ref="pokemonSprite" @error="this.$refs.pokemonSprite.src = this.pokemon.fallbackSprite" :src="sprite"/>
           </div>
         </div>
         <div class="pokemon__slot pokemon__empty" v-else>

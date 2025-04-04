@@ -10,11 +10,13 @@ import pokemonCard from 'pokemon-card'
             return {
                 connected: false, loaded: false, settings: {}, party: [], switchSpeed: 'switchMedium'
             }
-        }, created: function () {
-            this.settings = clientSettings
         }, mounted: function () {
             const vm = this
             V2.initialize()
+
+            this.settings = {...clientSettings}
+            this.settings.verticalPokemon = (clientSettings.params.get('verticalPokemon') ?? 'false') === 'true'
+            this.settings.hp = (clientSettings.params.get('hp') ?? 'false') === 'true'
 
             V2.handlePartyUpdates((party => {
                 vm.party = party
@@ -52,7 +54,7 @@ import pokemonCard from 'pokemon-card'
                 }
 
                 if (clientSettings.params.has('fromSlot') && clientSettings.params.has('slots')) {
-                    return !!this.pokemonToShow.includes(false);
+                    return !!this.pokemonToShow.includes(false)
                 }
 
                 if (this.party.length !== 6) {

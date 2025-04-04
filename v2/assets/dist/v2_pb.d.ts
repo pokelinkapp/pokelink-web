@@ -325,13 +325,13 @@ export type TranslationsObject = Message<"Pokelink.Core.Proto.V2.TranslationsObj
      */
     speciesName: string;
     /**
-     * @generated from field: string type1Name = 2;
-     */
-    type1Name: string;
-    /**
-     * @generated from field: string status = 3;
+     * @generated from field: string status = 2;
      */
     status: string;
+    /**
+     * @generated from field: repeated string types = 3;
+     */
+    types: string[];
     /**
      * @generated from field: optional string formName = 4;
      */
@@ -345,31 +345,27 @@ export type TranslationsObject = Message<"Pokelink.Core.Proto.V2.TranslationsObj
      */
     gender?: string;
     /**
-     * @generated from field: optional string type2Name = 7;
-     */
-    type2Name?: string;
-    /**
-     * @generated from field: optional string hiddenPowerName = 8;
+     * @generated from field: optional string hiddenPowerName = 7;
      */
     hiddenPowerName?: string;
     /**
-     * @generated from field: optional string pokeballName = 9;
+     * @generated from field: optional string pokeballName = 8;
      */
     pokeballName?: string;
     /**
-     * @generated from field: optional string abilityName = 10;
+     * @generated from field: optional string abilityName = 9;
      */
     abilityName?: string;
     /**
-     * @generated from field: optional string pokerusStatus = 11;
+     * @generated from field: optional string pokerusStatus = 10;
      */
     pokerusStatus?: string;
     /**
-     * @generated from field: optional string locationMetName = 12;
+     * @generated from field: optional string locationMetName = 11;
      */
     locationMetName?: string;
     /**
-     * @generated from field: optional string natureName = 13;
+     * @generated from field: optional string natureName = 12;
      */
     natureName?: string;
 };

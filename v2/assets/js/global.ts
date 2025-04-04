@@ -6,9 +6,9 @@ import Handlebars from 'handlebars'
 
 Handlebars.registerHelper('isDefined', function (value) {
     return value !== undefined && value !== null
-});
+})
 
-Handlebars.registerHelper('ifElse', function(input: boolean, ifTrue: string, ifFalse: string) {
+Handlebars.registerHelper('ifElse', function (input: boolean, ifTrue: string, ifFalse: string) {
     return input ? ifTrue : ifFalse
 })
 
@@ -110,12 +110,22 @@ if (typeof Array.prototype.indexOf === 'function') {
     }
 }
 
-export function checkUrl(url: string) {
-    let request = new XMLHttpRequest()
-    request.open("GET", url, false)
-    request.send()
+export async function checkImageUrl(url: string) {
+    return new Promise<boolean>((resolve, reject) => {
+        const imgElement = new Image();
 
-    return request.status === 200
+        imgElement.addEventListener('load', () => {
+            resolve(true)
+        })
+
+        imgElement.addEventListener('error', (event) => {
+            event.preventDefault()
+            event.stopImmediatePropagation()
+            reject()
+        })
+
+        imgElement.src = url;
+    })
 }
 
 export const htmlColors = {

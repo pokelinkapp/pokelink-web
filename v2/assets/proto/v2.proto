@@ -120,18 +120,17 @@ message PokemonTranslations {
 
 message TranslationsObject {
   string speciesName = 1;
-  string type1Name = 2;
-  string status = 3;
+  string status = 2;
+  repeated string types = 3;
   optional string formName = 4;
   optional string heldItemName = 5;
   optional string gender = 6;
-  optional string type2Name = 7;
-  optional string hiddenPowerName = 8;
-  optional string pokeballName = 9;
-  optional string abilityName = 10;
-  optional string pokerusStatus = 11;
-  optional string locationMetName = 12;
-  optional string natureName = 13;
+  optional string hiddenPowerName = 7;
+  optional string pokeballName = 8;
+  optional string abilityName = 9;
+  optional string pokerusStatus = 10;
+  optional string locationMetName = 11;
+  optional string natureName = 12;
 }
 
 message HP {
