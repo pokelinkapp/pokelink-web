@@ -1,8 +1,9 @@
-import { Badge, Pokemon } from './v2_pb.js';
+import { Badge, Pokemon, Gender } from './v2_pb.js';
 import { checkImageUrl, Nullable } from './global.js';
 import type { ClientSettings } from './global';
 export declare const clientSettings: ClientSettings;
 export declare function updateSpriteTemplate(template: string): void;
+export declare function isUndefined(value: any): boolean;
 export declare namespace V2 {
     function initialize(): void;
     function handlePartyUpdates(handler: (party: Nullable<Pokemon>[]) => void): void;
@@ -12,4 +13,4 @@ export declare namespace V2 {
     function onConnect(handler: () => void): void;
     function getSprite(pokemon: Pokemon): string;
 }
-export { checkImageUrl };
+export { checkImageUrl, Gender };

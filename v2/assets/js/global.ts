@@ -24,6 +24,24 @@ Handlebars.registerHelper('noSpaces', function (str: string) {
     return str?.replace(' ', '')
 })
 
+Handlebars.registerHelper('nidoranGender', function(str: string, maleTag?: string, femaleTag?: string) {
+    if (str.toLowerCase().startsWith('nidoran')) {
+        let text = str.substring(0, 7)
+
+        if (str.indexOf('♀') !== -1 && femaleTag !== undefined) {
+            text += femaleTag
+        }
+
+        if (str.indexOf('♂') !== -1 && maleTag !== undefined) {
+            text += maleTag
+        }
+
+        return text
+    }
+
+    return str
+})
+
 export class EventEmitter {
     private events: { [key: string]: Array<(...parameters: any[]) => void> } = {}
 

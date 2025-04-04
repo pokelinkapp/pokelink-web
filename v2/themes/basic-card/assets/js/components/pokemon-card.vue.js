@@ -1,5 +1,4 @@
 import {defineComponent} from 'vue'
-import {V2} from 'pokelink'
 
 export default defineComponent({
     template: `

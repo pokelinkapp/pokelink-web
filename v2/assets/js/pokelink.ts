@@ -10,7 +10,8 @@ import {
     PokemonDeath,
     PokemonDeathSchema,
     PokemonRevive,
-    PokemonReviveSchema, PokemonSchema
+    PokemonReviveSchema, PokemonSchema,
+    Gender
 } from './v2_pb.js'
 import {toJson} from '@bufbuild/protobuf'
 import {checkImageUrl, EventEmitter, Nullable} from './global.js'
@@ -25,7 +26,7 @@ export const clientSettings: ClientSettings = {
     users: [],
     spriteTemplate: Handlebars.compile('https://assets.pokelink.xyz/assets/sprites/pokemon/home/' +
         '{{ifElse isShiny "shiny" "normal"}}' +
-        '/{{toLower translations.english.speciesName}}' +
+        '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
         '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
         '.png')
 }
@@ -37,6 +38,10 @@ export function updateSpriteTemplate(template: string) {
         console.error(ex)
         console.error(`Template: ${template}`)
     }
+}
+
+export function isUndefined(value: any) {
+    return value === undefined || value === null
 }
 
 let client: Nullable<PokelinkClientBase> = null
@@ -147,4 +152,4 @@ export namespace V2 {
     }
 }
 
-export {checkImageUrl}
+export {checkImageUrl, Gender}

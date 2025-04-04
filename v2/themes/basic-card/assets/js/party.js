@@ -1,6 +1,6 @@
 import {createApp} from 'vue'
 import {V2, clientSettings} from 'pokelink'
-import pokemonCard from 'pokemon-card'
+import pokemonCard from './components/pokemon-card.vue.js'
 
 (() => {
     createApp({
@@ -37,8 +37,6 @@ import pokemonCard from 'pokemon-card'
                 }
                 return 0
             }, pokemonToShow() {
-
-                console.log(this.party.map(x => typeof x))
                 if (this.singleSlot === true) {
                     return [this.party[this.slotId]]
                 }

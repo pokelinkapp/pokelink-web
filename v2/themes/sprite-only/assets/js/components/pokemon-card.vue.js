@@ -2,7 +2,6 @@ import {defineComponent} from 'vue'
 import {V2} from 'pokelink'
 
 export default defineComponent({
-    name: 'pokemon-card',
     template: `
       <div>
         <div :class="{ 'pokemon__slot': true }" v-if="pokemon !== null">
