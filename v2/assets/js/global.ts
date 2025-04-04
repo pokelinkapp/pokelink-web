@@ -5,11 +5,27 @@ export type Nullable<T> = T | undefined | null
 import Handlebars from 'handlebars'
 
 Handlebars.registerHelper('isDefined', function (value) {
-    return value !== undefined && value !== null;
+    return value !== undefined && value !== null
 });
 
+Handlebars.registerHelper('ifElse', function(input: boolean, ifTrue: string, ifFalse: string) {
+    return input ? ifTrue : ifFalse
+})
+
+Handlebars.registerHelper('concat', function (string1: string, string2: string) {
+    return string1 + string2
+})
+
+Handlebars.registerHelper('toLower', function (str: string) {
+    return str?.toLowerCase()
+})
+
+Handlebars.registerHelper('noSpaces', function (str: string) {
+    return str?.replace(' ', '')
+})
+
 export class EventEmitter {
-    private events: { [key: string]: Array<Function> } = {}
+    private events: { [key: string]: Array<(...parameters: any[]) => void> } = {}
 
     public hasEvents(event: string) {
         if (this.events[event] === undefined || this.events[event] === null) {
@@ -41,7 +57,7 @@ export class EventEmitter {
     }
 
     public emit(event: string, ...parameters: any[]) {
-        let i, listeners, length, args = [].slice.call(parameters, 1)
+        let i, listeners, length, args = [].slice.call(parameters)
 
         if (typeof this.events[event] === 'object') {
             listeners = this.events[event].slice()
@@ -94,8 +110,12 @@ if (typeof Array.prototype.indexOf === 'function') {
     }
 }
 
-export async function checkUrl(url: string) {
-    return (await fetch(url)).ok
+export function checkUrl(url: string) {
+    let request = new XMLHttpRequest()
+    request.open("GET", url, false)
+    request.send()
+
+    return request.status === 200
 }
 
 export const htmlColors = {

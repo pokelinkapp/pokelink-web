@@ -23,24 +23,6 @@ export type Base = Message<"Pokelink.Core.Proto.V2.Base"> & {
  */
 export declare const BaseSchema: GenMessage<Base>;
 /**
- * @generated from message Pokelink.Core.Proto.V2.SourceTypeRequest
- */
-export type SourceTypeRequest = Message<"Pokelink.Core.Proto.V2.SourceTypeRequest"> & {
-    /**
-     * @generated from field: string channel = 1;
-     */
-    channel: string;
-    /**
-     * @generated from field: repeated Pokelink.Core.Proto.V2.SourceType sourceTypes = 2;
-     */
-    sourceTypes: SourceType[];
-};
-/**
- * Describes the message Pokelink.Core.Proto.V2.SourceTypeRequest.
- * Use `create(SourceTypeRequestSchema)` to create a new message.
- */
-export declare const SourceTypeRequestSchema: GenMessage<SourceTypeRequest>;
-/**
  * @generated from message Pokelink.Core.Proto.V2.Party
  */
 export type Party = Message<"Pokelink.Core.Proto.V2.Party"> & {
@@ -239,63 +221,75 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
      */
     baseStats?: BaseStats;
     /**
-     * @generated from field: Pokelink.Core.Proto.V2.PokemonTranslations translations = 11;
+     * @generated from field: Pokelink.Core.Proto.V2.StatusEffect status = 11;
+     */
+    status: StatusEffect;
+    /**
+     * @generated from field: Pokelink.Core.Proto.V2.PokemonTranslations translations = 12;
      */
     translations?: PokemonTranslations;
     /**
-     * @generated from field: string fallbackSprite = 12;
+     * @generated from field: optional string fallbackSprite = 13;
      */
-    fallbackSprite: string;
+    fallbackSprite?: string;
     /**
-     * @generated from field: optional uint32 heldItem = 13;
+     * @generated from field: optional string nickname = 14;
+     */
+    nickname?: string;
+    /**
+     * @generated from field: optional uint32 heldItem = 15;
      */
     heldItem?: number;
     /**
-     * @generated from field: optional Pokelink.Core.Proto.V2.Gender gender = 14;
+     * @generated from field: optional Pokelink.Core.Proto.V2.Gender gender = 16;
      */
     gender?: Gender;
     /**
-     * @generated from field: optional uint32 form = 15;
+     * @generated from field: optional uint32 form = 17;
      */
     form?: number;
     /**
-     * @generated from field: optional bool isEgg = 16;
+     * @generated from field: optional bool isEgg = 18;
      */
     isEgg?: boolean;
     /**
-     * @generated from field: optional uint32 hiddenPower = 17;
+     * @generated from field: optional uint32 hiddenPower = 19;
      */
     hiddenPower?: number;
     /**
-     * @generated from field: optional uint32 nature = 18;
+     * @generated from field: optional uint32 nature = 20;
      */
     nature?: number;
     /**
-     * @generated from field: optional bool isShiny = 19;
+     * @generated from field: optional bool isShiny = 21;
      */
     isShiny?: boolean;
     /**
-     * @generated from field: optional uint32 pokeball = 20;
+     * @generated from field: optional uint32 pokeball = 22;
      */
     pokeball?: number;
     /**
-     * @generated from field: optional uint32 friendship = 21;
+     * @generated from field: optional uint32 friendship = 23;
      */
     friendship?: number;
     /**
-     * @generated from field: optional uint32 ability = 22;
+     * @generated from field: optional uint32 ability = 24;
      */
     ability?: number;
     /**
-     * @generated from field: optional Pokelink.Core.Proto.V2.Pokerus pokerus = 23;
+     * @generated from field: optional Pokelink.Core.Proto.V2.Pokerus pokerus = 25;
      */
     pokerus?: Pokerus;
     /**
-     * @generated from field: optional uint32 locationMet = 24;
+     * @generated from field: optional uint32 locationMet = 26;
      */
     locationMet?: number;
     /**
-     * @generated from field: optional Pokelink.Core.Proto.V2.GraveMeta graveyardMeta = 25;
+     * @generated from field: optional uint32 levelMet = 27;
+     */
+    levelMet?: number;
+    /**
+     * @generated from field: optional Pokelink.Core.Proto.V2.GraveMeta graveyardMeta = 28;
      */
     graveyardMeta?: GraveMeta;
 };
@@ -339,45 +333,45 @@ export type TranslationsObject = Message<"Pokelink.Core.Proto.V2.TranslationsObj
      */
     status: string;
     /**
-     * @generated from field: repeated string moveNames = 4;
-     */
-    moveNames: string[];
-    /**
-     * @generated from field: optional string formName = 5;
+     * @generated from field: optional string formName = 4;
      */
     formName?: string;
     /**
-     * @generated from field: optional string heldItemName = 6;
+     * @generated from field: optional string heldItemName = 5;
      */
     heldItemName?: string;
     /**
-     * @generated from field: optional string gender = 7;
+     * @generated from field: optional string gender = 6;
      */
     gender?: string;
     /**
-     * @generated from field: optional string type2Name = 8;
+     * @generated from field: optional string type2Name = 7;
      */
     type2Name?: string;
     /**
-     * @generated from field: optional string hiddenPowerName = 9;
+     * @generated from field: optional string hiddenPowerName = 8;
      */
     hiddenPowerName?: string;
     /**
-     * @generated from field: optional string pokeballName = 10;
+     * @generated from field: optional string pokeballName = 9;
      */
     pokeballName?: string;
     /**
-     * @generated from field: optional string abilityName = 11;
+     * @generated from field: optional string abilityName = 10;
      */
     abilityName?: string;
     /**
-     * @generated from field: optional string pokerusStatus = 12;
+     * @generated from field: optional string pokerusStatus = 11;
      */
     pokerusStatus?: string;
     /**
-     * @generated from field: optional string metLocationName = 13;
+     * @generated from field: optional string locationMetName = 12;
      */
-    metLocationName?: string;
+    locationMetName?: string;
+    /**
+     * @generated from field: optional string natureName = 13;
+     */
+    natureName?: string;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.TranslationsObject.
@@ -419,13 +413,13 @@ export type Move = Message<"Pokelink.Core.Proto.V2.Move"> & {
      */
     maxPP: number;
     /**
-     * @generated from field: string type = 4;
+     * @generated from field: Pokelink.Core.Proto.V2.MoveTranslation english = 4;
      */
-    type: string;
+    english?: MoveTranslation;
     /**
-     * @generated from field: optional string secondType = 5;
+     * @generated from field: Pokelink.Core.Proto.V2.MoveTranslation locale = 5;
      */
-    secondType?: string;
+    locale?: MoveTranslation;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Move.
@@ -433,35 +427,27 @@ export type Move = Message<"Pokelink.Core.Proto.V2.Move"> & {
  */
 export declare const MoveSchema: GenMessage<Move>;
 /**
- * @generated from message Pokelink.Core.Proto.V2.Status
+ * @generated from message Pokelink.Core.Proto.V2.MoveTranslation
  */
-export type Status = Message<"Pokelink.Core.Proto.V2.Status"> & {
+export type MoveTranslation = Message<"Pokelink.Core.Proto.V2.MoveTranslation"> & {
     /**
-     * @generated from field: bool psn = 1;
+     * @generated from field: string name = 1;
      */
-    psn: boolean;
+    name: string;
     /**
-     * @generated from field: bool slp = 2;
+     * @generated from field: string type = 2;
      */
-    slp: boolean;
+    type: string;
     /**
-     * @generated from field: bool par = 3;
+     * @generated from field: optional string secondType = 3;
      */
-    par: boolean;
-    /**
-     * @generated from field: bool fzn = 4;
-     */
-    fzn: boolean;
-    /**
-     * @generated from field: bool brn = 5;
-     */
-    brn: boolean;
+    secondType?: string;
 };
 /**
- * Describes the message Pokelink.Core.Proto.V2.Status.
- * Use `create(StatusSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V2.MoveTranslation.
+ * Use `create(MoveTranslationSchema)` to create a new message.
  */
-export declare const StatusSchema: GenMessage<Status>;
+export declare const MoveTranslationSchema: GenMessage<MoveTranslation>;
 /**
  * @generated from message Pokelink.Core.Proto.V2.EVIV
  */
@@ -591,27 +577,35 @@ export declare enum Pokerus {
  */
 export declare const PokerusSchema: GenEnum<Pokerus>;
 /**
- * @generated from enum Pokelink.Core.Proto.V2.SourceType
+ * @generated from enum Pokelink.Core.Proto.V2.StatusEffect
  */
-export declare enum SourceType {
+export declare enum StatusEffect {
     /**
-     * @generated from enum value: all = 0;
+     * @generated from enum value: healthy = 0;
      */
-    all = 0,
+    healthy = 0,
     /**
-     * @generated from enum value: party = 1;
+     * @generated from enum value: poisoned = 1;
      */
-    party = 1,
+    poisoned = 1,
     /**
-     * @generated from enum value: graveyard = 2;
+     * @generated from enum value: asleep = 2;
      */
-    graveyard = 2,
+    asleep = 2,
     /**
-     * @generated from enum value: badges = 3;
+     * @generated from enum value: paralyzed = 3;
      */
-    badges = 3
+    paralyzed = 3,
+    /**
+     * @generated from enum value: frozen = 4;
+     */
+    frozen = 4,
+    /**
+     * @generated from enum value: burned = 5;
+     */
+    burned = 5
 }
 /**
- * Describes the enum Pokelink.Core.Proto.V2.SourceType.
+ * Describes the enum Pokelink.Core.Proto.V2.StatusEffect.
  */
-export declare const SourceTypeSchema: GenEnum<SourceType>;
+export declare const StatusEffectSchema: GenEnum<StatusEffect>;

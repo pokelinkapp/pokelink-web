@@ -5,23 +5,30 @@ import {
     PartySchema,
     PokemonDeathSchema,
     PokemonReviveSchema,
-    SettingsSchema,
+    SettingsSchema
 } from './v2_pb.js'
 import {fromBinary} from '@bufbuild/protobuf'
 import {Nullable} from './global'
+import {clientSettings} from './pokelink.js'
+
+export const PartyChannel = 'client:party:updated'
+export const BadgesChannel = 'client:badges:updated'
+export const DeathChannel = 'client:party:death'
+export const ReviveChannel = 'client:party:revive'
+export const SettingsChannel = 'client:settings:updated'
 
 export class PokelinkClientV2 extends PokelinkClientBase {
-    private readonly protobufTypes: {[key:string]: any} = {
-        'player:party:updated': PartySchema,
-        'player:badges:updated': BadgesSchema,
-        'player:party:death': PokemonDeathSchema,
-        'player:party:revive': PokemonReviveSchema,
-        'player:settings:updated': SettingsSchema
-    }
+    private readonly protobufTypes: { [key: string]: any } = {}
 
     constructor() {
         super()
         this.openConnection()
+
+        this.protobufTypes[PartyChannel] = PartySchema
+        this.protobufTypes[BadgesChannel] = BadgesSchema
+        this.protobufTypes[DeathChannel] = PokemonDeathSchema
+        this.protobufTypes[ReviveChannel] = PokemonReviveSchema
+        this.protobufTypes[SettingsChannel] = SettingsSchema
     }
 
     protected SendHandshake(): void {
@@ -30,10 +37,12 @@ export class PokelinkClientV2 extends PokelinkClientBase {
         }
 
         this.connection.send(JSON.stringify({
-            version: 2,
-            client: 'WebSource',
-            dataType: 'Protobuf',
-            gzip: false
+            handshake: {
+                version: 2,
+                client: 'WebSource',
+                dataType: 'Protobuf',
+                gzip: false
+            }
         }))
     }
 
@@ -46,8 +55,9 @@ export class PokelinkClientV2 extends PokelinkClientBase {
 
             channel = base.channel
             user = base.username
-            
+
             if (!this.ShowUser(user)) {
+                console.debug(`No user valid. Skipping update`, user, clientSettings.users)
                 return
             }
 

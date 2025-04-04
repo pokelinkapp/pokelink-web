@@ -10,5 +10,5 @@ export declare namespace V2 {
     function handleDeath(handler: (pokemon: Pokemon) => void): void;
     function handleRevive(handler: (pokemon: Pokemon) => void): void;
     function onConnect(handler: () => void): void;
-    function getSprite(pokemon: Pokemon): void;
+    function getSprite(pokemon: Pokemon): string | undefined;
 }

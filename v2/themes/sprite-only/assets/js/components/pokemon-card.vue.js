@@ -1,4 +1,5 @@
-import {defineComponent} from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+import {defineComponent} from 'vue'
+import {V2} from 'pokelink'
 
 export default defineComponent({
     name: 'pokemon-card',
@@ -6,7 +7,7 @@ export default defineComponent({
       <div>
         <div :class="{ 'pokemon__slot': true }" v-if="pokemon !== null">
           <div :class="{ 'pokemon__image': true, 'pokemon__dead': (pokemon.hp.current === 0)}">
-            <img :src="pokemon.img"/>
+            <img :src="sprite"/>
           </div>
         </div>
         <div class="pokemon__slot pokemon__empty" v-else>
@@ -23,6 +24,8 @@ export default defineComponent({
         }
     },
     computed: {
-
+        sprite() {
+            return V2.getSprite(this.pokemon)
+        }
     }
 })

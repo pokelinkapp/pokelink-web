@@ -17,26 +17,32 @@ export abstract class PokelinkClientBase {
 
         this.connection.binaryType = 'arraybuffer'
 
+        let vm = this;
+
         this.connection.onopen = ev => {
             if (this.firstConnect) {
                 this.firstConnect = false
                 this.events.emit('connect')
                 console.log('Successfully connected to server')
             }
-            this.connection!.onmessage = event => {
+            vm.connection!.onmessage = event => {
                 this.OnMessageReceived(new Uint8Array(event.data))
             }
-            this.SendHandshake()
+            vm.SendHandshake()
         }
 
         this.connection.onclose = () => {
-            setTimeout(this.openConnection, 250)
+            setTimeout(() => location.reload(), 2000)
+        }
+
+        this.connection.onerror = event => {
+            console.error('WebSocket error:', event)
         }
     }
 
     protected ShowUser(user: Nullable<string>): boolean {
         if (user === null || user === undefined) {
-            return false;
+            return false
         }
         return clientSettings.users.indexOf(user) !== -1
     }

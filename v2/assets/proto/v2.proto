@@ -13,22 +13,31 @@ enum Pokerus {
   cured = 2;
 }
 
-enum SourceType {
-  all = 0;
-  party = 1;
-  graveyard = 2;
-  badges = 3;
+enum StatusEffect {
+  healthy = 0;
+  poisoned = 1;
+  asleep = 2;
+  paralyzed = 3;
+  frozen = 4;
+  burned = 5;
 }
+
+//enum SourceType {
+//  all = 0;
+//  party = 1;
+//  graveyard = 2;
+//  badges = 3;
+//}
 
 message Base {
   string channel = 1;
   optional string username = 2;
 }
 
-message SourceTypeRequest {
-  string channel = 1;
-  repeated SourceType sourceTypes = 2;
-}
+//message SourceTypeRequest {
+//  string channel = 1;
+//  repeated SourceType sourceTypes = 2;
+//}
 
 message Party {
   string channel = 1;
@@ -83,22 +92,25 @@ message Pokemon {
   EVIV ivs = 8;
   EVIV evs = 9;
   BaseStats baseStats = 10;
-  PokemonTranslations translations = 11;
-  string fallbackSprite = 12;
-
-  optional uint32 heldItem = 13;
-  optional Gender gender = 14;
-  optional uint32 form = 15;
-  optional bool isEgg = 16;
-  optional uint32 hiddenPower = 17;
-  optional uint32 nature = 18;
-  optional bool isShiny = 19;
-  optional uint32 pokeball = 20;
-  optional uint32 friendship = 21;
-  optional uint32 ability = 22;
-  optional Pokerus pokerus = 23;
-  optional uint32 locationMet = 24;
-  optional GraveMeta graveyardMeta = 25;
+  StatusEffect status = 11;
+  PokemonTranslations translations = 12;
+  
+  optional string fallbackSprite = 13;
+  optional string nickname = 14;
+  optional uint32 heldItem = 15;
+  optional Gender gender = 16;
+  optional uint32 form = 17;
+  optional bool isEgg = 18;
+  optional uint32 hiddenPower = 19;
+  optional uint32 nature = 20;
+  optional bool isShiny = 21;
+  optional uint32 pokeball = 22;
+  optional uint32 friendship = 23;
+  optional uint32 ability = 24;
+  optional Pokerus pokerus = 25;
+  optional uint32 locationMet = 26;
+  optional uint32 levelMet = 27;
+  optional GraveMeta graveyardMeta = 28;
 }
 
 message PokemonTranslations {
@@ -110,16 +122,16 @@ message TranslationsObject {
   string speciesName = 1;
   string type1Name = 2;
   string status = 3;
-  repeated string moveNames = 4;
-  optional string formName = 5;
-  optional string heldItemName = 6;
-  optional string gender = 7;
-  optional string type2Name = 8;
-  optional string hiddenPowerName = 9;
-  optional string pokeballName = 10;
-  optional string abilityName = 11;
-  optional string pokerusStatus = 12;
-  optional string metLocationName = 13;
+  optional string formName = 4;
+  optional string heldItemName = 5;
+  optional string gender = 6;
+  optional string type2Name = 7;
+  optional string hiddenPowerName = 8;
+  optional string pokeballName = 9;
+  optional string abilityName = 10;
+  optional string pokerusStatus = 11;
+  optional string locationMetName = 12;
+  optional string natureName = 13;
 }
 
 message HP {
@@ -131,16 +143,14 @@ message Move {
   uint32 id = 1;
   uint32 pp = 2;
   uint32 maxPP = 3;
-  string type = 4;
-  optional string secondType = 5;
+  MoveTranslation english = 4;
+  MoveTranslation locale = 5;
 }
 
-message Status {
-  bool psn = 1;
-  bool slp = 2;
-  bool par = 3;
-  bool fzn = 4;
-  bool brn = 5;
+message MoveTranslation {
+  string name = 1;
+  string type = 2;
+  optional string secondType = 3;
 }
 
 message EVIV {

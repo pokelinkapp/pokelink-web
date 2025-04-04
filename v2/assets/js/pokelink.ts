@@ -1,18 +1,19 @@
 import {PokelinkClientBase} from './client.js'
-import {PokelinkClientV2} from './clientv2.js'
+import {BadgesChannel, DeathChannel, PartyChannel, PokelinkClientV2, ReviveChannel} from './clientv2.js'
 import {
     Badge,
-    Badges,
+    Badges, BadgeSchema,
     BadgesSchema,
     Party,
-    PartySchema, Pokemon,
+    PartySchema,
+    Pokemon,
     PokemonDeath,
     PokemonDeathSchema,
     PokemonRevive,
-    PokemonReviveSchema
+    PokemonReviveSchema, PokemonSchema
 } from './v2_pb.js'
 import {toJson} from '@bufbuild/protobuf'
-import {EventEmitter, Nullable} from './global.js'
+import {checkUrl, EventEmitter, Nullable} from './global.js'
 import type {ClientSettings} from './global'
 import Handlebars from 'handlebars'
 
@@ -23,23 +24,15 @@ export const clientSettings: ClientSettings = {
     port: 3000,
     users: [],
     spriteTemplate: Handlebars.compile('https://assets.pokelink.xyz/assets/sprites/pokemon/home/' +
-        '{{#if isShiny}}' +
-        'shiny' +
-        '{{else}}' +
-        'normal' +
-        '{{/if}}' +
-        '/{{translations.english.speciesName}}' +
-        '{{#if (isDefined translations.english.formName)}}' +
-        '-{{translations.english.formName}}' +
-        '{{/if}}' +
+        '{{ifElse isShiny "shiny" "normal"}}' +
+        '/{{toLower translations.english.speciesName}}' +
+        '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
         '.png')
 }
 
 export function updateSpriteTemplate(template: string) {
     try {
-        let t = Handlebars.compile(template)
-
-        clientSettings.spriteTemplate = t
+        clientSettings.spriteTemplate = Handlebars.compile(template)
     } catch (ex) {
         console.error(ex)
         console.error(`Template: ${template}`)
@@ -51,10 +44,6 @@ let client: Nullable<PokelinkClientBase> = null
 let events = new EventEmitter()
 
 function globalInitialize() {
-    console.log(clientSettings.spriteTemplate({
-        isShiny: false,
-        translations: {english: {speciesName: 'pikachu', formName: 'phd'}}
-    }))
     clientSettings.params = new URLSearchParams(window.location.search)
 
     let value = clientSettings.params.get('server')
@@ -77,7 +66,21 @@ function globalInitialize() {
     value = clientSettings.params.get('users')
 
     if (value !== null) {
-        clientSettings.users = value.split(',')
+        if (value.indexOf(',') === -1) {
+            clientSettings.users = [value]
+        } else {
+            clientSettings.users = value.split(',')
+        }
+    }
+
+    value = clientSettings.params.get('debug')
+
+    if (value !== null) {
+        if (value === 'true') {
+            clientSettings.debug = true
+
+            console.debug('Pokelink library now running in debug mode')
+        }
     }
 }
 
@@ -90,53 +93,49 @@ export namespace V2 {
             events.emit('connect')
         })
 
-        client.events.on('player:party:updated', (party: Party) => {
-            if (clientSettings.debug && events.hasEvents('player:party:updated')) {
-                console.debug(`Party update:`)
-                console.debug(toJson(PartySchema, party))
+        client.events.on(PartyChannel, (party: Party) => {
+            if (clientSettings.debug && events.hasEvents(PartyChannel)) {
+                console.debug(`Party update:`, party.party.map(x => x.pokemon == null ? null : toJson(PokemonSchema, x.pokemon)) )
             }
-            events.emit('player:party:updated', party.party.map(x => x.pokemon))
+            events.emit(PartyChannel, party.party.map(x => x.pokemon))
         })
 
-        client.events.on('player:badges:updated', (badges: Badges) => {
-            if (clientSettings.debug && events.hasEvents('player:badges:updated')) {
-                console.debug(`Badge update:`)
-                console.debug(toJson(BadgesSchema, badges))
+        client.events.on(BadgesChannel, (badges: Badges) => {
+            if (clientSettings.debug && events.hasEvents(BadgesChannel)) {
+                console.debug(`Badge update:`, badges.badges.map(x => toJson(BadgeSchema, x)))
             }
-            events.emit('player:badges:updated', badges.badges)
+            events.emit(BadgesChannel, badges.badges)
         })
 
-        client.events.on('player:party:death', (death: PokemonDeath) => {
-            if (clientSettings.debug && events.hasEvents('player:party:death')) {
-                console.debug(`Death update:`)
-                console.debug(toJson(PokemonDeathSchema, death))
+        client.events.on(DeathChannel, (death: PokemonDeath) => {
+            if (clientSettings.debug && events.hasEvents(DeathChannel)) {
+                console.debug(`Death update:`, toJson(PokemonDeathSchema, death))
             }
-            events.emit('player:party:death', death.pokemon)
+            events.emit(DeathChannel, death.pokemon)
         })
 
-        client.events.on('player:party:revive', (revive: PokemonRevive) => {
-            if (clientSettings.debug && events.hasEvents('player:party:revive')) {
-                console.debug(`Revive update:`)
-                console.debug(toJson(PokemonReviveSchema, revive))
+        client.events.on(ReviveChannel, (revive: PokemonRevive) => {
+            if (clientSettings.debug && events.hasEvents(ReviveChannel)) {
+                console.debug(`Revive update:`, toJson(PokemonReviveSchema, revive))
             }
-            events.emit('player:party:revive', revive.pokemon)
+            events.emit(ReviveChannel, revive.pokemon)
         })
     }
 
     export function handlePartyUpdates(handler: (party: Nullable<Pokemon>[]) => void) {
-        events.on('player:party:updated', handler)
+        events.on(PartyChannel, handler)
     }
 
     export function handleBadgeUpdates(handler: (badges: Badge[]) => void) {
-        events.on('player:badges:updated', handler)
+        events.on(BadgesChannel, handler)
     }
 
     export function handleDeath(handler: (pokemon: Pokemon) => void) {
-        events.on('player:party:death', handler)
+        events.on(DeathChannel, handler)
     }
 
     export function handleRevive(handler: (pokemon: Pokemon) => void) {
-        events.on('player:party:revive', handler)
+        events.on(ReviveChannel, handler)
     }
 
     export function onConnect(handler: () => void) {
@@ -144,6 +143,15 @@ export namespace V2 {
     }
 
     export function getSprite(pokemon: Pokemon) {
+        let url = clientSettings.spriteTemplate(pokemon)
 
+        if (checkUrl(url)) {
+            if (clientSettings.debug) {
+                console.debug(`${url} returned a fail code. Falling back to ${pokemon.fallbackSprite}`)
+            }
+            return pokemon.fallbackSprite
+        }
+
+        return url
     }
 }

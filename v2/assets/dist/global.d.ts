@@ -16,7 +16,7 @@ export interface ClientSettings {
     spriteTemplate: HandlebarsTemplateDelegate;
 }
 export declare let indexOf: (haystack: Array<any>, needle: any) => number;
-export declare function checkUrl(url: string): Promise<boolean>;
+export declare function checkUrl(url: string): boolean;
 export declare const htmlColors: {
     aliceblue: string;
     antiquewhite: string;
