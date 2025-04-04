@@ -3,9 +3,7 @@ import {BadgesChannel, DeathChannel, PartyChannel, PokelinkClientV2, ReviveChann
 import {
     Badge,
     Badges, BadgeSchema,
-    BadgesSchema,
     Party,
-    PartySchema,
     Pokemon,
     PokemonDeath,
     PokemonDeathSchema,
@@ -13,8 +11,9 @@ import {
     PokemonReviveSchema, PokemonSchema,
     Gender
 } from './v2_pb.js'
+import * as DataTypes from './v2_pb.js'
 import {toJson} from '@bufbuild/protobuf'
-import {checkImageUrl, EventEmitter, Nullable} from './global.js'
+import {checkImageUrl, EventEmitter, Nullable, htmlColors, statusColors, typeColors} from './global.js'
 import type {ClientSettings} from './global'
 import Handlebars from 'handlebars'
 
@@ -28,7 +27,7 @@ export const clientSettings: ClientSettings = {
         '{{ifElse isShiny "shiny" "normal"}}' +
         '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
         '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
-        '.png')
+        '{{addFemaleTag this "-f"}}.png')
 }
 
 export function updateSpriteTemplate(template: string) {
@@ -38,10 +37,6 @@ export function updateSpriteTemplate(template: string) {
         console.error(ex)
         console.error(`Template: ${template}`)
     }
-}
-
-export function isUndefined(value: any) {
-    return value === undefined || value === null
 }
 
 let client: Nullable<PokelinkClientBase> = null
@@ -92,6 +87,9 @@ function globalInitialize() {
 export namespace V2 {
     export function initialize() {
         globalInitialize()
+        Handlebars.registerHelper('addFemaleTag', function (pokemon: Pokemon, femaleTag: string) {
+            return pokemon.gender === Gender.female && pokemon.hasFemaleSprite ? femaleTag : ""
+        })
         client = new PokelinkClientV2()
 
         client.events.on('connect', () => {
@@ -147,9 +145,25 @@ export namespace V2 {
         events.on('connect', handler)
     }
 
+    export function isValidPokemon(pokemon: Nullable<Pokemon>) {
+        return pokemon?.species !== undefined && pokemon?.species !== null
+    }
+
     export function getSprite(pokemon: Pokemon) {
         return clientSettings.spriteTemplate(pokemon)
     }
+
+    export function useFallback(img: HTMLImageElement, pokemon: Pokemon) {
+        if (img.src === pokemon.fallbackSprite || pokemon.fallbackSprite === undefined || pokemon.fallbackSprite === null) {
+            return
+        }
+
+        if (clientSettings.debug) {
+            console.debug(`${img.src} encountered an error. Falling back to ${pokemon.fallbackSprite}`)
+        }
+
+        img.src = pokemon.fallbackSprite!
+    }
 }
 
-export {checkImageUrl, Gender}
+export {checkImageUrl, htmlColors, statusColors, typeColors, DataTypes}

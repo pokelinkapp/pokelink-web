@@ -1,8 +1,7 @@
-import {compile} from 'vue'
+import Handlebars from 'handlebars'
+import {Gender} from './v2_pb.js'
 
 export type Nullable<T> = T | undefined | null
-
-import Handlebars from 'handlebars'
 
 Handlebars.registerHelper('isDefined', function (value) {
     return value !== undefined && value !== null
@@ -24,8 +23,8 @@ Handlebars.registerHelper('noSpaces', function (str: string) {
     return str?.replace(' ', '')
 })
 
-Handlebars.registerHelper('nidoranGender', function(str: string, maleTag?: string, femaleTag?: string) {
-    if (str.toLowerCase().startsWith('nidoran')) {
+Handlebars.registerHelper('nidoranGender', function (str: string, maleTag?: string, femaleTag?: string) {
+    if (str?.toLowerCase().startsWith('nidoran') === true) {
         let text = str.substring(0, 7)
 
         if (str.indexOf('♀') !== -1 && femaleTag !== undefined) {
@@ -130,7 +129,7 @@ if (typeof Array.prototype.indexOf === 'function') {
 
 export async function checkImageUrl(url: string) {
     return new Promise<boolean>((resolve, reject) => {
-        const imgElement = new Image();
+        const imgElement = new Image()
 
         imgElement.addEventListener('load', () => {
             resolve(true)
@@ -142,8 +141,23 @@ export async function checkImageUrl(url: string) {
             reject()
         })
 
-        imgElement.src = url;
+        imgElement.src = url
     })
+}
+
+export const typeColors = {
+    'Bug': '#a8b820', 'Dark': '#c02020', 'Dragon': '#7038f8',
+    'Electric': '#f8d030', 'Fairy': '#ee99ac', 'Fighting': '#c03028',
+    'Fire': '#f08030', 'Flying': '#a890f0', 'Ghost': '#705898',
+    'Grass': '#78c850', 'Ground': '#e0c068', 'Ice': '#98d8d8',
+    'Normal': '#a8a878', 'Poison': '#a040a0', 'Psychic': '#f85888',
+    'Rock': '#b8a038', 'Steel': '#b8b8d0', '???': '#68a090', 'Water': '#6890f0'
+}
+
+export const statusColors = {
+    'Poisoned': '#c060c0', 'Paralyzed': '#b8b818', 'Asleep': '#a0a088',
+    'Frozen': '#88b0e0', 'Burned': '#e07050',
+    'Fainted': '#e85038'
 }
 
 export const htmlColors = {

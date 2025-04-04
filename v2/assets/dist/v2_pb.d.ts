@@ -229,67 +229,71 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
      */
     translations?: PokemonTranslations;
     /**
-     * @generated from field: optional string fallbackSprite = 13;
+     * @generated from field: bool hasFemaleSprite = 13;
+     */
+    hasFemaleSprite: boolean;
+    /**
+     * @generated from field: optional string fallbackSprite = 14;
      */
     fallbackSprite?: string;
     /**
-     * @generated from field: optional string nickname = 14;
+     * @generated from field: optional string nickname = 15;
      */
     nickname?: string;
     /**
-     * @generated from field: optional uint32 heldItem = 15;
+     * @generated from field: optional uint32 heldItem = 16;
      */
     heldItem?: number;
     /**
-     * @generated from field: optional Pokelink.Core.Proto.V2.Gender gender = 16;
+     * @generated from field: optional Pokelink.Core.Proto.V2.Gender gender = 17;
      */
     gender?: Gender;
     /**
-     * @generated from field: optional uint32 form = 17;
+     * @generated from field: optional uint32 form = 18;
      */
     form?: number;
     /**
-     * @generated from field: optional bool isEgg = 18;
+     * @generated from field: optional bool isEgg = 19;
      */
     isEgg?: boolean;
     /**
-     * @generated from field: optional uint32 hiddenPower = 19;
+     * @generated from field: optional uint32 hiddenPower = 20;
      */
     hiddenPower?: number;
     /**
-     * @generated from field: optional uint32 nature = 20;
+     * @generated from field: optional uint32 nature = 21;
      */
     nature?: number;
     /**
-     * @generated from field: optional bool isShiny = 21;
+     * @generated from field: optional bool isShiny = 22;
      */
     isShiny?: boolean;
     /**
-     * @generated from field: optional uint32 pokeball = 22;
+     * @generated from field: optional uint32 pokeball = 23;
      */
     pokeball?: number;
     /**
-     * @generated from field: optional uint32 friendship = 23;
+     * @generated from field: optional uint32 friendship = 24;
      */
     friendship?: number;
     /**
-     * @generated from field: optional uint32 ability = 24;
+     * @generated from field: optional uint32 ability = 25;
      */
     ability?: number;
     /**
-     * @generated from field: optional Pokelink.Core.Proto.V2.Pokerus pokerus = 25;
+     * @generated from field: optional Pokelink.Core.Proto.V2.Pokerus pokerus = 26;
      */
     pokerus?: Pokerus;
     /**
-     * @generated from field: optional uint32 locationMet = 26;
+     * @generated from field: optional uint32 locationMet = 27;
      */
     locationMet?: number;
     /**
-     * @generated from field: optional uint32 levelMet = 27;
+     * @generated from field: optional uint32 levelMet = 28;
      */
     levelMet?: number;
     /**
-     * @generated from field: optional Pokelink.Core.Proto.V2.GraveMeta graveyardMeta = 28;
+     * @generated from field: optional Pokelink.Core.Proto.V2.GraveMeta graveyardMeta = 29;
      */
     graveyardMeta?: GraveMeta;
 };

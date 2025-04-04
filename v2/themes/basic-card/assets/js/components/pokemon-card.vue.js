@@ -6,13 +6,15 @@ export default defineComponent({
         <div class="card-image" v-if="typeof this.pokemon === 'object'">
           <div class="card-image-container">
             <span><img style="max-width: 300px; max-height: 300px" ref="pokemonSprite"
-                       @error="this.$refs.pokemonSprite.src = this.pokemon.fallbackSprite" :src="imageTag"
+                       @error="useFallback" :src="imageTag"
                        :data-missingno="isMissingno"/></span>
           </div>
         </div>
         <div class="card-content has-text-centered" v-if="typeof this.pokemon === 'object'">
           <div class="main">
-            <div class="title has-text-white">{{ this.pokemon.nickname || this.pokemon.translations.locale.speciesName }}</div>
+            <div class="title has-text-white">
+              {{ this.pokemon.nickname || this.pokemon.translations.locale.speciesName }}
+            </div>
             <div class="hp" v-if="settings.hp">
               <div class="bar">
                 <div class="health" :style="{ width: healthPercent }"
@@ -43,6 +45,10 @@ export default defineComponent({
         pokemon: {}, settings: {
             hp: false
         }
+    }, methods: {
+        useFallback() {
+            V2.useFallback(this.$refs.pokemonSprite, this.pokemon)
+        },
     }, computed: {
         healthPercent() {
             return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%'

@@ -17,6 +17,35 @@ export interface ClientSettings {
 }
 export declare let indexOf: (haystack: Array<any>, needle: any) => number;
 export declare function checkImageUrl(url: string): Promise<boolean>;
+export declare const typeColors: {
+    Bug: string;
+    Dark: string;
+    Dragon: string;
+    Electric: string;
+    Fairy: string;
+    Fighting: string;
+    Fire: string;
+    Flying: string;
+    Ghost: string;
+    Grass: string;
+    Ground: string;
+    Ice: string;
+    Normal: string;
+    Poison: string;
+    Psychic: string;
+    Rock: string;
+    Steel: string;
+    '???': string;
+    Water: string;
+};
+export declare const statusColors: {
+    Poisoned: string;
+    Paralyzed: string;
+    Asleep: string;
+    Frozen: string;
+    Burned: string;
+    Fainted: string;
+};
 export declare const htmlColors: {
     aliceblue: string;
     antiquewhite: string;

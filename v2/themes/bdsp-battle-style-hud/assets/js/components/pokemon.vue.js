@@ -1,5 +1,5 @@
 import {defineComponent} from 'vue'
-import {clientSettings, Gender, V2, isUndefined} from 'pokelink'
+import {clientSettings, V2, DataTypes} from 'pokelink'
 import female from './female.vue.js'
 import male from './male.vue.js'
 import pokeball from './pokeball.vue.js'
@@ -59,7 +59,7 @@ export default defineComponent({
     },
     computed: {
         pokemonExists () {
-            if (!this.pokemon || !this.pokemon.hasOwnProperty('hp')) return false
+            if (!V2.isValidPokemon(this.pokemon)) return false
             return true
         },
         partner() {
@@ -69,30 +69,30 @@ export default defineComponent({
             return (100/this.pokemon.hp.max) * this.pokemon.hp.current + "%";
         },
         nickname() {
-            if (typeof this.pokemon === "undefined" || this.pokemon === null) { return null; }
+            if (!V2.isValidPokemon(this.pokemon)) { return null; }
             return this.pokemon.nickname || this.pokemon.speciesName;
         },
         sex() {
             switch (this.pokemon.gender) {
-                case Gender.male:
+                case DataTypes.Gender.male:
                     return 'male';
-                case Gender.female:
+                case DataTypes.Gender.female:
                     return 'female'
             }
 
             return ''
         },
         ident() {
-            if (typeof this.pokemon === "undefined" || this.pokemon === null) { return null; }
+            if (!V2.isValidPokemon(this.pokemon)) { return null; }
             return this.pokemon.species;
         },
         opacity() {
-            if (typeof this.pokemon === "undefined" || this.pokemon === null) { return '1'; }
+            if (!V2.isValidPokemon(this.pokemon)) { return '1'; }
             if (typeof this.fixedSprite === false) { return ''; }
             return '';
         },
         hasItem() {
-            if (typeof this.pokemon === "undefined" || this.pokemon === null) { return false; }
+            if (!V2.isValidPokemon(this.pokemon)) { return false; }
             if (typeof this.pokemon.heldItem === "undefined") { return false; }
             return this.pokemon.heldItem !== 0;
         },
@@ -121,13 +121,13 @@ export default defineComponent({
     },
     methods: {
         isUndefined(pokemon) {
-            return isUndefined(pokemon)
+            return !V2.isValidPokemon(pokemon)
         },
         getSprite(pokemon) {
             return V2.getSprite(pokemon)
         },
         getPokeballTopColor: function() {
-            // if (typeof this.pokemon === "undefined" || this.pokemon === null) { return '#C3C4C6'; }
+            // if (!V2.isValidPokemon(this.pokemon)) { return '#C3C4C6'; }
             //
             // if (settings.pokeImg.pokemonColor === true) {
             //     return this.pokemon.color;
@@ -149,7 +149,7 @@ export default defineComponent({
         },
         getPokeballBottomColor: function() {
             // if (settings.champion.colorPokeball !== true) { return '#C3C4C6'; }
-            // if (typeof this.pokemon === "undefined" || this.pokemon === null) { return '#C3C4C6'; }
+            // if (!V2.isValidPokemon(this.pokemon)) { return '#C3C4C6'; }
             //
             // if (settings.pokeImg.pokemonColor === true) {
             //     if (settings.champion.colorBothSidesPokeball !== true) { return '#C3C4C6'; }
