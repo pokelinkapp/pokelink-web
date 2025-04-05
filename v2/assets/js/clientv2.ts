@@ -65,10 +65,13 @@ export class PokelinkClientV2 extends PokelinkClientBase {
                 console.error(`Unknown channel ${channel}`)
                 return
             }
-
-            this.events.emit(channel, fromBinary(this.protobufTypes[channel], buffer))
         } catch (ex) {
             console.error(ex)
         }
+
+        if (channel === null) {
+            return
+        }
+        this.events.emit(channel, fromBinary(this.protobufTypes[channel], buffer))
     }
 }

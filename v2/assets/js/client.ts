@@ -7,13 +7,7 @@ export abstract class PokelinkClientBase {
     public readonly events: EventEmitter = new EventEmitter()
 
     public openConnection() {
-        try {
-            this.connection = new WebSocket(`ws://${clientSettings.host}:${clientSettings.port}`)
-        } catch {
-            console.error(`Unable to connect to ${clientSettings.host}:${clientSettings.port} please check that you have a session open and that you have web sources enabled`)
-            setTimeout(this.openConnection, 2000)
-            return
-        }
+        this.connection = new WebSocket(`ws://${clientSettings.host}:${clientSettings.port}`)
 
         this.connection.binaryType = 'arraybuffer'
 
@@ -32,7 +26,7 @@ export abstract class PokelinkClientBase {
         }
 
         this.connection.onclose = () => {
-            setTimeout(() => location.reload(), 2000)
+            setTimeout(() => location.reload(), 10000)
         }
 
         this.connection.onerror = event => {

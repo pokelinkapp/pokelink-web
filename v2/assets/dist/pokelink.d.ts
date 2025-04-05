@@ -2,6 +2,7 @@ import { Badge, Pokemon } from './v2_pb.js';
 import * as V2DataTypes from './v2_pb.js';
 import { EventEmitter, Nullable, htmlColors, statusColors, typeColors, string2ColHex } from './global.js';
 import type { ClientSettings } from './global';
+import collect from 'collect.js';
 export declare const clientSettings: ClientSettings;
 export declare function updateSpriteTemplate(template: string): void;
 export declare namespace V2 {
@@ -17,4 +18,4 @@ export declare namespace V2 {
     function getTypeColor(englishType: string): string;
     function getStatusColor(englishStatus: string): string;
 }
-export { htmlColors, statusColors, typeColors, V2DataTypes, EventEmitter, string2ColHex };
+export { htmlColors, statusColors, typeColors, V2DataTypes, EventEmitter, string2ColHex, collect };

@@ -16,6 +16,7 @@ import {toJson} from '@bufbuild/protobuf'
 import {EventEmitter, Nullable, htmlColors, statusColors, typeColors, string2ColHex} from './global.js'
 import type {ClientSettings} from './global'
 import Handlebars from 'handlebars'
+import collect from 'collect.js'
 
 export const clientSettings: ClientSettings = {
     debug: false,
@@ -186,4 +187,4 @@ export namespace V2 {
     }
 }
 
-export {htmlColors, statusColors, typeColors, V2DataTypes, EventEmitter, string2ColHex}
+export {htmlColors, statusColors, typeColors, V2DataTypes, EventEmitter, string2ColHex, collect}
