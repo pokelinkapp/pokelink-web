@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars'
-import {Gender} from './v2_pb.js'
+import ColorHash from 'color-hash'
 
 export type Nullable<T> = T | undefined | null
 
@@ -127,25 +127,13 @@ if (typeof Array.prototype.indexOf === 'function') {
     }
 }
 
-export async function checkImageUrl(url: string) {
-    return new Promise<boolean>((resolve, reject) => {
-        const imgElement = new Image()
+const colorHash = new ColorHash({lightness: 0.5})
 
-        imgElement.addEventListener('load', () => {
-            resolve(true)
-        })
-
-        imgElement.addEventListener('error', (event) => {
-            event.preventDefault()
-            event.stopImmediatePropagation()
-            reject()
-        })
-
-        imgElement.src = url
-    })
+export function string2ColHex(input: string) {
+    return colorHash.hex(input)
 }
 
-export const typeColors = {
+export const typeColors: { [key: string]: string } = {
     'Bug': '#a8b820', 'Dark': '#c02020', 'Dragon': '#7038f8',
     'Electric': '#f8d030', 'Fairy': '#ee99ac', 'Fighting': '#c03028',
     'Fire': '#f08030', 'Flying': '#a890f0', 'Ghost': '#705898',
@@ -154,13 +142,13 @@ export const typeColors = {
     'Rock': '#b8a038', 'Steel': '#b8b8d0', '???': '#68a090', 'Water': '#6890f0'
 }
 
-export const statusColors = {
+export const statusColors: { [key: string]: string } = {
     'Poisoned': '#c060c0', 'Paralyzed': '#b8b818', 'Asleep': '#a0a088',
     'Frozen': '#88b0e0', 'Burned': '#e07050',
     'Fainted': '#e85038'
 }
 
-export const htmlColors = {
+export const htmlColors: { [key: string]: string } = {
     'aliceblue': '#f0f8ff',
     'antiquewhite': '#faebd7',
     'aqua': '#00ffff',

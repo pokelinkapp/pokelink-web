@@ -22,7 +22,15 @@ export default defineComponent({
           transform="translate(-43.6 -52.52)" style="fill: url(#arrow-gradient)"/>
     </svg>
   </span>
-    `, props: {
-        topColor: {type: String, default: '#eee'}, bottomColor: {type: String, default: '#888'}
+    `,
+    props: {
+        topColor: {
+            type: String,
+            default: '#eee'
+        },
+        bottomColor: {
+            type: String,
+            default: '#888'
+        }
     }
 })

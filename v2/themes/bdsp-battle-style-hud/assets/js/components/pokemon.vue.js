@@ -43,9 +43,9 @@ export default defineComponent({
         pokemon: {},
         key: {}
     },
-    data () {
+    data() {
         return {
-            fixedSprite: true,
+            fixedSprite: true
         }
     },
     components: {
@@ -54,28 +54,32 @@ export default defineComponent({
         'pokeball': pokeball,
         'trimmedSprite': trimmedSprite
     },
-    mounted () {
+    mounted() {
 
     },
     computed: {
-        pokemonExists () {
-            if (!V2.isValidPokemon(this.pokemon)) return false
+        pokemonExists() {
+            if (!V2.isValidPokemon(this.pokemon)) {
+                return false
+            }
             return true
         },
         partner() {
-            return false;
+            return false
         },
         healthPercent() {
-            return (100/this.pokemon.hp.max) * this.pokemon.hp.current + "%";
+            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%'
         },
         nickname() {
-            if (!V2.isValidPokemon(this.pokemon)) { return null; }
-            return this.pokemon.nickname || this.pokemon.speciesName;
+            if (!V2.isValidPokemon(this.pokemon)) {
+                return null
+            }
+            return this.pokemon.nickname || this.pokemon.speciesName
         },
         sex() {
             switch (this.pokemon.gender) {
                 case DataTypes.Gender.male:
-                    return 'male';
+                    return 'male'
                 case DataTypes.Gender.female:
                     return 'female'
             }
@@ -83,41 +87,51 @@ export default defineComponent({
             return ''
         },
         ident() {
-            if (!V2.isValidPokemon(this.pokemon)) { return null; }
-            return this.pokemon.species;
+            if (!V2.isValidPokemon(this.pokemon)) {
+                return null
+            }
+            return this.pokemon.species
         },
         opacity() {
-            if (!V2.isValidPokemon(this.pokemon)) { return '1'; }
-            if (typeof this.fixedSprite === false) { return ''; }
-            return '';
+            if (!V2.isValidPokemon(this.pokemon)) {
+                return '1'
+            }
+            if (typeof this.fixedSprite === false) {
+                return ''
+            }
+            return ''
         },
         hasItem() {
-            if (!V2.isValidPokemon(this.pokemon)) { return false; }
-            if (typeof this.pokemon.heldItem === "undefined") { return false; }
-            return this.pokemon.heldItem !== 0;
+            if (!V2.isValidPokemon(this.pokemon)) {
+                return false
+            }
+            if (typeof this.pokemon.heldItem === 'undefined') {
+                return false
+            }
+            return this.pokemon.heldItem !== 0
         },
         selectedPokemon: {
-            get: function() {
+            get: function () {
                 return this.nickname
             },
-            set: function() {
-                this.$emit( "change", this.nickname )
+            set: function () {
+                this.$emit('change', this.nickname)
             }
         },
-        hideGender () {
-            return clientSettings.params.get('hideGender') === 'true';
+        hideGender() {
+            return clientSettings.params.get('hideGender') === 'true'
         },
-        hideLevel () {
-            return clientSettings.params.get('hideLevel') === 'true';
+        hideLevel() {
+            return clientSettings.params.get('hideLevel') === 'true'
         },
-        experienceRemaining () {
+        experienceRemaining() {
             if (this.pokemon.expToNextLevel < this.pokemon.exp) {
                 return '0%'
             }
             const expLeftInThisRange = this.pokemon.exp - this.pokemon.expToNextLevel
 
-            return (100/this.pokemon.expToNextLevel) * expLeftInThisRange + '%'
-        },
+            return (100 / this.pokemon.expToNextLevel) * expLeftInThisRange + '%'
+        }
     },
     methods: {
         isUndefined(pokemon) {
@@ -126,7 +140,7 @@ export default defineComponent({
         getSprite(pokemon) {
             return V2.getSprite(pokemon)
         },
-        getPokeballTopColor: function() {
+        getPokeballTopColor: function () {
             // if (!V2.isValidPokemon(this.pokemon)) { return '#C3C4C6'; }
             //
             // if (settings.pokeImg.pokemonColor === true) {
@@ -145,9 +159,9 @@ export default defineComponent({
             //     return normalizeColor(settings.pokeImg.staticColor, 100);
             // }
 
-            return 'white';
+            return 'white'
         },
-        getPokeballBottomColor: function() {
+        getPokeballBottomColor: function () {
             // if (settings.champion.colorPokeball !== true) { return '#C3C4C6'; }
             // if (!V2.isValidPokemon(this.pokemon)) { return '#C3C4C6'; }
             //
@@ -173,8 +187,8 @@ export default defineComponent({
             //     return settings.pokeImg.staticColor;
             // }
 
-            return 'white';
-        },
+            return 'white'
+        }
 
     }
 })

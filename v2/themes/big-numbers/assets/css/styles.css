@@ -1,10 +1,20 @@
-@font-face{font-family:PokemonGB;src:local("Pokemon GB"),url("./../../../../assets/fonts/Pokemon%20GB.ttf")}
-@font-face{font-family:RifficFree;src:local("RifficFree"),url("../RifficFree-Bold.ttf")}
+@font-face {
+    font-family: PokemonGB;
+    src: local("Pokemon GB"), url("./../../../../assets/fonts/Pokemon%20GB.ttf")
+}
+
+@font-face {
+    font-family: RifficFree;
+    src: local("RifficFree"), url("../RifficFree-Bold.ttf")
+}
 
 .pokes {
     /* margin-top: 110px; */
 }
-.badges {}
+
+.badges {
+}
+
 .badge__slot {
     display: block;
     float: left;
@@ -13,6 +23,7 @@
 .badge__slot img {
     width: 100px;
 }
+
 .badge__slot--inactive img {
     -webkit-filter: grayscale(100%) brightness(0);
     filter: grayscale(100%) brightness(0);
@@ -73,9 +84,11 @@
 .pokemon__list .pokemon:nth-child(1) .slot_id {
     /* right: -45px; */
 }
+
 .pokemon__list.flipped .pokemon:nth-child(1) .slot_id {
     /* left: -70px; */
 }
+
 .pokemon__list.flipped .pokemon .slot_id {
     left: -2px;
     top: 40px;
@@ -89,6 +102,7 @@
     font-family: "RifficFree";
     overflow: hidden;
 }
+
 .pokemon__card-art {
     left: 260px;
     animation-fill-mode: forwards;
@@ -116,18 +130,23 @@
 .pokemon__list .pokemon:nth-child(1) .pokemon__container {
     background-image: linear-gradient(90deg, #6800d4, #37005b);
 }
+
 .pokemon__list .pokemon:nth-child(2) .pokemon__container {
     background-image: linear-gradient(90deg, #6800d4, #00b703);
 }
+
 .pokemon__list .pokemon:nth-child(3) .pokemon__container {
     background-image: linear-gradient(90deg, #6800d4, #ffe800);
 }
+
 .pokemon__list .pokemon:nth-child(4) .pokemon__container {
     background-image: linear-gradient(90deg, #6800d4, #ff7200);
 }
+
 .pokemon__list .pokemon:nth-child(5) .pokemon__container {
     background-image: linear-gradient(90deg, #6800d4, #ff0000);
 }
+
 .pokemon__list .pokemon:nth-child(6) .pokemon__container {
     background-image: linear-gradient(90deg, #6800d4, #ff00fb);
 }
@@ -135,21 +154,27 @@
 .pokemon__list.flipped .pokemon:nth-child(1) .pokemon__container {
     background-image: linear-gradient(270deg, #6800d4, #37005b);
 }
+
 .pokemon__list.flipped .pokemon:nth-child(2) .pokemon__container {
     background-image: linear-gradient(270deg, #6800d4, #00b703);
 }
+
 .pokemon__list.flipped .pokemon:nth-child(3) .pokemon__container {
     background-image: linear-gradient(270deg, #6800d4, #ffe800);
 }
+
 .pokemon__list.flipped .pokemon:nth-child(4) .pokemon__container {
     background-image: linear-gradient(270deg, #6800d4, #ff7200);
 }
+
 .pokemon__list.flipped .pokemon:nth-child(5) .pokemon__container {
     background-image: linear-gradient(270deg, #6800d4, #ff0000);
 }
+
 .pokemon__list.flipped .pokemon:nth-child(6) .pokemon__container {
     background-image: linear-gradient(270deg, #6800d4, #ff00fb);
 }
+
 /*
 .pokemon__list .pokemon:nth-child(1) .pokemon__container,
 .pokemon__list .pokemon:nth-child(1) .pokemon__card-art {
@@ -200,8 +225,9 @@
     height: 120%;
     position: relative;
     bottom: 20px;
-    z-index:6;
+    z-index: 6;
 }
+
 .pokemon__list.flipped .pokemon .pokemon__row .pokemon__image .sprite {
     transform: scaleX(-1);
 }
@@ -213,7 +239,7 @@
     left: 9px;
     color: white;
     text-shadow: 1px 1px black;
-    z-index:10;
+    z-index: 10;
 }
 
 .pokemon__list.flipped .pokemon__level {
@@ -231,6 +257,7 @@
 .pokemon .hp .hp__inner.low {
     background: linear-gradient(to right, #ffcc00, #f1f500);
 }
+
 .pokemon .hp .hp__inner.critical {
     background: linear-gradient(to right, #d20000, #f51700);
 }
@@ -338,6 +365,7 @@
         left: 0px;
     }
 }
+
 @keyframes slideOutRight {
     from {
         left: 0px;
@@ -373,11 +401,13 @@
     -webkit-animation: sleep 9s infinite linear;
     animation: sleep 9s infinite linear;
 }
+
 .sleeping span:nth-child(2n) {
     -moz-animation-delay: 3s;
     -webkit-animation-delay: 3s;
     animation-delay: 3s;
 }
+
 .sleeping span:nth-child(3n) {
     -moz-animation-delay: 6s;
     -webkit-animation-delay: 6s;
@@ -415,6 +445,7 @@
         opacity: 0;
     }
 }
+
 @-moz-keyframes sleep {
     0% {
         -moz-transform: translate(0, 0) scale(0.3);
@@ -446,6 +477,7 @@
         opacity: 0;
     }
 }
+
 @-ms-keyframes sleep {
     0% {
         -moz-transform: translate(0, 0) scale(0.3);
@@ -477,6 +509,7 @@
         opacity: 0;
     }
 }
+
 @keyframes sleep {
     0% {
         -moz-transform: translate(0, 0) scale(0.3);

@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V2, clientSettings} from 'pokelink'
+import {V2, clientSettings, updateSpriteTemplate} from 'pokelink'
 import pokemonCard from './components/pokemon-card.vue.js'
 
 (() => {
@@ -16,13 +16,18 @@ import pokemonCard from './components/pokemon-card.vue.js'
                 switchSpeed: 'switchMedium'
             }
         },
+        created: function () {
+            this.settings = clientSettings
+        },
         mounted: function () {
             const vm = this
             V2.initialize()
 
-            this.settings = {...clientSettings}
-            this.settings.verticalPokemon = (clientSettings.params.get('verticalPokemon') ?? 'false') === 'true'
-            this.settings.hp = (clientSettings.params.get('hp') ?? 'false') === 'true'
+            updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/gen7/animated' +
+                '{{ifElse isShiny "-shiny" ""}}' +
+                '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
+                '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+                '{{addFemaleTag this "-f"}}.gif')
 
             V2.handlePartyUpdates((party => {
                 vm.party = party

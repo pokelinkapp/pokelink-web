@@ -25,7 +25,7 @@ export default defineComponent({
     methods: {
         useFallback() {
             V2.useFallback(this.$refs.pokemonSprite, this.pokemon)
-        },
+        }
     },
     computed: {
         sprite() {

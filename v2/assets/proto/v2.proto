@@ -95,23 +95,24 @@ message Pokemon {
   StatusEffect status = 11;
   PokemonTranslations translations = 12;
   bool hasFemaleSprite = 13;
-  
-  optional string fallbackSprite = 14;
-  optional string nickname = 15;
-  optional uint32 heldItem = 16;
-  optional Gender gender = 17;
-  optional uint32 form = 18;
-  optional bool isEgg = 19;
-  optional uint32 hiddenPower = 20;
-  optional uint32 nature = 21;
-  optional bool isShiny = 22;
-  optional uint32 pokeball = 23;
-  optional uint32 friendship = 24;
-  optional uint32 ability = 25;
-  optional Pokerus pokerus = 26;
-  optional uint32 locationMet = 27;
-  optional uint32 levelMet = 28;
-  optional GraveMeta graveyardMeta = 29;
+
+  optional string color = 14;
+  optional string fallbackSprite = 15;
+  optional string nickname = 16;
+  optional uint32 heldItem = 17;
+  optional Gender gender = 18;
+  optional uint32 form = 19;
+  optional bool isEgg = 20;
+  optional uint32 hiddenPower = 21;
+  optional uint32 nature = 22;
+  optional bool isShiny = 23;
+  optional uint32 pokeball = 24;
+  optional uint32 friendship = 25;
+  optional uint32 ability = 26;
+  optional Pokerus pokerus = 27;
+  optional uint32 locationMet = 28;
+  optional uint32 levelMet = 29;
+  optional GraveMeta graveyardMeta = 30;
 }
 
 message PokemonTranslations {

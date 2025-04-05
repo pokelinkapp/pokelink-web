@@ -3,7 +3,8 @@ import {defineComponent} from 'vue'
 export default defineComponent({
     template: `
       <div class="pokemon__image" ref="container">
-        <img ref="pokemonSprite" style="visibility: hidden" :src="this.sprite" @error="this.$refs.pokemonSprite.src = this.pokemon.fallbackSprite"/>
+        <img ref="pokemonSprite" style="visibility: hidden" :src="this.sprite"
+             @error="this.$refs.pokemonSprite.src = this.pokemon.fallbackSprite"/>
         <img
             v-if="!isGif && pokemon.isEgg && !fixedSprite"
             :src="pokemon.img"
@@ -43,7 +44,7 @@ export default defineComponent({
             required: true
         }
     },
-    data () {
+    data() {
         return {
             fixedSprite: false,
             defaultHeight: 2000,
@@ -51,7 +52,7 @@ export default defineComponent({
         }
     },
     computed: {
-        isGif () {
+        isGif() {
             return this.$refs.pokemonSprite?.src.split('.').pop().toLowerCase() ?? this.sprite === 'gif'
         },
         sprite() {
@@ -59,25 +60,27 @@ export default defineComponent({
         }
     },
     methods: {
-        trim () {
-            if (this.oldImage === this.sprite) return false
+        trim() {
+            if (this.oldImage === this.sprite) {
+                return false
+            }
             this.oldImage = this.sprite
             let vm = this
-            var img = new Image();
-            img.crossOrigin = "Anonymous";
+            var img = new Image()
+            img.crossOrigin = 'Anonymous'
             img.onload = () => {
-                var canvas = vm.$refs.canvas;
-                var ctx = canvas.getContext('2d');
+                var canvas = vm.$refs.canvas
+                var ctx = canvas.getContext('2d')
                 canvas.width = vm.defaultWidth
                 canvas.height = vm.defaultHeight
                 ctx.clearRect(0, 0, vm.defaultWidth, vm.defaultHeight)
-                ctx.drawImage(img, 0, 0);
+                ctx.drawImage(img, 0, 0)
                 let trimmed = trimCanvas(canvas)
                 canvas.width = trimmed.width
                 canvas.height = trimmed.height
                 var newImage = new Image()
                 newImage.onload = () => {
-                    ctx.drawImage(newImage, 0, 0);
+                    ctx.drawImage(newImage, 0, 0)
                     vm.fixedSprite = true
                     vm.$emit('done')
                 }
@@ -89,7 +92,7 @@ export default defineComponent({
     watch: {
         pokemon: {
             deep: true,
-            handler (newVal, oldVal) {
+            handler(newVal, oldVal) {
                 const spriteHasChanged = this.oldImage !== newVal.img
                 if (spriteHasChanged) {
                     this.fixedSprite = false

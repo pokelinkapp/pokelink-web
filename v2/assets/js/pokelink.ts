@@ -9,11 +9,11 @@ import {
     PokemonDeathSchema,
     PokemonRevive,
     PokemonReviveSchema, PokemonSchema,
-    Gender
+    Gender, StatusEffect
 } from './v2_pb.js'
-import * as DataTypes from './v2_pb.js'
+import * as V2DataTypes from './v2_pb.js'
 import {toJson} from '@bufbuild/protobuf'
-import {checkImageUrl, EventEmitter, Nullable, htmlColors, statusColors, typeColors} from './global.js'
+import {EventEmitter, Nullable, htmlColors, statusColors, typeColors, string2ColHex} from './global.js'
 import type {ClientSettings} from './global'
 import Handlebars from 'handlebars'
 
@@ -88,7 +88,7 @@ export namespace V2 {
     export function initialize() {
         globalInitialize()
         Handlebars.registerHelper('addFemaleTag', function (pokemon: Pokemon, femaleTag: string) {
-            return pokemon.gender === Gender.female && pokemon.hasFemaleSprite ? femaleTag : ""
+            return pokemon.gender === Gender.female && pokemon.hasFemaleSprite ? femaleTag : ''
         })
         client = new PokelinkClientV2()
 
@@ -98,7 +98,7 @@ export namespace V2 {
 
         client.events.on(PartyChannel, (party: Party) => {
             if (clientSettings.debug && events.hasEvents(PartyChannel)) {
-                console.debug(`Party update:`, party.party.map(x => x.pokemon == null ? null : toJson(PokemonSchema, x.pokemon)) )
+                console.debug(`Party update:`, party.party.map(x => x.pokemon == null ? null : toJson(PokemonSchema, x.pokemon)))
             }
             events.emit(PartyChannel, party.party.map(x => x.pokemon))
         })
@@ -164,6 +164,26 @@ export namespace V2 {
 
         img.src = pokemon.fallbackSprite!
     }
+
+    export function getTypeColor(englishType: string) {
+        let value = typeColors[englishType]
+
+        if (value === undefined || value === null) {
+            return 'white'
+        }
+
+        return value
+    }
+
+    export function getStatusColor(englishStatus: string) {
+        let value = statusColors[englishStatus]
+
+        if (value === undefined || value === null) {
+            return 'white'
+        }
+
+        return value
+    }
 }
 
-export {checkImageUrl, htmlColors, statusColors, typeColors, DataTypes}
+export {htmlColors, statusColors, typeColors, V2DataTypes, EventEmitter, string2ColHex}

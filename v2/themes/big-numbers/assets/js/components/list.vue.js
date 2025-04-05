@@ -12,9 +12,11 @@ export default defineComponent({
           </pokemon>
         </transition-group>
       </div>
-    `, components: {
+    `,
+    components: {
         'pokemon': pokemon
-    }, data() {
+    },
+    data() {
         return {
             loaded: false,
             settings: {},
@@ -25,12 +27,14 @@ export default defineComponent({
             flipped: false,
             horizontal: false
         }
-    }, created: function () {
+    },
+    created: function () {
         this.loaded = true
         this.settings = {...clientSettings}
         this.flipped = this.settings.params.get('flipped') === 'true'
         this.horizontal = this.settings.params.get('horizontal') === 'true'
-    }, mounted() {
+    },
+    mounted() {
         let vm = this
         V2.handlePartyUpdates((party => {
             vm.party = party
@@ -40,7 +44,8 @@ export default defineComponent({
     methods: {
         update(val) {
         }
-    }, computed: {
+    },
+    computed: {
         partySlots() {
             return [...new Array(6).keys()]
 

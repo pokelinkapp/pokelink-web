@@ -6,13 +6,20 @@ import pokemonCard from './components/pokemon-card.vue.js'
     createApp({
         components: {
             'pokemon-card': pokemonCard
-        }, data() {
+        },
+        data() {
             return {
-                connected: false, loaded: false, settings: {}, party: [], switchSpeed: 'switchMedium'
+                connected: false,
+                loaded: false,
+                settings: {},
+                party: [],
+                switchSpeed: 'switchMedium'
             }
-        }, created: function () {
+        },
+        created: function () {
             this.settings = clientSettings
-        }, mounted: function () {
+        },
+        mounted: function () {
             const vm = this
             V2.initialize()
 
@@ -25,32 +32,39 @@ import pokemonCard from './components/pokemon-card.vue.js'
             V2.onConnect(() => {
                 vm.connected = true
             })
-        }, computed: {
+        },
+        computed: {
             singleSlot() {
                 return !!clientSettings.params.has('slot')
-            }, slotId() {
+            },
+            slotId() {
                 let availableSlots = [1, 2, 3, 4, 5, 6]
                 if (clientSettings.params.has('slot') && availableSlots.includes(parseInt(params.get('slot')))) {
                     return clientSettings.params.get('slot') - 1
                 }
                 return 0
-            }, pokemonToShow() {
+            },
+            pokemonToShow() {
                 if (this.singleSlot === true) {
                     return [this.party[this.slotId]]
                 }
 
                 if (clientSettings.params.has('fromSlot') && params.has('slots')) {
-                    return this.party.slice(parseInt(clientSettings.params.get('fromSlot')) - 1, parseInt(clientSettings.params.get('fromSlot')) - 1 + parseInt(clientSettings.params.get('slots')))
+                    return this.party.slice(parseInt(clientSettings.params.get('fromSlot')) - 1,
+                        parseInt(clientSettings.params.get('fromSlot')) -
+                        1 +
+                        parseInt(clientSettings.params.get('slots')))
                 }
 
                 return this.party
-            }, showEmptySlots() {
+            },
+            showEmptySlots() {
                 if (this.singleSlot === true) {
                     return false
                 }
 
                 if (clientSettings.params.has('fromSlot') && clientSettings.params.has('slots')) {
-                    return !!this.pokemonToShow.includes(false);
+                    return !!this.pokemonToShow.includes(false)
                 }
 
                 if (this.party.length !== 6) {

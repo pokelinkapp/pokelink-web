@@ -14,7 +14,10 @@ export default defineComponent({
               transform="translate(-9.57 -10.14)"/>
       </svg>
 
-    `, props: {
-        ident: {}, topColor: {}, bottomColor: {}
+    `,
+    props: {
+        ident: {},
+        topColor: {},
+        bottomColor: {}
     }
 })

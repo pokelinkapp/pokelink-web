@@ -41,24 +41,33 @@ export default defineComponent({
           </div>
         </div>
       </div>
-    `, props: {
-        pokemon: {}, settings: {
+    `,
+    props: {
+        pokemon: {},
+        settings: {
             hp: false
         }
-    }, methods: {
+    },
+    methods: {
         useFallback() {
             V2.useFallback(this.$refs.pokemonSprite, this.pokemon)
-        },
-    }, computed: {
+        }
+    },
+    computed: {
         healthPercent() {
             return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%'
-        }, heldItemImage() {
+        },
+        heldItemImage() {
             return `https://assets.pokelink.xyz/assets/sprites/items/gen7/${this.pokemon.heldItem}.png`
-        }, isMissingno() {
-            if (this.pokemon.isEgg) return false
+        },
+        isMissingno() {
+            if (this.pokemon.isEgg) {
+                return false
+            }
 
             return this.pokemon.species <= 0
-        }, imageTag() {
+        },
+        imageTag() {
             if (this.pokemon.species === -1 || this.pokemon.isEgg === true) {
                 return this.pokemon.fallbackSprite
             }

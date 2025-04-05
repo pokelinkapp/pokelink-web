@@ -48,7 +48,7 @@ export function pokemonTCGCardSets() {
         'xy5',
         'xy6',
         'xy7',
-        'xy8',
+        'xy8'
     ]
 }
 
@@ -56,11 +56,15 @@ export function pokemonTCGCardSets() {
     createApp({
         components: {
             'list': list
-        }, data() {
+        },
+        data() {
             return {
-                connected: false, loaded: false, settings: {}
+                connected: false,
+                loaded: false,
+                settings: {}
             }
-        }, created: function () {
+        },
+        created: function () {
             const vm = this
             V2.initialize()
 
@@ -68,14 +72,15 @@ export function pokemonTCGCardSets() {
                 '{{ifElse isShiny "shiny" "normal"}}' +
                 '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
                 '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
-            '{{addFemaleTag this "-f"}}.png')
+                '{{addFemaleTag this "-f"}}.png')
 
             V2.onConnect(() => {
                 vm.connected = true
                 this.loaded = true
             })
             this.settings = clientSettings
-        }, mounted: function () {
+        },
+        mounted: function () {
         }
     }).mount('#party')
 })()

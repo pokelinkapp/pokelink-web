@@ -1,6 +1,6 @@
 import { Badge, Pokemon } from './v2_pb.js';
-import * as DataTypes from './v2_pb.js';
-import { checkImageUrl, Nullable, htmlColors, statusColors, typeColors } from './global.js';
+import * as V2DataTypes from './v2_pb.js';
+import { EventEmitter, Nullable, htmlColors, statusColors, typeColors, string2ColHex } from './global.js';
 import type { ClientSettings } from './global';
 export declare const clientSettings: ClientSettings;
 export declare function updateSpriteTemplate(template: string): void;
@@ -14,5 +14,7 @@ export declare namespace V2 {
     function isValidPokemon(pokemon: Nullable<Pokemon>): boolean;
     function getSprite(pokemon: Pokemon): string;
     function useFallback(img: HTMLImageElement, pokemon: Pokemon): void;
+    function getTypeColor(englishType: string): string;
+    function getStatusColor(englishStatus: string): string;
 }
-export { checkImageUrl, htmlColors, statusColors, typeColors, DataTypes };
+export { htmlColors, statusColors, typeColors, V2DataTypes, EventEmitter, string2ColHex };

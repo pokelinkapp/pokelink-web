@@ -17,7 +17,7 @@ export abstract class PokelinkClientBase {
 
         this.connection.binaryType = 'arraybuffer'
 
-        let vm = this;
+        let vm = this
 
         this.connection.onopen = ev => {
             if (this.firstConnect) {

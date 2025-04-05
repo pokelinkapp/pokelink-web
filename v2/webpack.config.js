@@ -1,9 +1,9 @@
-import path from "path";
-import { fileURLToPath } from "url";
+import path from 'path'
+import {fileURLToPath} from 'url'
 
 import {EsbuildPlugin} from 'esbuild-loader'
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default {
     entry: './assets/js/pokelink.js',
@@ -11,7 +11,7 @@ export default {
     devtool: false,
     experiments: {
         futureDefaults: true,
-        outputModule: true,
+        outputModule: true
     },
     output: {
         path: path.resolve(__dirname, 'assets/dist'),
@@ -24,8 +24,10 @@ export default {
         chunkFormat: 'module'
     },
     optimization: {
-        minimizer: [new EsbuildPlugin({
-            keepNames: true,
-        })]
+        minimizer: [
+            new EsbuildPlugin({
+                keepNames: true
+            })
+        ]
     }
 }

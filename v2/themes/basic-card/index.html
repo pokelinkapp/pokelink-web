@@ -10,7 +10,8 @@
 <body>
 <div id="party" :data-user="settings.users[0]">
     <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
-        <transition-group :name="switchSpeed" tag="div" class="pokemon" :class="{ 'vertical-column': settings.verticalPokemon }" v-if="loaded">
+        <transition-group :name="switchSpeed" tag="div" class="pokemon"
+                          :class="{ 'vertical-column': settings.verticalPokemon }" v-if="loaded">
             <pokemon-card v-for="poke in party" v-if="poke !== null"
                           :pokemon="poke" :key="poke?.pid" :settings="settings"></pokemon-card>
             <pokemon-card v-for="index in 6-party.length" v-if="loaded && showEmptySlots" :key="index"></pokemon-card>

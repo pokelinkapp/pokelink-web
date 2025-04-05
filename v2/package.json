@@ -13,6 +13,8 @@
         "@bufbuild/buf": "^1.51.0",
         "@bufbuild/protobuf": "^2.2.5",
         "@bufbuild/protoc-gen-es": "^2.2.5",
+        "@types/color-hash": "^2.0.0",
+        "color-hash": "^2.0.2",
         "esbuild-loader": "^4.3.0",
         "handlebars": "^4.7.8",
         "run-script-os": "^1.1.6",
