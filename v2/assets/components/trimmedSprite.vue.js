@@ -1,20 +1,19 @@
 import {defineComponent} from 'vue'
+import {V2} from 'pokelink'
 
 export default defineComponent({
     template: `
       <div class="pokemon__image" ref="container">
-        <img ref="pokemonSprite" style="visibility: hidden" :src="this.sprite"
-             @error="this.$refs.pokemonSprite.src = this.pokemon.fallbackSprite"/>
         <img
             v-if="!isGif && pokemon.isEgg && !fixedSprite"
-            :src="pokemon.img"
+            :src="sprite"
             @load="trim"
             class="sprite"
             style="transform: scale(0.8); bottom: 0px; visibility: hidden"
         />
         <img
             v-if="!isGif && !pokemon.isEgg && !fixedSprite"
-            :src="pokemon.img"
+            :src="sprite"
             class="sprite"
             @load="trim"
             style="visibility: hidden"
@@ -30,9 +29,9 @@ export default defineComponent({
         <img
             v-if="isGif"
             :class="['sprite', {'sprite--gif': isGif}]"
-            :src="pokemon.img"
+            :src="sprite"
             :style="{'opacity': (fixedSprite || isGif ? '1' : '0')}"
-            :key="'gif-' + pokemon.img"
+            :key="'gif-' + sprite"
         >
       </div>`,
     props: {
@@ -53,7 +52,7 @@ export default defineComponent({
     },
     computed: {
         isGif() {
-            return this.$refs.pokemonSprite?.src.split('.').pop().toLowerCase() ?? this.sprite === 'gif'
+            return (this.$refs.pokemonSprite?.src ?? this.sprite).split('.').pop().toLowerCase() === 'gif'
         },
         sprite() {
             return this.getSprite(this.pokemon)
@@ -62,7 +61,8 @@ export default defineComponent({
     methods: {
         trim() {
             if (this.oldImage === this.sprite) {
-                return false
+                this.fixedSprite = true
+                return true
             }
             this.oldImage = this.sprite
             let vm = this
@@ -70,12 +70,14 @@ export default defineComponent({
             img.crossOrigin = 'Anonymous'
             img.onload = () => {
                 var canvas = vm.$refs.canvas
-                var ctx = canvas.getContext('2d')
+                var ctx = canvas.getContext('2d', {
+                    willReadFrequently: true
+                })
                 canvas.width = vm.defaultWidth
                 canvas.height = vm.defaultHeight
                 ctx.clearRect(0, 0, vm.defaultWidth, vm.defaultHeight)
                 ctx.drawImage(img, 0, 0)
-                let trimmed = trimCanvas(canvas)
+                let trimmed = this.trimCanvas(canvas)
                 canvas.width = trimmed.width
                 canvas.height = trimmed.height
                 var newImage = new Image()
@@ -87,13 +89,70 @@ export default defineComponent({
                 newImage.src = trimmed.toDataURL()
             }
             img.src = this.sprite
+        },
+        trimCanvas(c) {
+            var ctx = c.getContext('2d'),
+                copy = document.createElement('canvas').getContext('2d'),
+                pixels = ctx.getImageData(0, 0, c.width, c.height),
+                l = pixels.data.length,
+                i,
+                bound = {
+                    top: null,
+                    left: null,
+                    right: null,
+                    bottom: null
+                },
+                x, y;
+
+            // Iterate over every pixel to find the highest
+            // and where it ends on every axis ()
+            for (i = 0; i < l; i += 4) {
+                if (pixels.data[i + 3] !== 0) {
+                    x = (i / 4) % c.width;
+                    y = ~~((i / 4) / c.width);
+
+                    if (bound.top === null) {
+                        bound.top = y;
+                    }
+
+                    if (bound.left === null) {
+                        bound.left = x;
+                    } else if (x < bound.left) {
+                        bound.left = x;
+                    }
+
+                    if (bound.right === null) {
+                        bound.right = x;
+                    } else if (bound.right < x) {
+                        bound.right = x;
+                    }
+
+                    if (bound.bottom === null) {
+                        bound.bottom = y;
+                    } else if (bound.bottom < y) {
+                        bound.bottom = y;
+                    }
+                }
+            }
+
+            // Calculate the height and width of the content
+            var trimHeight = bound.bottom - bound.top,
+                trimWidth = bound.right - bound.left,
+                trimmed = ctx.getImageData(bound.left, bound.top, trimWidth, trimHeight);
+
+            copy.canvas.width = trimWidth;
+            copy.canvas.height = trimHeight;
+            copy.putImageData(trimmed, 0, 0);
+
+            // Return trimmed canvas
+            return copy.canvas;
         }
     },
     watch: {
         pokemon: {
-            deep: true,
+            deep: false,
             handler(newVal, oldVal) {
-                const spriteHasChanged = this.oldImage !== newVal.img
+                const spriteHasChanged = this.oldImage !== V2.getSprite(newVal)
                 if (spriteHasChanged) {
                     this.fixedSprite = false
                 }
