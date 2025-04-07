@@ -8,6 +8,6 @@
         "skipLibCheck": true,
         "moduleResolution": "node",
         "declaration": true,
-        "declarationDir": "./assets/dist"
+        "declarationDir": "./dist",
     }
 }

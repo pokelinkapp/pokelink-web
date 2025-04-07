@@ -1,7 +1,6 @@
-import {createApp} from 'vue'
-import {V2, clientSettings} from 'pokelink'
-import pokemonCard from './components/pokemon-card.vue.js'
-
+import { createApp } from 'vue';
+import { V2, clientSettings } from 'pokelink';
+import pokemonCard from './components/pokemon-card.vue.js';
 (() => {
     createApp({
         components: {
@@ -14,65 +13,58 @@ import pokemonCard from './components/pokemon-card.vue.js'
                 settings: {},
                 party: [],
                 switchSpeed: 'switchMedium'
-            }
+            };
         },
         created: function () {
-            this.settings = clientSettings
+            this.settings = clientSettings;
         },
         mounted: function () {
-            const vm = this
-            V2.initialize()
-
+            const vm = this;
+            V2.initialize();
             V2.handlePartyUpdates((party => {
-                vm.party = party
-                this.loaded = true
-                vm.$forceUpdate()
-            }))
-
+                vm.party = party;
+                this.loaded = true;
+                vm.$forceUpdate();
+            }));
             V2.onConnect(() => {
-                vm.connected = true
-            })
+                vm.connected = true;
+            });
         },
         computed: {
             singleSlot() {
-                return !!clientSettings.params.has('slot')
+                return clientSettings.params.hasKey('slot');
             },
             slotId() {
-                let availableSlots = [1, 2, 3, 4, 5, 6]
-                if (clientSettings.params.has('slot') && availableSlots.includes(parseInt(params.get('slot')))) {
-                    return clientSettings.params.get('slot') - 1
+                let availableSlots = [1, 2, 3, 4, 5, 6];
+                if (clientSettings.params.hasKey('slot') && availableSlots.includes(clientSettings.params.getNumber('slot'))) {
+                    return clientSettings.params.getNumber('slot') - 1;
                 }
-                return 0
+                return 0;
             },
             pokemonToShow() {
-                if (this.singleSlot === true) {
-                    return [this.party[this.slotId]]
+                if (this.singleSlot) {
+                    return [this.party[this.slotId]];
                 }
-
-                if (clientSettings.params.has('fromSlot') && params.has('slots')) {
-                    return this.party.slice(parseInt(clientSettings.params.get('fromSlot')) - 1,
-                        parseInt(clientSettings.params.get('fromSlot')) -
+                if (clientSettings.params.hasKey('fromSlot') && clientSettings.params.hasKey('slots')) {
+                    return this.party.slice(clientSettings.params.getNumber('fromSlot') - 1, clientSettings.params.getNumber('fromSlot') -
                         1 +
-                        parseInt(clientSettings.params.get('slots')))
+                        clientSettings.params.getNumber('slots'));
                 }
-
-                return this.party
+                return this.party;
             },
             showEmptySlots() {
-                if (this.singleSlot === true) {
-                    return false
+                if (this.singleSlot) {
+                    return false;
                 }
-
-                if (clientSettings.params.has('fromSlot') && clientSettings.params.has('slots')) {
-                    return !!this.pokemonToShow.includes(false)
+                if (clientSettings.params.hasKey('fromSlot') && clientSettings.params.hasKey('slots')) {
+                    return this.pokemonToShow.includes(false);
                 }
-
                 if (this.party.length !== 6) {
-                    return true
+                    return true;
                 }
-
-                return true
+                return true;
             }
         }
-    }).mount('#party')
-})()
+    }).mount('#party');
+})();
+//# sourceMappingURL=party.js.map

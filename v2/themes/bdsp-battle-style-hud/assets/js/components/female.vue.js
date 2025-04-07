@@ -1,5 +1,4 @@
-import {defineComponent} from 'vue'
-
+import { defineComponent } from 'vue';
 export default defineComponent({
     template: `
     <svg class="icon female" viewBox="0 0 417.606 417.606">
@@ -14,4 +13,5 @@ export default defineComponent({
         <rect x="-5.991" y="297.329" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 -79.764 623.5881)" style="fill:#F05228;" width="190.518" height="61.968"/>
 
 </svg>`
-})
+});
+//# sourceMappingURL=female.vue.js.map

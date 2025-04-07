@@ -1,6 +1,5 @@
-import {defineComponent} from 'vue'
-import {V2} from 'pokelink'
-
+import { defineComponent } from 'vue';
+import { V2 } from 'pokelink';
 export default defineComponent({
     template: `
       <div>
@@ -24,12 +23,13 @@ export default defineComponent({
     },
     methods: {
         useFallback() {
-            V2.useFallback(this.$refs.pokemonSprite, this.pokemon)
+            V2.useFallback(this.$refs.pokemonSprite, this.pokemon);
         }
     },
     computed: {
         sprite() {
-            return V2.getSprite(this.pokemon)
+            return V2.getSprite(this.pokemon);
         }
     }
-})
+});
+//# sourceMappingURL=pokemon-card.vue.js.map

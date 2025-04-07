@@ -1,7 +1,6 @@
-import {defineComponent} from 'vue'
-import {clientSettings, DataTypes, typeColors, V2} from 'pokelink'
-import {pokemonTCGCardSets} from '../party.js'
-
+import { defineComponent } from 'vue';
+import { clientSettings, typeColors, V2, V2DataTypes } from 'pokelink';
+import { pokemonTCGCardSets } from '../party.js';
 export default defineComponent({
     template: `
       <div
@@ -39,7 +38,10 @@ export default defineComponent({
       </div>
     `,
     props: {
-        pokemon: null,
+        pokemon: {
+            type: Object,
+            required: true
+        },
         slotId: null
     },
     data() {
@@ -51,171 +53,162 @@ export default defineComponent({
             isFresh: true,
             newCardArt: null,
             sets: []
-        }
+        };
     },
     created() {
-        this.sets = pokemonTCGCardSets()
+        this.sets = pokemonTCGCardSets();
     },
     mounted() {
-        this.pokeIsChanging = false
+        this.pokeIsChanging = false;
         if (this.useCardArtBackground) {
-            this.getNewCardArt(this.pokemon)
+            this.getNewCardArt(this.pokemon);
         }
     },
     methods: {
         useFallback() {
-            V2.useFallback(this.$refs.pokemonSprite, this.pokemon)
+            V2.useFallback(this.$refs.pokemonSprite, this.pokemon);
         },
         getNewCardArt(poke) {
-            let vm = this
+            let vm = this;
             if (!this.isFresh) {
-                this.pokeIsChanging = true
+                this.pokeIsChanging = true;
             }
             if (!this.useCardArtBackground) {
                 setTimeout(() => {
-                    this.pokeIsChanging = false
-                }, 1400)
-                return false
+                    this.pokeIsChanging = false;
+                }, 1400);
+                return false;
             }
-
-            let isFresh = this.customCardArt === null && this.isFresh === true
+            let isFresh = this.customCardArt === null && this.isFresh;
             if (!this.isFresh) {
-                this.pokeIsChanging = true
+                this.pokeIsChanging = true;
             }
-            this.isFresh = false
-
+            this.isFresh = false;
             fetch('https://api.pokemontcg.io/v1/cards?setCode=' +
                 this.sets.join('|') +
                 '&supertype=pokemon&nationalPokedexNumber=' +
                 poke.species)
                 .then(response => response.json())
                 .then(cards => {
-                    let setOrder = this.sets
-                    // try {
-                    let cardImages = cards
-                        .cards
-                        .sort((a, b) => {
-                            return setOrder.findIndex(set => set === a.setCode) -
-                                setOrder.findIndex(set => set === b.setCode)
-                        })
-
-                    cardImages = cardImages.find(card => card.nationalPokedexNumber === poke.species)
-                    this.newCardArt = cardImages.imageUrl
-
-                    if (!isFresh) {
-                        setTimeout(() => {
-                            this.customCardArt = this.newCardArt
-                            this.pokeIsChanging = false
-                        }, 1400)
-                    } else {
-                        this.customCardArt = cardImages.imageUrl
-                        this.pokeIsChanging = false
-                    }
-                    // } catch (e) {
-                    //   console.log(e)
-                    //   // console.log(`unknown image for ${vm.pokemon.speciesName}`)
-                    //   // console.info(cards.cards)
-                    //
-                })
+                let setOrder = this.sets;
+                // try {
+                let cardImages = cards
+                    .cards
+                    .sort((a, b) => {
+                    return setOrder.findIndex(set => set === a.setCode) -
+                        setOrder.findIndex(set => set === b.setCode);
+                });
+                cardImages = cardImages.find((card) => card.nationalPokedexNumber === poke.species);
+                this.newCardArt = cardImages.imageUrl;
+                if (!isFresh) {
+                    setTimeout(() => {
+                        this.customCardArt = this.newCardArt;
+                        this.pokeIsChanging = false;
+                    }, 1400);
+                }
+                else {
+                    this.customCardArt = cardImages.imageUrl;
+                    this.pokeIsChanging = false;
+                }
+                // } catch (e) {
+                //   console.log(e)
+                //   // console.log(`unknown image for ${vm.pokemon.speciesName}`)
+                //   // console.info(cards.cards)
+                //
+            });
         }
     },
     computed: {
         isValid() {
-            return V2.isValidPokemon(this.pokemon)
+            return V2.isValidPokemon(this.pokemon);
         },
         sprite() {
-            return V2.getSprite(this.pokemon)
+            return V2.getSprite(this.pokemon);
         },
         useCardArtBackground() {
             if (this.pokemon === null) {
-                return false
+                return false;
             }
-            return clientSettings.params.get('useCardArtBackground') === 'true'
+            return clientSettings.params.getBool('useCardArtBackground', false);
         },
         useTypesGradient() {
             if (this.pokemon === null) {
-                return false
+                return false;
             }
-            return clientSettings.params.get('useTypesGradient') === 'true'
+            return clientSettings.params.getBool('useTypesGradient', false);
         },
         isActive() {
             if (!this.useCardArtBackground) {
-                return !this.pokeIsChanging
+                return !this.pokeIsChanging;
             }
-            return this.customCardArt && !this.pokeIsChanging
+            return this.customCardArt && !this.pokeIsChanging;
         },
         isClosing() {
-            return this.pokeIsChanging === true
+            return this.pokeIsChanging;
         },
         healthPercent() {
             if (!V2.isValidPokemon(this.pokemon)) {
-                return '0%'
+                return '0%';
             }
-            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%'
+            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%';
         },
         isDead() {
-            return parseFloat(this.healthPercent) === 0
+            return parseFloat(this.healthPercent) === 0;
         },
         isSleeping() {
-            return this.pokemon.status === DataTypes.StatusEffect.asleep
+            return this.pokemon.status === V2DataTypes.StatusEffect.asleep;
         },
         nickname() {
-            return this.pokemon.nickname || this.pokemon.translations.locale.speciesName
+            return this.pokemon.nickname || this.pokemon.translations.locale.speciesName;
         },
         sex() {
-            return (this.pokemon.isGenderless ? '' : (this.pokemon.isFemale ? 'female' : 'male'))
+            return (this.pokemon.gender === V2DataTypes.Gender.genderless ? '' : (this.pokemon.gender === V2DataTypes.Gender.female ? 'female' : 'male'));
         },
         ident() {
-            return this.pokemon.species
+            return this.pokemon.species;
         },
         opacity() {
-            return '1'
+            return '1';
         },
         hasItem() {
             if (typeof this.pokemon.heldItem === 'undefined') {
-                return false
+                return false;
             }
-            return this.pokemon.heldItem.id !== 0
+            return this.pokemon.heldItem !== 0;
         },
         experienceRemaining() {
             if (this.pokemon.expToNextLevel < this.pokemon.exp || !V2.isValidPokemon(this.pokemon)) {
-                return '0%'
+                return '0%';
             }
-            const expLeftInThisRange = this.pokemon.exp - this.pokemon.expToNextLevel
-
-            return (100 / this.pokemon.expToNextLevel) * expLeftInThisRange + '%'
+            const expLeftInThisRange = this.pokemon.exp - this.pokemon.expToNextLevel;
+            return (100 / this.pokemon.expToNextLevel) * expLeftInThisRange + '%';
         },
         mainStyle() {
             let styles = {
                 'opacity': this.opacity
-            }
-
+            };
             if (V2.isValidPokemon(this.pokemon)) {
-                let primaryType = this.pokemon.types[0].label.toLowerCase()
+                let primaryType = this.pokemon.translations.english.types[0].toLowerCase();
                 styles = {
                     ...styles,
                     'background-image': 'linear-gradient(180deg, ' + typeColors[primaryType] + ', white)'
-                }
+                };
             }
-
             // return styles;
         },
-
         typeColorBackgroundStyle() {
-            if (this.useTypesGradient === false) {
-                return false
+            if (this.useTypesGradient) {
+                return false;
             }
             let styles = {
                 'opacity': this.opacity
-            }
-
+            };
             if (V2.isValidPokemon(this.pokemon)) {
-                let primaryType = this.pokemon.translations.english.types[0] ?? '???'
-                let secondaryType = this.pokemon.translations.english.types[1] ?? primaryType
+                let primaryType = this.pokemon.translations.english.types[0] ?? '???';
+                let secondaryType = this.pokemon.translations.english.types[1] ?? primaryType;
                 // if (this.pokemon.types.length > 1) {
                 //   secondaryType = this.pokemon.types[1].label.toLowerCase()
                 // }
-
                 styles = {
                     ...styles,
                     'background-image': 'linear-gradient(90deg, ' +
@@ -223,18 +216,16 @@ export default defineComponent({
                         ', ' +
                         typeColors[secondaryType] +
                         ')'
-                }
+                };
             }
-
-            return styles
+            return styles;
         },
-
         selectedPokemon: {
             get: function () {
-                return this.nickname
+                return this.nickname;
             },
             set: function () {
-                this.$emit('change', this.nickname)
+                this.$emit('change', this.nickname);
             }
         }
     },
@@ -243,23 +234,23 @@ export default defineComponent({
             try {
                 if ((!oldVal.hasOwnProperty('hp') && newVal.hasOwnProperty('hp')) ||
                     newVal.species !==
-                    oldVal.species) {
-                    this.getNewCardArt(newVal)
+                        oldVal.species) {
+                    this.getNewCardArt(newVal);
                 }
-
                 if (!newVal.hasOwnProperty('hp')) {
-                    this.customCardArt = null
+                    this.customCardArt = null;
                 }
-
                 if (newVal.hp.current < oldVal.hp.current) {
-                    this.justTookDamage = true
+                    this.justTookDamage = true;
                     setTimeout(() => {
-                        this.justTookDamage = false
-                    }, 3000)
+                        this.justTookDamage = false;
+                    }, 3000);
                 }
-            } catch (e) {
-                return
+            }
+            catch (e) {
+                return;
             }
         }
     }
-})
+});
+//# sourceMappingURL=pokemon.vue.js.map

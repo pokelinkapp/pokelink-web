@@ -1,5 +1,4 @@
-import {defineComponent} from 'vue'
-
+import { defineComponent } from 'vue';
 export default defineComponent({
     template: `
       <svg class="pokeball" viewBox="0 0 204.54 207.46">
@@ -20,4 +19,5 @@ export default defineComponent({
         topColor: {},
         bottomColor: {}
     }
-})
+});
+//# sourceMappingURL=pokeball.vue.js.map

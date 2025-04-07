@@ -1,4 +1,6 @@
 version: v2
+managed:
+  enabled: true
 inputs:
   - directory: assets/proto
 plugins:

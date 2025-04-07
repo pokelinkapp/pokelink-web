@@ -47,12 +47,13 @@ export default defineComponent({
         return {
             fixedSprite: false,
             defaultHeight: 2000,
-            defaultWidth: 2000
+            defaultWidth: 2000,
+            oldImage: ''
         }
     },
     computed: {
         isGif() {
-            return (this.$refs.pokemonSprite?.src ?? this.sprite).split('.').pop().toLowerCase() === 'gif'
+            return ((this.$refs.pokemonSprite as HTMLImageElement | undefined)?.src ?? this.sprite).split('.').pop().toLowerCase() === 'gif'
         },
         sprite() {
             return this.getSprite(this.pokemon)
@@ -66,13 +67,13 @@ export default defineComponent({
             }
             this.oldImage = this.sprite
             let vm = this
-            var img = new Image()
+            const img = new Image()
             img.crossOrigin = 'Anonymous'
             img.onload = () => {
-                var canvas = vm.$refs.canvas
-                var ctx = canvas.getContext('2d', {
+                const canvas = vm.$refs.canvas as HTMLCanvasElement
+                const ctx = canvas.getContext('2d', {
                     willReadFrequently: true
-                })
+                })!
                 canvas.width = vm.defaultWidth
                 canvas.height = vm.defaultHeight
                 ctx.clearRect(0, 0, vm.defaultWidth, vm.defaultHeight)
@@ -80,7 +81,7 @@ export default defineComponent({
                 let trimmed = this.trimCanvas(canvas)
                 canvas.width = trimmed.width
                 canvas.height = trimmed.height
-                var newImage = new Image()
+                const newImage = new Image()
                 newImage.onload = () => {
                     ctx.drawImage(newImage, 0, 0)
                     vm.fixedSprite = true
@@ -90,62 +91,62 @@ export default defineComponent({
             }
             img.src = this.sprite
         },
-        trimCanvas(c) {
-            var ctx = c.getContext('2d'),
-                copy = document.createElement('canvas').getContext('2d'),
+        trimCanvas(c: HTMLCanvasElement) {
+            const ctx = c.getContext('2d')!,
+                copy = document.createElement('canvas').getContext('2d')!,
                 pixels = ctx.getImageData(0, 0, c.width, c.height),
-                l = pixels.data.length,
-                i,
-                bound = {
-                    top: null,
-                    left: null,
-                    right: null,
-                    bottom: null
-                },
-                x, y;
+                l = pixels.data.length
+            let i
+            const bound: { [key: string]: number | null } = {
+                top: null,
+                left: null,
+                right: null,
+                bottom: null
+            }
+            let x, y
 
             // Iterate over every pixel to find the highest
             // and where it ends on every axis ()
             for (i = 0; i < l; i += 4) {
                 if (pixels.data[i + 3] !== 0) {
-                    x = (i / 4) % c.width;
-                    y = ~~((i / 4) / c.width);
+                    x = (i / 4) % c.width
+                    y = ~~((i / 4) / c.width)
 
                     if (bound.top === null) {
-                        bound.top = y;
+                        bound.top = y
                     }
 
                     if (bound.left === null) {
-                        bound.left = x;
+                        bound.left = x
                     } else if (x < bound.left) {
-                        bound.left = x;
+                        bound.left = x
                     }
 
                     if (bound.right === null) {
-                        bound.right = x;
+                        bound.right = x
                     } else if (bound.right < x) {
-                        bound.right = x;
+                        bound.right = x
                     }
 
                     if (bound.bottom === null) {
-                        bound.bottom = y;
+                        bound.bottom = y
                     } else if (bound.bottom < y) {
-                        bound.bottom = y;
+                        bound.bottom = y
                     }
                 }
             }
 
             // Calculate the height and width of the content
-            var trimHeight = bound.bottom - bound.top,
-                trimWidth = bound.right - bound.left,
-                trimmed = ctx.getImageData(bound.left, bound.top, trimWidth, trimHeight);
+            const trimHeight = bound.bottom! - bound.top!,
+                trimWidth = bound.right! - bound.left!,
+                trimmed = ctx.getImageData(bound.left!, bound.top!, trimWidth, trimHeight)
 
-            copy.canvas.width = trimWidth;
-            copy.canvas.height = trimHeight;
-            copy.putImageData(trimmed, 0, 0);
+            copy.canvas.width = trimWidth
+            copy.canvas.height = trimHeight
+            copy.putImageData(trimmed, 0, 0)
 
             // Return trimmed canvas
-            return copy.canvas;
+            return copy.canvas
         }
     },
     watch: {

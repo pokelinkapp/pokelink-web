@@ -1,6 +1,5 @@
-import {defineComponent} from 'vue'
-import {V2, V2DataTypes, string2ColHex, clientSettings, htmlColors} from 'pokelink'
-
+import { defineComponent } from 'vue';
+import { V2, V2DataTypes, string2ColHex, clientSettings, htmlColors, isDefined } from 'pokelink';
 export default defineComponent({
     template: `
       <div>
@@ -14,8 +13,8 @@ export default defineComponent({
                   :style="{ 'backgroundColor': getTypeColor(type) }"
                   v-for="(type, index) in pokemon.translations.english.types">{{ pokemon.translations.locale.types[index] }}
             </span><span :class="'pokemon__status pokemon__status-'+ statusImg.toLowerCase()"
-                  v-if="!isHealthy" 
-                  :style="{ 'backgroundColor': (statusImg === 'FNT' ? getStatusColor('Fainted') : getStatusColor(pokemon.translations.english.status)) }">{{ statusImg }}</span>
+                         v-if="!isHealthy"
+                         :style="{ 'backgroundColor': (statusImg === 'FNT' ? getStatusColor('Fainted') : getStatusColor(pokemon.translations.english.status)) }">{{ statusImg }}</span>
           </div>
           <div
               :class="{ 'pokemon__image': true, 'pokemon__egg': (pokemon.isEgg), 'pokemon__dead': (pokemon.hp.current === 0)}">
@@ -23,11 +22,15 @@ export default defineComponent({
           </div>
           <div class="pokemon__info">
             <div class="pokemon__nick">
-              <span class="pokemon__nick-shiny" v-if="pokemon.isShiny">★</span>{{ pokemon.nickname || pokemon.translations.locale.speciesName }}
+              <span class="pokemon__nick-shiny" v-if="pokemon.isShiny">★</span>{{
+                pokemon.nickname ||
+                pokemon.translations.locale.speciesName
+              }}
             </div>
             <div class="pokemon__level-bar">
               <span class="pokemon__level">{{ (pokemon.level !== 100 ? 'L' + pokemon.level : '&nbsp;') }}</span>
-              <span class="pokemon__hp" style="float: right;" v-if="pokemon.hp.current !== 0">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
+              <span class="pokemon__hp" style="float: right;" v-if="pokemon.hp.current !== 0">{{ pokemon.hp.current }}/
+                {{ pokemon.hp.max }}</span>
               <span class="pokemon__dead-label" style="float: right;" v-else> DEAD </span>
             </div>
             <div class="pokemon__hp-bar">
@@ -53,113 +56,103 @@ export default defineComponent({
     },
     methods: {
         styleBorder(pokemon) {
-            const routeColor = (clientSettings.params.get('routeColor') ?? 'false') === 'true'
-            const pokemonColor = (clientSettings.params.get('pokemonColor') ?? 'false') === 'true'
-            const typeColor = (clientSettings.params.get('typeColor') ?? 'false') === 'true'
-
-            if (routeColor) {
-                return {'border-color': this.string2Hex(pokemon.locationMet.toString())}
+            const routeColor = clientSettings.params.getBool('routeColor', true);
+            const pokemonColor = clientSettings.params.getBool('pokemonColor', false);
+            const typeColor = clientSettings.params.getBool('typeColor', false);
+            if (routeColor && isDefined(pokemon.translations?.locale?.locationMetName)) {
+                return { 'border-color': this.string2Hex(pokemon.translations.locale.locationMetName) };
             }
-
             if (pokemonColor) {
-                return {'border-color': htmlColors[pokemon.color?.toLowerCase()] ?? 'red'}
+                return { 'border-color': htmlColors[pokemon.color?.toLowerCase() ?? 'red'] };
             }
-
             if (typeColor) {
-                const count = pokemon.translations.english.types.length
-                const type1 = this.getTypeColor(pokemon.translations.english.types[0])
-
+                const count = pokemon.translations.english.types.length;
+                const type1 = this.getTypeColor(pokemon.translations.english.types[0]);
                 if (count === 2) {
-                    const type2 = this.getTypeColor(pokemon.translations.english.types[1])
+                    const type2 = this.getTypeColor(pokemon.translations.english.types[1]);
                     return {
                         'background': 'linear-gradient(to right, ' + type1 + ' 50%, ' + type2 + ' 50%)',
                         'border-color': 'black'
-                    }
+                    };
                 }
                 return {
                     'background': type1,
                     'border-color': 'black'
-                }
+                };
             }
-
-            return {'border-color': 'black'}
+            return { 'border-color': 'black' };
         },
         healthBarPercent: function (pokemon) {
             if (pokemon.hp.max === pokemon.hp.current) {
-                return 100
+                return 100;
             }
-
-            return (100 / pokemon.hp.max) * pokemon.hp.current
+            return (100 / pokemon.hp.max) * pokemon.hp.current;
         },
         healthBarClass: function (pokemon) {
-            const percent = this.healthBarPercent(pokemon)
-
+            const percent = this.healthBarPercent(pokemon);
             if (percent === 0) {
-                return 'progress-bar grey'
+                return 'progress-bar grey';
             }
             if (percent <= 25) {
-                return 'progress-bar red'
+                return 'progress-bar red';
             }
             if (percent <= 50) {
-                return 'progress-bar yellow'
+                return 'progress-bar yellow';
             }
-
-            return 'progress-bar green'
+            return 'progress-bar green';
         },
         isBorderColorType: function () {
-            return clientSettings.params.get('typeColor') === 'true'
+            return clientSettings.params.getBool('typeColor', false);
         },
         getTypeColor: function (type) {
-            return V2.getTypeColor(type)
+            return V2.getTypeColor(type);
         },
         getStatusColor: function (status) {
-            return V2.getStatusColor(status)
+            return V2.getStatusColor(status);
         },
         string2Hex: function (str) {
-            return string2ColHex(str)
+            return string2ColHex(str);
         }
     },
     computed: {
         isMissingno() {
             if (this.pokemon.isEgg) {
-                return false
+                return false;
             }
-
-            return this.pokemon.species <= 0
+            return this.pokemon.species <= 0;
         },
         isMale() {
-            return !this.pokemon.isEgg && this.pokemon.gender === V2DataTypes.Gender.male
+            return !this.pokemon.isEgg && this.pokemon.gender === V2DataTypes.Gender.male;
         },
         isFemale() {
-            return !this.pokemon.isEgg && this.pokemon.gender === V2DataTypes.Gender.female
+            return !this.pokemon.isEgg && this.pokemon.gender === V2DataTypes.Gender.female;
         },
         isGenderless() {
-            return !this.pokemon.isEgg && this.pokemon.gender === V2DataTypes.Gender.genderless
+            return !this.pokemon.isEgg && this.pokemon.gender === V2DataTypes.Gender.genderless;
         },
         sprite() {
-            return V2.getSprite(this.pokemon)
+            return V2.getSprite(this.pokemon);
         },
         isHealthy() {
-            return this.pokemon.status === V2DataTypes.StatusEffect.healthy
+            return this.pokemon.status === V2DataTypes.StatusEffect.healthy;
         },
         statusImg() {
             switch (this.pokemon.status) {
                 case V2DataTypes.StatusEffect.healthy:
                 default:
-                    return ''
+                    return '';
                 case V2DataTypes.StatusEffect.poisoned:
-                    return 'PSN'
+                    return 'PSN';
                 case V2DataTypes.StatusEffect.asleep:
-                    return 'SLP'
+                    return 'SLP';
                 case V2DataTypes.StatusEffect.paralyzed:
-                    return 'PAR'
+                    return 'PAR';
                 case V2DataTypes.StatusEffect.frozen:
-                    return 'FRZ'
+                    return 'FRZ';
                 case V2DataTypes.StatusEffect.burned:
-                    return 'BRN'
+                    return 'BRN';
             }
-
-
         }
     }
-})
+});
+//# sourceMappingURL=pokemon-card.vue.js.map

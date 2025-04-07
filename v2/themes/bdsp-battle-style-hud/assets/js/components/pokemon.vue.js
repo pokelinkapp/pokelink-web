@@ -1,14 +1,14 @@
-import {defineComponent} from 'vue'
-import {clientSettings, V2, DataTypes} from 'pokelink'
-import female from './female.vue.js'
-import male from './male.vue.js'
-import pokeball from './pokeball.vue.js'
-import trimmedSprite from 'trimmedSprite'
-
+import { defineComponent } from 'vue';
+import { clientSettings, V2, V2DataTypes } from 'pokelink';
+import female from './female.vue.js';
+import male from './male.vue.js';
+import pokeball from './pokeball.vue.js';
+import trimmedSprite from 'trimmedSprite';
 export default defineComponent({
     template: `
-      <div :class="{ 'pokemon': true, 'opaque': !fixedSprite}" :style="{'opacity': opacity }" v-if="!isUndefined(pokemon)">
-        
+      <div :class="{ 'pokemon': true, 'opaque': !fixedSprite}" :style="{'opacity': opacity }"
+           v-if="!isUndefined(pokemon)">
+
         <div class="details" v-if="typeof pokemon == 'object'">
           <h2 class="name">
             {{ pokemon.nickname ?? pokemon.translations.locale.speciesName }}
@@ -21,7 +21,8 @@ export default defineComponent({
           <div class="hp">
             <h5>HP: </h5>
             <div class="bar">
-              <div class="health" :style="{ width: healthPercent }" :class="{ low: parseFloat(healthPercent) <= 50, critical: parseFloat(healthPercent) <= 15 }"></div>
+              <div class="health" :style="{ width: healthPercent }"
+                   :class="{ low: parseFloat(healthPercent) <= 50, critical: parseFloat(healthPercent) <= 15 }"></div>
             </div>
 
           </div>
@@ -40,13 +41,16 @@ export default defineComponent({
       </div>
     `,
     props: {
-        pokemon: {},
+        pokemon: {
+            type: Object,
+            required: true
+        },
         key: {}
     },
     data() {
         return {
             fixedSprite: true
-        }
+        };
     },
     components: {
         'female': female,
@@ -55,90 +59,87 @@ export default defineComponent({
         'trimmedSprite': trimmedSprite
     },
     mounted() {
-
     },
     computed: {
         pokemonExists() {
             if (!V2.isValidPokemon(this.pokemon)) {
-                return false
+                return false;
             }
-            return true
+            return true;
         },
         partner() {
-            return false
+            return false;
         },
         healthPercent() {
-            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%'
+            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%';
         },
         nickname() {
             if (!V2.isValidPokemon(this.pokemon)) {
-                return null
+                return null;
             }
-            return this.pokemon.nickname || this.pokemon.speciesName
+            return this.pokemon.nickname || this.pokemon.translations.english.speciesName;
         },
         sex() {
             switch (this.pokemon.gender) {
-                case DataTypes.Gender.male:
-                    return 'male'
-                case DataTypes.Gender.female:
-                    return 'female'
+                case V2DataTypes.Gender.male:
+                    return 'male';
+                case V2DataTypes.Gender.female:
+                    return 'female';
             }
-
-            return ''
+            return '';
         },
         ident() {
             if (!V2.isValidPokemon(this.pokemon)) {
-                return null
+                return null;
             }
-            return this.pokemon.species
+            return this.pokemon.species;
         },
         opacity() {
             if (!V2.isValidPokemon(this.pokemon)) {
-                return '1'
+                return '1';
             }
-            if (typeof this.fixedSprite === false) {
-                return ''
+            if (this.fixedSprite) {
+                return '';
             }
-            return ''
+            return '';
         },
         hasItem() {
             if (!V2.isValidPokemon(this.pokemon)) {
-                return false
+                return false;
             }
             if (typeof this.pokemon.heldItem === 'undefined') {
-                return false
+                return false;
             }
-            return this.pokemon.heldItem !== 0
+            return this.pokemon.heldItem !== 0;
         },
         selectedPokemon: {
             get: function () {
-                return this.nickname
+                return this.nickname;
             },
             set: function () {
-                this.$emit('change', this.nickname)
+                this.$emit('change', this.nickname);
             }
         },
         hideGender() {
-            return clientSettings.params.get('hideGender') === 'true'
+            return clientSettings.params.getBool('hideGender', false);
         },
         hideLevel() {
-            return clientSettings.params.get('hideLevel') === 'true'
+            return clientSettings.params.getBool('hideLevel', false);
         },
         experienceRemaining() {
             if (this.pokemon.expToNextLevel < this.pokemon.exp) {
-                return '0%'
+                return '0%';
             }
-            const expLeftInThisRange = this.pokemon.exp - this.pokemon.expToNextLevel
-
-            return (100 / this.pokemon.expToNextLevel) * expLeftInThisRange + '%'
+            const expLeftInThisRange = this.pokemon.exp - this.pokemon.expToNextLevel;
+            return (100 / this.pokemon.expToNextLevel) * expLeftInThisRange + '%';
         }
     },
     methods: {
         isUndefined(pokemon) {
-            return !V2.isValidPokemon(pokemon)
+            return !V2.isValidPokemon(pokemon);
         },
         getSprite(pokemon) {
-            return V2.getSprite(pokemon)
+            return V2.getSprite(pokemon);
         },
         getPokeballTopColor: function () {
             // if (!V2.isValidPokemon(this.pokemon)) { return '#C3C4C6'; }
@@ -158,8 +159,7 @@ export default defineComponent({
             // if (settings.pokeImg.staticColor !== false) {
             //     return normalizeColor(settings.pokeImg.staticColor, 100);
             // }
-
-            return 'white'
+            return 'white';
         },
         getPokeballBottomColor: function () {
             // if (settings.champion.colorPokeball !== true) { return '#C3C4C6'; }
@@ -186,9 +186,8 @@ export default defineComponent({
             //     if (settings.champion.colorBothSidesPokeball !== true) { return 'C3C4C6'; }
             //     return settings.pokeImg.staticColor;
             // }
-
-            return 'white'
+            return 'white';
         }
-
     }
-})
+});
+//# sourceMappingURL=pokemon.vue.js.map

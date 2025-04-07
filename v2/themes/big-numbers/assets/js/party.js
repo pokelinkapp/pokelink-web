@@ -1,14 +1,11 @@
-import {createApp} from 'vue'
-import {V2, clientSettings, updateSpriteTemplate} from 'pokelink'
-import list from './components/list.vue.js'
-
+import { createApp } from 'vue';
+import { V2, clientSettings, updateSpriteTemplate, isDefined } from 'pokelink';
+import list from './components/list.vue.js';
 export function pokemonTCGCardSets() {
-    let userDefinedSets = clientSettings.params.get('sets')
-
-    if (userDefinedSets !== null && userDefinedSets.length > 0) {
-        return userDefinedSets.split('|')
+    let userDefinedSets = clientSettings.params.getString('sets', '');
+    if (isDefined(userDefinedSets) && userDefinedSets.length > 0) {
+        return userDefinedSets.split('|');
     }
-
     return [
         'base1',
         'base2',
@@ -49,9 +46,8 @@ export function pokemonTCGCardSets() {
         'xy6',
         'xy7',
         'xy8'
-    ]
+    ];
 }
-
 (() => {
     createApp({
         components: {
@@ -62,25 +58,24 @@ export function pokemonTCGCardSets() {
                 connected: false,
                 loaded: false,
                 settings: {}
-            }
+            };
         },
         created: function () {
-            const vm = this
-            V2.initialize()
-
+            const vm = this;
+            V2.initialize();
             updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/heartgold-soulsilver/' +
                 '{{ifElse isShiny "shiny" "normal"}}' +
                 '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
                 '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
-                '{{addFemaleTag this "-f"}}.png')
-
+                '{{addFemaleTag this "-f"}}.png');
             V2.onConnect(() => {
-                vm.connected = true
-                this.loaded = true
-            })
-            this.settings = clientSettings
+                vm.connected = true;
+                this.loaded = true;
+            });
+            this.settings = clientSettings;
         },
         mounted: function () {
         }
-    }).mount('#party')
-})()
+    }).mount('#party');
+})();
+//# sourceMappingURL=party.js.map

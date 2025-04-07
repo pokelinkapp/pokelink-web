@@ -11,16 +11,25 @@ import {
     PokemonReviveSchema, PokemonSchema,
     Gender, StatusEffect
 } from './v2_pb.js'
-import * as V2DataTypes from './v2_pb.js'
 import {toJson} from '@bufbuild/protobuf'
-import {EventEmitter, Nullable, htmlColors, statusColors, typeColors, string2ColHex} from './global.js'
-import type {ClientSettings} from './global'
+import {
+    EventEmitter,
+    Nullable,
+    htmlColors,
+    statusColors,
+    typeColors,
+    string2ColHex,
+    ClientSettings,
+    ParamsManager,
+    isDefined
+} from './global.js'
+import * as V2DataTypes from './v2_pb.js'
 import Handlebars from 'handlebars'
 import collect from 'collect.js'
 
 export const clientSettings: ClientSettings = {
     debug: false,
-    params: new URLSearchParams(),
+    params: new ParamsManager(),
     host: 'localhost',
     port: 3000,
     users: [],
@@ -45,43 +54,23 @@ let client: Nullable<PokelinkClientBase> = null
 let events = new EventEmitter()
 
 function globalInitialize() {
-    clientSettings.params = new URLSearchParams(window.location.search)
+    clientSettings.host = clientSettings.params.getString('server', 'localhost')!
 
-    let value = clientSettings.params.get('server')
+    clientSettings.port = clientSettings.params.getNumber('port', 3000)
 
-    if (value !== null) {
-        clientSettings.host = value
+    let value = clientSettings.params.getString('users', '')!
+
+    if (value.indexOf(',') === -1) {
+        clientSettings.users = [value]
+    } else {
+        clientSettings.users = value.split(',')
     }
 
-    value = clientSettings.params.get('port')
+    clientSettings.debug = clientSettings.params.getBool('debug', false)
 
-    if (value !== null) {
-        let num = parseInt(value)
-        if (!isNaN(num)) {
-            if (num > 1000 && num < 65535) {
-                clientSettings.port = num
-            }
-        }
-    }
+    if (clientSettings.debug) {
 
-    value = clientSettings.params.get('users')
-
-    if (value !== null) {
-        if (value.indexOf(',') === -1) {
-            clientSettings.users = [value]
-        } else {
-            clientSettings.users = value.split(',')
-        }
-    }
-
-    value = clientSettings.params.get('debug')
-
-    if (value !== null) {
-        if (value === 'true') {
-            clientSettings.debug = true
-
-            console.debug('Pokelink library now running in debug mode')
-        }
+        console.debug('Pokelink library now running in debug mode')
     }
 }
 
@@ -187,4 +176,4 @@ export namespace V2 {
     }
 }
 
-export {htmlColors, statusColors, typeColors, V2DataTypes, EventEmitter, string2ColHex, collect}
+export {htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined}

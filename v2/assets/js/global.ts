@@ -3,8 +3,12 @@ import ColorHash from 'color-hash'
 
 export type Nullable<T> = T | undefined | null
 
-Handlebars.registerHelper('isDefined', function (value) {
+export function isDefined(value: Nullable<any>) {
     return value !== undefined && value !== null
+}
+
+Handlebars.registerHelper('isDefined', function (value) {
+    return isDefined(value)
 })
 
 Handlebars.registerHelper('ifElse', function (input: boolean, ifTrue: string, ifFalse: string) {
@@ -95,11 +99,57 @@ export class EventEmitter {
     }
 }
 
+export function isNumeric(str: string) {
+    return !isNaN(str as unknown as number) && !isNaN(parseFloat(str))
+}
+
+export class ParamsManager {
+    private params: URLSearchParams
+
+    constructor() {
+        this.params = new URLSearchParams(window.location.search)
+    }
+
+    public hasKey(key: string) {
+        return this.params.has(key)
+    }
+
+    public getString(key: string, _default?: string): string | undefined {
+        if (!this.hasKey(key)) {
+            return _default
+        }
+
+        return this.params.get(key)!
+    }
+
+    public getBool(key: string, _default: boolean = false) {
+        if (!this.hasKey(key)) {
+            return _default
+        }
+
+        return this.params.get(key)!.toLowerCase() === 'true'
+    }
+
+    public getNumber(key: string, _default: number = 1): number {
+        if (!this.hasKey(key)) {
+            return _default
+        }
+
+        let value = this.params.get(key)!
+
+        if (!isNumeric(value)) {
+            return _default
+        }
+
+        return Number(value)
+    }
+}
+
 export interface ClientSettings {
-    debug: boolean
-    params: URLSearchParams
-    host: string
-    port: number
+    debug: boolean,
+    params: ParamsManager,
+    host: string,
+    port: number,
     users: string[],
     spriteTemplate: HandlebarsTemplateDelegate
 }

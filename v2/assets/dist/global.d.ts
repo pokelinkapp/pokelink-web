@@ -1,4 +1,5 @@
 export type Nullable<T> = T | undefined | null;
+export declare function isDefined(value: Nullable<any>): boolean;
 export declare class EventEmitter {
     private events;
     hasEvents(event: string): boolean;
@@ -7,9 +8,18 @@ export declare class EventEmitter {
     emit(event: string, ...parameters: any[]): void;
     once(event: string, listener: (...parameters: any[]) => void): void;
 }
+export declare function isNumeric(str: string): boolean;
+export declare class ParamsManager {
+    private params;
+    constructor();
+    hasKey(key: string): boolean;
+    getString(key: string, _default?: string): string | undefined;
+    getBool(key: string, _default?: boolean): boolean;
+    getNumber(key: string, _default?: number): number;
+}
 export interface ClientSettings {
     debug: boolean;
-    params: URLSearchParams;
+    params: ParamsManager;
     host: string;
     port: number;
     users: string[];

@@ -1,7 +1,6 @@
-import {createApp} from 'vue'
-import {V2, clientSettings, updateSpriteTemplate} from 'pokelink'
-import list from './components/list.vue.js'
-
+import { createApp } from 'vue';
+import { V2, clientSettings } from 'pokelink';
+import list from './components/list.vue.js';
 (() => {
     createApp({
         components: {
@@ -12,19 +11,19 @@ import list from './components/list.vue.js'
                 connected: false,
                 loaded: false,
                 settings: {}
-            }
+            };
         },
         created: function () {
-            const vm = this
-            V2.initialize()
-
+            const vm = this;
+            V2.initialize();
             V2.onConnect(() => {
-                vm.connected = true
-                this.loaded = true
-            })
-            this.settings = clientSettings
+                vm.connected = true;
+                this.loaded = true;
+            });
+            this.settings = clientSettings;
         },
         mounted: function () {
         }
-    }).mount('#party')
-})()
+    }).mount('#party');
+})();
+//# sourceMappingURL=party.js.map

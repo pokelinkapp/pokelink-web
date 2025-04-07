@@ -1,5 +1,4 @@
-import {defineComponent} from 'vue'
-
+import { defineComponent } from 'vue';
 export default defineComponent({
     template: `
       <span class="arrow">
@@ -33,4 +32,5 @@ export default defineComponent({
             default: '#888'
         }
     }
-})
+});
+//# sourceMappingURL=arrow.vue.js.map

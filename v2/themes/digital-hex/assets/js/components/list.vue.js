@@ -1,7 +1,6 @@
-import {defineComponent} from 'vue'
-import {V2, clientSettings} from 'pokelink'
-import pokemon from './pokemon.vue.js'
-
+import { defineComponent } from 'vue';
+import { V2, clientSettings } from 'pokelink';
+import pokemon from './pokemon.vue.js';
 export default defineComponent({
     template: `
       <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
@@ -25,30 +24,27 @@ export default defineComponent({
             switchSpeed: 'switchMedium',
             flipped: false,
             horizontal: false
-        }
+        };
     },
     created: function () {
-        this.loaded = true
-        this.flipped = clientSettings.params.get('flipped') === 'true'
+        this.loaded = true;
     },
     mounted() {
-        let vm = this
+        let vm = this;
+        this.flipped = clientSettings.params.getBool('flipped', false);
         V2.handlePartyUpdates((party => {
-            vm.party = party
-            vm.$forceUpdate()
-        }))
+            vm.party = party;
+            vm.$forceUpdate();
+        }));
     },
-    methods: {
-        update(val) {
-        }
-    },
+    methods: {},
     computed: {
         partySlots() {
             return [...new Array(6).keys()]
-
                 .map(slot => {
-                    return this.party[slot] || {}
-                })
+                return this.party[slot] || {};
+            });
         }
     }
-})
+});
+//# sourceMappingURL=list.vue.js.map

@@ -1,8 +1,7 @@
-import {defineComponent} from 'vue'
-import {V2, clientSettings, collect} from 'pokelink'
-import pokemon from './pokemon.vue.js'
-import {pokemonTCGCardSets} from '../party.js'
-
+import { defineComponent } from 'vue';
+import { V2, clientSettings, collect, isDefined } from 'pokelink';
+import pokemon from './pokemon.vue.js';
+import { pokemonTCGCardSets } from '../party.js';
 export default defineComponent({
     template: `
       <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
@@ -27,66 +26,66 @@ export default defineComponent({
             switchSpeed: 'switchMedium',
             flipped: false,
             horizontal: false
-        }
+        };
     },
     created: function () {
-        this.loaded = true
-        this.flipped = clientSettings.params.get('flipped') === 'true'
+        this.loaded = true;
     },
     mounted() {
-        let vm = this
+        let vm = this;
+        this.flipped = clientSettings.params.getBool('flipped', false);
         V2.handlePartyUpdates((party => {
             if (this.flipped) {
-                party = party.reverse()
+                party = party.reverse();
             }
-
-            this.getArtInBatches(party).then(cards => {
+            this.getArtInBatches(party).then((cards) => {
                 for (let i = 0; i < party.length; i++) {
+                    if (!isDefined(party[i])) {
+                        continue;
+                    }
                     if (party[i].isEgg) {
-                        this.art[i] = 'https://images.pokemontcg.io/pl4/88_hires.png'
-                    } else {
+                        this.art[i] = 'https://images.pokemontcg.io/pl4/88_hires.png';
+                    }
+                    else {
                         try {
                             let cardImages = cards.flat().reduce((flat, item) => {
-                                return [...flat, ...item.cards]
-                            }, []).find(card => card.nationalPokedexNumber === party[i].species)
-
-                            this.art[i] = cardImages.imageUrl
-                        } catch (e) {
-                            console.log(`unknown image for ${party[i].translations.english.speciesName}`, e)
+                                return [...flat, ...item.cards];
+                            }, []).find((card) => card.nationalPokedexNumber === party[i].species);
+                            this.art[i] = cardImages.imageUrl;
+                        }
+                        catch (e) {
+                            console.log(`unknown image for ${party[i].translations.english.speciesName}`, e);
                             if (clientSettings.debug) {
-                                console.debug(cards.cards)
+                                console.debug(cards.cards);
                             }
                         }
                     }
-
                     if (i === party.length - 1) {
-                        vm.party = party
+                        vm.party = party;
                     }
                 }
-            })
-        }))
+            });
+        }));
     },
     methods: {
-        update(val) {
-        },
-        getArtInBatches (party) {
+        getArtInBatches(party) {
             let promises = collect(party)
                 .chunk(15)
-                .map(pokemonList => {
-                    let idList = pokemonList.map(mon => mon.species).join('|')
-                    return fetch(`https://api.pokemontcg.io/v1/cards?setCode=${pokemonTCGCardSets().join('|')}&supertype=pokemon&nationalPokedexNumber=${idList}`)
-                        .then(response => response.json())
-                })
-            return Promise.all(promises)
+                .map(async (pokemonList) => {
+                let idList = pokemonList.map(mon => mon?.species).join('|');
+                let response = await fetch(`https://api.pokemontcg.io/v1/cards?setCode=${pokemonTCGCardSets().join('|')}&supertype=pokemon&nationalPokedexNumber=${idList}`);
+                return await response.json();
+            });
+            return Promise.all(promises);
         }
     },
     computed: {
         partySlots() {
             return [...new Array(6).keys()]
-
                 .map(slot => {
-                    return this.party[slot] || {}
-                })
+                return this.party[slot] || {};
+            });
         }
     }
-})
+});
+//# sourceMappingURL=list.vue.js.map

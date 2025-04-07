@@ -7,7 +7,9 @@
     "type": "module",
     "scripts": {
         "prep": "yarn install",
-        "build": "yarn prep && yarn buf generate && yarn tsc && yarn webpack --config webpack.config.js"
+        "build:themes": "yarn build:core && yarn tsc -p ./themes/tsconfig.json",
+        "build:core": "yarn tsc -p ./assets/tsconfig.json && yarn webpack --config webpack.config.js",
+        "build": "yarn prep && yarn buf generate && yarn build:themes"
     },
     "dependencies": {
         "@bufbuild/buf": "^1.51.0",
@@ -21,6 +23,7 @@
         "run-script-os": "^1.1.6",
         "typescript": "^5.8.2",
         "vue": "^3.5.13",
+        "vue-tsc": "^2.2.8",
         "webpack": "^5.98.0",
         "webpack-cli": "^6.0.1"
     }

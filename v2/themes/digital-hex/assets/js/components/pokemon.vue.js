@@ -1,7 +1,6 @@
-import {defineComponent} from 'vue'
-import {V2, clientSettings, typeColors} from 'pokelink'
-import trimmedSprite from '../../../../../assets/components/trimmedSprite.vue.js'
-
+import { defineComponent } from 'vue';
+import { V2, clientSettings, typeColors, V2DataTypes } from 'pokelink';
+import trimmedSprite from 'trimmedSprite';
 export default defineComponent({
     template: `
       <div :style="mainStyle"
@@ -91,138 +90,129 @@ export default defineComponent({
         'trimmedSprite': trimmedSprite
     },
     props: {
-        pokemon: {},
+        pokemon: {
+            type: Object,
+            required: true
+        },
         key: {},
         stroke: {
             type: Number,
             default() {
-                return 10
+                return 10;
             }
         }
     },
     data() {
         return {
             loaded: false
-        }
+        };
     },
     created() {
-
     },
     methods: {
-        getSprite(pokemon) {
-            return V2.getSprite(this.pokemon)
+        getSprite() {
+            return V2.getSprite(this.pokemon);
         }
     },
     computed: {
         staggered() {
-            return (clientSettings.params.get('staggered') ?? 'true') === 'true'
+            return clientSettings.params.getBool('staggered', true);
         },
         isValid() {
-            return V2.isValidPokemon(this.pokemon)
+            return V2.isValidPokemon(this.pokemon);
         },
         dashOffset() {
             if (!this.isValid) {
-                return false
+                return false;
             }
-            if ((clientSettings.params.get('hideHPBar') ?? 'false') === 'true') {
-                return 0
+            if (clientSettings.params.getBool('hideHPBar', false)) {
+                return 0;
             }
-            return 600 - (this.healthPercent / 100 * 600)
+            return 600 - (this.healthPercent / 100 * 600);
         },
         healthPercent() {
             if (!this.isValid) {
-                return null
+                return 100;
             }
-            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current
+            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current;
         },
         isDead() {
             if (!this.isValid) {
-                return false
+                return false;
             }
-
-            return parseFloat(this.healthPercent) === 0
+            return this.pokemon.hp.current === 0;
         },
         level() {
             if (!this.isValid) {
-                return null
+                return null;
             }
-            return this.pokemon.level || '0'
+            return this.pokemon.level.toString() || '0';
         },
         nickname() {
             if (!this.isValid) {
-                return null
+                return null;
             }
-            return this.pokemon.nickname || this.pokemon.speciesName
+            return this.pokemon.nickname || this.pokemon.translations.locale.speciesName;
         },
         sex() {
-            return (this.pokemon.isGenderless ? '' : (this.pokemon.isFemale ? 'female' : 'male'))
+            return (this.pokemon.gender === V2DataTypes.Gender.genderless ? '' : (this.pokemon.gender === V2DataTypes.Gender.female ? 'female' : 'male'));
         },
         ident() {
             if (!this.isValid) {
-                return null
+                return null;
             }
-            return this.pokemon.pid
+            return this.pokemon.pid;
         },
         opacity() {
             if (!this.isValid) {
-                return '0.4'
+                return '0.4';
             }
-            return '1'
+            return '1';
         },
         hasItem() {
             if (!this.isValid) {
-                return false
+                return false;
             }
-            return this.pokemon.heldItem !== 0
+            return this.pokemon.heldItem !== 0;
         },
         sprite() {
-            return V2.getSprite(this.pokemon)
+            return V2.getSprite(this.pokemon);
         },
         mainStyle() {
             if (!this.isValid) {
-                return null
+                return null;
             }
             let styles = {
-                'opacity': this.opacity,
-            }
-
+                'opacity': this.opacity
+            };
             if (this.pokemon) {
-                styles = {...styles}//'background-image': 'linear-gradient(180deg, ' + this.settings.typeColors[primaryType] + ', white)'}
+                styles = { ...styles }; //'background-image': 'linear-gradient(180deg, ' + this.settings.typeColors[primaryType] + ', white)'}
             }
-
-            return styles
+            return styles;
         },
         borderColor() {
             if (!this.isValid) {
-                return '#7375ae'
+                return '#7375ae';
             }
-            return typeColors[this.pokemon.translations.english.types[0]]
+            return typeColors[this.pokemon.translations.english.types[0]];
         },
         nature() {
             if (!this.isValid) {
-                return ''
+                return '';
             }
             if (!this.pokemon.nature) {
-                return ''
+                return '';
             }
-
-            return this.pokemon.nature.charAt(0).toUpperCase() + this.pokemon.nature.slice(1)
+            return this.pokemon.translations.locale.natureName;
         },
-
         selectedPokemon: {
             get: function () {
-                return this.nickname
+                return this.nickname;
             },
             set: function () {
-                this.$emit('change', this.nickname)
-            }
-        }
-    },
-    watch: {
-        pokemon(oldPoke, newPoke) {
-            if (oldPoke.img !== newPoke.img) {
-                this.fixedSprite = false
+                this.$emit('change', this.nickname);
             }
         }
     }
 });
+//# sourceMappingURL=pokemon.vue.js.map

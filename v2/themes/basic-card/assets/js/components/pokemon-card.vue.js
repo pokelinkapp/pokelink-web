@@ -1,5 +1,5 @@
-import {defineComponent} from 'vue'
-
+import { defineComponent } from 'vue';
+import { V2 } from 'pokelink';
 export default defineComponent({
     template: `
       <div class="card has-text-weight-bold has-text-white">
@@ -43,56 +43,52 @@ export default defineComponent({
       </div>
     `,
     props: {
-        pokemon: {},
-        settings: {
-            hp: false
-        }
+        pokemon: {
+            type: Object,
+            required: true
+        },
+        settings: Object
     },
     methods: {
         useFallback() {
-            V2.useFallback(this.$refs.pokemonSprite, this.pokemon)
+            V2.useFallback(this.$refs.pokemonSprite, this.pokemon);
         }
     },
     computed: {
         healthPercent() {
-            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%'
+            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%';
         },
         heldItemImage() {
-            return `https://assets.pokelink.xyz/assets/sprites/items/gen7/${this.pokemon.heldItem}.png`
+            return `https://assets.pokelink.xyz/assets/sprites/items/gen7/${this.pokemon.heldItem}.png`;
         },
         isMissingno() {
             if (this.pokemon.isEgg) {
-                return false
+                return false;
             }
-
-            return this.pokemon.species <= 0
+            return this.pokemon.species <= 0;
         },
         imageTag() {
             if (this.pokemon.species === -1 || this.pokemon.isEgg === true) {
-                return this.pokemon.fallbackSprite
+                return this.pokemon.fallbackSprite;
             }
-
-            let name = this.pokemon.species
-
+            let name = this.pokemon.species.toString();
             if (this.pokemon.isShiny) {
-                name = (this.pokemon.species + 2000) + '-Shiny'
+                name = (this.pokemon.species + 2000) + '-Shiny';
             }
-
-            let englishFormName = this.pokemon.translations.english.formName
-
+            let englishFormName = this.pokemon.translations.english.formName;
             if (englishFormName !== null && englishFormName !== undefined && this.pokemon.form !== 0) {
                 // We use the fallback sprite due to pokemonpets having a very inconsistent image naming scheme
-                return this.pokemon.fallbackSprite
+                return this.pokemon.fallbackSprite;
             }
-
-            let imageTag = name + '-' + this.pokemon.translations.english.speciesName
+            let imageTag = name + '-' + this.pokemon.translations.english.speciesName;
             if (this.pokemon.species === 29) {
-                imageTag = name + '-nidoran_F'
-            } else if (this.pokemon.species === 32) {
-                imageTag = name + '-nidoran'
+                imageTag = name + '-nidoran_F';
             }
-
-            return 'https://static.pokemonpets.com/images/monsters-images-300-300/' + imageTag + '.png'
+            else if (this.pokemon.species === 32) {
+                imageTag = name + '-nidoran';
+            }
+            return 'https://static.pokemonpets.com/images/monsters-images-300-300/' + imageTag + '.png';
         }
     }
-})
+});
+//# sourceMappingURL=pokemon-card.vue.js.map
