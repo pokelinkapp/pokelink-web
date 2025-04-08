@@ -30,12 +30,13 @@ Handlebars.registerHelper('noSpaces', function (str: string) {
 Handlebars.registerHelper('nidoranGender', function (str: string, maleTag?: string, femaleTag?: string) {
     if (str?.toLowerCase().startsWith('nidoran') === true) {
         let text = str.substring(0, 7)
+        let check = str.substring(0, 10)
 
-        if (str.indexOf('♀') !== -1 && femaleTag !== undefined) {
+        if ((check.indexOf('♀') !== -1|| check.toLowerCase().endsWith('-f')) && isDefined(femaleTag)) {
             text += femaleTag
         }
 
-        if (str.indexOf('♂') !== -1 && maleTag !== undefined) {
+        if ((check.indexOf('♂') !== -1 || check.toLowerCase().endsWith('-m')) && isDefined(maleTag)) {
             text += maleTag
         }
 
@@ -151,6 +152,7 @@ export interface ClientSettings {
     host: string,
     port: number,
     users: string[],
+    useFallbackSprites: boolean,
     spriteTemplate: HandlebarsTemplateDelegate
 }
 

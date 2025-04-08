@@ -33,6 +33,7 @@ export const clientSettings: ClientSettings = {
     host: 'localhost',
     port: 3000,
     users: [],
+    useFallbackSprites: false,
     spriteTemplate: Handlebars.compile('https://assets.pokelink.xyz/assets/sprites/pokemon/home/' +
         '{{ifElse isShiny "shiny" "normal"}}' +
         '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
@@ -161,6 +162,17 @@ export namespace V2 {
     }
 
     export function getSprite(pokemon: Pokemon) {
+        if (clientSettings.useFallbackSprites) {
+            return pokemon.fallbackSprite
+        }
+        return clientSettings.spriteTemplate(pokemon)
+    }
+
+    export function getPartySprite(pokemon: Pokemon) {
+        if (clientSettings.useFallbackSprites) {
+            return pokemon.fallbackPartySprite
+        }
+
         return clientSettings.spriteTemplate(pokemon)
     }
 
@@ -174,6 +186,18 @@ export namespace V2 {
         }
 
         img.src = pokemon.fallbackSprite!
+    }
+
+    export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon) {
+        if (img.src === pokemon.fallbackPartySprite || !isDefined(pokemon.fallbackPartySprite)) {
+            return
+        }
+
+        if (clientSettings.debug) {
+            console.debug(`${img.src} encountered an error. Falling back to ${pokemon.fallbackPartySprite}`)
+        }
+
+        img.src = pokemon.fallbackPartySprite!
     }
 
     export function getTypeColor(englishType: string) {

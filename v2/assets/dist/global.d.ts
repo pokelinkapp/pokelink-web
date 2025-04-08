@@ -23,6 +23,7 @@ export interface ClientSettings {
     host: string;
     port: number;
     users: string[];
+    useFallbackSprites: boolean;
     spriteTemplate: HandlebarsTemplateDelegate;
 }
 export declare let indexOf: (haystack: Array<any>, needle: any) => number;

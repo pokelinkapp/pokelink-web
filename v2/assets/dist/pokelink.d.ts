@@ -12,8 +12,10 @@ export declare namespace V2 {
     function handleRevive(handler: (pokemon: Pokemon) => void): void;
     function onConnect(handler: () => void): void;
     function isValidPokemon(pokemon: Nullable<Pokemon>): boolean;
-    function getSprite(pokemon: Pokemon): string;
+    function getSprite(pokemon: Pokemon): string | undefined;
+    function getPartySprite(pokemon: Pokemon): string | undefined;
     function useFallback(img: HTMLImageElement, pokemon: Pokemon): void;
+    function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon): void;
     function getTypeColor(englishType: string): string;
     function getStatusColor(englishStatus: string): string;
 }

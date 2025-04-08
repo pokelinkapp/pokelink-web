@@ -98,21 +98,22 @@ message Pokemon {
 
   optional string color = 14;
   optional string fallbackSprite = 15;
-  optional string nickname = 16;
-  optional uint32 heldItem = 17;
-  optional Gender gender = 18;
-  optional uint32 form = 19;
-  optional bool isEgg = 20;
-  optional uint32 hiddenPower = 21;
-  optional uint32 nature = 22;
-  optional bool isShiny = 23;
-  optional uint32 pokeball = 24;
-  optional uint32 friendship = 25;
-  optional uint32 ability = 26;
-  optional Pokerus pokerus = 27;
-  optional uint32 locationMet = 28;
-  optional uint32 levelMet = 29;
-  optional GraveMeta graveyardMeta = 30;
+  optional string fallbackPartySprite = 16;
+  optional string nickname = 17;
+  optional uint32 heldItem = 18;
+  optional Gender gender = 19;
+  optional uint32 form = 20;
+  optional bool isEgg = 21;
+  optional uint32 hiddenPower = 22;
+  optional uint32 nature = 23;
+  optional bool isShiny = 24;
+  optional uint32 pokeball = 25;
+  optional uint32 friendship = 26;
+  optional uint32 ability = 27;
+  optional Pokerus pokerus = 28;
+  optional uint32 locationMet = 29;
+  optional uint32 levelMet = 30;
+  optional GraveMeta graveyardMeta = 31;
 }
 
 message PokemonTranslations {
