@@ -92,8 +92,9 @@ function globalInitialize(numberOfPlayers: number = 1) {
             console.error('The following users will not be updated due to not fitting in the theme:', clientSettings.users)
         }
         clientSettings.users = newList
-        console.log(clientSettings.users)
     }
+
+    clientSettings.useFallbackSprites = clientSettings.params.getBool('useLocalSprites', false)
 }
 
 export namespace V2 {

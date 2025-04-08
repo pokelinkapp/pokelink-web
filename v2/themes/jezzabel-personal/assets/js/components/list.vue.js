@@ -3,11 +3,11 @@ import { V2, clientSettings } from 'pokelink';
 import pokemon from './pokemon.vue.js';
 export default defineComponent({
     template: `
-      <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
+      <div style="display: none" :class="{ 'browser-connected' : true, 'darkMode': darkMode }" class="pokes">
         <transition-group :name="switchSpeed" tag="div"
                           :class="['pokemon__list', {'flipped': flipped}]"
                           v-if="loaded">
-          <pokemon v-for="( poke, idx ) in partySlots" :slotId="idx + 1" v-if="isValid(poke)" :key="poke?.pid" :pokemon="poke">
+          <pokemon v-for="( poke, idx ) in party" :slotId="idx + 1" :key="poke?.pid" :pokemon="poke">
           </pokemon>
         </transition-group>
       </div>
@@ -43,11 +43,8 @@ export default defineComponent({
         }
     },
     computed: {
-        partySlots() {
-            return [...new Array(6).keys()]
-                .map(slot => {
-                return this.party[slot] || {};
-            });
+        darkMode() {
+            return clientSettings.params.getBool('darkMode', false);
         }
     }
 });

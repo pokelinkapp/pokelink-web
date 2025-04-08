@@ -96,8 +96,7 @@ export default defineComponent({
             return V2.getSprite(this.pokemon);
         },
         experienceRemaining() {
-            const expLeftInThisRange = this.pokemon.exp - this.pokemon.expToNextLevel;
-            return (100 / this.pokemon.expToNextLevel) * expLeftInThisRange + '%';
+            return `${this.pokemon.expPercentage}%`;
         },
         statusClass() {
             if (!V2.isValidPokemon(this.pokemon)) {

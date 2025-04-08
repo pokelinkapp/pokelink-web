@@ -12,7 +12,7 @@
         */
     }
 
-    @font-face{font-family:PokemonGB;src:url("/assets/fonts/Pokemon%20GB.ttf")}
+    @font-face{font-family:PokemonGB;src:url("/assets/fonts/Pokemon GB.ttf")}
     .text { font-family: PokemonGB; }
 
     .party_row {

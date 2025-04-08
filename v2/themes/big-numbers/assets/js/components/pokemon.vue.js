@@ -177,11 +177,7 @@ export default defineComponent({
             return this.pokemon.heldItem !== 0;
         },
         experienceRemaining() {
-            if (this.pokemon.expToNextLevel < this.pokemon.exp || !V2.isValidPokemon(this.pokemon)) {
-                return '0%';
-            }
-            const expLeftInThisRange = this.pokemon.exp - this.pokemon.expToNextLevel;
-            return (100 / this.pokemon.expToNextLevel) * expLeftInThisRange + '%';
+            return `${this.pokemon.expPercentage}%`;
         },
         mainStyle() {
             let styles = {

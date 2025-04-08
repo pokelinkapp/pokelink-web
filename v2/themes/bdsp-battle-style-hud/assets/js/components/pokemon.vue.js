@@ -125,11 +125,7 @@ export default defineComponent({
             return clientSettings.params.getBool('hideLevel', false);
         },
         experienceRemaining() {
-            if (this.pokemon.expToNextLevel < this.pokemon.exp) {
-                return '0%';
-            }
-            const expLeftInThisRange = this.pokemon.exp - this.pokemon.expToNextLevel;
-            return (100 / this.pokemon.expToNextLevel) * expLeftInThisRange + '%';
+            return `${this.pokemon.expPercentage}%`;
         }
     },
     methods: {
