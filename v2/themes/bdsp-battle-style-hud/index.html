@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
 </head>
 <body>
-<div id="party" :data-user="settings.users[0]">
+<div id="party">
     <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
         <transition-group :name="switchSpeed" tag="div" class="pokemon__list" v-if="loaded">
             <pokemon v-for="poke in party"

@@ -53,7 +53,16 @@ let client: Nullable<PokelinkClientBase> = null
 
 let events = new EventEmitter()
 
-function globalInitialize() {
+function globalInitialize(numberOfPlayers: number = 1) {
+    if (numberOfPlayers < 1) {
+        numberOfPlayers = 1
+    }
+    clientSettings.debug = clientSettings.params.getBool('debug', false)
+
+    if (clientSettings.debug) {
+        console.debug('Pokelink library now running in debug mode')
+    }
+
     clientSettings.host = clientSettings.params.getString('server', 'localhost')!
 
     clientSettings.port = clientSettings.params.getNumber('port', 3000)
@@ -66,17 +75,29 @@ function globalInitialize() {
         clientSettings.users = value.split(',')
     }
 
-    clientSettings.debug = clientSettings.params.getBool('debug', false)
+    if (numberOfPlayers < clientSettings.users.length) {
+        let newList = []
 
-    if (clientSettings.debug) {
+        for (let i = 0; i < numberOfPlayers && i < clientSettings.users.length; i++) {
+            if (clientSettings.users[0] === undefined) {
+                i--
+                clientSettings.users.shift()
+                continue
+            }
+            newList.push(clientSettings.users.shift()!)
+        }
 
-        console.debug('Pokelink library now running in debug mode')
+        if (newList.length <= numberOfPlayers) {
+            console.error('The following users will not be updated due to not fitting in the theme:', clientSettings.users)
+        }
+        clientSettings.users = newList
+        console.log(clientSettings.users)
     }
 }
 
 export namespace V2 {
-    export function initialize() {
-        globalInitialize()
+    export function initialize(numberOfPlayers: number = 1) {
+        globalInitialize(numberOfPlayers)
         Handlebars.registerHelper('addFemaleTag', function (pokemon: Pokemon, femaleTag: string) {
             return pokemon.gender === Gender.female && pokemon.hasFemaleSprite ? femaleTag : ''
         })
