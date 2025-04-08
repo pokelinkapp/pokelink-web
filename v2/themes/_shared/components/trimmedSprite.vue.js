@@ -9,6 +9,8 @@ export default defineComponent({
             @load="trim"
             class="sprite"
             style="transform: scale(0.8); bottom: 0px; visibility: hidden"
+            ref="spriteImg"
+            @error="handleFallback"
         />
         <img
             v-if="!isGif && !pokemon.isEgg && !fixedSprite"
@@ -16,6 +18,8 @@ export default defineComponent({
             class="sprite"
             @load="trim"
             style="visibility: hidden"
+            ref="spriteImg"
+            @error="handleFallback"
         />
         <canvas
             v-if="!isGif"
@@ -31,10 +35,13 @@ export default defineComponent({
             :src="sprite"
             :style="{'opacity': (fixedSprite || isGif ? '1' : '0')}"
             :key="'gif-' + sprite"
+            ref="spriteImg"
+            @error="handleFallback"
         >
       </div>`,
     props: {
         pokemon: {
+            type: Object,
             required: true
         },
         getSprite: {
@@ -59,6 +66,9 @@ export default defineComponent({
         }
     },
     methods: {
+        handleFallback() {
+            V2.useFallback(this.$refs.spriteImg, this.pokemon);
+        },
         trim() {
             if (this.oldImage === this.sprite) {
                 this.fixedSprite = true;
@@ -68,6 +78,9 @@ export default defineComponent({
             let vm = this;
             const img = new Image();
             img.crossOrigin = 'Anonymous';
+            img.onerror = () => {
+                V2.useFallback(img, this.pokemon);
+            };
             img.onload = () => {
                 const canvas = vm.$refs.canvas;
                 const ctx = canvas.getContext('2d', {

@@ -3,7 +3,6 @@ import {clientSettings, V2, V2DataTypes} from 'pokelink'
 import female from './female.vue.js'
 import male from './male.vue.js'
 import pokeball from './pokeball.vue.js'
-import trimmedSprite from 'trimmedSprite'
 import {Pokemon} from 'v2Proto'
 
 export default defineComponent({
@@ -57,8 +56,7 @@ export default defineComponent({
     components: {
         'female': female,
         'male': male,
-        'pokeball': pokeball,
-        'trimmedSprite': trimmedSprite
+        'pokeball': pokeball
     },
     mounted() {
 

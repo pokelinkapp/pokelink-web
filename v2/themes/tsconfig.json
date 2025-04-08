@@ -19,9 +19,6 @@
             ],
             "v2Proto": [
                 "../assets/dist/v2_pb"
-            ],
-            "trimmedSprite": [
-                "_shared/components/trimmedSprite.vue"
             ]
         }
     },

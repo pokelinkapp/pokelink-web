@@ -10,7 +10,7 @@ export default defineComponent({
         <transition-group :name="switchSpeed" tag="div"
                           :class="['pokemon__list', {'flipped': flipped, 'horizontal': horizontal}]"
                           v-if="loaded">
-          <pokemon v-for="( poke, idx ) in partySlots" :slotId="idx + 1" :key="'slot' + idx" :pokemon="poke">
+          <pokemon v-for="( poke, idx ) in partySlots" :slotId="idx + 1" :key="poke.pid" :pokemon="poke">
           </pokemon>
         </transition-group>
       </div>

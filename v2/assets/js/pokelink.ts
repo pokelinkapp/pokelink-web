@@ -144,7 +144,7 @@ export namespace V2 {
     }
 
     export function useFallback(img: HTMLImageElement, pokemon: Pokemon) {
-        if (img.src === pokemon.fallbackSprite || pokemon.fallbackSprite === undefined || pokemon.fallbackSprite === null) {
+        if (img.src === pokemon.fallbackSprite || !isDefined(pokemon.fallbackSprite)) {
             return
         }
 

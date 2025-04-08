@@ -1,6 +1,6 @@
 import { defineComponent } from 'vue';
 import { V2, clientSettings, typeColors, V2DataTypes } from 'pokelink';
-import trimmedSprite from 'trimmedSprite';
+import trimmedSprite from '../../../../_shared/components/trimmedSprite.vue.js';
 export default defineComponent({
     template: `
       <div :style="mainStyle"

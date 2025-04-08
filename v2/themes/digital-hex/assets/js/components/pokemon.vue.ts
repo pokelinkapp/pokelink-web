@@ -1,6 +1,6 @@
 import {defineComponent, PropType} from 'vue'
 import {V2, clientSettings, typeColors, V2DataTypes} from 'pokelink'
-import trimmedSprite from 'trimmedSprite'
+import trimmedSprite from '../../../../_shared/components/trimmedSprite.vue.js'
 import type {Pokemon} from 'v2Proto'
 
 export default defineComponent({
