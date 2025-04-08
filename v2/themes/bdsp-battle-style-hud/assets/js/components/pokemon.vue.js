@@ -43,8 +43,7 @@ export default defineComponent({
         pokemon: {
             type: Object,
             required: true
-        },
-        key: {}
+        }
     },
     data() {
         return {

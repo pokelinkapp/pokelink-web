@@ -28,6 +28,7 @@ export interface ClientSettings {
 }
 export declare let indexOf: (haystack: Array<any>, needle: any) => number;
 export declare function string2ColHex(input: string): string;
+export declare function hex2rgba(hex: string, opacity: number): string;
 export declare const typeColors: {
     [key: string]: string;
 };

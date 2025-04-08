@@ -185,6 +185,15 @@ export function string2ColHex(input: string) {
     return colorHash.hex(input)
 }
 
+export function hex2rgba(hex: string, opacity: number) {
+    hex = hex.replace('#','');
+    let r = parseInt(hex.substring(0,2), 16);
+    let g = parseInt(hex.substring(2,4), 16);
+    let b = parseInt(hex.substring(4,6), 16);
+
+    return 'rgba('+r+','+g+','+b+','+opacity/100+')';
+}
+
 export const typeColors: { [key: string]: string } = {
     'Bug': '#a8b820', 'Dark': '#c02020', 'Dragon': '#7038f8',
     'Electric': '#f8d030', 'Fairy': '#ee99ac', 'Fighting': '#c03028',

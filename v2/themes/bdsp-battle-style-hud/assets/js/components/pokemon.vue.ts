@@ -45,8 +45,7 @@ export default defineComponent({
         pokemon: {
             type: Object as PropType<Pokemon>,
             required: true
-        },
-        key: {}
+        }
     },
     data() {
         return {

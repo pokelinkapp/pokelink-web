@@ -21,7 +21,8 @@ import {
     string2ColHex,
     ClientSettings,
     ParamsManager,
-    isDefined
+    isDefined,
+    hex2rgba
 } from './global.js'
 import * as V2DataTypes from './v2_pb.js'
 import Handlebars from 'handlebars'
@@ -222,4 +223,4 @@ export namespace V2 {
     }
 }
 
-export {htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined}
+export {htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined, hex2rgba}
