@@ -9,6 +9,8 @@ interface SpriteDexItem {
     hasFemaleSprite: boolean,
     gender: 'genderless' | 'male' | 'female',
     isShiny: boolean,
+    fallbackSprite: string,
+    fallbackPartySprite: string,
     translations: {
         english: { speciesName: string; formName: Nullable<string> };
         locale: { speciesName: string; formName: Nullable<string> }
@@ -51,21 +53,22 @@ interface SpriteDexItem {
               </div>
               <div>
                 <div class="text-2xl">Testing ({{ entries.length - results.filter(x => hasValue(x)).length }})</div>
-                <div class="text-2xl text-green-500">Success ({{ results.filter(x => x === true).length }})</div>
-                <div class="text-2xl text-red-500">Failed ({{ results.filter(x => x === false).length }})</div>
+                <div class="text-2xl text-green-500">Success ({{ results.filter(x => x === 2).length }})</div>
+                <div class="text-2xl text-yellow-500">Fallback ({{ results.filter(x => x === 1).length }})</div>
+                <div class="text-2xl text-red-500">Failed ({{ results.filter(x => x === 0).length }})</div>
                 <hr class="mb-3"/>
               </div>
             </div>
             <div id="entries" class="overflow-y-auto overflow-x-hidden flex-1">
               <div class="flex w-screen flex-wrap">
                 <div class="flex-col text-center"
-                     :class="{'text-red-500': results[idx] === false, 'text-green-500': results[idx] === true}"
+                     :class="{'text-red-500': results[idx] === 0, 'text-yellow-500': results[idx] === 1, 'text-green-500': results[idx] === 2}"
                      style="width: 200px; height: 200px" v-for="(entry, idx) in entries">
                   <div class="flex justify-center">
-                    <img :title="template(entry)"
-                         :class="{'border-red-500': results[idx] === false, 'border-green-500': results[idx] === true}"
-                         class="border" style="height: 100px; width: 100px;" :src="template(entry)"
-                         @load="() => handleSuccess(idx)" :key="idx" @error="() => handleError(idx)"/>
+                    <img :title="'Expected: ' + template(entry)"
+                         :class="{'border-red-500': results[idx] === 0, 'border-yellow-500': results[idx] === 1, 'border-green-500': results[idx] === 2}"
+                         class="border" style="height: 100px; width: 100px;" :src="hasValue(results[idx]) && results[idx] !== 2 ? entries[idx].fallbackSprite : template(entry)"
+                         @load="() => handleSuccess(idx)" :key="idx" @error="() => handleError(idx, this)"/>
                   </div>
                   <div>{{ entry.translations.locale.speciesName }} / {{ entry.translations.english.speciesName }}</div>
                   <div>#{{ entry.species }}</div>
@@ -135,7 +138,7 @@ interface SpriteDexItem {
                     'locationMet': 0
                 } as unknown as Pokemon,
                 entries: [] as SpriteDexItem[],
-                results: [] as Nullable<boolean>[],
+                results: [] as Nullable<0 | 1 | 2>[],
                 enableShiny: true
             }
         },
@@ -176,10 +179,23 @@ interface SpriteDexItem {
                 }
             },
             handleSuccess(i: number) {
-                this.results[i] = true
+                if (this.hasValue(this.results[i])) {
+                    return
+                }
+                this.results[i] = 2
             },
-            handleError(i: number) {
-                this.results[i] = false
+            handleError(i: number, img: HTMLImageElement) {
+                if (img.src === this.entries[i].fallbackSprite && this.hasValue(this.results[i])) {
+                    this.results[i] = 0
+                    return
+                }
+
+                if (this.hasValue(this.results[i])) {
+                    return
+                }
+
+                this.results[i] = 1
+                img.src = this.entries[i].fallbackSprite
             },
             hasValue(idx?: any){
                 return isDefined(idx)

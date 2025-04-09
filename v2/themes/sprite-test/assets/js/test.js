@@ -36,25 +36,26 @@ import { homeSpriteTemplate, Handlebars, clientSettings, spriteTestInitialize, i
               </div>
               <div>
                 <div class="text-2xl">Testing ({{ entries.length - results.filter(x => hasValue(x)).length }})</div>
-                <div class="text-2xl text-green-500">Success ({{ results.filter(x => x === true).length }})</div>
-                <div class="text-2xl text-red-500">Failed ({{ results.filter(x => x === false).length }})</div>
+                <div class="text-2xl text-green-500">Success ({{ results.filter(x => x === 2).length }})</div>
+                <div class="text-2xl text-yellow-500">Fallback ({{ results.filter(x => x === 1).length }})</div>
+                <div class="text-2xl text-red-500">Failed ({{ results.filter(x => x === 0).length }})</div>
                 <hr class="mb-3"/>
               </div>
             </div>
             <div id="entries" class="overflow-y-auto overflow-x-hidden flex-1">
               <div class="flex w-screen flex-wrap">
                 <div class="flex-col text-center"
-                     :class="{'text-red-500': results[idx] === false, 'text-green-500': results[idx] === true}"
+                     :class="{'text-red-500': results[idx] === 0, 'text-yellow-500': results[idx] === 1, 'text-green-500': results[idx] === 2}"
                      style="width: 200px; height: 200px" v-for="(entry, idx) in entries">
                   <div class="flex justify-center">
-                    <img :title="template(entry)"
-                         :class="{'border-red-500': results[idx] === false, 'border-green-500': results[idx] === true}"
-                         class="border" style="height: 100px; width: 100px;" :src="template(entry)"
-                         @load="() => handleSuccess(idx)" :key="idx" @error="() => handleError(idx)"/>
+                    <img :title="'Expected: ' + template(entry)"
+                         :class="{'border-red-500': results[idx] === 0, 'border-yellow-500': results[idx] === 1, 'border-green-500': results[idx] === 2}"
+                         class="border" style="height: 100px; width: 100px;" :src="hasValue(results[idx]) && results[idx] !== 2 ? entries[idx].fallbackSprite : template(entry)"
+                         @load="() => handleSuccess(idx)" :key="idx" @error="() => handleError(idx, this)"/>
                   </div>
                   <div>{{ entry.translations.locale.speciesName }} / {{ entry.translations.english.speciesName }}</div>
                   <div>#{{ entry.species }}</div>
-                  <div v-if="entry.hasFemaleSprite && entry.gender === 1">Female</div>
+                  <div v-if="entry.hasFemaleSprite && entry.gender === 'female'">Female</div>
                   <div v-if="hasValue(entry.translations.english.formName)">{{ entry.translations.locale.formName }} /
                     {{ entry.translations.english.formName }}
                   </div>
@@ -160,10 +161,21 @@ import { homeSpriteTemplate, Handlebars, clientSettings, spriteTestInitialize, i
                 }
             },
             handleSuccess(i) {
-                this.results[i] = true;
+                if (this.hasValue(this.results[i])) {
+                    return;
+                }
+                this.results[i] = 2;
             },
-            handleError(i) {
-                this.results[i] = false;
+            handleError(i, img) {
+                if (img.src === this.entries[i].fallbackSprite && this.hasValue(this.results[i])) {
+                    this.results[i] = 0;
+                    return;
+                }
+                if (this.hasValue(this.results[i])) {
+                    return;
+                }
+                this.results[i] = 1;
+                img.src = this.entries[i].fallbackSprite;
             },
             hasValue(idx) {
                 return isDefined(idx);
@@ -172,7 +184,7 @@ import { homeSpriteTemplate, Handlebars, clientSettings, spriteTestInitialize, i
                 try {
                     const result = this.template(this.examplePokemon);
                     this.templateError = false;
-                    return `Example: ${result}`;
+                    return `Example output: ${result}`;
                 }
                 catch (e) {
                     this.templateError = true;
