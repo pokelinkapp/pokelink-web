@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Sprite Tester</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body class="dark bg-gray-800 text-white">
+<div id="test"></div>
+<script type="importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+        "pokelink": "../../assets/dist/pokelink.js"
+      }
+    }
+</script>
+<script type="module" src="./assets/js/test.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-139026483-5"></script>
+<script>
+    window.dataLayer = window.dataLayer || []
+
+    function gtag() {
+        dataLayer.push(arguments)
+    }
+
+    gtag('js', new Date())
+
+    gtag('config', 'UA-139026483-5')
+</script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 import Handlebars from 'handlebars'
 import ColorHash from 'color-hash'
+import {Gender, Pokemon} from './v2_pb.js'
 
 export type Nullable<T> = T | undefined | null
 
@@ -32,7 +33,7 @@ Handlebars.registerHelper('nidoranGender', function (str: string, maleTag?: stri
         let text = str.substring(0, 7)
         let check = str.substring(0, 10)
 
-        if ((check.indexOf('♀') !== -1|| check.toLowerCase().endsWith('-f')) && isDefined(femaleTag)) {
+        if ((check.indexOf('♀') !== -1 || check.toLowerCase().endsWith('-f')) && isDefined(femaleTag)) {
             text += femaleTag
         }
 
@@ -44,6 +45,10 @@ Handlebars.registerHelper('nidoranGender', function (str: string, maleTag?: stri
     }
 
     return str
+})
+
+Handlebars.registerHelper('addFemaleTag', function (pokemon: Pokemon, femaleTag: string) {
+    return pokemon.gender === Gender.female && pokemon.hasFemaleSprite ? femaleTag : ''
 })
 
 export class EventEmitter {

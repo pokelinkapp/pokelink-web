@@ -28,6 +28,12 @@ import * as V2DataTypes from './v2_pb.js'
 import Handlebars from 'handlebars'
 import collect from 'collect.js'
 
+export const homeSpriteTemplate = 'https://assets.pokelink.xyz/assets/sprites/pokemon/home/' +
+    '{{ifElse isShiny "shiny" "normal"}}' +
+    '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
+    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+    '{{addFemaleTag this "-f"}}.png'
+
 export const clientSettings: ClientSettings = {
     debug: false,
     params: new ParamsManager(),
@@ -35,11 +41,7 @@ export const clientSettings: ClientSettings = {
     port: 3000,
     users: [],
     useFallbackSprites: false,
-    spriteTemplate: Handlebars.compile('https://assets.pokelink.xyz/assets/sprites/pokemon/home/' +
-        '{{ifElse isShiny "shiny" "normal"}}' +
-        '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
-        '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
-        '{{addFemaleTag this "-f"}}.png')
+    spriteTemplate: Handlebars.compile(homeSpriteTemplate)
 }
 
 export function updateSpriteTemplate(template: string) {
@@ -98,12 +100,13 @@ function globalInitialize(numberOfPlayers: number = 1) {
     clientSettings.useFallbackSprites = clientSettings.params.getBool('useLocalSprites', false)
 }
 
+export function spriteTestInitialize() {
+    globalInitialize()
+}
+
 export namespace V2 {
     export function initialize(numberOfPlayers: number = 1) {
         globalInitialize(numberOfPlayers)
-        Handlebars.registerHelper('addFemaleTag', function (pokemon: Pokemon, femaleTag: string) {
-            return pokemon.gender === Gender.female && pokemon.hasFemaleSprite ? femaleTag : ''
-        })
         client = new PokelinkClientV2()
 
         client.events.on('connect', () => {
@@ -223,4 +226,4 @@ export namespace V2 {
     }
 }
 
-export {htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined, hex2rgba}
+export {htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined, hex2rgba, Handlebars, Nullable}
