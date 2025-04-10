@@ -58,16 +58,19 @@ export default defineComponent({
     },
     methods: {
         styleBorder(pokemon: Pokemon) {
-            const routeColor = clientSettings.params.getBool('routeColor', true)
-            const pokemonColor = clientSettings.params.getBool('pokemonColor', false)
-            const typeColor = clientSettings.params.getBool('typeColor', false)
+            const color = clientSettings.params.getString('color', 'route')!.toLowerCase()
+            const routeColor = color === 'route'
+            const pokemonColor = color === 'pokemon'
+            const typeColor = clientSettings.params.getBool('typeBackground', false)
+
+            let styles: {} = {}
 
             if (routeColor && isDefined(pokemon.translations?.locale?.locationMetName)) {
-                return {'border-color': this.string2Hex(pokemon.translations!.locale!.locationMetName!)}
+                styles = {...styles, 'border-color': this.string2Hex(pokemon.translations!.locale!.locationMetName!)}
             }
 
             if (pokemonColor) {
-                return {'border-color': htmlColors[pokemon.color?.toLowerCase() ?? 'red']}
+                styles = {...styles, 'border-color': htmlColors[pokemon.color?.toLowerCase() ?? 'red']}
             }
 
             if (typeColor) {
@@ -76,18 +79,17 @@ export default defineComponent({
 
                 if (count === 2) {
                     const type2 = this.getTypeColor(pokemon.translations!.english!.types[1])
-                    return {
+                    styles = {...styles,
                         'background': 'linear-gradient(to right, ' + type1 + ' 50%, ' + type2 + ' 50%)',
-                        'border-color': 'black'
                     }
-                }
-                return {
-                    'background': type1,
-                    'border-color': 'black'
+                } else {
+                    styles = {...styles,
+                        'background': type1,
+                    }
                 }
             }
 
-            return {'border-color': 'black'}
+            return styles
         },
         healthBarPercent: function (pokemon: Pokemon) {
             if (pokemon.hp!.max === pokemon.hp!.current) {

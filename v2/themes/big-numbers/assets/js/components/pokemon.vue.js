@@ -193,7 +193,7 @@ export default defineComponent({
             // return styles;
         },
         typeColorBackgroundStyle() {
-            if (this.useTypesGradient) {
+            if (!this.useTypesGradient) {
                 return false;
             }
             let styles = {

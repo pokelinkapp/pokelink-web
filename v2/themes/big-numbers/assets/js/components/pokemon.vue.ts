@@ -201,7 +201,7 @@ export default defineComponent({
         },
 
         typeColorBackgroundStyle() {
-            if (this.useTypesGradient) {
+            if (!this.useTypesGradient) {
                 return false
             }
             let styles: object = {
