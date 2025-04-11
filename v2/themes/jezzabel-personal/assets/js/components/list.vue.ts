@@ -6,7 +6,7 @@ import type {Nullable} from 'global'
 
 export default defineComponent({
     template: `
-      <div style="display: none" :class="{ 'browser-connected' : true, 'darkMode': darkMode }" class="pokes">
+      <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
         <transition-group :name="switchSpeed" tag="div"
                           :class="['pokemon__list', {'flipped': flipped}]"
                           v-if="loaded">
@@ -43,11 +43,6 @@ export default defineComponent({
     methods: {
         isValid(pokemon: Nullable<Pokemon>) {
             return V2.isValidPokemon(pokemon)
-        }
-    },
-    computed: {
-        darkMode() {
-            return clientSettings.params.getBool('darkMode', false)
         }
     }
 })

@@ -140,7 +140,7 @@ export default defineComponent({
                 return 'rgba(255,255,255,.2)';
             }
             if (this.settings.pokemonColor) {
-                return isDefined(this.pokemon.color) ? htmlColors[this.pokemon.color] : 'white';
+                return isDefined(this.pokemon.color) ? htmlColors[this.pokemon.color.toLowerCase()] : 'white';
             }
             if (this.settings.routeColor) {
                 if (isDefined(this.pokemon.translations.locale.locationMetName)) {
@@ -164,7 +164,7 @@ export default defineComponent({
                 if (!this.settings.colorBothSides) {
                     return 'white';
                 }
-                return isDefined(this.pokemon.color) ? htmlColors[this.pokemon.color] : 'white';
+                return isDefined(this.pokemon.color) ? htmlColors[this.pokemon.color.toLowerCase()] : 'white';
             }
             if (this.settings.routeColor) {
                 if (!this.settings.colorBothSides) {
@@ -197,7 +197,7 @@ export default defineComponent({
                 return 'white';
             }
             if (this.settings.pokemonColor) {
-                return hex2rgba(isDefined(this.pokemon.color) ? htmlColors[this.pokemon.color] : 'white', 50);
+                return hex2rgba(isDefined(this.pokemon.color) ? htmlColors[this.pokemon.color.toLowerCase()] : 'white', 50);
             }
             if (this.settings.typeColor) {
                 return typeColors[this.pokemon.translations.english.types[0]];

@@ -15,7 +15,6 @@ import list from './components/list.vue.js';
         },
         created: function () {
             const vm = this;
-            V2.initialize();
             V2.onConnect(() => {
                 vm.connected = true;
                 this.loaded = true;

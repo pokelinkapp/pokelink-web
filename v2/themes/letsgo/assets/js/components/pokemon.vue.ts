@@ -147,7 +147,7 @@ export default defineComponent({
             }
 
             if (this.settings.pokemonColor) {
-                return isDefined(this.pokemon!.color) ? htmlColors[this.pokemon!.color!] : 'white'
+                return isDefined(this.pokemon!.color) ? htmlColors[this.pokemon!.color!.toLowerCase()] : 'white'
             }
 
             if (this.settings.routeColor) {
@@ -177,7 +177,7 @@ export default defineComponent({
                 if (!this.settings.colorBothSides) {
                     return 'white'
                 }
-                return isDefined(this.pokemon!.color) ? htmlColors[this.pokemon!.color!] : 'white'
+                return isDefined(this.pokemon!.color) ? htmlColors[this.pokemon!.color!.toLowerCase()] : 'white'
             }
 
             if (this.settings.routeColor) {
@@ -220,7 +220,7 @@ export default defineComponent({
             }
 
             if (this.settings.pokemonColor) {
-                return hex2rgba(isDefined(this.pokemon!.color) ? htmlColors[this.pokemon!.color!] : 'white', 50)
+                return hex2rgba(isDefined(this.pokemon!.color) ? htmlColors[this.pokemon!.color!.toLowerCase()] : 'white', 50)
             }
 
             if (this.settings.typeColor) {

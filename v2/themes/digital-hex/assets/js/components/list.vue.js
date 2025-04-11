@@ -7,7 +7,7 @@ export default defineComponent({
         <transition-group :name="switchSpeed" tag="div"
                           :class="['pokemon__list', {'flipped': flipped}]"
                           v-if="loaded">
-          <pokemon v-for="( poke, idx ) in partySlots" :slotId="idx + 1" v-if="isValid(poke)" :key="poke?.pid" :pokemon="poke">
+          <pokemon v-for="( poke, idx ) in party" :slotId="idx + 1" :key="poke?.pid" :pokemon="poke">
           </pokemon>
         </transition-group>
       </div>
@@ -27,20 +27,15 @@ export default defineComponent({
         };
     },
     created: function () {
-        this.loaded = true;
-    },
-    mounted() {
         let vm = this;
-        this.flipped = clientSettings.params.getBool('flipped', false);
+        V2.initialize();
         V2.handlePartyUpdates((party => {
+            vm.loaded = true;
             vm.party = party;
-            vm.$forceUpdate();
         }));
     },
-    methods: {
-        isValid(pokemon) {
-            return V2.isValidPokemon(pokemon);
-        }
+    mounted() {
+        this.flipped = clientSettings.params.getBool('flipped', false);
     },
     computed: {
         partySlots() {
