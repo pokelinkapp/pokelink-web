@@ -51,31 +51,5 @@ new Vue({
         });
 
     }
-  },
-  computed: {
-    hasGroupedBadges () {
-      return this.groupedBadges.length
-    },
-    groupedBadges () {
-      if (!this.connected) return []
-      let rawBadges = badges.find(game => game.id === this.settings.game.id)
-      this.badgeFolder = rawBadges.folder
-      let groups = []
-      if (!rawBadges.hasOwnProperty('groups')) return []
-
-      groups = rawBadges.groups
-        .map(({ translationKey, key }) => {
-          return {
-            title: translationKey,
-            badges: this.badges
-              .filter(badge => badge.label.startsWith(key))
-              .map(badge => {
-                return {...badge, name: badge.label, value: badge.value}
-              })
-          }
-        })
-
-      return groups
-    }
   }
 });

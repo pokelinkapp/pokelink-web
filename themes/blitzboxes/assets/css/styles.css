@@ -1,0 +1,564 @@
+@font-face{font-family:PokemonGB;src:local("Pokemon GB"),url("./../../../../assets/fonts/Pokemon%20GB.ttf")}
+@font-face{font-family:Intro;src:local("Intro"),url("../Intro.otf")}
+
+:root {
+  --slot-height: 130px;
+  --slot-width: 196px;
+  --slot-gap: 20px;
+  --slot-title-height: 23px;
+  --slot-footer-height: 19px;
+  --slot-background-gradient-start: #0042ff;
+  --slot-background-gradient-end: #00f6ff;
+  --text-gradient-start: #0027b9;
+  --text-gradient-mid-end: #0042ff;
+  --text-gradient-mid-start: #0000c8;
+  --text-gradient-end: #008ff3;
+
+}
+
+.pokes {
+/* margin-top: 110px; */
+}
+    .badges {
+      display: grid;
+      grid-template-rows: repeat(8, 45px);
+      row-gap: 12px;
+    }
+    .badge__slot {
+      text-align: center;
+    }
+
+    .badge__slot img {
+        width: 45px;
+    }
+    .badge__slot--inactive img {
+        -webkit-filter: grayscale(100%) brightness(0);
+        filter: grayscale(100%) brightness(0);
+        opacity: 0.6;
+    }
+
+.browser-connected {
+  display: block !important;
+}
+
+.pokemon__list {
+  /* display: flex; */
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(1, var(--slot-width));
+  grid-template-rows: repeat(7, var(--slot-height));
+  column-gap: 13px;
+  row-gap: var(--slot-gap);
+  /* display: block; */
+  flex-direction: column;
+}
+
+
+.pokemon__list.horizontal {
+  flex-direction: row;
+}
+
+.pokemon__list .pokemon {
+    width: var(--slot-width);
+    height: var(--slot-height);
+
+    position: relative;
+
+    overflow: hidden;
+    background: linear-gradient(45deg, var(--slot-background-gradient-end), var(--slot-background-gradient-start));
+
+}
+
+.pokemon__container {
+    height: var(--slot-height);
+    position: relative;
+}
+
+.pokemon__list .pokemon .slot_id {
+  position: absolute;
+  left: -15px;
+  top: 0;
+  font-size: 11rem;
+  /* color: transparent; */
+  /* -webkit-text-stroke: 7px rgb(255 255 255 / 38%); */
+  font-family: fantasy;
+  height: 129px;
+  line-height: 120px;
+  z-index: 5;
+  font-family: "Intro";
+  overflow: hidden;
+  background-size: 100%;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+  /* background-image: linear-gradient(170deg,
+    var(--slot-background-gradient-end) 0%,
+    var(--slot-background-gradient-start) 50%
+  ); */
+  background-image: linear-gradient(216deg,
+    var(--text-gradient-start) 0%,
+    var(--text-gradient-mid-end) 50%,
+    var(--text-gradient-mid-start) 51%,
+    var(--text-gradient-end) 100%
+  )
+}
+
+.pokemon__list .pokemon:nth-child(1) .slot_id {
+  /* right: -45px; */
+}
+.pokemon__list.flipped .pokemon:nth-child(1) .slot_id {
+  /* left: -70px; */
+}
+.pokemon__list.flipped .pokemon .slot_id {
+    left: -2px;
+    top: 40px;
+    font-size: 14rem;
+    color: transparent;
+    -webkit-text-stroke: 7px rgb(255 255 255 / 38%);
+    height: 143px;
+    line-height: 168px;
+    z-index: 5;
+    font-family: "Intro";
+    overflow: hidden;
+}
+.pokemon__card-art {
+  left: 260px;
+  animation-fill-mode: forwards;
+}
+
+.pokemon.active .pokemon__card-art {
+  left: 0px;
+  animation: slideInLeft .4s linear forwards;
+}
+
+.pokemon.closing .pokemon__card-art {
+  left: 0px;
+  animation: slideOutRight .4s linear forwards;
+}
+
+.pokemon.active .pokemon__row {
+  animation: slideInLeft .4s linear forwards;
+}
+
+.pokemon.closing .pokemon__row {
+  left: 260px;
+  animation: slideOutRight .4s linear forwards;
+}
+
+.pokemon .pokemon__card-art {
+    /* background-image: url(https://images.pokemontcg.io/sm8/19_hires.png); */
+    height: var(--slot-height);
+    background-size: 190px;
+    background-position: -34px -58px;
+    position: absolute;
+    /* top: 40px; */
+    /* left: 0px; */
+    width: 100%;
+    z-index: 3;
+    opacity: 0.2;
+}
+
+.pokemon__row {
+    position: relative;
+    height: var(--slot-height);
+    /* left: 260px; */
+}
+
+.pokemon__image {
+    position: relative;
+    height: var(--slot-height);
+    text-align: center;
+}
+
+.pokemon__list .pokemon.isDead .pokemon__row .pokemon__image .sprite {
+
+  -webkit-filter: grayscale(100%) brightness(0);
+  filter: grayscale(100%) brightness(0);
+  opacity: 0.6;
+}
+
+.pokemon__list .pokemon .pokemon__row .pokemon__image .sprite {
+  height: 100px;
+  position: relative;
+  /* top: 34px; */
+  z-index: 6;
+  /* height: 120%; */
+  /* position: relative; */
+  /* bottom: 20px; */
+  z-index: 6;
+  /* transform: translateY(-50%); */
+  overflow: hidden;
+}
+.pokemon__list.flipped .pokemon .pokemon__row .pokemon__image .sprite {
+  transform: scaleX(-1);
+}
+
+.pokemon__name {
+  font-family: "Intro";
+  text-align: center;
+  color: black;
+  right: 0;
+  position: absolute;
+  z-index: 10;
+  width: fit-content;
+  padding: 2px 5px;
+  background-color: white;
+  font-size: 16px;
+}
+
+.pokemon__name:before {
+  content:'';
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  /* background-color: rgba(90, 74, 199, .8); */
+  border-left:40px solid white;
+  z-index:-1;
+
+  -webkit-transform-origin:100% 100%;
+  -ms-transform-origin:100% 100%;
+  transform-origin:100% 100%;
+
+  -webkit-transform:skewX(45deg);
+  -ms-transform:skewX(45deg);
+  transform:skewX(45deg);
+}
+
+.pokemon__level {
+  font-family: "Intro";
+  bottom: 0;
+  position: absolute;
+  left: 0;
+  font-size: 15px;
+  width: 30%;
+  text-align: center;
+  height: var(--slot-footer-height);
+  color: black;
+  /* text-shadow: 1px 1px black; */
+  z-index:10;
+  background-color: white;
+}
+
+.pokemon__level:after {
+
+  content:'';
+  position:absolute;
+  top:0; right:0;
+  width:100%; height:100%;
+  /* background-color: rgba(90, 74, 199, .8); */
+  border-right:40px solid white;
+  z-index:-1;
+
+  -webkit-transform-origin:100% 100%;
+  -ms-transform-origin:100% 100%;
+  transform-origin:100% 100%;
+
+  -webkit-transform:skewX(135deg);
+  -ms-transform:skewX(135deg);
+  transform:skewX(135deg);
+}
+
+
+.pokemon__list.flipped .pokemon__level {
+    right: 9px;
+    left: unset;
+}
+
+
+.pokemon__list .pokemon .hp {
+  bottom: 0px;
+  position: absolute;
+  height: 19px;
+  width: 69%;
+  z-index: 10;
+  left: 31%;
+}
+
+.pokemon__list .pokemon .hp .hp__inner {
+  background: linear-gradient(to right, lime, #8bf500);
+  transition: width 2s;
+  height: 100%;
+}
+
+.pokemon .hp .hp__inner.low {
+  background: linear-gradient(to right, #ffcc00, #f1f500);
+}
+.pokemon .hp .hp__inner.critical {
+  background: linear-gradient(to right, #d20000, #f51700);
+}
+
+.pokemon__list .pokemon .exp {
+  position: absolute;
+  bottom: 0px;
+  width: calc(100% - 160px);
+  height: 2px;
+  background: transparent;
+  z-index: 5;
+  right: 0;
+}
+
+.pokemon__heldItem {
+  position: absolute;
+  left: 6px;
+  bottom: 20px;
+}
+
+.pokemon .exp .exp__inner {
+  background-color: cyan;
+  height: 3px;
+  transition: width 2s;
+}
+
+.pokemon__list .pokemon .pokemon__details .details__hp {
+  border: 1px solid #000000;
+  height: 5px;
+  width: 100%;
+}
+
+.pokemon__list .pokemon .pokemon__details .details__hp .hp__bar {
+  background-color: #ff0000;
+  height: 5px;
+}
+
+/* transitions stuffs */
+.switchSlow-move {
+    transition: transform 2s;
+}
+
+.switchMedium-move {
+    transition: transform 1s;
+}
+
+.switchFast-move {
+    transition: transform 0.5s;
+}
+
+@keyframes takeDamage {
+  0% {
+    -webkit-filter: none;
+    filter: none;
+  }
+  50% {
+    -webkit-filter: invert(40%) grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-50deg) saturate(400%) contrast(2);
+    filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-50deg) saturate(600%) contrast(0.8);
+  }
+  100% {
+    -webkit-filter: none;
+    filter: none;
+  }
+}
+
+@keyframes poisoned {
+  0% {
+    -webkit-filter: none;
+    filter: none;
+  }
+  50% {
+    -webkit-filter: invert(40%) grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-106deg) saturate(400%) contrast(2);
+    filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-106deg) saturate(600%) contrast(0.8);
+  }
+  100% {
+    -webkit-filter: none;
+    filter: none;
+  }
+}
+
+@keyframes shake {
+  10%, 90% {
+    transform: scale(2) translate3d(-1px, 0, 0);
+  }
+
+  20%, 80% {
+    transform: scale(2) translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: scale(2) translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: scale(2) translate3d(4px, 0, 0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    left: 260px;
+  }
+
+  to {
+    left: 0px;
+  }
+}
+@keyframes slideOutRight {
+  from {
+    left: 0px;
+  }
+
+  to {
+    left: 260px;
+  }
+}
+
+
+.sleeping {
+  width: 144px;
+  height: 144px;
+  position: absolute;
+  top: -50px;
+  left: 94%;
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  z-index: 11;
+}
+
+.sleeping span {
+  font-family: "Intro";
+  color: #d4d4d4;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 23pt;
+  opacity: 0;
+  -moz-animation: sleep 9s infinite linear;
+  -webkit-animation: sleep 9s infinite linear;
+  animation: sleep 9s infinite linear;
+}
+.sleeping span:nth-child(2n) {
+  -moz-animation-delay: 3s;
+  -webkit-animation-delay: 3s;
+  animation-delay: 3s;
+}
+.sleeping span:nth-child(3n) {
+  -moz-animation-delay: 6s;
+  -webkit-animation-delay: 6s;
+  animation-delay: 6s;
+}
+
+@-webkit-keyframes sleep {
+  0% {
+    -moz-transform: translate(0, 0) scale(0.3);
+    -ms-transform: translate(0, 0) scale(0.3);
+    -webkit-transform: translate(0, 0) scale(0.3);
+    transform: translate(0, 0) scale(0.3);
+    opacity: 0;
+  }
+  1% {
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  50% {
+    -moz-transform: translate(90%, -50%) scale(0.65);
+    -ms-transform: translate(90%, -50%) scale(0.65);
+    -webkit-transform: translate(90%, -50%) scale(0.65);
+    transform: translate(90%, -50%) scale(0.65);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: translate(180%, -100%) scale(1);
+    -ms-transform: translate(180%, -100%) scale(1);
+    -webkit-transform: translate(180%, -100%) scale(1);
+    transform: translate(180%, -100%) scale(1);
+    opacity: 0;
+  }
+}
+@-moz-keyframes sleep {
+  0% {
+    -moz-transform: translate(0, 0) scale(0.3);
+    -ms-transform: translate(0, 0) scale(0.3);
+    -webkit-transform: translate(0, 0) scale(0.3);
+    transform: translate(0, 0) scale(0.3);
+    opacity: 0;
+  }
+  1% {
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  50% {
+    -moz-transform: translate(90%, -50%) scale(0.65);
+    -ms-transform: translate(90%, -50%) scale(0.65);
+    -webkit-transform: translate(90%, -50%) scale(0.65);
+    transform: translate(90%, -50%) scale(0.65);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: translate(180%, -100%) scale(1);
+    -ms-transform: translate(180%, -100%) scale(1);
+    -webkit-transform: translate(180%, -100%) scale(1);
+    transform: translate(180%, -100%) scale(1);
+    opacity: 0;
+  }
+}
+@-ms-keyframes sleep {
+  0% {
+    -moz-transform: translate(0, 0) scale(0.3);
+    -ms-transform: translate(0, 0) scale(0.3);
+    -webkit-transform: translate(0, 0) scale(0.3);
+    transform: translate(0, 0) scale(0.3);
+    opacity: 0;
+  }
+  1% {
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  50% {
+    -moz-transform: translate(90%, -50%) scale(0.65);
+    -ms-transform: translate(90%, -50%) scale(0.65);
+    -webkit-transform: translate(90%, -50%) scale(0.65);
+    transform: translate(90%, -50%) scale(0.65);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: translate(180%, -100%) scale(1);
+    -ms-transform: translate(180%, -100%) scale(1);
+    -webkit-transform: translate(180%, -100%) scale(1);
+    transform: translate(180%, -100%) scale(1);
+    opacity: 0;
+  }
+}
+@keyframes sleep {
+  0% {
+    -moz-transform: translate(0, 0) scale(0.3);
+    -ms-transform: translate(0, 0) scale(0.3);
+    -webkit-transform: translate(0, 0) scale(0.3);
+    transform: translate(0, 0) scale(0.3);
+    opacity: 0;
+  }
+  1% {
+    opacity: 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  50% {
+    -moz-transform: translate(90%, -50%) scale(0.65);
+    -ms-transform: translate(90%, -50%) scale(0.65);
+    -webkit-transform: translate(90%, -50%) scale(0.65);
+    transform: translate(90%, -50%) scale(0.65);
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    -moz-transform: translate(180%, -100%) scale(1);
+    -ms-transform: translate(180%, -100%) scale(1);
+    -webkit-transform: translate(180%, -100%) scale(1);
+    transform: translate(180%, -100%) scale(1);
+    opacity: 0;
+  }
+}

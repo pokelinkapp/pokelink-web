@@ -8,11 +8,13 @@ var themeSettings = {
             types: false,
         }
     },
-    pokeImg:{
-    	fileType: 'png',
-    	useDexNumbers: true,
+    pokeImg: {
+        fileType: 'png',
+        useDexNumbers: true,
+        ignoreForms: true,
+        ignoreFemaleForms: true,
     },
-    imgPaths:{
-    	normal: 'https://assets.pokelink.xyz/assets/sprites/pokemon/trozei/'
+    imgPaths: {
+        normal: 'https://assets.pokelink.xyz/assets/sprites/pokemon/trozei/'
     }
 };
