@@ -19,8 +19,8 @@ export default defineComponent({
           <female v-if="sex === 'female'"></female>
           <male v-if="sex === 'male'"></male>
         </span>
-          <img v-if="pokemon.isEgg" ref="pokemonImg" @error="useFallback" class="sprite" :src="sprite" style="max-height: 80px;"/>
-          <img v-else  ref="pokemonImg" @error="useFallback" class="sprite" :src="sprite"/>
+          <img v-if="pokemon.isEgg" ref="pokemonImg" @error="useFallback" class="sprite" :src="sprite()" style="max-height: 80px;"/>
+          <img v-else  ref="pokemonImg" @error="useFallback" class="sprite" :src="sprite()"/>
           <span class="candy" v-if="hasItem"></span>
           <div class="details">
             <h2 class="name">{{ nickname }}</h2>
@@ -47,6 +47,12 @@ export default defineComponent({
         'pokeball': pokeball,
         'bg': bg
     },
+    mounted() {
+        const vm = this
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate()
+        })
+    },
     data() {
         return {
             settings: {
@@ -63,9 +69,6 @@ export default defineComponent({
     computed: {
         isValid() {
             return V2.isValidPokemon(this.pokemon)
-        },
-        sprite() {
-            return V2.getSprite(this.pokemon!)
         },
         partner() {
             return false
@@ -134,6 +137,9 @@ export default defineComponent({
         }
     },
     methods: {
+        sprite() {
+            return V2.getSprite(this.pokemon!)
+        },
         useFallback() {
             V2.useFallback(this.$refs.pokemonImg as HTMLImageElement, this.pokemon!)
         },

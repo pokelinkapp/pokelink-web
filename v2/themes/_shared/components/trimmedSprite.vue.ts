@@ -6,18 +6,18 @@ export default defineComponent({
     template: `
       <div class="pokemon__image" ref="container">
         <img
-            v-if="!isGif && pokemon.isEgg && !fixedSprite"
-            :src="sprite"
+            v-if="!isGif && pokemon.isEgg && !fixedsprite"
+            :src="sprite()"
             @load="trim"
-            class="sprite"
+            class="sprite()"
             style="transform: scale(0.8); bottom: 0px; visibility: hidden"
             ref="spriteImg"
             @error="handleFallback"
         />
         <img
-            v-if="!isGif && !pokemon.isEgg && !fixedSprite"
-            :src="sprite"
-            class="sprite"
+            v-if="!isGif && !pokemon.isEgg && !fixedsprite"
+            :src="sprite()"
+            class="sprite()"
             @load="trim"
             style="visibility: hidden"
             ref="spriteImg"
@@ -34,9 +34,9 @@ export default defineComponent({
         <img
             v-if="isGif"
             :class="['sprite', {'sprite--gif': isGif}]"
-            :src="sprite"
+            :src="sprite()"
             :style="{'opacity': (fixedSprite || isGif ? '1' : '0')}"
-            :key="'gif-' + sprite"
+            :key="'gif-' + sprite()"
             ref="spriteImg"
             @error="handleFallback"
         >
@@ -61,22 +61,22 @@ export default defineComponent({
     },
     computed: {
         isGif() {
-            return ((this.$refs.pokemonSprite as HTMLImageElement | undefined)?.src ?? this.sprite).split('.').pop().toLowerCase() === 'gif'
-        },
-        sprite() {
-            return this.getSprite(this.pokemon)
+            return ((this.$refs.pokemonSprite as HTMLImageElement | undefined)?.src ?? this.sprite()).split('.').pop().toLowerCase() === 'gif'
         }
     },
     methods: {
+        sprite() {
+            return this.getSprite(this.pokemon)
+        },
         handleFallback() {
             V2.useFallback(this.$refs.spriteImg as HTMLImageElement, this.pokemon)
         },
         trim() {
-            if (this.oldImage === this.sprite) {
+            if (this.oldImage === this.sprite()) {
                 this.fixedSprite = true
                 return true
             }
-            this.oldImage = this.sprite
+            this.oldImage = this.sprite()
             let vm = this
             const img = new Image()
             img.crossOrigin = 'Anonymous'
@@ -103,7 +103,7 @@ export default defineComponent({
                 }
                 newImage.src = trimmed.toDataURL()
             }
-            img.src = this.sprite
+            img.src = this.sprite()
         },
         trimCanvas(c: HTMLCanvasElement) {
             const ctx = c.getContext('2d')!,

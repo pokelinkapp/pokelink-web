@@ -18,8 +18,8 @@ export default defineComponent({
           </div>
 
           <div class="pokemon__image">
-            <img v-if="pokemon.isEgg" @error="useFallback" ref="pokemonImg" class="sprite" :src="sprite" style="transform: scale(0.8); bottom: 0px;"/>
-            <img v-else class="sprite" @error="useFallback" ref="pokemonImg" :src="sprite"/>
+            <img v-if="pokemon.isEgg" @error="useFallback" ref="pokemonImg" class="sprite" :src="sprite()" style="transform: scale(0.8); bottom: 0px;"/>
+            <img v-else class="sprite" @error="useFallback" ref="pokemonImg" :src="sprite()"/>
           </div>
           <div class="hp" v-if="!pokemon.isEgg">
             <div
@@ -42,13 +42,23 @@ export default defineComponent({
             justTookDamage: false
         }
     },
-    created() {
-
+    mounted() {
+        const vm = this
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate()
+        })
     },
     methods: {
         useFallback() {
             V2.useFallback(this.$refs.pokemonImg as HTMLImageElement, this.pokemon)
-        }
+        },
+        sprite() {
+            if (!V2.isValidPokemon(this.pokemon)) {
+                return ''
+            }
+
+            return V2.getSprite(this.pokemon)
+        },
     },
     computed: {
         isValid() {
@@ -94,13 +104,6 @@ export default defineComponent({
                 return false
             }
             return this.pokemon.heldItem !== 0
-        },
-        sprite() {
-            if (!V2.isValidPokemon(this.pokemon)) {
-                return ''
-            }
-
-            return V2.getSprite(this.pokemon)
         },
         experienceRemaining() {
             return `${this.pokemon.expPercentage}%`

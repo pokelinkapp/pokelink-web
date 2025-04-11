@@ -5,7 +5,7 @@ import type {Pokemon} from 'v2Proto'
 export default defineComponent({
   template: `
   <div class="party_row">
-    <div class="sprite"><img ref="pokemonImg" @error="useFallback" :src="imageTag"/></div>
+    <div class="sprite"><img ref="pokemonImg" @error="useFallback" :src="imageTag()"/></div>
     <div class="details">
       <div class="half top">
         <div class="identity text">
@@ -40,18 +40,24 @@ export default defineComponent({
       required: false
     }
   },
+  mounted() {
+    const vm = this
+    V2.handleSpriteTemplateUpdate(() => {
+      vm.$forceUpdate()
+    })
+  },
   methods: {
     useFallback() {
       V2.usePartyFallback(this.$refs.pokemonImg as HTMLImageElement, this.pokemon)
-    }
-  },
-  computed: {
-    isValid() {
-      return V2.isValidPokemon(this.pokemon)
     },
     imageTag() {
       if (!this.isValid) { return null; }
       return V2.getPartySprite(this.pokemon)
+    },
+  },
+  computed: {
+    isValid() {
+      return V2.isValidPokemon(this.pokemon)
     },
     healthPercent() {
       if (!this.isValid ) { return `0%`; }

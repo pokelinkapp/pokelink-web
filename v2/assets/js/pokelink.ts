@@ -1,5 +1,12 @@
 import {PokelinkClientBase} from './client.js'
-import {BadgesChannel, DeathChannel, PartyChannel, PokelinkClientV2, ReviveChannel} from './clientv2.js'
+import {
+    BadgesChannel,
+    DeathChannel,
+    PartyChannel,
+    PokelinkClientV2,
+    ReviveChannel,
+    SettingsChannel
+} from './clientv2.js'
 import {
     Badge,
     Badges, BadgeSchema,
@@ -9,7 +16,7 @@ import {
     PokemonDeathSchema,
     PokemonRevive,
     PokemonReviveSchema, PokemonSchema,
-    Gender, StatusEffect
+    Gender, StatusEffect, SettingsData, SettingsSchema, Settings, SettingsDataSchema
 } from './v2_pb.js'
 import {toJson} from '@bufbuild/protobuf'
 import {
@@ -22,7 +29,7 @@ import {
     ClientSettings,
     ParamsManager,
     isDefined,
-    hex2rgba
+    hex2rgba, examplePokemon
 } from './global.js'
 import * as V2DataTypes from './v2_pb.js'
 import Handlebars from 'handlebars'
@@ -105,8 +112,21 @@ export function spriteTestInitialize() {
 }
 
 export namespace V2 {
-    export function initialize(numberOfPlayers: number = 1) {
-        globalInitialize(numberOfPlayers)
+    interface V2Settings {
+        numberOfPlayers?: number,
+        listenForSpriteUpdates?: boolean
+    }
+
+    let v2Settings: V2Settings = {
+        numberOfPlayers: 1,
+        listenForSpriteUpdates: true
+    }
+
+    const spriteUpdate = 'theme:settings:sprite'
+
+    export function initialize(settings?: V2Settings) {
+        v2Settings = {...v2Settings, ...settings}
+        globalInitialize(v2Settings.numberOfPlayers)
         client = new PokelinkClientV2()
 
         client.events.on('connect', () => {
@@ -140,6 +160,25 @@ export namespace V2 {
             }
             events.emit(ReviveChannel, revive.pokemon)
         })
+
+        client.events.on(SettingsChannel, (data: Settings) => {
+            if (isDefined(data.data!.spriteTemplate) && v2Settings.listenForSpriteUpdates) {
+                try {
+                    let test = Handlebars.compile(data.data!.spriteTemplate)
+                    test(examplePokemon)
+                    clientSettings.spriteTemplate = test
+
+                    if (clientSettings.debug) {
+                        console.debug(`Received new sprite template: ${data.data!.spriteTemplate}`)
+                    }
+
+                    events.emit(spriteUpdate)
+                } catch (ex) {
+                    console.error('Failed to assign new sprite template')
+                    console.error(ex)
+                }
+            }
+        })
     }
 
     export function handlePartyUpdates(handler: (party: Nullable<Pokemon>[]) => void) {
@@ -156,6 +195,10 @@ export namespace V2 {
 
     export function handleRevive(handler: (pokemon: Pokemon) => void) {
         events.on(ReviveChannel, handler)
+    }
+
+    export function handleSpriteTemplateUpdate(handler: () => void) {
+        events.on(spriteUpdate, handler)
     }
 
     export function onConnect(handler: () => void) {

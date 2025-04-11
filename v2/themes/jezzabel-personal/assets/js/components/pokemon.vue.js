@@ -59,7 +59,11 @@ export default defineComponent({
             loaded: false
         };
     },
-    created() {
+    mounted() {
+        const vm = this;
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate();
+        });
     },
     methods: {
         getSprite(pokemon) {
@@ -114,12 +118,6 @@ export default defineComponent({
                 return false;
             }
             return this.pokemon.heldItem !== 0;
-        },
-        sprite() {
-            if (!this.isValid) {
-                return '';
-            }
-            return V2.getSprite(this.pokemon);
         },
         experienceRemaining() {
             if (!this.isValid) {

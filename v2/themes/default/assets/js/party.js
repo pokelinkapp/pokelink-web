@@ -20,7 +20,7 @@ import pokemonCard from './components/pokemon-card.vue.js';
         },
         mounted: function () {
             const vm = this;
-            V2.initialize();
+            V2.initialize({ listenForSpriteUpdates: false });
             updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/gen7/animated' +
                 '{{ifElse isShiny "-shiny" ""}}' +
                 '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +

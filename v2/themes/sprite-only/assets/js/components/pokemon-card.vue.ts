@@ -7,7 +7,7 @@ export default defineComponent({
       <div>
         <div :class="{ 'pokemon__slot': true }" v-if="pokemon !== null">
           <div :class="{ 'pokemon__image': true, 'pokemon__dead': (pokemon.hp.current === 0)}">
-            <img ref="pokemonSprite" @error="useFallback" :src="sprite"/>
+            <img ref="pokemonSprite" @error="useFallback" :src="sprite()"/>
           </div>
         </div>
         <div class="pokemon__slot pokemon__empty" v-else>
@@ -16,6 +16,12 @@ export default defineComponent({
         </div>
       </div>
     `,
+    mounted() {
+        const vm = this
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate()
+        })
+    },
     props: {
         pokemon: {
             default: null,
@@ -26,9 +32,7 @@ export default defineComponent({
     methods: {
         useFallback() {
             V2.useFallback(this.$refs.pokemonSprite as HTMLImageElement, this.pokemon)
-        }
-    },
-    computed: {
+        },
         sprite() {
             return V2.getSprite(this.pokemon)
         }

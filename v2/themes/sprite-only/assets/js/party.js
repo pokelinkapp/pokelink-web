@@ -12,7 +12,7 @@ import pokemonCard from './components/pokemon-card.vue.js';
                 loaded: false,
                 settings: {},
                 party: [],
-                switchSpeed: 'switchMedium'
+                switchSpeed: 'switchMedium',
             };
         },
         created: function () {

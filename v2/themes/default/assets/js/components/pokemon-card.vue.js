@@ -18,7 +18,7 @@ export default defineComponent({
           </div>
           <div
               :class="{ 'pokemon__image': true, 'pokemon__egg': (pokemon.isEgg), 'pokemon__dead': (pokemon.hp.current === 0)}">
-            <img :src="sprite"/>
+            <img :src="sprite()"/>
           </div>
           <div class="pokemon__info">
             <div class="pokemon__nick">
@@ -53,6 +53,12 @@ export default defineComponent({
             type: Object,
             required: false
         }
+    },
+    mounted() {
+        const vm = this;
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate();
+        });
     },
     methods: {
         styleBorder(pokemon) {
@@ -114,6 +120,9 @@ export default defineComponent({
         },
         string2Hex: function (str) {
             return string2ColHex(str);
+        },
+        sprite() {
+            return V2.getSprite(this.pokemon);
         }
     },
     computed: {
@@ -131,9 +140,6 @@ export default defineComponent({
         },
         isGenderless() {
             return !this.pokemon.isEgg && this.pokemon.gender === V2DataTypes.Gender.genderless;
-        },
-        sprite() {
-            return V2.getSprite(this.pokemon);
         },
         isHealthy() {
             return this.pokemon.status === V2DataTypes.StatusEffect.healthy;

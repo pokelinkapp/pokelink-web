@@ -74,12 +74,30 @@ export type Settings = Message<"Pokelink.Core.Proto.V2.Settings"> & {
      * @generated from field: string username = 2;
      */
     username: string;
+    /**
+     * @generated from field: Pokelink.Core.Proto.V2.SettingsData data = 3;
+     */
+    data?: SettingsData;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Settings.
  * Use `create(SettingsSchema)` to create a new message.
  */
 export declare const SettingsSchema: GenMessage<Settings>;
+/**
+ * @generated from message Pokelink.Core.Proto.V2.SettingsData
+ */
+export type SettingsData = Message<"Pokelink.Core.Proto.V2.SettingsData"> & {
+    /**
+     * @generated from field: optional string spriteTemplate = 1;
+     */
+    spriteTemplate?: string;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V2.SettingsData.
+ * Use `create(SettingsDataSchema)` to create a new message.
+ */
+export declare const SettingsDataSchema: GenMessage<SettingsData>;
 /**
  * @generated from message Pokelink.Core.Proto.V2.Badges
  */

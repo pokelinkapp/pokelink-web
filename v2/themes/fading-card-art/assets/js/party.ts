@@ -66,7 +66,7 @@ export function pokemonTCGCardSets() {
         },
         created: function () {
             const vm = this
-            V2.initialize()
+            V2.initialize({listenForSpriteUpdates: false})
 
             V2.onConnect(() => {
                 vm.connected = true

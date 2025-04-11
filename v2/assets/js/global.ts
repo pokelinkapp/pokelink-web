@@ -51,6 +51,55 @@ Handlebars.registerHelper('addFemaleTag', function (pokemon: Pokemon, femaleTag:
     return pokemon.gender === Gender.female && pokemon.hasFemaleSprite ? femaleTag : ''
 })
 
+export const examplePokemon = {
+    'pid': 3791076706,
+    'species': 6,
+    'level': 1,
+    'hp': {
+        'max': 1,
+        'current': 1
+    },
+    'ivs': {},
+    'evs': {},
+    'translations': {
+        'english': {
+            'speciesName': 'Charizard',
+            'status': 'Healthy',
+            'types': [
+                'Fire',
+                'Dragon'
+            ],
+            'formName': 'Mega X',
+            'pokerusStatus': 'No'
+        },
+        'locale': {
+            'speciesName': 'Charizard',
+            'status': 'Healthy',
+            'types': [
+                'Fire',
+                'Dragon'
+            ],
+            'formName': 'Mega X',
+            'pokerusStatus': 'No'
+        }
+    },
+    'color': 'Black',
+    'fallbackSprite': 'http://localhost:3000/assets:/assets/sprites/pokemon/home/normal/charizard-megax.png',
+    'fallbackPartySprite': 'http://localhost:3000/pokelink:/pkhex/img/sprites/a_6-1.png',
+    'heldItem': 0,
+    'gender': 'male',
+    'form': 1,
+    'isEgg': false,
+    'hiddenPower': 18,
+    'nature': 25,
+    'isShiny': false,
+    'pokeball': 0,
+    'friendship': 0,
+    'ability': 0,
+    'pokerus': 'clean',
+    'locationMet': 0
+} as unknown as Pokemon
+
 export class EventEmitter {
     private events: { [key: string]: Array<(...parameters: any[]) => void> } = {}
 

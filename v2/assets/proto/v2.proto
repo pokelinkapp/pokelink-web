@@ -53,6 +53,11 @@ message PartyObject {
 message Settings {
   string channel = 1;
   string username = 2;
+  SettingsData data = 3;
+}
+
+message SettingsData {
+  optional string spriteTemplate = 1;
 }
 
 message Badges {

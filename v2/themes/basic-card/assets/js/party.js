@@ -17,7 +17,7 @@ import pokemonCard from './components/pokemon-card.vue.js';
         },
         mounted: function () {
             const vm = this;
-            V2.initialize();
+            V2.initialize({ listenForSpriteUpdates: false });
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.hp = clientSettings.params.getBool('hp', false);
             V2.handlePartyUpdates((party) => {
