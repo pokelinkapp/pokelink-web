@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V2, clientSettings, updateSpriteTemplate} from 'pokelink'
+import {V2, clientSettings} from 'pokelink'
 import list from './components/list.vue.js'
 
 (() => {

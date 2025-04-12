@@ -51,14 +51,7 @@ export const clientSettings: ClientSettings = {
     spriteTemplate: Handlebars.compile(homeSpriteTemplate)
 }
 
-export function updateSpriteTemplate(template: string) {
-    try {
-        clientSettings.spriteTemplate = Handlebars.compile(template)
-    } catch (ex) {
-        console.error(ex)
-        console.error(`Template: ${template}`)
-    }
-}
+const spriteUpdate = 'theme:settings:sprite'
 
 let client: Nullable<PokelinkClientBase> = null
 
@@ -71,7 +64,7 @@ function globalInitialize(numberOfPlayers: number = 1) {
     clientSettings.debug = clientSettings.params.getBool('debug', false)
 
     if (clientSettings.debug) {
-        console.debug('Pokelink library now running in debug mode')
+        console.debug('Pokélink library now running in debug mode')
     }
 
     clientSettings.host = clientSettings.params.getString('server', 'localhost')!
@@ -122,8 +115,6 @@ export namespace V2 {
         listenForSpriteUpdates: true
     }
 
-    const spriteUpdate = 'theme:settings:sprite'
-
     export function initialize(settings?: V2Settings) {
         v2Settings = {...v2Settings, ...settings}
         globalInitialize(v2Settings.numberOfPlayers)
@@ -163,22 +154,18 @@ export namespace V2 {
 
         client.events.on(SettingsChannel, (data: Settings) => {
             if (isDefined(data.data!.spriteTemplate) && v2Settings.listenForSpriteUpdates) {
-                try {
-                    let test = Handlebars.compile(data.data!.spriteTemplate)
-                    test(examplePokemon)
-                    clientSettings.spriteTemplate = test
-
-                    if (clientSettings.debug) {
-                        console.debug(`Received new sprite template: ${data.data!.spriteTemplate}`)
-                    }
-
-                    events.emit(spriteUpdate)
-                } catch (ex) {
-                    console.error('Failed to assign new sprite template')
-                    console.error(ex)
-                }
+                updateSpriteTemplate(data.data!.spriteTemplate!)
             }
         })
+
+        if (v2Settings.listenForSpriteUpdates) {
+            const newTemplate = clientSettings.params.getString("template", undefined)
+
+            if (newTemplate !== undefined) {
+                updateSpriteTemplate(newTemplate)
+                v2Settings.listenForSpriteUpdates = false
+            }
+        }
     }
 
     export function handlePartyUpdates(handler: (party: Nullable<Pokemon>[]) => void) {
@@ -266,6 +253,26 @@ export namespace V2 {
         }
 
         return value
+    }
+
+    export function updateSpriteTemplate(template: string) {
+        if (!v2Settings.listenForSpriteUpdates) {
+            return
+        }
+        try {
+            let test = Handlebars.compile(template)
+            test(examplePokemon)
+            clientSettings.spriteTemplate = test
+
+            if (clientSettings.debug) {
+                console.debug(`Received new sprite template: ${template}`)
+            }
+
+            events.emit(spriteUpdate)
+        } catch (ex) {
+            console.error('Failed to assign new sprite template')
+            console.error(ex)
+        }
     }
 }
 

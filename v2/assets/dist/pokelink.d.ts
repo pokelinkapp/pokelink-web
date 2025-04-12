@@ -5,7 +5,6 @@ import Handlebars from 'handlebars';
 import collect from 'collect.js';
 export declare const homeSpriteTemplate: string;
 export declare const clientSettings: ClientSettings;
-export declare function updateSpriteTemplate(template: string): void;
 export declare function spriteTestInitialize(): void;
 export declare namespace V2 {
     interface V2Settings {
@@ -26,6 +25,7 @@ export declare namespace V2 {
     export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon): void;
     export function getTypeColor(englishType: string): string;
     export function getStatusColor(englishStatus: string): string;
+    export function updateSpriteTemplate(template: string): void;
     export {};
 }
 export { htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined, hex2rgba, Handlebars, Nullable };

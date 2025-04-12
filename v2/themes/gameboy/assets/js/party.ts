@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V2, clientSettings, updateSpriteTemplate} from 'pokelink'
+import {V2, clientSettings} from 'pokelink'
 import pokemonCard from './components/pokemon-card.vue.js'
 
 (() => {
@@ -23,7 +23,7 @@ import pokemonCard from './components/pokemon-card.vue.js'
             const vm = this
             V2.initialize()
 
-            updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/gen8/party' +
+            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/gen8/party' +
                 '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
                 '{{addFemaleTag this "-f"}}.png')
 

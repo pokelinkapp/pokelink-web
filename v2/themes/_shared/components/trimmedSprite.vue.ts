@@ -9,7 +9,7 @@ export default defineComponent({
             v-if="!isGif && pokemon.isEgg && !fixedsprite"
             :src="sprite()"
             @load="trim"
-            class="sprite()"
+            class="sprite"
             style="transform: scale(0.8); bottom: 0px; visibility: hidden"
             ref="spriteImg"
             @error="handleFallback"
@@ -17,7 +17,7 @@ export default defineComponent({
         <img
             v-if="!isGif && !pokemon.isEgg && !fixedsprite"
             :src="sprite()"
-            class="sprite()"
+            class="sprite"
             @load="trim"
             style="visibility: hidden"
             ref="spriteImg"

@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V2, clientSettings, updateSpriteTemplate, isDefined } from 'pokelink';
+import { V2, clientSettings, isDefined } from 'pokelink';
 import list from './components/list.vue.js';
 export function pokemonTCGCardSets() {
     let userDefinedSets = clientSettings.params.getString('sets', '');
@@ -63,7 +63,7 @@ export function pokemonTCGCardSets() {
         created: function () {
             const vm = this;
             V2.initialize({ listenForSpriteUpdates: false });
-            updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/heartgold-soulsilver/' +
+            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/heartgold-soulsilver/' +
                 '{{ifElse isShiny "shiny" "normal"}}' +
                 '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
                 '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +

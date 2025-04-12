@@ -48,7 +48,7 @@ Handlebars.registerHelper('nidoranGender', function (str: string, maleTag?: stri
 })
 
 Handlebars.registerHelper('addFemaleTag', function (pokemon: Pokemon, femaleTag: string) {
-    return pokemon.gender === Gender.female && pokemon.hasFemaleSprite ? femaleTag : ''
+    return (pokemon.gender === Gender.female || pokemon.gender as any as string === 'female') && pokemon.hasFemaleSprite ? femaleTag : ''
 })
 
 export const examplePokemon = {

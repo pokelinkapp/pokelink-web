@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V2, clientSettings, updateSpriteTemplate } from 'pokelink';
+import { V2, clientSettings } from 'pokelink';
 import pokemonCard from './components/pokemon.vue.js';
 (() => {
     createApp({
@@ -20,7 +20,7 @@ import pokemonCard from './components/pokemon.vue.js';
             V2.initialize();
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.hp = clientSettings.params.getBool('hp', false);
-            updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/national/animated' +
+            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/national/animated' +
                 '{{ifElse isShiny "-shiny" ""}}' +
                 '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
                 '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +

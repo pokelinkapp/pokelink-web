@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V2, clientSettings, updateSpriteTemplate, isDefined} from 'pokelink'
+import {V2, clientSettings, isDefined} from 'pokelink'
 import list from './components/list.vue.js'
 
 export function pokemonTCGCardSets() {
