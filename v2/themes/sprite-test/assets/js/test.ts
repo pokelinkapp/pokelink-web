@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {homeSpriteTemplate, Handlebars, Nullable, clientSettings, spriteTestInitialize, isDefined} from 'pokelink'
+import {homeSpriteTemplate, Handlebars, Nullable, clientSettings, spriteTestInitialize, isDefined, resolveIllegalCharacters} from 'pokelink'
 import {Gender, Pokemon} from 'v2Proto'
 import {defineComponent} from 'vue'
 
@@ -52,31 +52,33 @@ interface SpriteDexItem {
                 </div>
               </div>
               <div>
-                <div class="text-2xl">Testing ({{ entries.length - results.filter(x => hasValue(x)).length }})</div>
-                <div class="text-2xl text-green-500">Success ({{ results.filter(x => x === 2).length }})</div>
-                <div class="text-2xl text-yellow-500">Fallback ({{ results.filter(x => x === 1).length }})</div>
-                <div class="text-2xl text-red-500">Failed ({{ results.filter(x => x === 0).length }})</div>
+                <div class="text-2xl cursor-pointer" @click="show = null">Testing ({{ entries.length - results.filter(x => hasValue(x)).length }})</div>
+                <div class="text-2xl cursor-pointer text-green-500" @click="show = 2">Success ({{ results.filter(x => x === 2).length }})</div>
+                <div class="text-2xl cursor-pointer text-yellow-500" @click="show = 1">Fallback ({{ results.filter(x => x === 1).length }})</div>
+                <div class="text-2xl cursor-pointer text-red-500" @click="show = 0">Failed ({{ results.filter(x => x === 0).length }})</div>
                 <hr class="mb-3"/>
               </div>
             </div>
             <div id="entries" class="overflow-y-auto overflow-x-hidden flex-1">
               <div class="flex w-screen flex-wrap">
-                <div class="flex-col text-center"
-                     :class="{'text-red-500': results[idx] === 0, 'text-yellow-500': results[idx] === 1, 'text-green-500': results[idx] === 2}"
-                     style="width: 200px; height: 200px" v-for="(entry, idx) in entries">
-                  <div class="flex justify-center">
-                    <img :title="'Expected: ' + template(entry)"
-                         :class="{'border-red-500': results[idx] === 0, 'border-yellow-500': results[idx] === 1, 'border-green-500': results[idx] === 2}"
-                         class="border" style="height: 100px; width: 100px;" :src="hasValue(results[idx]) && results[idx] !== 2 ? entries[idx].fallbackSprite : template(entry)"
-                         @load="() => handleSuccess(idx)" :key="idx" @error="() => handleError(idx, this)"/>
+                <div v-for="(entry, idx) in entries">
+                  <div class="flex-col text-center"
+                       :class="{'text-red-500': results[idx] === 0, 'text-yellow-500': results[idx] === 1, 'text-green-500': results[idx] === 2}"
+                       style="width: 200px; height: 200px" v-if="canShow(idx)">
+                    <div class="flex justify-center">
+                      <img :title="'Expected: ' + resolve(template(entry))"
+                           :class="{'border-red-500': results[idx] === 0, 'border-yellow-500': results[idx] === 1, 'border-green-500': results[idx] === 2}"
+                           class="border" style="height: 100px; width: 100px;" :src="hasValue(results[idx]) && results[idx] !== 2 ? entries[idx].fallbackSprite : resolve(template(entry))"
+                           @load="() => handleSuccess(idx)" :key="idx" @error="() => handleError(idx, this)"/>
+                    </div>
+                    <div>{{ entry.translations.locale.speciesName }} / {{ entry.translations.english.speciesName }}</div>
+                    <div>#{{ entry.species }}</div>
+                    <div v-if="entry.hasFemaleSprite && entry.gender === 'female'">Female</div>
+                    <div v-if="hasValue(entry.translations.english.formName)">{{ entry.translations.locale.formName }} /
+                      {{ entry.translations.english.formName }}
+                    </div>
+                    <div v-if="hasValue(entry.translations.english.formName)">#{{ entry.form }}</div>
                   </div>
-                  <div>{{ entry.translations.locale.speciesName }} / {{ entry.translations.english.speciesName }}</div>
-                  <div>#{{ entry.species }}</div>
-                  <div v-if="entry.hasFemaleSprite && entry.gender === 'female'">Female</div>
-                  <div v-if="hasValue(entry.translations.english.formName)">{{ entry.translations.locale.formName }} /
-                    {{ entry.translations.english.formName }}
-                  </div>
-                  <div v-if="hasValue(entry.translations.english.formName)">#{{ entry.form }}</div>
                 </div>
               </div>
             </div>
@@ -139,14 +141,20 @@ interface SpriteDexItem {
                 } as unknown as Pokemon,
                 entries: [] as SpriteDexItem[],
                 results: [] as Nullable<0 | 1 | 2>[],
-                enableShiny: true
+                enableShiny: true,
+                show: null as Nullable<0 | 1 | 2>
             }
         },
         methods: {
+            resolve(str: string) {
+                return resolveIllegalCharacters(str)
+            },
             async getSpriteDex() {
+                this.show = null
                 this.entries = []
                 this.hasError = false
                 this.error = null
+                this.finished = false
                 let response: Response
                 try {
                     response = await fetch(`http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/listSpriteDex${this.enableShiny ? '?addShiny=true' : ''}`, {method: 'GET'})
@@ -178,6 +186,14 @@ interface SpriteDexItem {
                     throw e
                 }
             },
+            canShow(i: number) {
+                switch (this.show) {
+                    case null:
+                        return true
+                    default:
+                        return this.results[i] === this.show;
+                }
+            },
             handleSuccess(i: number) {
                 if (this.hasValue(this.results[i])) {
                     return
@@ -185,12 +201,11 @@ interface SpriteDexItem {
                 this.results[i] = 2
             },
             handleError(i: number, img: HTMLImageElement) {
-                if (img.src === this.entries[i].fallbackSprite && this.hasValue(this.results[i])) {
-                    this.results[i] = 0
-                    return
+                if (!this.hasFinished) {
+                    this.show = 1
                 }
-
                 if (this.hasValue(this.results[i])) {
+                    this.results[i] = 0
                     return
                 }
 
@@ -228,6 +243,7 @@ interface SpriteDexItem {
         },
         watch: {
             templateText(newValue) {
+                this.show = null
                 this.results = []
                 this.entries = []
                 try {

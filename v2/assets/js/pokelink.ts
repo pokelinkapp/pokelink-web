@@ -29,7 +29,7 @@ import {
     ClientSettings,
     ParamsManager,
     isDefined,
-    hex2rgba, examplePokemon
+    hex2rgba, examplePokemon, resolveIllegalCharacters
 } from './global.js'
 import * as V2DataTypes from './v2_pb.js'
 import Handlebars from 'handlebars'
@@ -198,17 +198,17 @@ export namespace V2 {
 
     export function getSprite(pokemon: Pokemon) {
         if (clientSettings.useFallbackSprites) {
-            return pokemon.fallbackSprite
+            return resolveIllegalCharacters(pokemon.fallbackSprite)
         }
-        return clientSettings.spriteTemplate(pokemon)
+        return resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
     }
 
     export function getPartySprite(pokemon: Pokemon) {
         if (clientSettings.useFallbackSprites) {
-            return pokemon.fallbackPartySprite
+            return resolveIllegalCharacters(pokemon.fallbackPartySprite)
         }
 
-        return clientSettings.spriteTemplate(pokemon)
+        return resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
     }
 
     export function useFallback(img: HTMLImageElement, pokemon: Pokemon) {
@@ -276,4 +276,4 @@ export namespace V2 {
     }
 }
 
-export {htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined, hex2rgba, Handlebars, Nullable}
+export {htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable}

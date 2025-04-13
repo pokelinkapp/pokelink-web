@@ -1,0 +1,252 @@
+{
+    "version": 2,
+    "themes": [
+        {
+            "name": "Pokelink.Themes.BasicCard.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "supports": {
+                "changingSprites": false
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/basic-card/",
+            "options": [
+                {
+                    "key": "verticalPokemon",
+                    "name": "Pokelink.Themes.BasicCard.verticalPokemon",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "hp",
+                    "name": "Pokelink.Themes.BasicCard.hp",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "Pokelink.Themes.BDSPBattleStyleHud.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "supports": {
+                "changingSprites": false
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/bdsp-battle-style-hud/",
+            "options": []
+        },
+        {
+            "name": "Pokelink.Themes.BigNumbers.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "heartgold-soulsilver",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/big-numbers/",
+            "options": [
+                {
+                    "key": "useCardArtBackground",
+                    "name": "Pokelink.Themes.BigNumbers.useCardArt",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "useTypesGradient",
+                    "name": "Pokelink.Themes.BigNumbers.typesGradient",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "Pokelink.Themes.Default.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "gen7-animated",
+            "supports": {
+                "changingSprites": false
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/default/",
+            "options": [
+                {
+                    "key": "color",
+                    "name": "Pokelink.Themes.Default.color",
+                    "translate": true,
+                    "type": "string",
+                    "default": "Route",
+                    "options": [
+                        "Route",
+                        "Pokemon"
+                    ],
+                    "optionTranslationPrefix": "Pokelink.Themes.Default"
+                },
+                {
+                    "key": "typeBackground",
+                    "name": "Pokelink.Themes.Default.typeBackground",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "Pokelink.Themes.DigitalHex.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "pokelink:home",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/digital-hex/",
+            "options": [
+                {
+                    "key": "staggered",
+                    "name": "Pokelink.Themes.DigitalHex.staggered",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "hideHPBar",
+                    "name": "Pokelink.Themes.DigitalHex.hideHPBar",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "Pokelink.Themes.FadingCardArt.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "supports": {
+                "changingSprites": false
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/fading-card-art/",
+            "options": [
+                {
+                    "key": "flat",
+                    "name": "Pokelink.Themes.FadingCardArt.flat",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "Pokelink.Themes.Friday.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "pokelink:home",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/friday/",
+            "options": [
+                {
+                    "key": "darkMode",
+                    "name": "Pokelink.Themes.Friday.darkMode",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "Pokelink.Themes.Gameboy.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "gen8-party",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/gameboy/"
+        },
+        {
+            "name": "Pokelink.Themes.JezzabelPersonal.name",
+            "developer": "Jezzabel",
+            "translate": true,
+            "defaultSpriteSet": "pokelink:home",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/jezzabel-personal/",
+            "options": [
+                {
+                    "key": "flipped",
+                    "name": "Pokelink.Themes.JezzabelPersonal.flipped",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
+            "name": "Pokelink.Themes.LetsGo.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "national-animated",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/letsgo/",
+            "options": [
+                {
+                    "key": "verticalPokemon",
+                    "name": "Pokelink.Themes.LetsGo.verticalPokemon",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "colorPokeball",
+                    "name": "Pokelink.Themes.LetsGo.colorPokeball",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "colorBorder",
+                    "name": "Pokelink.Themes.LetsGo.colorBorder",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "colorBg",
+                    "name": "Pokelink.Themes.LetsGo.colorBg",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "color",
+                    "name": "Pokelink.Themes.LetsGo.color",
+                    "translate": true,
+                    "type": "string",
+                    "default": "type",
+                    "options": [
+                        "pokemon",
+                        "type",
+                        "route"
+                    ],
+                    "optionTranslationPrefix": "Pokelink.Themes.LetsGo"
+                }
+            ]
+        },
+        {
+            "name": "Pokelink.Themes.SpriteOnly.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "pokelink:home",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "https://auth.pokelink.xyz/v2/themes/sprite-only/"
+        }
+    ]
+}

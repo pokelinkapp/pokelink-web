@@ -25,7 +25,13 @@ Handlebars.registerHelper('toLower', function (str: string) {
 })
 
 Handlebars.registerHelper('noSpaces', function (str: string) {
-    return str?.replace(' ', '')
+    if (!isDefined(str)) {
+        return str
+    }
+    while (str.indexOf(' ') !== -1) {
+        str = str.replace(' ', '')
+    }
+    return str
 })
 
 Handlebars.registerHelper('nidoranGender', function (str: string, maleTag?: string, femaleTag?: string) {
@@ -50,6 +56,32 @@ Handlebars.registerHelper('nidoranGender', function (str: string, maleTag?: stri
 Handlebars.registerHelper('addFemaleTag', function (pokemon: Pokemon, femaleTag: string) {
     return (pokemon.gender === Gender.female || pokemon.gender as any as string === 'female') && pokemon.hasFemaleSprite ? femaleTag : ''
 })
+
+Handlebars.registerHelper('isZero', function(value: number) {
+    return value === 0
+})
+
+const illegalCharacters = /\b(?<!http|https)\b:|%(?![0-9a-fA-F])|\*/g
+
+export function resolveIllegalCharacters(input: Nullable<string>) {
+    if (!isDefined(input)) {
+        return input
+    }
+
+    if (input!.indexOf('?') !== -1) {
+        input = input!.replace('?', 'question')
+    }
+
+    if (input!.indexOf('!') !== -1) {
+        input = input!.replace('!', 'exclamation')
+    }
+
+    while (illegalCharacters.test(input!)) {
+        input = input!.replace(illegalCharacters, '')
+    }
+
+    return input
+}
 
 export const examplePokemon = {
     'pid': 3791076706,

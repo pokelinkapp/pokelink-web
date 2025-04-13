@@ -1,6 +1,7 @@
 import { Pokemon } from './v2_pb.js';
 export type Nullable<T> = T | undefined | null;
 export declare function isDefined(value: Nullable<any>): boolean;
+export declare function resolveIllegalCharacters(input: Nullable<string>): Nullable<string>;
 export declare const examplePokemon: Pokemon;
 export declare class EventEmitter {
     private events;

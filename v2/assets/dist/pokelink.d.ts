@@ -1,5 +1,5 @@
 import { Badge, Pokemon } from './v2_pb.js';
-import { EventEmitter, Nullable, htmlColors, statusColors, typeColors, string2ColHex, ClientSettings, isDefined, hex2rgba } from './global.js';
+import { EventEmitter, Nullable, htmlColors, statusColors, typeColors, string2ColHex, ClientSettings, isDefined, hex2rgba, resolveIllegalCharacters } from './global.js';
 import * as V2DataTypes from './v2_pb.js';
 import Handlebars from 'handlebars';
 import collect from 'collect.js';
@@ -19,8 +19,8 @@ export declare namespace V2 {
     export function handleSpriteTemplateUpdate(handler: () => void): void;
     export function onConnect(handler: () => void): void;
     export function isValidPokemon(pokemon: Nullable<Pokemon>): boolean;
-    export function getSprite(pokemon: Pokemon): string | undefined;
-    export function getPartySprite(pokemon: Pokemon): string | undefined;
+    export function getSprite(pokemon: Pokemon): Nullable<string>;
+    export function getPartySprite(pokemon: Pokemon): Nullable<string>;
     export function useFallback(img: HTMLImageElement, pokemon: Pokemon): void;
     export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon): void;
     export function getTypeColor(englishType: string): string;
@@ -28,4 +28,4 @@ export declare namespace V2 {
     export function updateSpriteTemplate(template: string): void;
     export {};
 }
-export { htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined, hex2rgba, Handlebars, Nullable };
+export { htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable };
