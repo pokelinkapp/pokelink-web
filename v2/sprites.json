@@ -6,7 +6,6 @@
             "name": "Pokelink.SpriteSets.Artwork.name",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": false,
             "forms": true,
@@ -15,7 +14,8 @@
                 2,
                 3,
                 4,
-                5
+                5,
+                6
             ],
             "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/artwork/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
@@ -24,7 +24,6 @@
             "name": "Pokelink.SpriteSets.BlackWhite.name",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": true,
             "forms": true,
@@ -42,7 +41,6 @@
             "name": "Pokelink.SpriteSets.Crystal.name",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": true,
             "forms": false,
@@ -57,7 +55,6 @@
             "name": "Pokelink.SpriteSets.Crystal.animated",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": true,
             "shinySprites": true,
             "forms": false,
@@ -72,7 +69,6 @@
             "name": "Pokelink.SpriteSets.DiamondPearl.name",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": true,
             "forms": true,
@@ -89,7 +85,6 @@
             "name": "Pokelink.SpriteSets.FireRedLeafGreen.name",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": true,
             "forms": true,
@@ -105,7 +100,6 @@
             "name": "Pokelink.SpriteSets.Generation.five",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": false,
             "forms": false,
@@ -123,7 +117,6 @@
             "name": "Pokelink.SpriteSets.Generation.fiveAnimated",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": true,
             "shinySprites": false,
             "forms": true,
@@ -141,7 +134,6 @@
             "name": "Pokelink.SpriteSets.Generation.six",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": false,
             "forms": true,
@@ -160,7 +152,6 @@
             "name": "Pokelink.SpriteSets.Generation.sixAnimated",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": true,
             "shinySprites": true,
             "forms": true,
@@ -179,7 +170,6 @@
             "name": "Pokelink.SpriteSets.Generation.seven",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": false,
             "forms": true,
@@ -199,7 +189,6 @@
             "name": "Pokelink.SpriteSets.Generation.sevenAnimated",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": true,
             "shinySprites": true,
             "forms": true,
@@ -219,7 +208,6 @@
             "name": "Pokelink.SpriteSets.Generation.eight",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": false,
             "forms": true,
@@ -240,7 +228,6 @@
             "name": "Pokelink.SpriteSets.Generation.eightParty",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": false,
             "forms": false,
@@ -261,7 +248,6 @@
             "name": "Pokelink.SpriteSets.Green.name",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": false,
             "forms": false,
@@ -275,7 +261,6 @@
             "name": "Pokelink.SpriteSets.HeartGoldSoulSilver.name",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": true,
             "forms": false,
@@ -292,7 +277,6 @@
             "name": "Pokelink.SpriteSets.Home.name",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": true,
             "forms": true,
@@ -314,7 +298,6 @@
             "name": "Pokelink.SpriteSets.Moemon.name",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": false,
             "forms": false,
@@ -330,7 +313,6 @@
             "name": "Pokelink.SpriteSets.National.animated",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": true,
             "shinySprites": true,
             "forms": true,
@@ -351,7 +333,6 @@
             "name": "Pokelink.SpriteSets.National.party",
             "translate": true,
             "developer": "Pokélink",
-            "artists": "",
             "animated": false,
             "shinySprites": false,
             "forms": true,
@@ -365,7 +346,174 @@
                 7,
                 8
             ],
-            "templateString": "https://auth.pokelink.xyz/v2/sprites/pokemon/national/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/national/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+        },
+        {
+            "id": "pokelink:pkhex:party",
+            "name": "Pokelink.SpriteSets.PKHeX.party",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": false,
+            "forms": true,
+            "supportedGenerations": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            "templateString": "https://auth.pokelink.xyz/v2/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}.png"
+        },
+        {
+            "id": "pokelink:platinum",
+            "name": "Pokelink.SpriteSets.Platinum.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": true,
+            "forms": true,
+            "supportedGenerations": [
+                1,
+                2,
+                3,
+                4
+            ],
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/platinum/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+        },
+        {
+            "id": "pokelink:red-blue",
+            "name": "Pokelink.SpriteSets.RedBlue.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": false,
+            "forms": false,
+            "supportedGenerations": [
+                1
+            ],
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/red-blue/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+        },
+        {
+            "id": "pokelink:rescue-team-dx",
+            "name": "Pokelink.SpriteSets.RescueTeamDX.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": false,
+            "forms": false,
+            "supportedGenerations": [
+                1,
+                2,
+                3
+            ],
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/rescue-team-dx/normal/{{ species }}.png"
+        },
+        {
+            "id": "pokelink:s-m",
+            "name": "Pokelink.SpriteSets.SunMoon.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": false,
+            "forms": true,
+            "supportedGenerations": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/s-m/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+        },
+        {
+            "id": "pokelink:silver",
+            "name": "Pokelink.SpriteSets.Silver.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": true,
+            "forms": false,
+            "supportedGenerations": [
+                1,
+                2
+            ],
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/silver/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+        },
+        {
+            "id": "pokelink:sugimori",
+            "name": "Sugimori",
+            "developer": "Pokélink",
+            "artists": "Sugimori",
+            "animated": false,
+            "shinySprites": false,
+            "forms": true,
+            "supportedGenerations": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/sugimori/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+        },
+        {
+            "id": "pokelink:trozei",
+            "name": "Pokelink.SpriteSets.Trozei.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": false,
+            "forms": false,
+            "supportedGenerations": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/trozei/{{ species }}.png"
+        },
+        {
+            "id": "pokelink:x-y",
+            "name": "Pokelink.SpriteSets.XY.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": true,
+            "forms": true,
+            "supportedGenerations": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+            ],
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/x-y/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+        },
+        {
+            "id": "pokelink:yellow",
+            "name": "Pokelink.SpriteSets.Yellow.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": false,
+            "forms": false,
+            "supportedGenerations": [
+                1
+            ],
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/yellow/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
         }
     ]
 }

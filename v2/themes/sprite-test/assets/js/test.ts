@@ -51,12 +51,12 @@ interface SpriteDexItem {
                             readonly>{{ error }}</textarea>
                 </div>
               </div>
-              <div>
+              <div class="flex flex-col items-start">
                 <div class="text-2xl cursor-pointer" @click="show = null">Testing ({{ entries.length - results.filter(x => hasValue(x)).length }})</div>
                 <div class="text-2xl cursor-pointer text-green-500" @click="show = 2">Success ({{ results.filter(x => x === 2).length }})</div>
                 <div class="text-2xl cursor-pointer text-yellow-500" @click="show = 1">Fallback ({{ results.filter(x => x === 1).length }})</div>
                 <div class="text-2xl cursor-pointer text-red-500" @click="show = 0">Failed ({{ results.filter(x => x === 0).length }})</div>
-                <hr class="mb-3"/>
+                <hr class="mb-3 w-full"/>
               </div>
             </div>
             <div id="entries" class="overflow-y-auto overflow-x-hidden flex-1">
