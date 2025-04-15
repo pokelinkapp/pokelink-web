@@ -63,6 +63,10 @@ export default defineComponent({
         if (this.useCardArtBackground) {
             this.getNewCardArt(this.pokemon);
         }
+        const vm = this;
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate();
+        });
     },
     methods: {
         useFallback() {

@@ -62,7 +62,7 @@ export function pokemonTCGCardSets() {
         },
         created: function () {
             const vm = this;
-            V2.initialize({ listenForSpriteUpdates: false });
+            V2.initialize();
             V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/heartgold-soulsilver/' +
                 '{{ifElse isShiny "shiny" "normal"}}' +
                 '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +

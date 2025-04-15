@@ -8,18 +8,19 @@
             "supports": {
                 "changingSprites": false
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/basic-card/",
+            "url": "https://assets.pokelink.xyz/v2/themes/basic-card/",
             "options": [
                 {
                     "key": "verticalPokemon",
-                    "name": "Pokelink.Themes.BasicCard.verticalPokemon",
+                    "name": "Pokelink.Themes.BasicCard.verticalPokemon.name",
+                    "description": "Pokelink.Themes.BasicCard.verticalPokemon.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
                 },
                 {
                     "key": "hp",
-                    "name": "Pokelink.Themes.BasicCard.hp",
+                    "name": "Pokelink.Themes.BasicCard.hp.name",
                     "translate": true,
                     "type": "boolean",
                     "default": false
@@ -33,7 +34,7 @@
             "supports": {
                 "changingSprites": false
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/bdsp-battle-style-hud/",
+            "url": "https://assets.pokelink.xyz/v2/themes/bdsp-battle-style-hud/",
             "options": []
         },
         {
@@ -44,18 +45,20 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/big-numbers/",
+            "url": "https://assets.pokelink.xyz/v2/themes/big-numbers/",
             "options": [
                 {
                     "key": "useCardArtBackground",
-                    "name": "Pokelink.Themes.BigNumbers.useCardArt",
+                    "name": "Pokelink.Themes.BigNumbers.useCardArt.name",
+                    "description": "Pokelink.Themes.BigNumbers.useCardArt.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
                 },
                 {
                     "key": "useTypesGradient",
-                    "name": "Pokelink.Themes.BigNumbers.typesGradient",
+                    "name": "Pokelink.Themes.BigNumbers.typesGradient.name",
+                    "description": "Pokelink.Themes.BigNumbers.typesGradient.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
@@ -70,7 +73,7 @@
             "supports": {
                 "changingSprites": false
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/default/",
+            "url": "https://assets.pokelink.xyz/v2/themes/default/",
             "options": [
                 {
                     "key": "color",
@@ -86,7 +89,8 @@
                 },
                 {
                     "key": "typeBackground",
-                    "name": "Pokelink.Themes.Default.typeBackground",
+                    "name": "Pokelink.Themes.Default.typeBackground.name",
+                    "description": "Pokelink.Themes.Default.typeBackground.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
@@ -101,18 +105,19 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/digital-hex/",
+            "url": "https://assets.pokelink.xyz/v2/themes/digital-hex/",
             "options": [
                 {
                     "key": "staggered",
-                    "name": "Pokelink.Themes.DigitalHex.staggered",
+                    "name": "Pokelink.Themes.DigitalHex.staggered.name",
+                    "description": "Pokelink.Themes.DigitalHex.staggered.description",
                     "translate": true,
                     "type": "boolean",
                     "default": true
                 },
                 {
                     "key": "hideHPBar",
-                    "name": "Pokelink.Themes.DigitalHex.hideHPBar",
+                    "name": "Pokelink.Themes.DigitalHex.hideHPBar.name",
                     "translate": true,
                     "type": "boolean",
                     "default": false
@@ -126,11 +131,12 @@
             "supports": {
                 "changingSprites": false
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/fading-card-art/",
+            "url": "https://assets.pokelink.xyz/v2/themes/fading-card-art/",
             "options": [
                 {
                     "key": "flat",
-                    "name": "Pokelink.Themes.FadingCardArt.flat",
+                    "name": "Pokelink.Themes.FadingCardArt.flat.name",
+                    "description": "Pokelink.Themes.FadingCardArt.flat.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
@@ -145,11 +151,11 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/friday/",
+            "url": "https://assets.pokelink.xyz/v2/themes/friday/",
             "options": [
                 {
                     "key": "darkMode",
-                    "name": "Pokelink.Themes.Friday.darkMode",
+                    "name": "Pokelink.Themes.Friday.darkMode.name",
                     "translate": true,
                     "type": "boolean",
                     "default": false
@@ -164,7 +170,7 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/gameboy/"
+            "url": "https://assets.pokelink.xyz/v2/themes/gameboy/"
         },
         {
             "name": "Pokelink.Themes.JezzabelPersonal.name",
@@ -174,11 +180,12 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/jezzabel-personal/",
+            "url": "https://assets.pokelink.xyz/v2/themes/jezzabel-personal/",
             "options": [
                 {
                     "key": "flipped",
-                    "name": "Pokelink.Themes.JezzabelPersonal.flipped",
+                    "name": "Pokelink.Themes.JezzabelPersonal.flipped.name",
+                    "description": "Pokelink.Themes.JezzabelPersonal.flipped.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
@@ -193,32 +200,36 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/letsgo/",
+            "url": "https://assets.pokelink.xyz/v2/themes/letsgo/",
             "options": [
                 {
                     "key": "verticalPokemon",
-                    "name": "Pokelink.Themes.LetsGo.verticalPokemon",
+                    "name": "Pokelink.Themes.LetsGo.verticalPokemon.name",
+                    "description": "Pokelink.Themes.LetsGo.verticalPokemon.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
                 },
                 {
                     "key": "colorPokeball",
-                    "name": "Pokelink.Themes.LetsGo.colorPokeball",
+                    "name": "Pokelink.Themes.LetsGo.colorPokeball.name",
+                    "description": "Pokelink.Themes.LetsGo.colorPokeball.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
                 },
                 {
                     "key": "colorBorder",
-                    "name": "Pokelink.Themes.LetsGo.colorBorder",
+                    "name": "Pokelink.Themes.LetsGo.colorBorder.name",
+                    "description": "Pokelink.Themes.LetsGo.colorBorder.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
                 },
                 {
                     "key": "colorBg",
-                    "name": "Pokelink.Themes.LetsGo.colorBg",
+                    "name": "Pokelink.Themes.LetsGo.colorBg.name",
+                    "description": "Pokelink.Themes.LetsGo.colorBg.description",
                     "translate": true,
                     "type": "boolean",
                     "default": true
@@ -246,7 +257,7 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://auth.pokelink.xyz/v2/themes/sprite-only/"
+            "url": "https://assets.pokelink.xyz/v2/themes/sprite-only/"
         }
     ]
 }

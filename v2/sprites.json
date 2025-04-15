@@ -367,7 +367,7 @@
                 8,
                 9
             ],
-            "templateString": "https://auth.pokelink.xyz/v2/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/assets/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}.png"
         },
         {
             "id": "pokelink:platinum",
@@ -450,7 +450,6 @@
             "id": "pokelink:sugimori",
             "name": "Sugimori",
             "developer": "Pokélink",
-            "artists": "Sugimori",
             "animated": false,
             "shinySprites": false,
             "forms": true,
