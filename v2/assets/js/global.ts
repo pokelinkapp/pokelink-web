@@ -206,7 +206,13 @@ export class ParamsManager {
             return _default
         }
 
-        return this.params.get(key)!
+        let value = this.params.get(key)!
+
+        if (value.length <= 0) {
+            return _default
+        }
+
+        return value
     }
 
     public getBool(key: string, _default: boolean = false) {

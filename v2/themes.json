@@ -8,7 +8,7 @@
             "supports": {
                 "changingSprites": false
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/basic-card/",
+            "url": "http://assets.pokelink.xyz/v2/themes/basic-card/",
             "options": [
                 {
                     "key": "verticalPokemon",
@@ -34,7 +34,7 @@
             "supports": {
                 "changingSprites": false
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/bdsp-battle-style-hud/",
+            "url": "http://assets.pokelink.xyz/v2/themes/bdsp-battle-style-hud/",
             "options": []
         },
         {
@@ -45,7 +45,7 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/big-numbers/",
+            "url": "http://assets.pokelink.xyz/v2/themes/big-numbers/",
             "options": [
                 {
                     "key": "useCardArtBackground",
@@ -73,7 +73,7 @@
             "supports": {
                 "changingSprites": false
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/default/",
+            "url": "http://assets.pokelink.xyz/v2/themes/default/",
             "options": [
                 {
                     "key": "color",
@@ -105,7 +105,7 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/digital-hex/",
+            "url": "http://assets.pokelink.xyz/v2/themes/digital-hex/",
             "options": [
                 {
                     "key": "staggered",
@@ -131,7 +131,7 @@
             "supports": {
                 "changingSprites": false
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/fading-card-art/",
+            "url": "http://assets.pokelink.xyz/v2/themes/fading-card-art/",
             "options": [
                 {
                     "key": "flat",
@@ -151,7 +151,7 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/friday/",
+            "url": "http://assets.pokelink.xyz/v2/themes/friday/",
             "options": [
                 {
                     "key": "darkMode",
@@ -170,7 +170,7 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/gameboy/"
+            "url": "http://assets.pokelink.xyz/v2/themes/gameboy/"
         },
         {
             "name": "Pokelink.Themes.JezzabelPersonal.name",
@@ -180,7 +180,7 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/jezzabel-personal/",
+            "url": "http://assets.pokelink.xyz/v2/themes/jezzabel-personal/",
             "options": [
                 {
                     "key": "flipped",
@@ -200,7 +200,7 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/letsgo/",
+            "url": "http://assets.pokelink.xyz/v2/themes/letsgo/",
             "options": [
                 {
                     "key": "verticalPokemon",
@@ -257,7 +257,7 @@
             "supports": {
                 "changingSprites": true
             },
-            "url": "https://assets.pokelink.xyz/v2/themes/sprite-only/"
+            "url": "http://assets.pokelink.xyz/v2/themes/sprite-only/"
         }
     ]
 }

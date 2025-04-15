@@ -159,10 +159,12 @@ export namespace V2 {
         })
 
         if (v2Settings.listenForSpriteUpdates) {
-            const newTemplate = clientSettings.params.getString("template", undefined)
-
-            if (newTemplate !== undefined) {
-                updateSpriteTemplate(newTemplate)
+            const newTemplate = clientSettings.params.getString('template', undefined)
+            if (clientSettings.params.hasKey('template')) {
+                console.log(newTemplate)
+                if (isDefined(newTemplate)) {
+                    updateSpriteTemplate(newTemplate!)
+                }
                 v2Settings.listenForSpriteUpdates = false
             }
         }
@@ -256,7 +258,7 @@ export namespace V2 {
     }
 
     export function updateSpriteTemplate(template: string) {
-        if (!v2Settings.listenForSpriteUpdates) {
+        if (!v2Settings.listenForSpriteUpdates || !isDefined(template) || template.length <= 0) {
             return
         }
         try {
@@ -265,7 +267,7 @@ export namespace V2 {
             clientSettings.spriteTemplate = test
 
             if (clientSettings.debug) {
-                console.debug(`Received new sprite template: ${template}`)
+                console.debug('Received new sprite template:', template)
             }
 
             events.emit(spriteUpdate)
@@ -276,4 +278,17 @@ export namespace V2 {
     }
 }
 
-export {htmlColors, statusColors, typeColors, EventEmitter, V2DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable}
+export {
+    htmlColors,
+    statusColors,
+    typeColors,
+    EventEmitter,
+    V2DataTypes,
+    string2ColHex,
+    collect,
+    isDefined,
+    hex2rgba,
+    resolveIllegalCharacters,
+    Handlebars,
+    Nullable
+}
