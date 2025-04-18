@@ -19,8 +19,8 @@ export declare namespace V2 {
     export function handleSpriteTemplateUpdate(handler: () => void): void;
     export function onConnect(handler: () => void): void;
     export function isValidPokemon(pokemon: Nullable<Pokemon>): boolean;
-    export function getSprite(pokemon: Pokemon): Nullable<string>;
-    export function getPartySprite(pokemon: Pokemon): Nullable<string>;
+    export function getSprite(pokemon: Pokemon): string | undefined;
+    export function getPartySprite(pokemon: Pokemon): string | undefined;
     export function useFallback(img: HTMLImageElement, pokemon: Pokemon): void;
     export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon): void;
     export function getTypeColor(englishType: string): string;

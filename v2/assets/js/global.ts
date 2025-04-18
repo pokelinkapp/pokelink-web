@@ -61,11 +61,11 @@ Handlebars.registerHelper('isZero', function(value: number) {
     return value === 0
 })
 
-const illegalCharacters = /\b(?<!http|https)\b:|%(?![0-9a-fA-F])|\*/g
+const illegalCharacters = /\b(?<!http|https|localhost)\b:|%(?![0-9a-fA-F])|\*/g
 
-export function resolveIllegalCharacters(input: Nullable<string>) {
+export function resolveIllegalCharacters(input: Nullable<string>): string {
     if (!isDefined(input)) {
-        return input
+        return ''
     }
 
     if (input!.indexOf('?') !== -1) {
@@ -76,11 +76,23 @@ export function resolveIllegalCharacters(input: Nullable<string>) {
         input = input!.replace('!', 'exclamation')
     }
 
+    if (input!.indexOf('&#x27;') !== -1) {
+        input = input!.replace('&#x27;', '’')
+    }
+
+    if (input!.indexOf('*') !== -1) {
+        input = input!.replace('*', '')
+    }
+
+    while (input!.indexOf('..') !== -1) {
+        input = input!.replace('..', '.')
+    }
+
     while (illegalCharacters.test(input!)) {
         input = input!.replace(illegalCharacters, '')
     }
 
-    return input
+    return input!
 }
 
 export const examplePokemon = {

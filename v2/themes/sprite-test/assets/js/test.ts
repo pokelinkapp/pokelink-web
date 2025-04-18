@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {homeSpriteTemplate, Handlebars, Nullable, clientSettings, spriteTestInitialize, isDefined, resolveIllegalCharacters} from 'pokelink'
+import {homeSpriteTemplate, Handlebars, Nullable, clientSettings, spriteTestInitialize, isDefined, resolveIllegalCharacters, V2} from 'pokelink'
 import {Gender, Pokemon} from 'v2Proto'
 import {defineComponent} from 'vue'
 
@@ -66,9 +66,9 @@ interface SpriteDexItem {
                        :class="{'text-red-500': results[idx] === 0, 'text-yellow-500': results[idx] === 1, 'text-green-500': results[idx] === 2}"
                        style="width: 200px; height: 200px" v-if="canShow(idx)">
                     <div class="flex justify-center">
-                      <img :title="'Expected: ' + resolve(template(entry))"
+                      <img :title="'Expected: ' + getSprite(entry)"
                            :class="{'border-red-500': results[idx] === 0, 'border-yellow-500': results[idx] === 1, 'border-green-500': results[idx] === 2}"
-                           class="border" style="height: 100px; width: 100px;" :src="hasValue(results[idx]) && results[idx] !== 2 ? entries[idx].fallbackSprite : resolve(template(entry))"
+                           class="border" style="height: 100px; width: 100px;" :src="hasValue(results[idx]) && results[idx] !== 2 ? getFallback(entries[idx]) : getSprite(entry)"
                            @load="() => handleSuccess(idx)" :key="idx" @error="() => handleError(idx, this)"/>
                     </div>
                     <div>{{ entry.translations.locale.speciesName }} / {{ entry.translations.english.speciesName }}</div>
@@ -87,7 +87,6 @@ interface SpriteDexItem {
         data() {
             return {
                 templateText: homeSpriteTemplate,
-                template: Handlebars.compile(homeSpriteTemplate),
                 hasError: false,
                 templateError: false,
                 error: null as Nullable<string>,
@@ -124,8 +123,8 @@ interface SpriteDexItem {
                         }
                     },
                     'color': 'Black',
-                    'fallbackSprite': 'http://localhost:3000/assets:/assets/sprites/pokemon/home/normal/charizard-megax.png',
-                    'fallbackPartySprite': 'http://localhost:3000/pokelink:/pkhex/img/sprites/a_6-1.png',
+                    'fallbackSprite': '$POKELINK_HOST/assets:/assets/sprites/pokemon/home/normal/charizard-megax.png',
+                    'fallbackPartySprite': '$POKELINK_HOST/pokelink:/pkhex/img/sprites/a_6-1.png',
                     'heldItem': 0,
                     'gender': 'male',
                     'form': 1,
@@ -146,8 +145,11 @@ interface SpriteDexItem {
             }
         },
         methods: {
-            resolve(str: string) {
-                return resolveIllegalCharacters(str)
+            getSprite(pokemon: SpriteDexItem) {
+                return V2.getSprite(pokemon as unknown as Pokemon)
+            },
+            getFallback(pokemon: SpriteDexItem) {
+                return pokemon.fallbackSprite?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
             },
             async getSpriteDex() {
                 this.show = null
@@ -210,14 +212,14 @@ interface SpriteDexItem {
                 }
 
                 this.results[i] = 1
-                img.src = this.entries[i].fallbackSprite
+                V2.useFallback(img, this.entries[i])
             },
             hasValue(idx?: any){
                 return isDefined(idx)
             },
             exampleOutput() {
                 try {
-                    const result = this.template(this.examplePokemon)
+                    const result = V2.getSprite(this.examplePokemon)
                     this.templateError = false
                     return `Example output: ${result}`
                 } catch (e: any) {
@@ -251,7 +253,7 @@ interface SpriteDexItem {
                     this.templateError = false
                     this.hasError = false
                     this.error = null
-                    this.template = newTemplate
+                    V2.updateSpriteTemplate(newValue)
                 } catch(ex) {
                     this.hasError = true
                     this.error = ex

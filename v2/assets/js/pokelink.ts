@@ -199,42 +199,51 @@ export namespace V2 {
     }
 
     export function getSprite(pokemon: Pokemon) {
+        let output: Nullable<string> = ""
         if (clientSettings.useFallbackSprites) {
-            return resolveIllegalCharacters(pokemon.fallbackSprite)
+            output = pokemon.fallbackSprite
+        } else {
+            output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
         }
-        return resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
+
+        return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
     }
 
     export function getPartySprite(pokemon: Pokemon) {
+        let output: Nullable<string> = ""
         if (clientSettings.useFallbackSprites) {
-            return resolveIllegalCharacters(pokemon.fallbackPartySprite)
+            output = pokemon.fallbackPartySprite
+        } else {
+            output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
         }
 
-        return resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
+        return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
     }
 
     export function useFallback(img: HTMLImageElement, pokemon: Pokemon) {
-        if (img.src === pokemon.fallbackSprite || !isDefined(pokemon.fallbackSprite)) {
+        let fallback = pokemon.fallbackSprite?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+        if (img.src === fallback || !isDefined(fallback)) {
             return
         }
 
         if (clientSettings.debug) {
-            console.debug(`${img.src} encountered an error. Falling back to ${pokemon.fallbackSprite}`)
+            console.debug(`${img.src} encountered an error. Falling back to ${fallback}`)
         }
 
-        img.src = pokemon.fallbackSprite!
+        img.src = fallback!
     }
 
     export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon) {
-        if (img.src === pokemon.fallbackPartySprite || !isDefined(pokemon.fallbackPartySprite)) {
+        let fallback = pokemon.fallbackPartySprite?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+        if (img.src === fallback || !isDefined(fallback)) {
             return
         }
 
         if (clientSettings.debug) {
-            console.debug(`${img.src} encountered an error. Falling back to ${pokemon.fallbackPartySprite}`)
+            console.debug(`${img.src} encountered an error. Falling back to ${fallback}`)
         }
 
-        img.src = pokemon.fallbackPartySprite!
+        img.src = fallback!
     }
 
     export function getTypeColor(englishType: string) {
