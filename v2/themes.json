@@ -250,6 +250,26 @@
             ]
         },
         {
+            "name": "Pokelink.Themes.Pokeball.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "pokelink:gen7:animated",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "http://assets.pokelink.xyz/v2/themes/pokeball/"
+        },
+        {
+            "name": "Pokelink.Themes.RescueTeamDX.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "pokelink:rescue-team-dx",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "http://assets.pokelink.xyz/v2/themes/rescue-team-dx/"
+        },
+        {
             "name": "Pokelink.Themes.SpriteOnly.name",
             "developer": "Pokélink",
             "translate": true,
