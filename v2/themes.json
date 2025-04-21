@@ -270,6 +270,48 @@
             "url": "http://assets.pokelink.xyz/v2/themes/rescue-team-dx/"
         },
         {
+            "name": "Pokelink.Themes.SportsTicker.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "pokelink:home",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "http://assets.pokelink.xyz/v2/themes/sports-game-scores/",
+            "options": [
+                {
+                    "key": "verticalPokemon",
+                    "name": "Pokelink.Themes.SportsTicker.verticalPokemon.name",
+                    "description": "Pokelink.Themes.SportsTicker.verticalPokemon.description",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "noGap",
+                    "name": "Pokelink.Themes.SportsTicker.noGap.name",
+                    "description": "Pokelink.Themes.SportsTicker.noGap.description",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "useCardArtBackground",
+                    "name": "Pokelink.Themes.SportsTicker.useCardArtBackground.name",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "hideLevels",
+                    "name": "Pokelink.Themes.SportsTicker.hideLevels.name",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        },
+        {
             "name": "Pokelink.Themes.SpriteOnly.name",
             "developer": "Pokélink",
             "translate": true,

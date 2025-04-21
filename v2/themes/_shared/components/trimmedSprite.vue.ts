@@ -6,7 +6,7 @@ export default defineComponent({
     template: `
       <div class="pokemon__image" ref="container">
         <img
-            v-if="!isGif && pokemon.isEgg && !fixedsprite"
+            v-if="!isGif && pokemon.isEgg && !fixedSprite"
             :src="sprite()"
             @load="trim"
             class="sprite"
@@ -15,7 +15,7 @@ export default defineComponent({
             @error="handleFallback"
         />
         <img
-            v-if="!isGif && !pokemon.isEgg && !fixedsprite"
+            v-if="!isGif && !pokemon.isEgg && !fixedSprite"
             :src="sprite()"
             class="sprite"
             @load="trim"

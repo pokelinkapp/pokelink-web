@@ -161,11 +161,9 @@ export namespace V2 {
         if (v2Settings.listenForSpriteUpdates) {
             const newTemplate = clientSettings.params.getString('template', undefined)
             if (clientSettings.params.hasKey('template')) {
-                console.log(newTemplate)
                 if (isDefined(newTemplate)) {
                     updateSpriteTemplate(newTemplate!)
                 }
-                v2Settings.listenForSpriteUpdates = false
             }
         }
     }
@@ -274,6 +272,10 @@ export namespace V2 {
             let test = Handlebars.compile(template)
             test(examplePokemon)
             clientSettings.spriteTemplate = test
+
+            if (clientSettings.params.hasKey('template')) {
+                v2Settings.listenForSpriteUpdates = false
+            }
 
             if (clientSettings.debug) {
                 console.debug('Received new sprite template:', template)
