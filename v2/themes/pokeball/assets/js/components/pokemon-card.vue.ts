@@ -5,8 +5,8 @@ import {Pokemon} from 'v2Proto'
 export default defineComponent({
     template: `
       <div>
-        <div :class="{ 'pokemon__slot': true, 'type_border': isBorderColorType() }" :style="styleBorder(pokemon)"
-             v-if="pokemon !== null">
+        <div :class="{ 'pokemon__slot': true, 'type_border': isBorderColorType() }" :style="styleBorder()"
+             v-if="isValid">
           <div :class="{ 'pokemon__image': true, 'pokemon__dead': (pokemon.hp.current === 0)}">
             <img ref="pokemonSprite" @error="useFallback" :src="getSprite()">
           </div>
@@ -33,7 +33,7 @@ export default defineComponent({
           </div>
           <div class="pokemon__hp-bar">
             <div class="progress" style="height: 9px;">
-              <div :class="healthBarClass(pokemon)" v-bind:style="{width: healthBarPercent(pokemon) + '%'}"
+              <div :class="healthBarClass()" v-bind:style="{width: healthBarPercent() + '%'}"
                    role="progressbar" :aria-valuenow="pokemon.hp.current" :aria-valuemin="0"
                    :aria-valuemax="pokemon.hp.max"></div>
             </div>
@@ -52,14 +52,23 @@ export default defineComponent({
         },
         settings: Object
     },
+    computed: {
+        isValid() {
+            return V2.isValidPokemon(this.pokemon)
+        }
+    },
     methods: {
         useFallback() {
-            V2.useFallback(this.$refs.pokemonSprite as HTMLImageElement, this.pokemon)
+            V2.useFallback(this.$refs.pokemonSprite as HTMLImageElement, this.pokemon!)
         },
         getSprite() {
-            return V2.getSprite(this.pokemon)
+            return V2.getSprite(this.pokemon!)
         },
         styleBorder(pokemon: Pokemon) {
+            if (!this.isValid) {
+                return {'border-color': 'black'}
+            }
+
             let color = clientSettings.params.getString('color', undefined)
             const routeColor = color === 'route'
             const pokemonColor = color === 'pokemon'
@@ -90,15 +99,21 @@ export default defineComponent({
 
             return {'border-color': 'black'}
         },
-        healthBarPercent: function (pokemon: Pokemon) {
-            if (pokemon.hp!.max === pokemon.hp!.current) {
+        healthBarPercent: function () {
+            if (!this.isValid) {
                 return 100
             }
 
-            return (100 / pokemon.hp!.max) * pokemon.hp!.current
+            console.log("What is this shit?!")
+
+            if (this.pokemon.hp!.max === this.pokemon.hp!.current) {
+                return 100
+            }
+
+            return (100 / this.pokemon.hp!.max) * this.pokemon.hp!.current
         },
-        healthBarClass: function (pokemon: Pokemon) {
-            const percent = this.healthBarPercent(pokemon)
+        healthBarClass: function () {
+            const percent = this.healthBarPercent()
 
             if (percent == 0) {
                 return 'progress-bar grey'
@@ -127,12 +142,17 @@ export default defineComponent({
             return string2ColHex(str)
         },
         isMale() {
-            return this.pokemon.gender === V2DataTypes.Gender.male
+            if (!this.isValid) {
+                return false
+            }
+            return this.pokemon!.gender === V2DataTypes.Gender.male
         },
         isFemale() {
-            return this.pokemon.gender === V2DataTypes.Gender.female
+            if (!this.isValid) {
+                return false
+            }
+            return this.pokemon!.gender === V2DataTypes.Gender.female
         }
-    },
-    computed: {}
+    }
 })
 

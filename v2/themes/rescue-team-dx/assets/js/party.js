@@ -16,7 +16,7 @@ import list from './components/list.vue.js';
         created: function () {
             const vm = this;
             V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/rescue-team-dx/normal/{{ species }}.png');
-            V2.initialize();
+            V2.initialize({ listenForSpriteUpdates: false });
             V2.onConnect(() => {
                 vm.connected = true;
                 this.loaded = true;

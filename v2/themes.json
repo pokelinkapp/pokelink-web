@@ -265,7 +265,7 @@
             "translate": true,
             "defaultSpriteSet": "pokelink:rescue-team-dx",
             "supports": {
-                "changingSprites": true
+                "changingSprites": false
             },
             "url": "http://assets.pokelink.xyz/v2/themes/rescue-team-dx/"
         },

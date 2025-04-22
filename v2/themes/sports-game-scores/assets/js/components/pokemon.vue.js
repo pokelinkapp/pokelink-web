@@ -5,9 +5,9 @@ import { clientSettings, hex2rgba, V2, V2DataTypes } from 'pokelink';
 var getTypeColor = V2.getTypeColor;
 export default defineComponent({
     template: `
-      <div :class="{ 'pokemon': true, 'isDead': isDead,  'opaque': !fixedSprite}" :style="backgroundGradientStyle">
+      <div :class="{ 'pokemon': true, 'isDead': isDead,  'opaque': !fixedSprite}" :style="backgroundGradientStyle"
+           v-if="pokemonExists">
         <div
-            v-if="pokemonExists"
             class="pokemon__card-art"
             :style="{'background-image': 'url(' + customCardArt + ')'}"
         ></div>
