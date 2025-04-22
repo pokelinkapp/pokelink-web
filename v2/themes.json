@@ -270,6 +270,16 @@
             "url": "http://assets.pokelink.xyz/v2/themes/rescue-team-dx/"
         },
         {
+            "name": "Simple Circles",
+            "developer": "Pokélink",
+            "translate": false,
+            "defaultSpriteSet": "pokelink:home",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "http://assets.pokelink.xyz/v2/themes/simple-circles/"
+        },
+        {
             "name": "Pokelink.Themes.SportsTicker.name",
             "developer": "Pokélink",
             "translate": true,
