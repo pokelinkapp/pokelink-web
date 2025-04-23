@@ -20,6 +20,7 @@ export default defineComponent({
               v-if="this.isValid"
               @done="fixedSprite = true"
               :getSprite="getSprite"
+              :usePartySprites="true"
           ></trimmedSprite>
         </div>
         <div class="details" v-if="this.isValid">

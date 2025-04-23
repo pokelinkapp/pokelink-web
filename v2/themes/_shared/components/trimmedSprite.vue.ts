@@ -49,6 +49,10 @@ export default defineComponent({
         getSprite: {
             type: Function,
             required: true
+        },
+        usePartySprites: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -69,7 +73,11 @@ export default defineComponent({
             return this.getSprite(this.pokemon)
         },
         handleFallback() {
-            V2.useFallback(this.$refs.spriteImg as HTMLImageElement, this.pokemon)
+            if (this.usePartySprites) {
+                V2.usePartyFallback(this.$refs.spriteImg as HTMLImageElement, this.pokemon)
+            } else {
+                V2.useFallback(this.$refs.spriteImg as HTMLImageElement, this.pokemon)
+            }
         },
         trim() {
             if (this.oldImage === this.sprite()) {
