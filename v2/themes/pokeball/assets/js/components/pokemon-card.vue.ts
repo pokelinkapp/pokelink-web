@@ -52,6 +52,12 @@ export default defineComponent({
         },
         settings: Object
     },
+    mounted() {
+        const vm = this
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate()
+        })
+    },
     computed: {
         isValid() {
             return V2.isValidPokemon(this.pokemon)

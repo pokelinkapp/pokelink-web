@@ -1,0 +1,48 @@
+import { defineComponent } from 'vue';
+import { V2 } from 'pokelink';
+import pokemon from './pokemon.vue.js';
+export default defineComponent({
+    template: `
+      <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
+        <transition-group :name="switchSpeed" tag="div"
+                          :class="['pokemon__list']"
+                          v-if="loaded">
+          <pokemon v-for="( poke, idx ) in partySlots" :slotId="idx + 1" :key="poke.pid" :pokemon="poke">
+          </pokemon>
+        </transition-group>
+      </div>
+    `,
+    components: {
+        'pokemon': pokemon
+    },
+    data() {
+        return {
+            loaded: false,
+            party: [],
+            players: {},
+            party_count: 0,
+            switchSpeed: 'switchMedium',
+            flipped: false
+        };
+    },
+    created: function () {
+        this.loaded = true;
+    },
+    mounted() {
+        let vm = this;
+        V2.handlePartyUpdates((party => {
+            vm.party = party;
+            vm.$forceUpdate();
+        }));
+    },
+    methods: {},
+    computed: {
+        partySlots() {
+            return [...new Array(6).keys()]
+                .map(slot => {
+                return this.party[slot] || {};
+            });
+        }
+    }
+});
+//# sourceMappingURL=list.vue.js.map

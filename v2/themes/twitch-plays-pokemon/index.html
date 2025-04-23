@@ -3,30 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>Sword & Shield Team</title>
+    <title>Twitch Plays Pokemon</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./assets/css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&display=swap" rel="stylesheet">
 </head>
 <body>
 <div id="party">
-    <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
-        <transition-group :name="switchSpeed" tag="div" class="pokemon__list" v-if="loaded">
-            <pokemon v-for="poke in party"
-                     :pokemon="poke" :key="poke?.pid"></pokemon>
-        </transition-group>
-        <div class="no-connection" v-if="!connected">
-            <p>Waiting for successful connection to Pokélink...</p>
-            <p>Attempting to connect on port {{ settings.port }}</p>
-        </div>
+    <list></list>
+    <div class="no-connection" v-if="!connected">
+        <p>Waiting for successful connection to Pokélink...</p>
+        <p>Attempting to connect on port {{ settings.port }}</p>
     </div>
 </div>
 <script type="importmap">
     {
       "imports": {
         "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
-        "pokelink": "../../assets/dist/pokelink.js",
-        "pokemon-card": "./assets/js/components/pokemon-card.vue.js",
-        "trimmedSprite": "../_shared/components/trimmedSprite.vue.js"
+        "pokelink": "../../assets/dist/pokelink.js"
       }
     }
 </script>

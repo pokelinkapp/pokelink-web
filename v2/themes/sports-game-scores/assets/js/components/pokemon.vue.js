@@ -63,6 +63,10 @@ export default defineComponent({
         this.sets = pokemonTCGCardSets();
     },
     mounted() {
+        const vm = this;
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate();
+        });
         this.pokeIsChanging = false;
         if (this.pokemonExists && this.settings.useCardArtBackground)
             this.getNewCardArt(this.pokemon);

@@ -75,6 +75,10 @@ export default defineComponent({
         this.colorPokemon = color === 'pokemon'
         this.colorRoute = color === 'route'
         this.colorType = color === 'type'
+        const vm = this
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate()
+        })
     },
     computed: {
         isValid() {

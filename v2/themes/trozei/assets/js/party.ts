@@ -1,35 +1,38 @@
 import {createApp} from 'vue'
 import {V2, clientSettings} from 'pokelink'
-import pokemon from './components/pokemon.vue.js'
+import type {Nullable} from 'global'
+import type {Pokemon} from 'v2Proto'
+import pokemonCard from './components/pokemon-card.vue.js'
 
 (() => {
     createApp({
         components: {
-            'pokemon': pokemon
+            'pokemon-card': pokemonCard
         },
         data() {
             return {
                 connected: false,
                 loaded: false,
+                settings: {},
                 party: [],
                 switchSpeed: 'switchMedium'
             }
         },
-        created: function () {
-            this.settings = clientSettings
-        },
         mounted: function () {
             const vm = this
 
-            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}.png')
+            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/trozei/{{ species }}.png')
 
-            V2.initialize()
+            V2.initialize({listenForSpriteUpdates: false})
 
-            V2.handlePartyUpdates((party => {
+            this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false)
+            this.settings.hp = clientSettings.params.getBool('hp', false)
+
+            V2.handlePartyUpdates((party: Nullable<Pokemon>[]) => {
                 vm.party = party
                 this.loaded = true
                 vm.$forceUpdate()
-            }))
+            })
 
             V2.onConnect(() => {
                 vm.connected = true
@@ -37,12 +40,12 @@ import pokemon from './components/pokemon.vue.js'
         },
         computed: {
             singleSlot() {
-                return !clientSettings.params.hasKey('slot')
+                return clientSettings.params.hasKey('slot')
             },
             slotId() {
                 let availableSlots = [1, 2, 3, 4, 5, 6]
-                if (clientSettings.params.hasKey('slot') && availableSlots.includes(clientSettings.params.getNumber('slot'))) {
-                    return clientSettings.params.getNumber('slot') - 1
+                if (clientSettings.params.hasKey('slot') && availableSlots.includes(clientSettings.params.getNumber('slot', 1))) {
+                    return clientSettings.params.getNumber('slot', 1) - 1
                 }
                 return 0
             },
@@ -52,8 +55,8 @@ import pokemon from './components/pokemon.vue.js'
                 }
 
                 if (clientSettings.params.hasKey('fromSlot') && clientSettings.params.hasKey('slots')) {
-                    return this.party.slice(clientSettings.params.getNumber('fromSlot') - 1,
-                        clientSettings.params.getNumber('fromSlot') -
+                    return this.party.slice(clientSettings.params.getNumber('fromSlot', 1) - 1,
+                        clientSettings.params.getNumber('fromSlot', 1) -
                         1 +
                         clientSettings.params.getNumber('slots'))
                 }

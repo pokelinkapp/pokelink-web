@@ -83,6 +83,12 @@ export default defineComponent({
     },
     created() {
     },
+    mounted() {
+        const vm = this;
+        V2.handleSpriteTemplateUpdate(() => {
+            vm.$forceUpdate();
+        });
+    },
     methods: {
         getSprite(pokemon) {
             return V2.getSprite(pokemon);
