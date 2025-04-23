@@ -270,9 +270,9 @@
             "url": "http://assets.pokelink.xyz/v2/themes/rescue-team-dx/"
         },
         {
-            "name": "Simple Circles",
+            "name": "Pokelink.Themes.SimpleCircles.name",
             "developer": "Pokélink",
-            "translate": false,
+            "translate": true,
             "defaultSpriteSet": "pokelink:home",
             "supports": {
                 "changingSprites": true
@@ -318,6 +318,57 @@
                     "translate": true,
                     "type": "boolean",
                     "default": false
+                }
+            ]
+        },
+        {
+            "name": "Pokelink.Themes.StickItDown.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "pokelink:generation:7",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "http://assets.pokelink.xyz/v2/themes/stick-it-down/"
+        },
+        {
+            "name": "Pokelink.Themes.SwordShieldTeam.name",
+            "developer": "Pokélink",
+            "translate": true,
+            "defaultSpriteSet": "pokelink:pkhex:party",
+            "supports": {
+                "changingSprites": true
+            },
+            "url": "http://assets.pokelink.xyz/v2/themes/sword-shield-team/",
+            "options": [
+                {
+                    "key": "colorPokeball",
+                    "name": "Pokelink.Themes.SwordShieldTeam.colorPokeball.name",
+                    "description": "Pokelink.Themes.SwordShieldTeam.colorPokeball.description",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "colorBothSides",
+                    "name": "Pokelink.Themes.SwordShieldTeam.colorBothSides.name",
+                    "description": "Pokelink.Themes.SwordShieldTeam.colorBothSides.description",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "color",
+                    "name": "Pokelink.Themes.SwordShieldTeam.color.name",
+                    "translate": true,
+                    "type": "string",
+                    "default": "type",
+                    "options": [
+                        "pokemon",
+                        "type",
+                        "route"
+                    ],
+                    "optionTranslationPrefix": "Pokelink.Themes.SwordShieldTeam.color"
                 }
             ]
         },

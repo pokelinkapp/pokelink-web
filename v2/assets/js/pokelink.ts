@@ -153,14 +153,14 @@ export namespace V2 {
         })
 
         client.events.on(SettingsChannel, (data: Settings) => {
-            if (isDefined(data.data!.spriteTemplate) && v2Settings.listenForSpriteUpdates) {
+            if (isDefined(data.data!.spriteTemplate) && v2Settings.listenForSpriteUpdates && !clientSettings.params.hasKey('template')) {
                 updateSpriteTemplate(data.data!.spriteTemplate!)
             }
         })
 
         if (v2Settings.listenForSpriteUpdates) {
-            const newTemplate = clientSettings.params.getString('template', undefined)
             if (clientSettings.params.hasKey('template')) {
+                const newTemplate = clientSettings.params.getString('template', undefined)
                 if (isDefined(newTemplate)) {
                     updateSpriteTemplate(newTemplate!)
                 }
@@ -247,7 +247,7 @@ export namespace V2 {
     export function getTypeColor(englishType: string) {
         let value = typeColors[englishType]
 
-        if (value === undefined || value === null) {
+        if (!isDefined(value)) {
             return 'white'
         }
 
@@ -257,7 +257,7 @@ export namespace V2 {
     export function getStatusColor(englishStatus: string) {
         let value = statusColors[englishStatus]
 
-        if (value === undefined || value === null) {
+        if (isDefined(value)) {
             return 'white'
         }
 
@@ -272,10 +272,6 @@ export namespace V2 {
             let test = Handlebars.compile(template)
             test(examplePokemon)
             clientSettings.spriteTemplate = test
-
-            if (clientSettings.params.hasKey('template')) {
-                v2Settings.listenForSpriteUpdates = false
-            }
 
             if (clientSettings.debug) {
                 console.debug('Received new sprite template:', template)
