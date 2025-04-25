@@ -1,0 +1,36 @@
+{
+    "version": 2,
+    "graveyards": [
+        {
+            "name": "Pokelink.Graveyards.Default.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "url": "http://assets.pokelink.xyz/v2/graveyards/default/",
+            "options": [
+                {
+                    "key": "counter",
+                    "name": "Pokelink.Graveyards.Default.counter.name",
+                    "description": "Pokelink.Graveyards.Default.counter.description",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": true
+                },
+                {
+                    "key": "showNames",
+                    "name": "Pokelink.Graveyards.Default.showNames",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "scroll",
+                    "name": "Pokelink.Graveyards.Default.scroll.name",
+                    "description": "Pokelink.Graveyards.Default.scroll.description",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        }
+    ]
+}

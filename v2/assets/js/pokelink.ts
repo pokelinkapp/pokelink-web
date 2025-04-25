@@ -128,7 +128,7 @@ export namespace V2 {
             if (clientSettings.debug && events.hasEvents(PartyChannel)) {
                 console.debug(`Party update:`, party.party.map(x => x.pokemon == null ? null : toJson(PokemonSchema, x.pokemon)))
             }
-            events.emit(PartyChannel, party.party.map(x => x.pokemon))
+            events.emit(PartyChannel, party.party.map(x => x.pokemon), party.username)
         })
 
         client.events.on(BadgesChannel, (badges: Badges) => {
@@ -140,21 +140,21 @@ export namespace V2 {
                 console.debug(`Badge update:`, badges.badges.map(x => toJson(BadgeSchema, x)))
             }
 
-            events.emit(BadgesChannel, badges.badges)
+            events.emit(BadgesChannel, badges.badges, badges.username)
         })
 
         client.events.on(DeathChannel, (death: PokemonDeath) => {
             if (clientSettings.debug && events.hasEvents(DeathChannel)) {
                 console.debug(`Death update:`, toJson(PokemonDeathSchema, death))
             }
-            events.emit(DeathChannel, death.pokemon)
+            events.emit(DeathChannel, death.pokemon, death.username)
         })
 
         client.events.on(ReviveChannel, (revive: PokemonRevive) => {
             if (clientSettings.debug && events.hasEvents(ReviveChannel)) {
                 console.debug(`Revive update:`, toJson(PokemonReviveSchema, revive))
             }
-            events.emit(ReviveChannel, revive.pokemon)
+            events.emit(ReviveChannel, revive.graveId, revive.username)
         })
 
         client.events.on(SettingsChannel, (data: Settings) => {
@@ -173,19 +173,19 @@ export namespace V2 {
         }
     }
 
-    export function handlePartyUpdates(handler: (party: Nullable<Pokemon>[]) => void) {
+    export function handlePartyUpdates(handler: (party: Nullable<Pokemon>[], username: string) => void) {
         events.on(PartyChannel, handler)
     }
 
-    export function handleBadgeUpdates(handler: (badges: Badge[]) => void) {
+    export function handleBadgeUpdates(handler: (badges: Badge[], username: string) => void) {
         events.on(BadgesChannel, handler)
     }
 
-    export function handleDeath(handler: (pokemon: Pokemon) => void) {
+    export function handleDeath(handler: (pokemon: Pokemon, username: string) => void) {
         events.on(DeathChannel, handler)
     }
 
-    export function handleRevive(handler: (pokemon: Pokemon) => void) {
+    export function handleRevive(handler: (graveId: string, username: string) => void) {
         events.on(ReviveChannel, handler)
     }
 

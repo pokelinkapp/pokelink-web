@@ -12,10 +12,10 @@ export declare namespace V2 {
         listenForSpriteUpdates?: boolean;
     }
     export function initialize(settings?: V2Settings): void;
-    export function handlePartyUpdates(handler: (party: Nullable<Pokemon>[]) => void): void;
-    export function handleBadgeUpdates(handler: (badges: Badge[]) => void): void;
-    export function handleDeath(handler: (pokemon: Pokemon) => void): void;
-    export function handleRevive(handler: (pokemon: Pokemon) => void): void;
+    export function handlePartyUpdates(handler: (party: Nullable<Pokemon>[], username: string) => void): void;
+    export function handleBadgeUpdates(handler: (badges: Badge[], username: string) => void): void;
+    export function handleDeath(handler: (pokemon: Pokemon, username: string) => void): void;
+    export function handleRevive(handler: (graveId: string, username: string) => void): void;
     export function handleSpriteTemplateUpdate(handler: () => void): void;
     export function onConnect(handler: () => void): void;
     export function isValidPokemon(pokemon: Nullable<Pokemon>): boolean;

@@ -1,6 +1,8 @@
 syntax = "proto3";
 package Pokelink.Core.Proto.V2;
 
+import "google/protobuf/timestamp.proto";
+
 enum Gender {
   male = 0;
   female = 1;
@@ -87,7 +89,7 @@ message PokemonDeath {
 message PokemonRevive {
   string channel = 1;
   string username = 2;
-  Pokemon pokemon = 3;
+  string graveId = 3;
 }
 
 message Pokemon {
@@ -185,5 +187,6 @@ message BaseStats {
 }
 
 message GraveMeta {
-  int64 timeOfDeath = 1;
+  google.protobuf.Timestamp timeOfDeath = 1;
+  string id = 2;
 }

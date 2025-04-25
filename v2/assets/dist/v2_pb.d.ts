@@ -1,4 +1,5 @@
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
+import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 /**
  * Describes the file v2.proto.
@@ -201,9 +202,9 @@ export type PokemonRevive = Message<"Pokelink.Core.Proto.V2.PokemonRevive"> & {
      */
     username: string;
     /**
-     * @generated from field: Pokelink.Core.Proto.V2.Pokemon pokemon = 3;
+     * @generated from field: string graveId = 3;
      */
-    pokemon?: Pokemon;
+    graveId: string;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.PokemonRevive.
@@ -571,9 +572,13 @@ export declare const BaseStatsSchema: GenMessage<BaseStats>;
  */
 export type GraveMeta = Message<"Pokelink.Core.Proto.V2.GraveMeta"> & {
     /**
-     * @generated from field: int64 timeOfDeath = 1;
+     * @generated from field: google.protobuf.Timestamp timeOfDeath = 1;
      */
-    timeOfDeath: bigint;
+    timeOfDeath?: Timestamp;
+    /**
+     * @generated from field: string id = 2;
+     */
+    id: string;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.GraveMeta.
