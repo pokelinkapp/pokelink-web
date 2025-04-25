@@ -1,0 +1,29 @@
+{
+    "version": 2,
+    "badges": [
+        {
+            "name": "Pokelink.Badges.Default.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "url": "http://assets.pokelink.xyz/v2/badges/default/",
+            "options": [
+                {
+                    "key": "showCategories",
+                    "name": "Pokelink.Badges.Default.showCategories.name",
+                    "description": "Pokelink.Badges.Default.showCategories.description",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "numbersOnly",
+                    "name": "Pokelink.Badges.Default.numbersOnly.name",
+                    "description": "Pokelink.Badges.Default.numbersOnly.description",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        }
+    ]
+}

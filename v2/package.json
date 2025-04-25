@@ -7,9 +7,12 @@
     "type": "module",
     "scripts": {
         "prep": "yarn install",
-        "build:themes": "yarn build:core && yarn tsc -p ./themes/tsconfig.json",
+        "build:themes": "yarn build:core && yarn build:themes:nodeps",
+        "build:themes:nodeps": "yarn tsc -p ./themes/tsconfig.json",
+        "build:badges": "yarn build:core && yarn build:badges:nodeps",
+        "build:badges:nodeps": "yarn tsc -p ./badges/tsconfig.json",
         "build:core": "yarn tsc -p ./assets/tsconfig.json && yarn webpack --config webpack.config.js",
-        "build": "yarn prep && yarn buf generate && yarn build:themes"
+        "build": "yarn prep && yarn buf generate && yarn build:core && yarn build:themes:nodeps && yarn build:badges:nodeps"
     },
     "dependencies": {
         "@bufbuild/buf": "^1.51.0",

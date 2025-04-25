@@ -67,11 +67,15 @@ message Badges {
 }
 
 message Badge {
-  string localeName = 1;
-  string englishName = 2;
-  bool value = 3;
-  optional string levelText = 4;
-  optional uint32 levelCap = 5;
+  string id = 1;
+  string localeName = 2;
+  string englishName = 3;
+  bool obtained = 4;
+  string sprite = 5;
+  optional string englishCategory = 6;
+  optional string localeCategory = 7;
+  optional string levelText = 8;
+  optional uint32 levelCap = 9;
 }
 
 message PokemonDeath {

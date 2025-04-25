@@ -125,23 +125,39 @@ export declare const BadgesSchema: GenMessage<Badges>;
  */
 export type Badge = Message<"Pokelink.Core.Proto.V2.Badge"> & {
     /**
-     * @generated from field: string localeName = 1;
+     * @generated from field: string id = 1;
+     */
+    id: string;
+    /**
+     * @generated from field: string localeName = 2;
      */
     localeName: string;
     /**
-     * @generated from field: string englishName = 2;
+     * @generated from field: string englishName = 3;
      */
     englishName: string;
     /**
-     * @generated from field: bool value = 3;
+     * @generated from field: bool obtained = 4;
      */
-    value: boolean;
+    obtained: boolean;
     /**
-     * @generated from field: optional string levelText = 4;
+     * @generated from field: string sprite = 5;
+     */
+    sprite: string;
+    /**
+     * @generated from field: optional string englishCategory = 6;
+     */
+    englishCategory?: string;
+    /**
+     * @generated from field: optional string localeCategory = 7;
+     */
+    localeCategory?: string;
+    /**
+     * @generated from field: optional string levelText = 8;
      */
     levelText?: string;
     /**
-     * @generated from field: optional uint32 levelCap = 5;
+     * @generated from field: optional uint32 levelCap = 9;
      */
     levelCap?: number;
 };

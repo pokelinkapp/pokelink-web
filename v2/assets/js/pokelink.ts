@@ -132,9 +132,14 @@ export namespace V2 {
         })
 
         client.events.on(BadgesChannel, (badges: Badges) => {
+            for (let badge of badges.badges) {
+                badge.sprite = badge.sprite.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+            }
+
             if (clientSettings.debug && events.hasEvents(BadgesChannel)) {
                 console.debug(`Badge update:`, badges.badges.map(x => toJson(BadgeSchema, x)))
             }
+
             events.emit(BadgesChannel, badges.badges)
         })
 
