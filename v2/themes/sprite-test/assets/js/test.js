@@ -233,6 +233,7 @@ import { homeSpriteTemplate, Handlebars, clientSettings, spriteTestInitialize, i
                     this.templateError = false;
                     this.hasError = false;
                     this.error = null;
+                    newTemplate(this.examplePokemon);
                     V2.updateSpriteTemplate(newValue);
                 }
                 catch (ex) {

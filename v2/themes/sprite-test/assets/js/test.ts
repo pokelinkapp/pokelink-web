@@ -253,6 +253,7 @@ interface SpriteDexItem {
                     this.templateError = false
                     this.hasError = false
                     this.error = null
+                    newTemplate(this.examplePokemon)
                     V2.updateSpriteTemplate(newValue)
                 } catch(ex) {
                     this.hasError = true
