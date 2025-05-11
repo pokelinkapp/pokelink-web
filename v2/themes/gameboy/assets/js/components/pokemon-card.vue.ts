@@ -4,7 +4,7 @@ import type {Pokemon} from 'v2Proto'
 
 export default defineComponent({
   template: `
-  <div class="party_row">
+  <div class="party_row" v-if="isValid">
     <div class="sprite"><img ref="pokemonImg" @error="useFallback" :src="imageTag()"/></div>
     <div class="details">
       <div class="half top">

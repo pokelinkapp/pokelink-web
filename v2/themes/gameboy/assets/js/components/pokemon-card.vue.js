@@ -2,7 +2,7 @@ import { defineComponent } from 'vue';
 import { V2 } from 'pokelink';
 export default defineComponent({
     template: `
-  <div class="party_row">
+  <div class="party_row" v-if="isValid">
     <div class="sprite"><img ref="pokemonImg" @error="useFallback" :src="imageTag()"/></div>
     <div class="details">
       <div class="half top">

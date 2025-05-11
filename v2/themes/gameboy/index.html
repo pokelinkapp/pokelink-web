@@ -10,9 +10,8 @@
 <div id="party">
     <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
         <transition-group :name="switchSpeed" tag="div" class="pokemon__list" v-if="loaded">
-            <pokemon-card v-for="poke in party" v-if="poke !== null"
+            <pokemon-card v-for="poke in party"
                           :pokemon="poke" :key="poke?.pid"></pokemon-card>
-            <pokemon-card v-for="index in 6-party.length" v-if="loaded && showEmptySlots" :key="poke?.pid"></pokemon-card>
         </transition-group>
         <div class="no-connection" v-if="!connected">
             <p>Waiting for successful connection to Pokélink...</p>

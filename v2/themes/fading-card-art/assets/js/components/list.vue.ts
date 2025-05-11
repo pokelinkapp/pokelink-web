@@ -11,7 +11,7 @@ export default defineComponent({
         <transition-group :name="switchSpeed" tag="div"
                           :class="['pokemon__list', {'flipped': flipped}]"
                           v-if="loaded">
-          <pokemon v-for="( poke, idx ) in party" :slotId="idx + 1" :key="poke.pid" :pokemon="poke" :art="art[idx]">
+          <pokemon v-for="( poke, idx ) in party" :slotId="idx + 1" :key="poke?.pid ?? idx" :pokemon="poke" :art="art[idx]">
           </pokemon>
         </transition-group>
       </div>
@@ -42,6 +42,8 @@ export default defineComponent({
                 party = party.reverse()
             }
 
+            console.log(party)
+
             this.getArtInBatches(party).then((cards: any) => {
                 for (let i = 0; i < party.length; i++) {
                     if (!isDefined(party[i])) {
@@ -63,11 +65,8 @@ export default defineComponent({
                             }
                         }
                     }
-
-                    if (i === party.length - 1) {
-                        vm.party = party
-                    }
                 }
+                vm.party = party
             })
         }))
     },
