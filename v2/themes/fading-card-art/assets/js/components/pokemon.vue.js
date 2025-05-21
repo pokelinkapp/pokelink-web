@@ -5,7 +5,7 @@ export default defineComponent({
     template: `
       <div :class="{ 'pokemon': true, 'card': true,'isDead': isDead, 'flat': flat }" :style="mainStyle">
         <div class="heldItem">
-          <img v-if="pokemon.heldItem !== 0" :src="heldItemImage">
+          <img v-if="" :src="heldItemImage">
         </div>
         <div class="pokemon__name">{{ nickname }}</div>
 
@@ -61,6 +61,9 @@ export default defineComponent({
             return V2.isValidPokemon(this.pokemon);
         },
         heldItemImage() {
+            if (!this.isValid || this.pokemon?.heldItem === 0) {
+                return "";
+            }
             return `https://assets.pokelink.xyz/assets/sprites/items/gen7/${this.pokemon.heldItem}.png`;
         },
         useCardArtBackground() {
@@ -101,7 +104,7 @@ export default defineComponent({
             return this.pokemon.heldItem !== 0;
         },
         nickname() {
-            return this.pokemon.nickname ?? this.pokemon.translations.locale.speciesName;
+            return this.pokemon?.nickname ?? this.pokemon?.translations.locale.speciesName;
         },
         mainStyle() {
             let styles = {

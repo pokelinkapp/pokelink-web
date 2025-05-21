@@ -75,7 +75,10 @@ export default defineComponent({
             let promises = collect(party)
                 .chunk(15)
                 .map(async pokemonList => {
-                    let idList = pokemonList.map(mon => mon?.species).join('|')
+                    let idList = pokemonList.filter(mon => isDefined(mon)).map(mon => mon?.species).join('|')
+                    if (idList.length === 0) {
+                        return {}
+                    }
                     let response = await fetch(`https://api.pokemontcg.io/v1/cards?setCode=${pokemonTCGCardSets().join('|')}&supertype=pokemon&nationalPokedexNumber=${idList}`)
                     return await response.json()
                 })
