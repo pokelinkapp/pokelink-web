@@ -115,10 +115,14 @@ export namespace V2 {
         listenForSpriteUpdates: true
     }
 
-    export function initialize(settings?: V2Settings) {
-        v2Settings = {...v2Settings, ...settings}
-        globalInitialize(v2Settings.numberOfPlayers)
-        client = new PokelinkClientV2()
+    function initializeClient() {
+        client = new PokelinkClientV2(v2Settings.numberOfPlayers === -1)
+
+        client.events.once('disconnected', () => {
+            events.emit('disconnected')
+
+            setTimeout(initializeClient, 1000)
+        })
 
         client.events.on('connect', () => {
             events.emit('connect')
@@ -162,6 +166,12 @@ export namespace V2 {
                 updateSpriteTemplate(data.data!.spriteTemplate!)
             }
         })
+    }
+
+    export function initialize(settings?: V2Settings) {
+        v2Settings = {...v2Settings, ...settings}
+        globalInitialize(v2Settings.numberOfPlayers)
+        initializeClient()
 
         if (v2Settings.listenForSpriteUpdates) {
             if (clientSettings.params.hasKey('template')) {

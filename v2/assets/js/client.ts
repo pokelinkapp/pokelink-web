@@ -3,34 +3,39 @@ import {clientSettings} from './pokelink.js'
 
 export abstract class PokelinkClientBase {
     protected connection: Nullable<WebSocket> = null
-    private firstConnect: boolean = true
+    private static firstConnect: boolean = true
     public readonly events: EventEmitter = new EventEmitter()
 
     public openConnection() {
-        this.connection = new WebSocket(`ws://${clientSettings.host}:${clientSettings.port}`)
+        if (clientSettings.debug) {
+            console.debug('Attempting to connect')
+        }
 
-        this.connection.binaryType = 'arraybuffer'
+        try {
+            this.connection = new WebSocket(`ws://${clientSettings.host}:${clientSettings.port}`)
+        } catch {
+            this.events.emit('disconnected')
+            return
+        }
 
-        let vm = this
+        this.connection!.binaryType = 'arraybuffer'
 
-        this.connection.onopen = ev => {
-            if (this.firstConnect) {
-                this.firstConnect = false
+        this.connection!.onopen = () => {
+            if (PokelinkClientBase.firstConnect) {
+                PokelinkClientBase.firstConnect = false
                 this.events.emit('connect')
                 console.log('Successfully connected to server')
             }
-            vm.connection!.onmessage = event => {
+            this.connection!.onerror = event => {
+                console.error('WebSocket error:', event)
+            }
+            this.connection!.onmessage = event => {
                 this.OnMessageReceived(new Uint8Array(event.data))
             }
-            vm.SendHandshake()
+            this.SendHandshake()
         }
-
-        this.connection.onclose = () => {
-            setTimeout(() => location.reload(), 10000)
-        }
-
-        this.connection.onerror = event => {
-            console.error('WebSocket error:', event)
+        this.connection!.onclose = () => {
+            this.events.emit('disconnected')
         }
     }
 

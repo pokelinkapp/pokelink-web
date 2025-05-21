@@ -19,9 +19,11 @@ export const SettingsChannel = 'client:settings:updated'
 
 export class PokelinkClientV2 extends PokelinkClientBase {
     private readonly protobufTypes: { [key: string]: any } = {}
+    private readonly allowAllUsers: boolean = false
 
-    constructor() {
+    constructor(allowAllUsers: boolean) {
         super()
+        this.allowAllUsers = allowAllUsers
         this.openConnection()
 
         this.protobufTypes[PartyChannel] = PartySchema
@@ -56,7 +58,7 @@ export class PokelinkClientV2 extends PokelinkClientBase {
             channel = base.channel
             user = base.username
 
-            if (!this.ShowUser(user)) {
+            if (!this.ShowUser(user) && !this.allowAllUsers) {
                 console.debug(`No user valid. Skipping update`, user, clientSettings.users)
                 return
             }
