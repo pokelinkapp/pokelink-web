@@ -5,7 +5,7 @@
             "name": "Pokelink.Badges.Default.name",
             "translate": true,
             "developer": "Pokélink",
-            "url": "http://assets.pokelink.xyz/v2/badges/default/",
+            "url": "https://assets.pokelink.xyz/v2/badges/default/",
             "options": [
                 {
                     "key": "showCategories",
