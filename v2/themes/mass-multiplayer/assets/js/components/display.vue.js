@@ -1,11 +1,11 @@
 import { defineComponent } from 'vue';
-import { clientSettings, isDefined, string2ColHex, V2 } from 'pokelink';
+import { isDefined, string2ColHex, V2 } from 'pokelink';
 import pokemonCard from './pokemon-card.vue.js';
 export default defineComponent({
     template: `
       <div class="flex w-screen h-screen flex-wrap overflow-y-auto">
-        <div v-for="(data, user) in users" class="flex-1">
-          <div class="mb-4 mt-4">
+        <div v-for="(data, user) in users" class="flex">
+          <div class="mb-1 mt-1" v-if="getTimeDiff(user) < 300000 && user !== 'Pokelink'">
             <span class="text-6xl" :class="'text-[' + data.color + ']'">{{ user }}</span>
             <transition-group :name="switchSpeed" tag="div" class="flex">
               <pokemon-card v-for="poke in data.party" v-if="poke !== null"
@@ -41,7 +41,7 @@ export default defineComponent({
             this.initializeIfUndefined(username);
             this.users[username].deaths = this.users[username].deaths.filter((x) => x.graveyardMeta?.id !== graveId);
         });
-        setInterval(this.checkUsers, 1000);
+        setInterval(this.checkUsers, 10000);
     },
     data() {
         return {
@@ -65,21 +65,24 @@ export default defineComponent({
             this.users[user].timedOut = false;
         },
         checkUsers() {
-            for (const user in this.users) {
-                const timeDiff = new Date().getTime() - this.users[user].lastUpdate.getTime();
-                if (timeDiff >= 10000 && !this.users[user].timedOut) {
-                    if (clientSettings.debug) {
-                        console.debug(`${user} has been idle for 30 seconds`);
-                    }
-                    this.users[user].timedOut = true;
-                }
-                else if (timeDiff >= 30000) {
-                    if (clientSettings.debug) {
-                        console.debug(`${user} has been removed for being idle for 120 seconds`);
-                    }
-                    delete this.users[user];
-                }
-            }
+            this.$forceUpdate();
+            // for (const user in this.users) {
+            //     const timeDiff = new Date().getTime() - this.users[user].lastUpdate.getTime()
+            //     if (timeDiff >= 10000 && !this.users[user].timedOut) {
+            //         if (clientSettings.debug) {
+            //             console.debug(`${user} has been idle for 30 seconds`)
+            //         }
+            //         this.users[user].timedOut = true
+            //     } else if (timeDiff >= 30000) {
+            //         if (clientSettings.debug) {
+            //             console.debug(`${user} has been removed for being idle for 120 seconds`)
+            //         }
+            //         delete this.users[user]
+            //     }
+            // }
+        },
+        getTimeDiff(user) {
+            return new Date().getTime() - this.users[user].lastUpdate.getTime();
         }
     }
 });
