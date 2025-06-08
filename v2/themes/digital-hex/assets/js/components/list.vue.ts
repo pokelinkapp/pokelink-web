@@ -1,5 +1,5 @@
 import {defineComponent} from 'vue'
-import {V2, clientSettings} from 'pokelink'
+import {V2, clientSettings, homeSpriteTemplate} from 'pokelink'
 import pokemon from './pokemon.vue.js'
 import type {Pokemon} from 'v2Proto'
 import type {Nullable} from 'global'
@@ -31,8 +31,13 @@ export default defineComponent({
     },
     created: function () {
         let vm = this
+
+        V2.onSpriteSetReset(() => {
+            V2.updateSpriteTemplate(homeSpriteTemplate)
+        })
+
         V2.initialize()
-        V2.handlePartyUpdates((party => {
+        V2.onPartyUpdate((party => {
             vm.loaded = true
             vm.party = party
         }))

@@ -62,11 +62,8 @@ export function pokemonTCGCardSets() {
         },
         created: function () {
             const vm = this;
-            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/heartgold-soulsilver/' +
-                '{{ifElse isShiny "shiny" "normal"}}' +
-                '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
-                '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
-                '{{addFemaleTag this "-f"}}.png');
+            this.resetSpriteSet();
+            V2.onSpriteSetReset(this.resetSpriteSet);
             V2.initialize();
             V2.onConnect(() => {
                 vm.connected = true;
@@ -75,6 +72,15 @@ export function pokemonTCGCardSets() {
             this.settings = clientSettings;
         },
         mounted: function () {
+        },
+        methods: {
+            resetSpriteSet() {
+                V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/heartgold-soulsilver/' +
+                    '{{ifElse isShiny "shiny" "normal"}}' +
+                    '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
+                    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+                    '{{addFemaleTag this "-f"}}.png');
+            }
         }
     }).mount('#party');
 })();

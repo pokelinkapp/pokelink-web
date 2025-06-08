@@ -23,7 +23,7 @@ import { clientSettings, isDefined, V2 } from 'pokelink';
             this.settings.port = clientSettings.port;
             this.settings.showCategories = clientSettings.params.getBool('showCategories', false);
             this.settings.numberOnly = clientSettings.params.getBool('numbersOnly', false);
-            V2.handleBadgeUpdates((badges => {
+            V2.onBadgeUpdate((badges => {
                 this.settings.showCategories = clientSettings.params.getBool('showCategories', false);
                 if (this.settings.showCategories) {
                     let categories = [];

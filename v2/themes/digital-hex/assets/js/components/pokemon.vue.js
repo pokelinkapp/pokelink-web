@@ -111,9 +111,7 @@ export default defineComponent({
     },
     mounted() {
         const vm = this;
-        V2.handleSpriteTemplateUpdate(() => {
-            vm.$forceUpdate();
-        });
+        V2.onSpriteTemplateUpdate(vm.$forceUpdate);
     },
     methods: {
         getSprite() {

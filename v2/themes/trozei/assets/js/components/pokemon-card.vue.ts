@@ -57,7 +57,7 @@ export default defineComponent({
         this.hide.hp = clientSettings.params.getBool('hideHP', false)
         this.hide.types = clientSettings.params.getBool('hideTypes', false)
         const vm = this
-        V2.handleSpriteTemplateUpdate(() => {
+        V2.onSpriteTemplateUpdate(() => {
             vm.$forceUpdate()
         })
     },

@@ -22,15 +22,11 @@ import pokemonCard from './components/pokemon-card.vue.js'
         mounted: function () {
             const vm = this
 
-            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/gen7/animated' +
-                '{{ifElse isShiny "-shiny" ""}}' +
-                '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
-                '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
-                '{{addFemaleTag this "-f"}}.gif')
+            this.resetSpriteSet()
 
             V2.initialize({listenForSpriteUpdates: false})
 
-            V2.handlePartyUpdates((party => {
+            V2.onPartyUpdate((party => {
                 vm.party = party
                 this.loaded = true
                 vm.$forceUpdate()
@@ -79,6 +75,15 @@ import pokemonCard from './components/pokemon-card.vue.js'
                 }
 
                 return true
+            }
+        },
+        methods: {
+            resetSpriteSet() {
+                V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/gen7/animated' +
+                    '{{ifElse isShiny "-shiny" ""}}' +
+                    '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
+                    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+                    '{{addFemaleTag this "-f"}}.gif')
             }
         }
     }).mount('#party')

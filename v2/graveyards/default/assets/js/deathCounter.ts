@@ -45,18 +45,18 @@ function sortDeaths(x: Pokemon, y: Pokemon) {
 
             this.prefixText = clientSettings.params.getString('prefixText', '')!
 
-            V2.handleDeath((pokemon) => {
+            V2.onDeath((pokemon) => {
                 let deaths = vm.deaths
                 deaths.push(pokemon)
 
                 vm.deaths = deaths.sort(sortDeaths)
             })
 
-            V2.handleRevive((graveId) => {
+            V2.onRevive((graveId) => {
                 vm.deaths = vm.deaths.filter((x: Pokemon) => x.graveyardMeta?.id !== graveId)
             })
 
-            V2.handleSpriteTemplateUpdate(() => {
+            V2.onSpriteTemplateUpdate(() => {
                 const deaths = vm.deaths
 
                 vm.deaths = []

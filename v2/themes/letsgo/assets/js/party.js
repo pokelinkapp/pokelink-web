@@ -17,15 +17,12 @@ import pokemonCard from './components/pokemon.vue.js';
         },
         mounted: function () {
             const vm = this;
+            this.resetSpriteSet();
+            V2.onSpriteSetReset(this.resetSpriteSet);
             V2.initialize();
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.hp = clientSettings.params.getBool('hp', false);
-            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/national/animated' +
-                '{{ifElse isShiny "-shiny" ""}}' +
-                '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
-                '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
-                '{{addFemaleTag this "-f"}}.gif');
-            V2.handlePartyUpdates((party) => {
+            V2.onPartyUpdate((party) => {
                 vm.party = party;
                 this.loaded = true;
                 vm.$forceUpdate();
@@ -67,6 +64,15 @@ import pokemonCard from './components/pokemon.vue.js';
                     return true;
                 }
                 return true;
+            }
+        },
+        methods: {
+            resetSpriteSet() {
+                V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/national/animated' +
+                    '{{ifElse isShiny "-shiny" ""}}' +
+                    '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
+                    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+                    '{{addFemaleTag this "-f"}}.gif');
             }
         }
     }).mount('#party');

@@ -20,7 +20,7 @@ import pokemon from './components/pokemon.vue.js';
         mounted: function () {
             const vm = this;
             V2.initialize({ listenForSpriteUpdates: false });
-            V2.handlePartyUpdates((party => {
+            V2.onPartyUpdate((party => {
                 vm.party = party;
                 this.loaded = true;
                 vm.$forceUpdate();

@@ -61,6 +61,12 @@ export default defineComponent({
             oldImage: ''
         };
     },
+    created() {
+        const vm = this;
+        V2.onSpriteTemplateUpdate(() => {
+            vm.fixedSprite = false;
+        });
+    },
     computed: {
         isGif() {
             return (this.$refs.pokemonSprite?.src ?? this.sprite()).split('.').pop().toLowerCase() === 'gif';

@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V2, clientSettings} from 'pokelink'
+import {V2, clientSettings, homeSpriteTemplate} from 'pokelink'
 import type {Nullable} from 'global'
 import type {Pokemon} from 'v2Proto'
 import pokemonCard from './components/pokemon.vue.js'
@@ -70,12 +70,17 @@ export function pokemonTCGCardSets() {
         },
         mounted: function () {
             const vm = this
+
+            V2.onSpriteSetReset(() => {
+                V2.updateSpriteTemplate(homeSpriteTemplate)
+            })
+
             V2.initialize()
 
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false)
             this.settings.noGap = clientSettings.params.getBool('noGap', false)
 
-            V2.handlePartyUpdates((party: Nullable<Pokemon>[]) => {
+            V2.onPartyUpdate((party: Nullable<Pokemon>[]) => {
                 vm.party = party
                 this.loaded = true
 

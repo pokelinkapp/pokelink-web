@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V2, clientSettings } from 'pokelink';
+import { V2, clientSettings, homeSpriteTemplate } from 'pokelink';
 import pokemonCard from './components/pokemon-card.vue.js';
 (() => {
     createApp({
@@ -20,8 +20,11 @@ import pokemonCard from './components/pokemon-card.vue.js';
         },
         mounted: function () {
             const vm = this;
+            V2.onSpriteSetReset(() => {
+                V2.updateSpriteTemplate(homeSpriteTemplate);
+            });
             V2.initialize();
-            V2.handlePartyUpdates((party => {
+            V2.onPartyUpdate((party => {
                 vm.party = party;
                 this.loaded = true;
                 vm.$forceUpdate();

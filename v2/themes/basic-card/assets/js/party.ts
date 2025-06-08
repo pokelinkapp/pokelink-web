@@ -25,7 +25,7 @@ import pokemonCard from './components/pokemon-card.vue.js'
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false)
             this.settings.hp = clientSettings.params.getBool('hp', false)
 
-            V2.handlePartyUpdates((party: Nullable<Pokemon>[]) => {
+            V2.onPartyUpdate((party: Nullable<Pokemon>[]) => {
                 vm.party = party
                 this.loaded = true
                 vm.$forceUpdate()

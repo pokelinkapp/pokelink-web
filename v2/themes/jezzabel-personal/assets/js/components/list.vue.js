@@ -32,7 +32,7 @@ export default defineComponent({
     mounted() {
         let vm = this;
         this.flipped = clientSettings.params.getBool('flipped', false);
-        V2.handlePartyUpdates((party => {
+        V2.onPartyUpdate((party => {
             vm.party = party;
             vm.$forceUpdate();
         }));

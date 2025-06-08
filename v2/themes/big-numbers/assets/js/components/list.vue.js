@@ -33,7 +33,7 @@ export default defineComponent({
         let vm = this;
         this.flipped = clientSettings.params.getBool('flipped', false);
         this.horizontal = clientSettings.params.getBool('horizontal', false);
-        V2.handlePartyUpdates((party => {
+        V2.onPartyUpdate((party => {
             vm.party = party;
             vm.$forceUpdate();
         }));

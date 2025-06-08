@@ -73,7 +73,7 @@ export default defineComponent({
         this.colorRoute = color === 'route';
         this.colorType = color === 'type';
         const vm = this;
-        V2.handleSpriteTemplateUpdate(() => {
+        V2.onSpriteTemplateUpdate(() => {
             vm.$forceUpdate();
         });
     },

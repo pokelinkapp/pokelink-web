@@ -35,15 +35,15 @@ function sortDeaths(x, y) {
             const vm = this;
             V2.initialize({ listenForSpriteUpdates: false });
             this.prefixText = clientSettings.params.getString('prefixText', '');
-            V2.handleDeath((pokemon) => {
+            V2.onDeath((pokemon) => {
                 let deaths = vm.deaths;
                 deaths.push(pokemon);
                 vm.deaths = deaths.sort(sortDeaths);
             });
-            V2.handleRevive((graveId) => {
+            V2.onRevive((graveId) => {
                 vm.deaths = vm.deaths.filter((x) => x.graveyardMeta?.id !== graveId);
             });
-            V2.handleSpriteTemplateUpdate(() => {
+            V2.onSpriteTemplateUpdate(() => {
                 const deaths = vm.deaths;
                 vm.deaths = [];
                 vm.deaths = deaths;

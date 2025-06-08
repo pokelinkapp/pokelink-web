@@ -66,7 +66,7 @@ export default defineComponent({
             this.getNewCardArt(this.pokemon)
         }
         const vm = this
-        V2.handleSpriteTemplateUpdate(() => {
+        V2.onSpriteTemplateUpdate(() => {
             vm.$forceUpdate()
         })
     },

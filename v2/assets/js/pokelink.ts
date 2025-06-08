@@ -53,9 +53,11 @@ export const clientSettings: ClientSettings = {
 
 const spriteUpdate = 'theme:settings:sprite'
 
+const spriteReset = 'theme:settings:spriteReset'
+
 let client: Nullable<PokelinkClientBase> = null
 
-let events = new EventEmitter()
+const events = new EventEmitter()
 
 function globalInitialize(numberOfPlayers: number = 1) {
     if (numberOfPlayers < 1) {
@@ -162,8 +164,8 @@ export namespace V2 {
         })
 
         client.events.on(SettingsChannel, (data: Settings) => {
-            if (isDefined(data.data!.spriteTemplate) && v2Settings.listenForSpriteUpdates && !clientSettings.params.hasKey('template')) {
-                updateSpriteTemplate(data.data!.spriteTemplate!)
+            if (v2Settings.listenForSpriteUpdates && !clientSettings.params.hasKey('template')) {
+                updateSpriteTemplate(data.data!.spriteTemplate)
             }
         })
     }
@@ -183,24 +185,28 @@ export namespace V2 {
         }
     }
 
-    export function handlePartyUpdates(handler: (party: Nullable<Pokemon>[], username: string) => void) {
+    export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], username: string) => void) {
         events.on(PartyChannel, handler)
     }
 
-    export function handleBadgeUpdates(handler: (badges: Badge[], username: string) => void) {
+    export function onBadgeUpdate(handler: (badges: Badge[], username: string) => void) {
         events.on(BadgesChannel, handler)
     }
 
-    export function handleDeath(handler: (pokemon: Pokemon, username: string) => void) {
+    export function onDeath(handler: (pokemon: Pokemon, username: string) => void) {
         events.on(DeathChannel, handler)
     }
 
-    export function handleRevive(handler: (graveId: string, username: string) => void) {
+    export function onRevive(handler: (graveId: string, username: string) => void) {
         events.on(ReviveChannel, handler)
     }
 
-    export function handleSpriteTemplateUpdate(handler: () => void) {
+    export function onSpriteTemplateUpdate(handler: () => void) {
         events.on(spriteUpdate, handler)
+    }
+
+    export function onSpriteSetReset(handler: () => void) {
+        events.on(spriteReset, handler)
     }
 
     export function onConnect(handler: () => void) {
@@ -279,10 +285,12 @@ export namespace V2 {
         return value
     }
 
-    export function updateSpriteTemplate(template: string) {
-        if (!v2Settings.listenForSpriteUpdates || !isDefined(template) || template.length <= 0) {
+    export function updateSpriteTemplate(template: Nullable<string>) {
+        if (!v2Settings.listenForSpriteUpdates || !isDefined(template) || template!.length <= 0) {
+            events.emit(spriteReset)
             return
         }
+
         try {
             let test = Handlebars.compile(template)
             test(examplePokemon)

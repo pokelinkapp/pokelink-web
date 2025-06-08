@@ -37,26 +37,26 @@ export default defineComponent({
 
         V2.initialize({listenForSpriteUpdates: false, numberOfPlayers: -1})
 
-        V2.handlePartyUpdates(((party, username) => {
+        V2.onPartyUpdate(((party, username) => {
             this.initializeIfUndefined(username)
 
             this.users[username].party = party
             vm.$forceUpdate()
         }))
 
-        V2.handleBadgeUpdates((badges, username) => {
+        V2.onBadgeUpdate((badges, username) => {
             this.initializeIfUndefined(username)
 
             this.users[username].badges = badges
         })
 
-        V2.handleDeath((pokemon, username) => {
+        V2.onDeath((pokemon, username) => {
             this.initializeIfUndefined(username)
 
             this.users[username].deaths.push(pokemon)
         })
 
-        V2.handleRevive((graveId, username) => {
+        V2.onRevive((graveId, username) => {
             this.initializeIfUndefined(username)
 
             this.users[username].deaths = this.users[username].deaths.filter((x: Pokemon) => x.graveyardMeta?.id !== graveId)

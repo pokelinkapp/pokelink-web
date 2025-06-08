@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V2, clientSettings } from 'pokelink';
+import { V2, clientSettings, homeSpriteTemplate } from 'pokelink';
 import list from './components/list.vue.js';
 (() => {
     createApp({
@@ -15,6 +15,9 @@ import list from './components/list.vue.js';
         },
         created: function () {
             const vm = this;
+            V2.onSpriteSetReset(() => {
+                V2.updateSpriteTemplate(homeSpriteTemplate);
+            });
             V2.initialize();
             V2.onConnect(() => {
                 vm.connected = true;
