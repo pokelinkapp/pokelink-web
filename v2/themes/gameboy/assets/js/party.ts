@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V2, clientSettings} from 'pokelink'
+import {V2, clientSettings, type Nullable, isDefined} from 'pokelink'
 import pokemonCard from './components/pokemon-card.vue.js'
 
 (() => {
@@ -55,13 +55,13 @@ import pokemonCard from './components/pokemon-card.vue.js'
                 }
 
                 if (clientSettings.params.hasKey('fromSlot') && clientSettings.params.hasKey('slots')) {
-                    return this.party.slice(clientSettings.params.getNumber('fromSlot') - 1,
-                        clientSettings.params.getNumber('fromSlot') -
+                    return this.party.slice(clientSettings.params.getNumber('fromSlot', 1) - 1,
+                        clientSettings.params.getNumber('fromSlot', 1) -
                         1 +
-                        clientSettings.params.getNumber('slots'))
+                        clientSettings.params.getNumber('slots')).filter(this.isDefined)
                 }
 
-                return this.party
+                return this.party.filter(this.isDefined)
             },
             showEmptySlots() {
                 if (this.singleSlot) {
@@ -84,6 +84,9 @@ import pokemonCard from './components/pokemon-card.vue.js'
                 V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/gen8/party' +
                     '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
                     '{{addFemaleTag this "-f"}}.png')
+            },
+            isDefined(obj: Nullable<any>) {
+                return isDefined(obj)
             }
         }
     }).mount('#party')

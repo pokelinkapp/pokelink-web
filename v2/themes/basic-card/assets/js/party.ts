@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V2, clientSettings} from 'pokelink'
+import {V2, clientSettings, isDefined} from 'pokelink'
 import type {Nullable} from 'global'
 import type {Pokemon} from 'v2Proto'
 import pokemonCard from './components/pokemon-card.vue.js'
@@ -55,10 +55,10 @@ import pokemonCard from './components/pokemon-card.vue.js'
                     return this.party.slice(clientSettings.params.getNumber('fromSlot', 1) - 1,
                         clientSettings.params.getNumber('fromSlot', 1) -
                         1 +
-                        clientSettings.params.getNumber('slots'))
+                        clientSettings.params.getNumber('slots')).filter(this.isDefined)
                 }
 
-                return this.party
+                return this.party.filter(this.isDefined)
             },
             showEmptySlots() {
                 if (this.singleSlot) {
@@ -74,6 +74,11 @@ import pokemonCard from './components/pokemon-card.vue.js'
                 }
 
                 return true
+            }
+        },
+        methods: {
+            isDefined(obj: Nullable<any>) {
+                return isDefined(obj)
             }
         }
     }).mount('#party')

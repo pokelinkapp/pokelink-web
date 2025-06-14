@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V2, clientSettings } from 'pokelink';
+import { V2, clientSettings, isDefined } from 'pokelink';
 import pokemon from './components/pokemon.vue.js';
 (() => {
     createApp({
@@ -33,7 +33,7 @@ import pokemon from './components/pokemon.vue.js';
         },
         computed: {
             singleSlot() {
-                return !clientSettings.params.hasKey('slot');
+                return clientSettings.params.hasKey('slot');
             },
             slotId() {
                 let availableSlots = [1, 2, 3, 4, 5, 6];
@@ -49,9 +49,9 @@ import pokemon from './components/pokemon.vue.js';
                 if (clientSettings.params.hasKey('fromSlot') && clientSettings.params.hasKey('slots')) {
                     return this.party.slice(clientSettings.params.getNumber('fromSlot') - 1, clientSettings.params.getNumber('fromSlot') -
                         1 +
-                        clientSettings.params.getNumber('slots'));
+                        clientSettings.params.getNumber('slots')).filter(this.isDefined);
                 }
-                return this.party;
+                return this.party.filter(this.isDefined);
             },
             showEmptySlots() {
                 if (this.singleSlot) {
@@ -69,6 +69,9 @@ import pokemon from './components/pokemon.vue.js';
         methods: {
             resetSpriteSet() {
                 V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}.png');
+            },
+            isDefined(obj) {
+                return isDefined(obj);
             }
         }
     }).mount('#party');

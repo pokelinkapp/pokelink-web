@@ -10,7 +10,7 @@
 <div id="party">
     <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
         <transition-group :name="switchSpeed" tag="div" class="pokemon__list" v-if="loaded">
-            <pokemon-card v-for="poke in party"
+            <pokemon-card v-for="poke in pokemonToShow"
                           :pokemon="poke" :key="poke?.pid"></pokemon-card>
         </transition-group>
         <div class="no-connection" v-if="!connected">

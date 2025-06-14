@@ -104,6 +104,9 @@ export default defineComponent({
             return this.pokemon.heldItem !== 0;
         },
         nickname() {
+            if (!this.isValid) {
+                return '';
+            }
             return this.pokemon?.nickname ?? this.pokemon?.translations.locale.speciesName;
         },
         mainStyle() {

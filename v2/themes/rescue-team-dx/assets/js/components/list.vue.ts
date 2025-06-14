@@ -1,5 +1,5 @@
 import {defineComponent} from 'vue'
-import {V2, clientSettings} from 'pokelink'
+import {V2, clientSettings, isDefined} from 'pokelink'
 import pokemon from './pokemon.vue.js'
 import {Nullable} from 'global'
 import {Pokemon} from 'v2Proto'
@@ -37,13 +37,17 @@ export default defineComponent({
             vm.$forceUpdate()
         }))
     },
-    methods: {},
+    methods: {
+        isDefined(obj: Nullable<any>) {
+            return isDefined(obj)
+        }
+    },
     computed: {
         partySlots() {
+            const filteredParty = this.party.filter(this.isDefined)
             return [...new Array(6).keys()]
-
                 .map(slot => {
-                    return this.party[slot] || {}
+                    return filteredParty[slot] || {}
                 })
         }
     }

@@ -26,7 +26,7 @@ export default defineComponent({
         V2.initialize({ listenForSpriteUpdates: false, numberOfPlayers: -1 });
         V2.onPartyUpdate(((party, username) => {
             this.initializeIfUndefined(username);
-            this.users[username].party = party;
+            this.users[username].party = party.filter(this.isDefined);
             vm.$forceUpdate();
         }));
         V2.onBadgeUpdate((badges, username) => {
@@ -83,6 +83,9 @@ export default defineComponent({
         },
         getTimeDiff(user) {
             return new Date().getTime() - this.users[user].lastUpdate.getTime();
+        },
+        isDefined(obj) {
+            return isDefined(obj);
         }
     }
 });

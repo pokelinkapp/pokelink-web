@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { V2 } from 'pokelink';
+import { V2, isDefined } from 'pokelink';
 import pokemon from './pokemon.vue.js';
 export default defineComponent({
     template: `
@@ -34,12 +34,17 @@ export default defineComponent({
             vm.$forceUpdate();
         }));
     },
-    methods: {},
+    methods: {
+        isDefined(obj) {
+            return isDefined(obj);
+        }
+    },
     computed: {
         partySlots() {
+            const filteredParty = this.party.filter(this.isDefined);
             return [...new Array(6).keys()]
                 .map(slot => {
-                return this.party[slot] || {};
+                return filteredParty[slot] || {};
             });
         }
     }

@@ -40,7 +40,7 @@ export default defineComponent({
         V2.onPartyUpdate(((party, username) => {
             this.initializeIfUndefined(username)
 
-            this.users[username].party = party
+            this.users[username].party = party.filter(this.isDefined)
             vm.$forceUpdate()
         }))
 
@@ -105,6 +105,9 @@ export default defineComponent({
         },
         getTimeDiff(user: string) {
             return new Date().getTime() - this.users[user].lastUpdate.getTime();
+        },
+        isDefined(obj: Nullable<any>) {
+            return isDefined(obj)
         }
     }
 })

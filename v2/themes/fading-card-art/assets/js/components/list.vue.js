@@ -8,7 +8,7 @@ export default defineComponent({
         <transition-group :name="switchSpeed" tag="div"
                           :class="['pokemon__list', {'flipped': flipped}]"
                           v-if="loaded">
-          <pokemon v-for="( poke, idx ) in party" :slotId="idx + 1" :key="poke?.pid ?? idx" :pokemon="poke" :art="art[idx]">
+          <pokemon v-for="( poke, idx ) in partySlots" :slotId="idx + 1" :key="poke?.pid ?? idx" :pokemon="poke" :art="art[idx]">
           </pokemon>
         </transition-group>
       </div>
@@ -38,24 +38,24 @@ export default defineComponent({
             if (this.flipped) {
                 party = party.reverse();
             }
-            console.log(party);
-            this.getArtInBatches(party).then((cards) => {
-                for (let i = 0; i < party.length; i++) {
-                    if (!isDefined(party[i])) {
+            const filteredParty = party.filter(this.isDefined);
+            this.getArtInBatches(filteredParty).then((cards) => {
+                for (let i = 0; i < filteredParty.length; i++) {
+                    if (!this.isDefined(filteredParty[i])) {
                         continue;
                     }
-                    if (party[i].isEgg) {
+                    if (filteredParty[i].isEgg) {
                         this.art[i] = 'https://images.pokemontcg.io/pl4/88_hires.png';
                     }
                     else {
                         try {
                             let cardImages = cards.flat().reduce((flat, item) => {
                                 return [...flat, ...item.cards];
-                            }, []).find((card) => card.nationalPokedexNumber === party[i].species);
+                            }, []).find((card) => card.nationalPokedexNumber === filteredParty[i].species);
                             this.art[i] = cardImages.imageUrl;
                         }
                         catch (e) {
-                            console.log(`unknown image for ${party[i].translations.english.speciesName}`, e);
+                            console.log(`unknown image for ${filteredParty[i].translations.english.speciesName}`, e);
                             if (clientSettings.debug) {
                                 console.debug(cards.cards);
                             }
@@ -79,13 +79,17 @@ export default defineComponent({
                 return await response.json();
             });
             return Promise.all(promises);
+        },
+        isDefined(obj) {
+            return isDefined(obj);
         }
     },
     computed: {
         partySlots() {
+            const filteredParty = this.party.filter(this.isDefined);
             return [...new Array(6).keys()]
                 .map(slot => {
-                return this.party[slot] || {};
+                return filteredParty[slot];
             });
         }
     }

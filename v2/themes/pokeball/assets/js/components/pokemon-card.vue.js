@@ -14,7 +14,7 @@ export default defineComponent({
             <span class="pokemon__gender pokemon__gender-male"
                   v-if="isMale()">♂</span>
             <span class="pokemon__gender pokemon__gender-female"
-                  v-if="isFemale">♀</span>
+                  v-if="isFemale()">♀</span>
 
           </div>
           <div v-if="pokemon.hp.current !== 0">

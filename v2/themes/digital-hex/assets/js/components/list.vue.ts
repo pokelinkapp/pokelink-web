@@ -1,5 +1,5 @@
 import {defineComponent} from 'vue'
-import {V2, clientSettings, homeSpriteTemplate} from 'pokelink'
+import {V2, clientSettings, homeSpriteTemplate, isDefined} from 'pokelink'
 import pokemon from './pokemon.vue.js'
 import type {Pokemon} from 'v2Proto'
 import type {Nullable} from 'global'
@@ -10,7 +10,7 @@ export default defineComponent({
         <transition-group :name="switchSpeed" tag="div"
                           :class="['pokemon__list', {'flipped': flipped}]"
                           v-if="loaded">
-          <pokemon v-for="( poke, idx ) in party" :slotId="idx + 1" :key="poke?.pid" :pokemon="poke">
+          <pokemon v-for="( poke, idx ) in partySlots" :slotId="idx + 1" :key="poke?.pid" :pokemon="poke">
           </pokemon>
         </transition-group>
       </div>
@@ -47,11 +47,16 @@ export default defineComponent({
     },
     computed: {
         partySlots() {
+            const filteredParty = this.party.filter(this.isDefined)
             return [...new Array(6).keys()]
-
                 .map(slot => {
-                    return this.party[slot] || {}
+                    return filteredParty[slot] || {}
                 })
+        }
+    },
+    methods: {
+        isDefined(obj: Nullable<any>) {
+            return isDefined(obj)
         }
     }
 })

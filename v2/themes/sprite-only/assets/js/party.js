@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V2, clientSettings, homeSpriteTemplate } from 'pokelink';
+import { V2, clientSettings, homeSpriteTemplate, isDefined } from 'pokelink';
 import pokemonCard from './components/pokemon-card.vue.js';
 (() => {
     createApp({
@@ -51,9 +51,9 @@ import pokemonCard from './components/pokemon-card.vue.js';
                 if (clientSettings.params.hasKey('fromSlot') && clientSettings.params.hasKey('slots')) {
                     return this.party.slice(clientSettings.params.getNumber('fromSlot') - 1, clientSettings.params.getNumber('fromSlot') -
                         1 +
-                        clientSettings.params.getNumber('slots'));
+                        clientSettings.params.getNumber('slots')).filter(this.isDefined);
                 }
-                return this.party;
+                return this.party.filter(this.isDefined);
             },
             showEmptySlots() {
                 if (this.singleSlot) {
@@ -66,6 +66,11 @@ import pokemonCard from './components/pokemon-card.vue.js';
                     return true;
                 }
                 return true;
+            }
+        },
+        methods: {
+            isDefined(obj) {
+                return isDefined(obj);
             }
         }
     }).mount('#party');
