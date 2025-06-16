@@ -16,6 +16,7 @@ export const BadgesChannel = 'client:badges:updated'
 export const DeathChannel = 'client:party:death'
 export const ReviveChannel = 'client:party:revive'
 export const SettingsChannel = 'client:settings:updated'
+export const ResetCall = 'internal:connection:reset'
 
 export class PokelinkClientV2 extends PokelinkClientBase {
     private readonly protobufTypes: { [key: string]: any } = {}
@@ -46,6 +47,8 @@ export class PokelinkClientV2 extends PokelinkClientBase {
                 gzip: false
             }
         }))
+
+        this.events.emit(ResetCall)
     }
 
     protected OnMessageReceived(buffer: Uint8Array): void {

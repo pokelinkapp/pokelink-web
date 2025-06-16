@@ -3,7 +3,7 @@ import {
     BadgesChannel,
     DeathChannel,
     PartyChannel,
-    PokelinkClientV2,
+    PokelinkClientV2, ResetCall,
     ReviveChannel,
     SettingsChannel
 } from './clientv2.js'
@@ -130,6 +130,14 @@ export namespace V2 {
             events.emit('connect')
         })
 
+        client.events.on(ResetCall, () => {
+            if (clientSettings.debug && events.hasEvents(ResetCall)) {
+                console.debug('Reset call has been made')
+            }
+
+            events.emit(ResetCall)
+        })
+
         client.events.on(PartyChannel, (party: Party) => {
             if (clientSettings.debug && events.hasEvents(PartyChannel)) {
                 console.debug(`Party update:`, party.party.map(x => x.pokemon == null ? null : toJson(PokemonSchema, x.pokemon)))
@@ -207,6 +215,10 @@ export namespace V2 {
 
     export function onSpriteSetReset(handler: () => void) {
         events.on(spriteReset, handler)
+    }
+
+    export function onReset(handler: () => void) {
+        events.on(ResetCall, handler)
     }
 
     export function onConnect(handler: () => void) {

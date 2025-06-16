@@ -53,6 +53,9 @@ function sortDeaths(x, y) {
                 vm.connected = true;
                 vm.loaded = true;
             });
+            V2.onReset(() => {
+                vm.deaths = [];
+            });
         },
         computed: {
             showCounter() {

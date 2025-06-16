@@ -18,6 +18,7 @@ export declare namespace V2 {
     export function onRevive(handler: (graveId: string, username: string) => void): void;
     export function onSpriteTemplateUpdate(handler: () => void): void;
     export function onSpriteSetReset(handler: () => void): void;
+    export function onReset(handler: () => void): void;
     export function onConnect(handler: () => void): void;
     export function isValidPokemon(pokemon: Nullable<Pokemon>): boolean;
     export function getSprite(pokemon: Pokemon): string | undefined;
