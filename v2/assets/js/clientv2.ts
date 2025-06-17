@@ -1,7 +1,7 @@
 import {PokelinkClientBase} from './client.js'
 import {
     BadgesSchema,
-    BaseSchema,
+    BaseSchema, GraveyardUpdateSchema,
     PartySchema,
     PokemonDeathSchema,
     PokemonReviveSchema,
@@ -16,7 +16,7 @@ export const BadgesChannel = 'client:badges:updated'
 export const DeathChannel = 'client:party:death'
 export const ReviveChannel = 'client:party:revive'
 export const SettingsChannel = 'client:settings:updated'
-export const ResetCall = 'internal:connection:reset'
+export const GraveyardChannel = 'client:graveyard:updated'
 
 export class PokelinkClientV2 extends PokelinkClientBase {
     private readonly protobufTypes: { [key: string]: any } = {}
@@ -32,6 +32,7 @@ export class PokelinkClientV2 extends PokelinkClientBase {
         this.protobufTypes[DeathChannel] = PokemonDeathSchema
         this.protobufTypes[ReviveChannel] = PokemonReviveSchema
         this.protobufTypes[SettingsChannel] = SettingsSchema
+        this.protobufTypes[GraveyardChannel] = GraveyardUpdateSchema
     }
 
     protected SendHandshake(): void {
@@ -47,8 +48,6 @@ export class PokelinkClientV2 extends PokelinkClientBase {
                 gzip: false
             }
         }))
-
-        this.events.emit(ResetCall)
     }
 
     protected OnMessageReceived(buffer: Uint8Array): void {

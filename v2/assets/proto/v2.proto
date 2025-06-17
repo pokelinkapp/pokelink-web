@@ -80,6 +80,12 @@ message Badge {
   optional uint32 levelCap = 9;
 }
 
+message GraveyardUpdate {
+  string channel = 1;
+  string username = 2;
+  repeated Pokemon graves = 3;
+}
+
 message PokemonDeath {
   string channel = 1;
   string username = 2;

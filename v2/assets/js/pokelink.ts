@@ -3,20 +3,30 @@ import {
     BadgesChannel,
     DeathChannel,
     PartyChannel,
-    PokelinkClientV2, ResetCall,
+    PokelinkClientV2,
+    GraveyardChannel,
     ReviveChannel,
     SettingsChannel
 } from './clientv2.js'
 import {
     Badge,
-    Badges, BadgeSchema,
+    Badges,
+    BadgeSchema,
     Party,
     Pokemon,
     PokemonDeath,
     PokemonDeathSchema,
     PokemonRevive,
-    PokemonReviveSchema, PokemonSchema,
-    Gender, StatusEffect, SettingsData, SettingsSchema, Settings, SettingsDataSchema
+    PokemonReviveSchema,
+    PokemonSchema,
+    Gender,
+    StatusEffect,
+    SettingsData,
+    SettingsSchema,
+    Settings,
+    SettingsDataSchema,
+    GraveyardUpdate,
+    GraveyardUpdateSchema
 } from './v2_pb.js'
 import {toJson} from '@bufbuild/protobuf'
 import {
@@ -130,12 +140,12 @@ export namespace V2 {
             events.emit('connect')
         })
 
-        client.events.on(ResetCall, () => {
-            if (clientSettings.debug && events.hasEvents(ResetCall)) {
-                console.debug('Reset call has been made')
+        client.events.on(GraveyardChannel, (graveyard: GraveyardUpdate) => {
+            if (clientSettings.debug && events.hasEvents(GraveyardChannel)) {
+                console.debug('Graveyard update: ', graveyard.graves.map(x => toJson(PokemonSchema, x)))
             }
 
-            events.emit(ResetCall)
+            events.emit(GraveyardChannel, graveyard.graves, graveyard.username)
         })
 
         client.events.on(PartyChannel, (party: Party) => {
@@ -201,6 +211,10 @@ export namespace V2 {
         events.on(BadgesChannel, handler)
     }
 
+    export function onGraveyardUpdate(handler: (graves: Pokemon[], username: string) => void) {
+        events.on(GraveyardChannel, handler)
+    }
+
     export function onDeath(handler: (pokemon: Pokemon, username: string) => void) {
         events.on(DeathChannel, handler)
     }
@@ -215,10 +229,6 @@ export namespace V2 {
 
     export function onSpriteSetReset(handler: () => void) {
         events.on(spriteReset, handler)
-    }
-
-    export function onReset(handler: () => void) {
-        events.on(ResetCall, handler)
     }
 
     export function onConnect(handler: () => void) {

@@ -50,6 +50,12 @@ export default defineComponent({
             this.users[username].badges = badges
         })
 
+        V2.onGraveyardUpdate((graveyard, username) => {
+            this.initializeIfUndefined(username)
+
+            this.users[username].deaths = graveyard
+        })
+
         V2.onDeath((pokemon, username) => {
             this.initializeIfUndefined(username)
 

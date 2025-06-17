@@ -45,6 +45,10 @@ function sortDeaths(x: Pokemon, y: Pokemon) {
 
             this.prefixText = clientSettings.params.getString('prefixText', '')!
 
+            V2.onGraveyardUpdate((graveyard) => {
+                vm.deaths = graveyard.sort(sortDeaths)
+            })
+
             V2.onDeath((pokemon) => {
                 let deaths = vm.deaths
                 deaths.push(pokemon)
@@ -69,10 +73,6 @@ function sortDeaths(x: Pokemon, y: Pokemon) {
             V2.onConnect(() => {
                 vm.connected = true
                 vm.loaded = true
-            })
-
-            V2.onReset(() => {
-                vm.deaths = []
             })
         },
         computed: {

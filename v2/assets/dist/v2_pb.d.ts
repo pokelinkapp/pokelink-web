@@ -168,6 +168,28 @@ export type Badge = Message<"Pokelink.Core.Proto.V2.Badge"> & {
  */
 export declare const BadgeSchema: GenMessage<Badge>;
 /**
+ * @generated from message Pokelink.Core.Proto.V2.GraveyardUpdate
+ */
+export type GraveyardUpdate = Message<"Pokelink.Core.Proto.V2.GraveyardUpdate"> & {
+    /**
+     * @generated from field: string channel = 1;
+     */
+    channel: string;
+    /**
+     * @generated from field: string username = 2;
+     */
+    username: string;
+    /**
+     * @generated from field: repeated Pokelink.Core.Proto.V2.Pokemon graves = 3;
+     */
+    graves: Pokemon[];
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V2.GraveyardUpdate.
+ * Use `create(GraveyardUpdateSchema)` to create a new message.
+ */
+export declare const GraveyardUpdateSchema: GenMessage<GraveyardUpdate>;
+/**
  * @generated from message Pokelink.Core.Proto.V2.PokemonDeath
  */
 export type PokemonDeath = Message<"Pokelink.Core.Proto.V2.PokemonDeath"> & {

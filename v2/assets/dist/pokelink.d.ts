@@ -14,11 +14,11 @@ export declare namespace V2 {
     export function initialize(settings?: V2Settings): void;
     export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], username: string) => void): void;
     export function onBadgeUpdate(handler: (badges: Badge[], username: string) => void): void;
+    export function onGraveyardUpdate(handler: (graves: Pokemon[], username: string) => void): void;
     export function onDeath(handler: (pokemon: Pokemon, username: string) => void): void;
     export function onRevive(handler: (graveId: string, username: string) => void): void;
     export function onSpriteTemplateUpdate(handler: () => void): void;
     export function onSpriteSetReset(handler: () => void): void;
-    export function onReset(handler: () => void): void;
     export function onConnect(handler: () => void): void;
     export function isValidPokemon(pokemon: Nullable<Pokemon>): boolean;
     export function getSprite(pokemon: Pokemon): string | undefined;
