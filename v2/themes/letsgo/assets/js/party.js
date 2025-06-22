@@ -68,7 +68,7 @@ import pokemonCard from './components/pokemon.vue.js';
         },
         methods: {
             resetSpriteSet() {
-                V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/national/animated' +
+                V2.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/national/animated' +
                     '{{ifElse isShiny "-shiny" ""}}' +
                     '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
                     '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +

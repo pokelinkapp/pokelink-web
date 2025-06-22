@@ -67,7 +67,7 @@ export default defineComponent({
             if (!this.isValid || this.pokemon?.heldItem === 0) {
                 return ""
             }
-            return `https://assets.pokelink.xyz/assets/sprites/items/gen7/${this.pokemon.heldItem}.png`
+            return clientSettings.itemSpriteTemplate(this.pokemon)
         },
         useCardArtBackground() {
             return this.isValid

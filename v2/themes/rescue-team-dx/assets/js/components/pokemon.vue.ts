@@ -58,7 +58,6 @@ export default defineComponent({
             return V2.getSprite(this.pokemon)
         },
         spriteLoaded() {
-            console.log('test');
             (this.$refs.pokeSprite as HTMLDivElement).style.backgroundImage = `url('${(this.$refs.pokemonSprite as HTMLImageElement).src}')`
         }
     },

@@ -23,7 +23,7 @@ export default defineComponent({
               :usePartySprites="true"
           ></trimmedSprite>
         </div>
-        <div class="details" v-if="this.isValid">
+        <div class="details" v-if="this.isValid && !this.pokemon.isEgg">
           <h2 class="name">
             {{ pokemon.nickname }}
             <span class="sex" :class="sex" v-if="!hideGender && sex !== ''">
@@ -141,6 +141,9 @@ export default defineComponent({
     },
     methods: {
         getSprite(pokemon: Pokemon) {
+            if (pokemon.isEgg) {
+                return 'https://assets.pokelink.xyz/v2/sprites/small_egg.png'
+            }
             return V2.getSprite(pokemon)
         },
         getPokeballTopColor: function () {

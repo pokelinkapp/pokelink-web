@@ -21,7 +21,7 @@ import pokemonCard from './components/pokemon-card.vue.js'
         mounted: function () {
             const vm = this
 
-            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/trozei/{{ species }}.png')
+            V2.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/trozei/{{ species }}.png')
 
             V2.initialize({listenForSpriteUpdates: false})
 

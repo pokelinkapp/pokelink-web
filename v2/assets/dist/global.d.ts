@@ -28,6 +28,7 @@ export interface ClientSettings {
     users: string[];
     useFallbackSprites: boolean;
     spriteTemplate: HandlebarsTemplateDelegate;
+    itemSpriteTemplate: HandlebarsTemplateDelegate;
 }
 export declare let indexOf: (haystack: Array<any>, needle: any) => number;
 export declare function string2ColHex(input: string): string;

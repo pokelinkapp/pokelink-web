@@ -66,7 +66,7 @@ import pokemonCard from './components/pokemon-card.vue.js';
         },
         methods: {
             resetSpriteSet() {
-                V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/gen7/{{ifElse isShiny "animated-shiny" "animated"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}{{addFemaleTag this "-f"}}.gif');
+                V2.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/gen7/{{ifElse isShiny "animated-shiny" "animated"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}{{addFemaleTag this "-f"}}.gif');
             },
             isDefined(obj) {
                 return isDefined(obj);

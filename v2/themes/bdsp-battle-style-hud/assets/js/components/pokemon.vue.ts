@@ -13,13 +13,13 @@ export default defineComponent({
         <div class="details" v-if="typeof pokemon == 'object'">
           <h2 class="name">
             {{ pokemon.nickname ?? pokemon.translations.locale.speciesName }}
-            <span class="sex" :class="sex" v-if="!hideGender && sex !== ''">
+            <span class="sex" :class="sex" v-if="!hideGender && sex !== '' && !pokemon.isEgg">
             <female v-if="sex === 'female'"></female>
             <male v-if="sex === 'male'"></male>
           </span>
-            <span class="lvl" v-if="!hideLevel">Lv. {{ pokemon.level }}</span>
+            <span class="lvl" v-if="!hideLevel && !pokemon.isEgg">Lv. {{ pokemon.level }}</span>
           </h2>
-          <div class="hp">
+          <div class="hp" v-if="!pokemon.isEgg">
             <h5>HP: </h5>
             <div class="bar">
               <div class="health" :style="{ width: healthPercent }"
@@ -27,7 +27,7 @@ export default defineComponent({
             </div>
 
           </div>
-          <div class="hp__text-and-exp">
+          <div class="hp__text-and-exp" v-if="!pokemon.isEgg">
             <span class="text">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
 
             <div class="exp" v-if="pokemonExists && !pokemon.isEgg && !hideLevel">

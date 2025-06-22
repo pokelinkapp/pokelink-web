@@ -1,6 +1,6 @@
 import {defineComponent, PropType} from 'vue'
 import type {Pokemon} from 'v2Proto'
-import {isDefined, V2, V2DataTypes} from 'pokelink'
+import {clientSettings, isDefined, V2, V2DataTypes} from 'pokelink'
 
 export default defineComponent({
     template: `
@@ -20,31 +20,31 @@ export default defineComponent({
           {{ nickname }}
           <span
             class="pokemon__gender-icon pokemon__gender-icon--male"
-            v-if="isMale"
+            v-if="isMale && !this.pokemon.isEgg"
           >
             ♂
           </span>
           <span
             class="pokemon__gender-icon pokemon__gender-icon--female"
-            v-if="isFemale"
+            v-if="isFemale && !this.pokemon.isEgg"
           >
             ♀
           </span>
         </div>
 
-        <div class="pokemon__level">
+        <div class="pokemon__level" v-if="!this.pokemon.isEgg">
           <small>Lv</small>{{pokemon.level}}
         </div>
 
         <div class="pokemon_bg"></div>
 
-        <div class="hp__text-values">{{pokemon.hp.current}} / {{pokemon.hp.max}}</div>
-        <div class="hp__text-label">HP:</div>
+        <div class="hp__text-values" v-if="!this.pokemon.isEgg">{{pokemon.hp.current}} / {{pokemon.hp.max}}</div>
+        <div class="hp__text-label" v-if="!this.pokemon.isEgg">HP:</div>
         <div class="pokemon__hp">
-          <div :class="{hp__inner: true, low: parseFloat(healthPercent) <= 50, critical: parseFloat(healthPercent) <= 15 }" :style="{width: healthPercent}"></div>
+          <div :class="{hp__inner: true, low: parseFloat(healthPercent) <= 50, critical: parseFloat(healthPercent) <= 15, hp_egg: pokemon.isEgg }" :style="{width: healthPercent}"></div>
         </div>
 
-        <div class="moves">
+        <div class="moves" v-if="!this.pokemon.isEgg">
           <div v-for="move in pokemon.moves" class="move">
             <div class="move__icon"></div>
             <div class="move__name">
@@ -57,7 +57,7 @@ export default defineComponent({
         </div>
 
         <div class="pokemon__heldItem" v-if="hasItem">
-          <img :src="heldItemImage" onerror="this.src='https://assets.pokelink.xyz/assets/sprites/items/gen7/0.png'">
+          <img :src="heldItemImage" onerror="this.src='https://assets.pokelink.xyz/v2/sprites/items/0.png'">
         </div>
       </div>
     </div>
@@ -119,6 +119,11 @@ export default defineComponent({
             if (!this.isValid) {
                 return '0%'
             }
+
+            if (this.pokemon.isEgg) {
+                return '100%'
+            }
+
             return (100/this.pokemon.hp!.max) * this.pokemon.hp!.current + "%";
         },
         isDead () {
@@ -145,7 +150,7 @@ export default defineComponent({
             return this.pokemon.heldItem !== 0;
         },
         heldItemImage() {
-            return `https://assets.pokelink.xyz/assets/sprites/items/gen7/${this.pokemon.heldItem}.png`
+            return clientSettings.itemSpriteTemplate(this.pokemon)
         },
         experienceRemaining () {
             if (!this.isValid) {

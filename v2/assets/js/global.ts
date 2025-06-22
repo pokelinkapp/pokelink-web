@@ -34,6 +34,21 @@ Handlebars.registerHelper('noSpaces', function (str: string) {
     return str
 })
 
+Handlebars.registerHelper('underscoreSpaces', function (str: string) {
+    if (!isDefined(str)) {
+        return str
+    }
+    return str.replace(' ', '_')
+})
+
+Handlebars.registerHelper('remove', function (str: string, filter: string) {
+    if (!isDefined(str)) {
+        return str
+    }
+
+    return str.replace(filter, '')
+})
+
 Handlebars.registerHelper('nidoranGender', function (str: string, maleTag?: string, femaleTag?: string) {
     if (str?.toLowerCase().startsWith('nidoran') === true) {
         let text = str.substring(0, 7)
@@ -257,7 +272,8 @@ export interface ClientSettings {
     port: number,
     users: string[],
     useFallbackSprites: boolean,
-    spriteTemplate: HandlebarsTemplateDelegate
+    spriteTemplate: HandlebarsTemplateDelegate,
+    itemSpriteTemplate: HandlebarsTemplateDelegate
 }
 
 export let indexOf: (haystack: Array<any>, needle: any) => number

@@ -20,7 +20,7 @@ export default defineComponent({
           </div>
 
           <div class="pokemon__row">
-            <div class="pokemon__level">
+            <div class="pokemon__level" v-if="!this.pokemon.isEgg">
               <small>Lv.</small>{{ pokemon.level }}
             </div>
             <trimmedSprite

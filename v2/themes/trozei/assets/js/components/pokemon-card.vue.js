@@ -4,13 +4,13 @@ export default defineComponent({
     template: `
       <div class="pokemon__slot" :class="{ 'pokemon__empty': isValid }">
         <div v-if="isValid">
-          <div class="pokemon__level" v-if="!hide.level">{{ pokemon.level }}</div>
+          <div class="pokemon__level" v-if="!hide.level && !this.pokemon.isEgg">{{ pokemon.level }}</div>
           <div :class="['pokemon__image', {'pokemon__egg': pokemon.isEgg}]"><img ref="pokemonImg" @error="useFallback" :src="getSprite()"></div>
           <div class="pokemon__nick" v-if="!hide.nickname">
-            <span class="pokemon__nick-shiny" v-if="pokemon.isShiny">★</span>
+            <span class="pokemon__nick-shiny" v-if="pokemon.isShiny && !this.pokemon.isEgg">★</span>
             {{ this.pokemon.nickname || this.pokemon.translations.locale.speciesName }}
           </div>
-          <div class="pokemon__hp-bar" v-if="!hide.hp">
+          <div class="pokemon__hp-bar" v-if="!hide.hp && !this.pokemon.isEgg">
             <div class="progress" style="height: 15px;">
               <div :class="healthBarClass(pokemon)" v-bind:style="{width: healthBarPercent(pokemon) + '%'}"
                    role="progressbar" :aria-valuenow="pokemon.hp.current" :aria-valuemin="0"
@@ -20,7 +20,7 @@ export default defineComponent({
               <span class="text">{{ pokemon.hp.current }} / {{ pokemon.hp.max }}</span>
             </div>
           </div>
-          <div class="pokemon__bar" v-if="!hide.types">
+          <div class="pokemon__bar" v-if="!hide.types && !this.pokemon.isEgg">
             <span :class="'pokemon__types pokemon__types-' + pokemon.translations.english.types[idx].toLowerCase()" v-if="pokemon.translations.locale.types.length !== 0"
                   :style="{ 'backgroundColor': getTypeColor(pokemon.translations.english.types[idx]) }"
                   v-for="(type, idx) in pokemon.translations.locale.types">{{ type }}</span>
@@ -66,6 +66,9 @@ export default defineComponent({
     },
     methods: {
         getSprite() {
+            if (this.pokemon?.isEgg) {
+                return 'https://assets.pokelink.xyz/v2/sprites/egg.png';
+            }
             return V2.getSprite(this.pokemon);
         },
         useFallback() {

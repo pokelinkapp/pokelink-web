@@ -45,11 +45,13 @@ import * as V2DataTypes from './v2_pb.js'
 import Handlebars from 'handlebars'
 import collect from 'collect.js'
 
-export const homeSpriteTemplate = 'https://assets.pokelink.xyz/assets/sprites/pokemon/home/' +
+export const homeSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/pokemon/home/' +
     '{{ifElse isShiny "shiny" "normal"}}' +
     '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
     '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
     '{{addFemaleTag this "-f"}}.png'
+
+export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.heldItemName "."))}}.png'
 
 export const clientSettings: ClientSettings = {
     debug: false,
@@ -58,7 +60,8 @@ export const clientSettings: ClientSettings = {
     port: 3000,
     users: [],
     useFallbackSprites: false,
-    spriteTemplate: Handlebars.compile(homeSpriteTemplate)
+    spriteTemplate: Handlebars.compile(homeSpriteTemplate),
+    itemSpriteTemplate: Handlebars.compile(itemSpriteTemplate)
 }
 
 const spriteUpdate = 'theme:settings:sprite'

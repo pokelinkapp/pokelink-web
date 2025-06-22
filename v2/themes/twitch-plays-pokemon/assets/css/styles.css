@@ -80,6 +80,10 @@
     background: linear-gradient(to right, #d20000, #f51700);
 }
 
+.pokemon .pokemon__hp .hp__inner.hp_egg {
+    background: linear-gradient(to right, #111, #333);
+}
+
 .pokemon .pokemon__level {
     position: absolute;
     top: 5px;

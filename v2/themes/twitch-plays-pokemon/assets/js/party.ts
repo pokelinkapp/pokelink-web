@@ -33,7 +33,7 @@ import list from './components/list.vue.js'
         },
         methods: {
             resetSpriteSet() {
-                V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/heartgold-soulsilver/{{ifElse isShiny "shiny" "normal"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}{{addFemaleTag this "-f"}}.png')
+                V2.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/heartgold-soulsilver/{{ifElse isShiny "shiny" "normal"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}{{addFemaleTag this "-f"}}.png')
             }
         }
     }).mount('#party')

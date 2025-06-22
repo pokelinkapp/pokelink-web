@@ -9,7 +9,7 @@ export default defineComponent({
             <span class="pokemon__gender pokemon__gender-male" v-if="isMale">♂</span>
             <span class="pokemon__gender pokemon__gender-female" v-if="isFemale">♀</span>
             <span :class="'pokemon__types pokemon__types-' + type.toLowerCase()"
-                  v-if="pokemon.translations.english.types.length !== 0"
+                  v-if="pokemon.translations.english.types.length !== 0 && !pokemon.isEgg"
                   :style="{ 'backgroundColor': getTypeColor(type) }"
                   v-for="(type, index) in pokemon.translations.english.types">{{ pokemon.translations.locale.types[index] }}
             </span><span :class="'pokemon__status pokemon__status-'+ statusImg.toLowerCase()"
@@ -27,13 +27,13 @@ export default defineComponent({
                 pokemon.translations.locale.speciesName
               }}
             </div>
-            <div class="pokemon__level-bar">
+            <div class="pokemon__level-bar" v-if="!pokemon.isEgg">
               <span class="pokemon__level">{{ (pokemon.level !== 100 ? 'L' + pokemon.level : '&nbsp;') }}</span>
               <span class="pokemon__hp" style="float: right;" v-if="pokemon.hp.current !== 0">{{ pokemon.hp.current }}/
                 {{ pokemon.hp.max }}</span>
               <span class="pokemon__dead-label" style="float: right;" v-else> DEAD </span>
             </div>
-            <div class="pokemon__hp-bar">
+            <div class="pokemon__hp-bar" v-if="!pokemon.isEgg">
               <div class="progress" style="height: 15px;">
                 <div :class="healthBarClass(pokemon)" v-bind:style="{width: healthBarPercent(pokemon) + '%'}"
                      role="progressbar" :aria-valuenow="pokemon.hp.current" :aria-valuemin="0"
@@ -122,6 +122,9 @@ export default defineComponent({
             return string2ColHex(str);
         },
         sprite() {
+            if (this.pokemon.isEgg) {
+                return 'https://assets.pokelink.xyz/assets/sprites/egg.gif';
+            }
             return V2.getSprite(this.pokemon);
         }
     },

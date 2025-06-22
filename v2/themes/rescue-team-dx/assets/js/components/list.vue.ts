@@ -33,7 +33,7 @@ export default defineComponent({
     mounted() {
         let vm = this
         V2.onPartyUpdate((party => {
-            vm.party = party
+            vm.party = party.filter(x => !x?.isEgg)
             vm.$forceUpdate()
         }))
     },

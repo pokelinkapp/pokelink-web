@@ -4,6 +4,7 @@ import * as V2DataTypes from './v2_pb.js';
 import Handlebars from 'handlebars';
 import collect from 'collect.js';
 export declare const homeSpriteTemplate: string;
+export declare const itemSpriteTemplate = "https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.heldItemName \".\"))}}.png";
 export declare const clientSettings: ClientSettings;
 export declare function spriteTestInitialize(): void;
 export declare namespace V2 {

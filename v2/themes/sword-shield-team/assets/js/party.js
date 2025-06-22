@@ -68,7 +68,7 @@ import pokemon from './components/pokemon.vue.js';
         },
         methods: {
             resetSpriteSet() {
-                V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}.png');
+                V2.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}.png');
             },
             isDefined(obj) {
                 return isDefined(obj);

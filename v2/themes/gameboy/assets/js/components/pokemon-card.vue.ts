@@ -6,7 +6,7 @@ export default defineComponent({
   template: `
   <div class="party_row" v-if="isValid">
     <div class="sprite"><img ref="pokemonImg" @error="useFallback" :src="imageTag()"/></div>
-    <div class="details">
+    <div class="details" v-if="!this.pokemon.isEgg">
       <div class="half top">
         <div class="identity text">
           <span v-if="pokemon.isShiny"><img src="./assets/images/shiny.png" alt="" /></span>{{ pokemon.nickname || pokemon.translations.locale.speciesName }} <span class="pokemon__gender pokemon__gender-male" v-if="pokemon.isGenderless == 0 && pokemon.isFemale == 0">♂</span><span class="pokemon__gender pokemon__gender-female" v-if="pokemon.isGenderless == 0 && pokemon.isFemale == 1">♀</span>
@@ -52,6 +52,9 @@ export default defineComponent({
     },
     imageTag() {
       if (!this.isValid) { return null; }
+      if (this.pokemon.isEgg) {
+        return 'https://assets.pokelink.xyz/v2/sprites/small_egg.png'
+      }
       return V2.getPartySprite(this.pokemon)
     },
   },

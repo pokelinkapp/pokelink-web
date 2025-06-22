@@ -8,32 +8,34 @@ export default defineComponent({
           <div :class="{ 'pokemon__image': true, 'pokemon__dead': (pokemon.hp.current === 0)}">
             <img ref="pokemonSprite" @error="useFallback" :src="getSprite()">
           </div>
-          <div class="pokemon__nick">
-            <span class="pokemon__nick-shiny" v-if="pokemon.isShiny">★</span>
-            <span>{{ pokemon.nickname || pokemon.translations.locale.speciesName }}</span>
-            <span class="pokemon__gender pokemon__gender-male"
-                  v-if="isMale()">♂</span>
-            <span class="pokemon__gender pokemon__gender-female"
-                  v-if="isFemale()">♀</span>
+          <div v-if="!pokemon.isEgg">
+            <div class="pokemon__nick">
+              <span class="pokemon__nick-shiny" v-if="pokemon.isShiny">★</span>
+              <span>{{ pokemon.nickname || pokemon.translations.locale.speciesName }}</span>
+              <span class="pokemon__gender pokemon__gender-male"
+                    v-if="isMale()">♂</span>
+              <span class="pokemon__gender pokemon__gender-female"
+                    v-if="isFemale()">♀</span>
 
-          </div>
-          <div v-if="pokemon.hp.current !== 0">
-            <div class="pokemon__level-bar" v-if="pokemon.level !== 100 && pokemon.level > 0">
-              <span class="pokemon__level">L{{ pokemon.level }}</span>
-              <span class="pokemon__hp" style="float: right;">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
             </div>
-            <div class="pokemon__level-bar" v-else>
-              <div class="pokemon__hp">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</div>
+            <div v-if="pokemon.hp.current !== 0">
+              <div class="pokemon__level-bar" v-if="pokemon.level !== 100 && pokemon.level > 0">
+                <span class="pokemon__level">L{{ pokemon.level }}</span>
+                <span class="pokemon__hp" style="float: right;">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
+              </div>
+              <div class="pokemon__level-bar" v-else>
+                <div class="pokemon__hp">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</div>
+              </div>
             </div>
-          </div>
-          <div v-else>
-            <div class="pokemon__dead-label"> DEAD</div>
-          </div>
-          <div class="pokemon__hp-bar">
-            <div class="progress" style="height: 9px;">
-              <div :class="healthBarClass()" v-bind:style="{width: healthBarPercent() + '%'}"
-                   role="progressbar" :aria-valuenow="pokemon.hp.current" :aria-valuemin="0"
-                   :aria-valuemax="pokemon.hp.max"></div>
+            <div v-else>
+              <div class="pokemon__dead-label"> DEAD</div>
+            </div>
+            <div class="pokemon__hp-bar">
+              <div class="progress" style="height: 9px;">
+                <div :class="healthBarClass()" v-bind:style="{width: healthBarPercent() + '%'}"
+                     role="progressbar" :aria-valuenow="pokemon.hp.current" :aria-valuemin="0"
+                     :aria-valuemax="pokemon.hp.max"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -66,6 +68,9 @@ export default defineComponent({
             V2.useFallback(this.$refs.pokemonSprite, this.pokemon);
         },
         getSprite() {
+            if (this.pokemon.isEgg) {
+                return 'https://assets.pokelink.xyz/v2/sprites/egg.gif';
+            }
             return V2.getSprite(this.pokemon);
         },
         styleBorder(pokemon) {
@@ -101,7 +106,6 @@ export default defineComponent({
             if (!this.isValid) {
                 return 100;
             }
-            console.log("What is this shit?!");
             if (this.pokemon.hp.max === this.pokemon.hp.current) {
                 return 100;
             }

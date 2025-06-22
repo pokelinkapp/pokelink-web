@@ -25,7 +25,7 @@ export default defineComponent({
               :getSprite="getSprite"
           ></trimmedSprite>
         </div>
-        <div class="pokemon__details" v-if="pokemonExists">
+        <div class="pokemon__details" v-if="pokemonExists && !pokemon.isEgg">
           <div class="pokemon__hp">
             <div v-if="!hideLevel"><small>Lv.</small>{{ pokemon.level }}</div>
             <div>{{ pokemon.hp.current }} / {{ pokemon.hp.max }}</div>
@@ -180,7 +180,7 @@ export default defineComponent({
             if (!this.isFresh) {
                 this.pokeIsChanging = true
             }
-            if (!this.settings.useCardArtBackground) {
+            if (!this.settings.useCardArtBackground || this.pokemon.isEgg) {
                 setTimeout(() => {
                     this.pokeIsChanging = false
                     this.actionOnImageLoaded()

@@ -17,7 +17,7 @@ import list from './components/list.vue.js'
         created: function () {
             const vm = this
 
-            V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/rescue-team-dx/normal/{{ species }}.png')
+            V2.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/rescue-team-dx/normal/{{ species }}.png')
 
             V2.initialize({listenForSpriteUpdates: false})
 

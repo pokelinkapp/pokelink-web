@@ -25,7 +25,7 @@ export default defineComponent({
               <span class="text">{{ pokemon.hp.current }} / {{ pokemon.hp.max }}</span>
             </div>
           </div>
-          <div class="stats" v-if="typeof this.pokemon === 'object'">
+          <div class="stats" v-if="!this.pokemon.isEgg">
             <div v-if="this.pokemon.level > 0">
               <span class="value">{{ this.pokemon.level }}</span>
               <span class="tag">Level</span>
@@ -36,7 +36,7 @@ export default defineComponent({
               <span class="tag">Type(s)</span>
             </div>
             <div v-if="this.pokemon.heldItem !== 0">
-              <span class="img"><img onerror="this.src='https://assets.pokelink.xyz/assets/sprites/items/gen7/0.png'"
+              <span class="img"><img onerror="this.src='https://assets.pokelink.xyz/v2/sprites/items/0.png'"
                                      :src="heldItemImage"/></span>
               <span class="tag">Item</span>
             </div>
@@ -61,7 +61,7 @@ export default defineComponent({
             return (100 / this.pokemon.hp!.max) * this.pokemon.hp!.current + '%'
         },
         heldItemImage() {
-            return `https://assets.pokelink.xyz/assets/sprites/items/gen7/${this.pokemon.heldItem}.png`
+            return clientSettings.itemSpriteTemplate(this.pokemon)
         },
         isMissingno() {
             if (this.pokemon.isEgg) {
@@ -71,8 +71,8 @@ export default defineComponent({
             return this.pokemon.species <= 0
         },
         imageTag() {
-            if (this.pokemon.species === -1 || this.pokemon.isEgg === true) {
-                return this.pokemon.fallbackSprite
+            if (this.pokemon.isEgg) {
+                return `https://assets.pokelink.xyz/assets/sprites/egg.png`
             }
 
             let name = this.pokemon.species.toString()

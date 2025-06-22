@@ -23,10 +23,10 @@ export default defineComponent({
                   :class="{ exp__inner: true}"
               ></div>
             </div>
-            <div class="pokemon__name" v-if="pokemonExists">
+            <div class="pokemon__name" v-if="pokemonExists && !pokemon.isEgg">
               {{ nickname }}
             </div>
-            <div class="pokemon__level" v-if="pokemonExists">
+            <div class="pokemon__level" v-if="pokemonExists && !pokemon.isEgg">
               <small>Lv. {{ pokemon.level }}</small>
             </div>
             <div class="hp" v-if="pokemonExists && !pokemon.isEgg">
@@ -65,6 +65,9 @@ export default defineComponent({
     },
     methods: {
         getSprite(pokemon: Pokemon) {
+            if (pokemon.isEgg) {
+                return 'https://assets.pokelink.xyz/v2/sprites/egg.png'
+            }
             return V2.getSprite(pokemon)
         }
     },
@@ -118,7 +121,7 @@ export default defineComponent({
             return statuses
         },
         cellColour () {
-            if (!this.pokemonExists) return '#120c2f'
+            if (!this.pokemonExists || this.pokemon.isEgg) return '#120c2f'
             return V2.getTypeColor(this.pokemon.translations!.english!.types[0])
         },
         selectedPokemon: {

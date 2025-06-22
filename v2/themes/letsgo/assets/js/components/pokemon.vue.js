@@ -12,15 +12,15 @@ export default defineComponent({
         <label v-if="isValid">
           <input class="radio" type="radio" name="poke" :id="nickname" :value="nickname"
                  v-model="selectedPokemon">
-          <span class="lvl">Lv. {{ pokemon.level }}</span>
+          <span class="lvl" v-if="!pokemon.isEgg">Lv. {{ pokemon.level }}</span>
           <span class="sex" :class="sex" v-if="sex !== ''">
           <female v-if="sex === 'female'"></female>
           <male v-if="sex === 'male'"></male>
         </span>
           <img v-if="pokemon.isEgg" ref="pokemonImg" @error="useFallback" class="sprite" :src="sprite()" style="max-height: 80px;"/>
           <img v-else  ref="pokemonImg" @error="useFallback" class="sprite" :src="sprite()"/>
-          <span class="candy" v-if="hasItem"></span>
-          <div class="details">
+          <span class="candy" v-if="hasItem && !pokemon.isEgg"></span>
+          <div class="details" v-if="!pokemon.isEgg">
             <h2 class="name">{{ nickname }}</h2>
             <div class="hp">
               <div class="bar">
@@ -84,7 +84,7 @@ export default defineComponent({
             return this.pokemon.nickname || this.pokemon.translations.locale.speciesName;
         },
         sex() {
-            if (!this.isValid) {
+            if (!this.isValid || this.pokemon.isEgg) {
                 return '';
             }
             return (this.pokemon.gender === V2DataTypes.Gender.genderless ? '' : (this.pokemon.gender === V2DataTypes.Gender.female ? 'female' : 'male'));
@@ -133,6 +133,9 @@ export default defineComponent({
     },
     methods: {
         sprite() {
+            if (this.pokemon?.isEgg) {
+                return 'https://assets.pokelink.xyz/v2/sprites/egg.png';
+            }
             return V2.getSprite(this.pokemon);
         },
         useFallback() {

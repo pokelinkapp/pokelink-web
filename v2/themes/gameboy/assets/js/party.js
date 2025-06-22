@@ -69,7 +69,7 @@ import pokemonCard from './components/pokemon-card.vue.js';
         },
         methods: {
             resetSpriteSet() {
-                V2.updateSpriteTemplate('https://assets.pokelink.xyz/assets/sprites/pokemon/gen8/party' +
+                V2.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/gen8/party' +
                     '/{{toLower (noSpaces (nidoranGender translations.english.speciesName "" "-f"))}}' +
                     '{{addFemaleTag this "-f"}}.png');
             },

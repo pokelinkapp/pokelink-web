@@ -17,7 +17,7 @@ export default defineComponent({
           </div>
 
           <div class="pokemon__row">
-            <div class="pokemon__level" v-if="isValid">
+            <div class="pokemon__level" v-if="isValid && !pokemon.isEgg">
               <small>Lv.</small>{{ pokemon.level }}
             </div>
             <div class="pokemon__image" v-if="isValid">
@@ -135,7 +135,7 @@ export default defineComponent({
             return V2.getSprite(this.pokemon)
         },
         useCardArtBackground() {
-            if (this.pokemon === null) {
+            if (this.pokemon === null || this.pokemon.isEgg) {
                 return false
             }
             return clientSettings.params.getBool('useCardArtBackground', false)
