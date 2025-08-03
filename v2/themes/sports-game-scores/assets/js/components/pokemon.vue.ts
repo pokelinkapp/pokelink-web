@@ -165,15 +165,15 @@ export default defineComponent({
 
             if (this.isDead) return 'DEAD'
 
-            if (this.pokemon.nature) {
+            // if (this.pokemon.nature ) {
                 return this.pokemon.translations!.locale!.natureName
-            }
+            // }
 
-            if (this.pokemon.ability && this.pokemon.ability !== 0) {
-                return this.pokemon.translations!.locale!.abilityName
-            }
-
-            return ``
+            // if (this.pokemon.ability && this.pokemon.ability !== 0) {
+            //     return this.pokemon.translations!.locale!.abilityName
+            // }
+            //
+            // return ``
         },
         hideLevel() {
             return clientSettings.params.getBool('hideLevels', false)
