@@ -5,7 +5,7 @@ import { clientSettings, hex2rgba, V2, V2DataTypes } from 'pokelink';
 var getTypeColor = V2.getTypeColor;
 export default defineComponent({
     template: `
-      <div :class="{ 'pokemon': true, 'isDead': isDead,  'opaque': !fixedSprite}" :style="backgroundGradientStyle"
+      <div :class="{ 'pokemon': true, 'isDead': isDead, 'opaque': !fixedSprite}" :style="backgroundGradientStyle"
            v-if="pokemonExists">
         <div
             class="pokemon__card-art"
@@ -68,10 +68,17 @@ export default defineComponent({
             vm.$forceUpdate();
         });
         this.pokeIsChanging = false;
-        if (this.pokemonExists && this.settings.useCardArtBackground)
-            this.getNewCardArt(this.pokemon);
-        if (!this.pokemonExists)
+        if (this.pokemonExists) {
+            if (this.settings.useCardArtBackground) {
+                this.getNewCardArt(this.pokemon);
+            }
+            else {
+                this.actionOnImageLoaded();
+            }
+        }
+        if (!this.pokemonExists) {
             this.actionOnImageLoaded();
+        }
     },
     computed: {
         isDead() {
@@ -175,7 +182,7 @@ export default defineComponent({
                 setTimeout(() => {
                     this.pokeIsChanging = false;
                     this.actionOnImageLoaded();
-                }, 1400);
+                }, 100);
                 return false;
             }
             let isFresh = this.customCardArt === null && this.isFresh;
@@ -192,6 +199,7 @@ export default defineComponent({
             fetch('https://api.pokemontcg.io/v1/cards?setCode=' + this.sets.join('|') + '&supertype=pokemon&nationalPokedexNumber=' + poke.species)
                 .then(response => response.json())
                 .then(cards => {
+                console.log(cards);
                 let setOrder = this.sets;
                 // try {
                 let cardImages = cards
@@ -219,6 +227,9 @@ export default defineComponent({
                 //   // console.info(cards.cards)
                 //
             });
+            setTimeout(() => {
+                this.actionOnImageLoaded();
+            }, 500);
         },
         actionOnImageLoaded() {
             this.fixedSprite = true;
