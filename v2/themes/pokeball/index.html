@@ -15,6 +15,7 @@
                           :class="{ 'vertical-column': settings.verticalPokemon }" v-if="loaded">
             <pokemon-card v-for="poke in pokemonToShow"
                           :pokemon="poke" :key="poke?.pid" :settings="settings"></pokemon-card>
+            <pokemon-card v-for="index in 6-pokemonToShow.length" v-if="loaded && showEmptySlots" :key="poke?.pid"></pokemon-card>
         </transition-group>
         <div class="no-connection" v-if="!connected">
             <p>Waiting for successful connection to Pokélink...</p>
