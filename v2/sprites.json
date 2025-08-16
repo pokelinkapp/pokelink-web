@@ -399,6 +399,25 @@
             "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/rescue-team-dx/normal/{{ species }}.png"
         },
         {
+            "id": "pokelink:rumble",
+            "name": "Pokelink.SpriteSets.Rumble.name",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": false,
+            "shinySprites": false,
+            "forms": false,
+            "supportedGenerations": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7
+            ],
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/rumble/{{species}}{{addFemaleTag this \"-f\"}}.png"
+        },
+        {
             "id": "pokelink:silver",
             "name": "Pokelink.SpriteSets.Silver.name",
             "translate": true,
