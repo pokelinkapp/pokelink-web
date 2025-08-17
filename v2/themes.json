@@ -257,6 +257,9 @@
             "supports": {
                 "changingSprites": true
             },
+            "options": [
+
+            ],
             "url": "https://assets.pokelink.xyz/v2/themes/pokeball/"
         },
         {

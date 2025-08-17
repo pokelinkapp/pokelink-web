@@ -11,7 +11,7 @@ export default defineComponent({
             <img ref="pokemonSprite" @error="useFallback" :src="getSprite()">
           </div>
           <div v-if="!pokemon.isEgg">
-            <div class="pokemon__nick">
+            <div class="pokemon__nick" v-if="!hideName">
               <span class="pokemon__nick-shiny" v-if="pokemon.isShiny">★</span>
               <span>{{ pokemon.nickname || pokemon.translations.locale.speciesName }}</span>
               <span class="pokemon__gender pokemon__gender-male"
@@ -20,19 +20,16 @@ export default defineComponent({
                     v-if="isFemale()">♀</span>
 
             </div>
-            <div v-if="pokemon.hp.current !== 0">
-              <div class="pokemon__level-bar" v-if="pokemon.level !== 100 && pokemon.level > 0">
-                <span class="pokemon__level">L{{ pokemon.level }}</span>
-                <span class="pokemon__hp" style="float: right;">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
-              </div>
-              <div class="pokemon__level-bar" v-else>
-                <div class="pokemon__hp">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</div>
+            <div v-if="!hideHP || !hideLevel">
+              <div class="pokemon__level-bar" v-if="pokemon.hp.current !== 0">
+                <span class="pokemon__level" v-if="pokemon.level < 100 && pokemon.level > 0 && !hideLevel">L{{ pokemon.level }}</span>
+                <span class="pokemon__hp" :style="[!hideLevel ? 'float: right' : '']" v-if="!hideHP">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
               </div>
             </div>
             <div v-else>
               <div class="pokemon__dead-label"> DEAD</div>
             </div>
-            <div class="pokemon__hp-bar">
+            <div class="pokemon__hp-bar" v-if="!hideHP">
               <div class="progress" style="height: 9px;">
                 <div :class="healthBarClass()" v-bind:style="{width: healthBarPercent() + '%'}"
                      role="progressbar" :aria-valuenow="pokemon.hp.current" :aria-valuemin="0"
@@ -54,11 +51,22 @@ export default defineComponent({
         },
         settings: Object
     },
+    data() {
+        return {
+            hideHP: true,
+            hideLevel: true,
+            hideName: true
+        }
+    },
     mounted() {
         const vm = this
         V2.onSpriteTemplateUpdate(() => {
             vm.$forceUpdate()
         })
+
+        this.hideHP = clientSettings.params.getBool('hideHP', false)
+        this.hideLevel = clientSettings.params.getBool('hideLevel', false)
+        this.hideName = clientSettings.params.getBool('hideName', false)
     },
     computed: {
         isValid() {
