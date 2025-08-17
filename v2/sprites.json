@@ -279,6 +279,27 @@
             "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/home/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
+            "id": "pokelink:home:animated",
+            "name": "Pokelink.SpriteSets.Home.animated",
+            "translate": true,
+            "developer": "Pokélink",
+            "animated": true,
+            "shinySprites": true,
+            "forms": true,
+            "supportedGenerations": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9
+            ],
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/home/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
+        },
+        {
             "id": "pokelink:moemon",
             "name": "Pokelink.SpriteSets.Moemon.name",
             "translate": true,
