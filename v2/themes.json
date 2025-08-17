@@ -258,7 +258,27 @@
                 "changingSprites": true
             },
             "options": [
-
+                {
+                    "key": "hideLevel",
+                    "name": "Pokelink.Themes.Pokeball.hideLevel",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "hideName",
+                    "name": "Pokelink.Themes.Pokeball.hideName",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                },
+                {
+                    "key": "hideHP",
+                    "name": "Pokelink.Themes.Pokeball.hideHP",
+                    "translate": true,
+                    "type": "boolean",
+                    "default": false
+                }
             ],
             "url": "https://assets.pokelink.xyz/v2/themes/pokeball/"
         },
