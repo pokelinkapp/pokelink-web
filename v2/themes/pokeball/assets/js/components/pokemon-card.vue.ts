@@ -25,15 +25,15 @@ export default defineComponent({
                 <span class="pokemon__level" v-if="pokemon.level < 100 && pokemon.level > 0 && !hideLevel">L{{ pokemon.level }}</span>
                 <span class="pokemon__hp" :style="[!hideLevel ? 'float: right' : '']" v-if="!hideHP">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
               </div>
-            </div>
-            <div v-else>
-              <div class="pokemon__dead-label"> DEAD</div>
-            </div>
-            <div class="pokemon__hp-bar" v-if="!hideHP">
-              <div class="progress" style="height: 9px;">
-                <div :class="healthBarClass()" v-bind:style="{width: healthBarPercent() + '%'}"
-                     role="progressbar" :aria-valuenow="pokemon.hp.current" :aria-valuemin="0"
-                     :aria-valuemax="pokemon.hp.max"></div>
+              <div v-else>
+                <div class="pokemon__dead-label"> DEAD</div>
+              </div>
+              <div class="pokemon__hp-bar" v-if="!hideHP">
+                <div class="progress" style="height: 9px;">
+                  <div :class="healthBarClass()" v-bind:style="{width: healthBarPercent() + '%'}"
+                       role="progressbar" :aria-valuenow="pokemon.hp.current" :aria-valuemin="0"
+                       :aria-valuemax="pokemon.hp.max"></div>
+                </div>
               </div>
             </div>
           </div>
