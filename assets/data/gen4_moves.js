@@ -150,7 +150,7 @@ var movedex = [
         "id": 14,
         "jname": "\u3064\u308b\u304e\u306e\u307e\u3044",
         "power": null,
-        "pp": 20,
+        "pp": 30,
         "tm": 75,
         "type": "Normal"
     },
@@ -210,7 +210,7 @@ var movedex = [
         "type": "Flying"
     },
     {
-        "accuracy": 85,
+        "accuracy": 75,
         "category": "\u7269\u7406",
         "cname": "\u7ed1\u7d27",
         "ename": "Bind",
@@ -238,8 +238,8 @@ var movedex = [
         "ename": "Vine Whip",
         "id": 22,
         "jname": "\u3064\u308b\u306e\u30e0\u30c1",
-        "power": 45,
-        "pp": 25,
+        "power": 35,
+        "pp": 15,
         "type": "Grass"
     },
     {
@@ -282,8 +282,8 @@ var movedex = [
         "ename": "Jump Kick",
         "id": 26,
         "jname": "\u3068\u3073\u3052\u308a",
-        "power": 130,
-        "pp": 10,
+        "power": 85,
+        "pp": 25,
         "type": "Fighting"
     },
     {
@@ -353,13 +353,13 @@ var movedex = [
         "type": "Normal"
     },
     {
-        "accuracy": 100,
+        "accuracy": 95,
         "category": "\u7269\u7406",
         "cname": "\u51b2\u51fb",
         "ename": "Tackle",
         "id": 33,
         "jname": "\u305f\u3044\u3042\u305f\u308a",
-        "power": 50,
+        "power": 35,
         "pp": 35,
         "type": "Normal"
     },
@@ -375,7 +375,7 @@ var movedex = [
         "type": "Normal"
     },
     {
-        "accuracy": 90,
+        "accuracy": 85,
         "category": "\u7269\u7406",
         "cname": "\u6346\u7ed1",
         "ename": "Wrap",
@@ -403,8 +403,8 @@ var movedex = [
         "ename": "Thrash",
         "id": 37,
         "jname": "\u3042\u3070\u308c\u308b",
-        "power": 120,
-        "pp": 10,
+        "power": 90,
+        "pp": 20,
         "type": "Normal"
     },
     {
@@ -443,17 +443,6 @@ var movedex = [
     {
         "accuracy": 100,
         "category": "\u7269\u7406",
-        "cname": "\u6bd2\u9488",
-        "ename": "PoisonSting",
-        "id": 40,
-        "jname": "\u3069\u304f\u3070\u308a",
-        "power": 15,
-        "pp": 35,
-        "type": "Poison"
-    },
-    {
-        "accuracy": 100,
-        "category": "\u7269\u7406",
         "cname": "\u53cc\u9488",
         "ename": "Twineedle",
         "id": 41,
@@ -463,13 +452,13 @@ var movedex = [
         "type": "Bug"
     },
     {
-        "accuracy": 95,
+        "accuracy": 85,
         "category": "\u7269\u7406",
         "cname": "\u98de\u5f39\u9488",
         "ename": "Pin Missile",
         "id": 42,
         "jname": "\u30df\u30b5\u30a4\u30eb\u3070\u308a",
-        "power": 25,
+        "power": 14,
         "pp": 20,
         "type": "Bug"
     },
@@ -552,7 +541,7 @@ var movedex = [
         "type": "Normal"
     },
     {
-        "accuracy": 100,
+        "accuracy": 80,
         "category": "\u53d8\u5316",
         "cname": "\u77f3\u5316\u529f",
         "ename": "Disable",
@@ -591,7 +580,7 @@ var movedex = [
         "ename": "Flamethrower",
         "id": 53,
         "jname": "\u304b\u3048\u3093\u307b\u3046\u3057\u3083",
-        "power": 90,
+        "power": 95,
         "pp": 15,
         "tm": 35,
         "type": "Fire"
@@ -625,7 +614,7 @@ var movedex = [
         "ename": "Hydro Pump",
         "id": 56,
         "jname": "\u30cf\u30a4\u30c9\u30ed\u30dd\u30f3\u30d7",
-        "power": 110,
+        "power": 120,
         "pp": 5,
         "type": "Water"
     },
@@ -636,7 +625,7 @@ var movedex = [
         "ename": "Surf",
         "id": 57,
         "jname": "\u306a\u307f\u306e\u308a",
-        "power": 90,
+        "power": 95,
         "pp": 15,
         "type": "Water"
     },
@@ -647,7 +636,7 @@ var movedex = [
         "ename": "Ice Beam",
         "id": 58,
         "jname": "\u308c\u3044\u3068\u3046\u30d3\u30fc\u30e0",
-        "power": 90,
+        "power": 95,
         "pp": 10,
         "tm": 13,
         "type": "Ice"
@@ -659,7 +648,7 @@ var movedex = [
         "ename": "Blizzard",
         "id": 59,
         "jname": "\u3075\u3076\u304d",
-        "power": 110,
+        "power": 120,
         "pp": 5,
         "tm": 14,
         "type": "Ice"
@@ -793,8 +782,8 @@ var movedex = [
         "ename": "Absorb",
         "id": 71,
         "jname": "\u3059\u3044\u3068\u308b",
-        "power": 20,
-        "pp": 25,
+        "power": 40,
+        "pp": 15,
         "type": "Grass"
     },
     {
@@ -804,8 +793,8 @@ var movedex = [
         "ename": "Mega Drain",
         "id": 72,
         "jname": "\u30e1\u30ac\u30c9\u30ec\u30a4\u30f3",
-        "power": 40,
-        "pp": 15,
+        "power": 75,
+        "pp": 10,
         "type": "Grass"
     },
     {
@@ -848,7 +837,7 @@ var movedex = [
         "ename": "Solar Beam",
         "id": 76,
         "jname": "\u30bd\u30fc\u30e9\u30fc\u30d3\u30fc\u30e0",
-        "power": 120,
+        "power": 200,
         "pp": 10,
         "tm": 22,
         "type": "Grass"
@@ -858,17 +847,6 @@ var movedex = [
         "category": "\u53d8\u5316",
         "cname": "\u6bd2\u7c89\u672b",
         "ename": "Poison Powder",
-        "id": 77,
-        "jname": "\u3069\u304f\u306e\u3053\u306a",
-        "power": null,
-        "pp": 35,
-        "type": "Poison"
-    },
-    {
-        "accuracy": 75,
-        "category": "\u53d8\u5316",
-        "cname": "\u6bd2\u7c89\u672b",
-        "ename": "PoisonPowder",
         "id": 77,
         "jname": "\u3069\u304f\u306e\u3053\u306a",
         "power": null,
@@ -904,8 +882,8 @@ var movedex = [
         "ename": "Petal Dance",
         "id": 80,
         "jname": "\u306f\u306a\u3073\u3089\u306e\u307e\u3044",
-        "power": 120,
-        "pp": 10,
+        "power": 90,
+        "pp": 20,
         "type": "Grass"
     },
     {
@@ -931,13 +909,13 @@ var movedex = [
         "type": "Dragon"
     },
     {
-        "accuracy": 85,
+        "accuracy": 70,
         "category": "\u7279\u6b8a",
         "cname": "\u706b\u7130\u6f29\u6da1",
         "ename": "Fire Spin",
         "id": 83,
         "jname": "\u307b\u306e\u304a\u306e\u3046\u305a",
-        "power": 35,
+        "power": 15,
         "pp": 15,
         "type": "Fire"
     },
@@ -959,7 +937,7 @@ var movedex = [
         "ename": "Thunderbolt",
         "id": 85,
         "jname": "\uff11\uff10\u307e\u3093\u30dc\u30eb\u30c8",
-        "power": 90,
+        "power": 95,
         "pp": 15,
         "tm": 24,
         "type": "Electric"
@@ -983,7 +961,7 @@ var movedex = [
         "ename": "Thunder",
         "id": 87,
         "jname": "\u304b\u307f\u306a\u308a",
-        "power": 110,
+        "power": 120,
         "pp": 10,
         "tm": 25,
         "type": "Electric"
@@ -1035,7 +1013,7 @@ var movedex = [
         "type": "Ground"
     },
     {
-        "accuracy": 90,
+        "accuracy": 85,
         "category": "\u53d8\u5316",
         "cname": "\u731b\u6bd2\u7d20",
         "ename": "Toxic",
@@ -1210,7 +1188,7 @@ var movedex = [
         "id": 107,
         "jname": "\u3061\u3044\u3055\u304f\u306a\u308b",
         "power": null,
-        "pp": 10,
+        "pp": 20,
         "type": "Normal"
     },
     {
@@ -1376,7 +1354,7 @@ var movedex = [
         "ename": "Lick",
         "id": 122,
         "jname": "\u3057\u305f\u3067\u306a\u3081\u308b",
-        "power": 30,
+        "power": 20,
         "pp": 30,
         "type": "Ghost"
     },
@@ -1420,7 +1398,7 @@ var movedex = [
         "ename": "Fire Blast",
         "id": 126,
         "jname": "\u3060\u3044\u3082\u3093\u3058",
-        "power": 110,
+        "power": 120,
         "pp": 5,
         "tm": 38,
         "type": "Fire"
@@ -1437,7 +1415,7 @@ var movedex = [
         "type": "Water"
     },
     {
-        "accuracy": 85,
+        "accuracy": 75,
         "category": "\u7269\u7406",
         "cname": "\u5939\u58f3",
         "ename": "Clamp",
@@ -1465,8 +1443,8 @@ var movedex = [
         "ename": "Skull Bash",
         "id": 130,
         "jname": "\u30ed\u30b1\u30c3\u30c8\u305a\u3064\u304d",
-        "power": 130,
-        "pp": 10,
+        "power": 100,
+        "pp": 15,
         "type": "Normal"
     },
     {
@@ -1531,12 +1509,12 @@ var movedex = [
         "ename": "High Jump Kick",
         "id": 136,
         "jname": "\u3068\u3073\u3072\u3056\u3052\u308a",
-        "power": 130,
-        "pp": 10,
+        "power": 100,
+        "pp": 20,
         "type": "Fighting"
     },
     {
-        "accuracy": 100,
+        "accuracy": 75,
         "category": "\u53d8\u5316",
         "cname": "\u5927\u86c7\u77aa\u773c",
         "ename": "Glare",
@@ -1559,7 +1537,7 @@ var movedex = [
         "type": "Psychic"
     },
     {
-        "accuracy": 90,
+        "accuracy": 55,
         "category": "\u53d8\u5316",
         "cname": "\u6bd2\u74e6\u65af",
         "ename": "Poison Gas",
@@ -1609,7 +1587,7 @@ var movedex = [
         "ename": "Sky Attack",
         "id": 143,
         "jname": "\u30b4\u30c3\u30c9\u30d0\u30fc\u30c9",
-        "power": 140,
+        "power": 200,
         "pp": 5,
         "type": "Flying"
     },
@@ -1631,7 +1609,7 @@ var movedex = [
         "ename": "Bubble",
         "id": 145,
         "jname": "\u3042\u308f",
-        "power": 40,
+        "power": 20,
         "pp": 30,
         "type": "Water"
     },
@@ -1670,7 +1648,7 @@ var movedex = [
         "type": "Normal"
     },
     {
-        "accuracy": 100,
+        "accuracy": 80,
         "category": "\u7279\u6b8a",
         "cname": "\u5e7b\u8c61\u6ce2",
         "ename": "Psywave",
@@ -1699,17 +1677,17 @@ var movedex = [
         "id": 151,
         "jname": "\u3068\u3051\u308b",
         "power": null,
-        "pp": 20,
+        "pp": 40,
         "type": "Poison"
     },
     {
-        "accuracy": 90,
+        "accuracy": 85,
         "category": "\u7269\u7406",
         "cname": "\u8783\u87f9\u62f3",
         "ename": "Crabhammer",
         "id": 152,
         "jname": "\u30af\u30e9\u30d6\u30cf\u30f3\u30de\u30fc",
-        "power": 100,
+        "power": 90,
         "pp": 10,
         "type": "Water"
     },
@@ -1889,7 +1867,7 @@ var movedex = [
         "ename": "Thief",
         "id": 168,
         "jname": "\u3069\u308d\u307c\u3046",
-        "power": 60,
+        "power": 40,
         "pp": 10,
         "tm": 46,
         "type": "Dark"
@@ -1945,7 +1923,7 @@ var movedex = [
         "ename": "Snore",
         "id": 173,
         "jname": "\u3044\u3073\u304d",
-        "power": 50,
+        "power": 40,
         "pp": 15,
         "type": "Normal"
     },
@@ -1994,7 +1972,7 @@ var movedex = [
         "type": "Flying"
     },
     {
-        "accuracy": 100,
+        "accuracy": 85,
         "category": "\u53d8\u5316",
         "cname": "\u68c9\u5b62\u5b50",
         "ename": "Cotton Spore",
@@ -2061,7 +2039,7 @@ var movedex = [
         "type": "Fighting"
     },
     {
-        "accuracy": 100,
+        "accuracy": 90,
         "category": "\u53d8\u5316",
         "cname": "\u9b3c\u8138",
         "ename": "Scary Face",
@@ -2091,7 +2069,7 @@ var movedex = [
         "jname": "\u3066\u3093\u3057\u306e\u30ad\u30c3\u30b9",
         "power": null,
         "pp": 10,
-        "type": "Fairy"
+        "type": "Normal"
     },
     {
         "accuracy": null,
@@ -2267,7 +2245,7 @@ var movedex = [
         "ename": "Giga Drain",
         "id": 202,
         "jname": "\u30ae\u30ac\u30c9\u30ec\u30a4\u30f3",
-        "power": 75,
+        "power": 60,
         "pp": 10,
         "type": "Grass"
     },
@@ -2291,7 +2269,7 @@ var movedex = [
         "jname": "\u3042\u307e\u3048\u308b",
         "power": null,
         "pp": 20,
-        "type": "Fairy"
+        "type": "Normal"
     },
     {
         "accuracy": 90,
@@ -2357,7 +2335,7 @@ var movedex = [
         "ename": "Fury Cutter",
         "id": 210,
         "jname": "\u308c\u3093\u305e\u304f\u304e\u308a",
-        "power": 40,
+        "power": 10,
         "pp": 20,
         "type": "Bug"
     },
@@ -2651,7 +2629,7 @@ var movedex = [
         "jname": "\u3064\u304d\u306e\u3072\u304b\u308a",
         "power": null,
         "pp": 5,
-        "type": "Fairy"
+        "type": "Normal"
     },
     {
         "accuracy": 100,
@@ -2660,7 +2638,7 @@ var movedex = [
         "ename": "Hidden Power",
         "id": 237,
         "jname": "\u3081\u3056\u3081\u308b\u30d1\u30ef\u30fc",
-        "power": 60,
+        "power": null,
         "pp": 15,
         "tm": 10,
         "type": "Normal"
@@ -2780,14 +2758,14 @@ var movedex = [
         "type": "Ghost"
     },
     {
-        "accuracy": 100,
+        "accuracy": 90,
         "category": "\u7279\u6b8a",
         "cname": "\u5148\u77e5",
         "ename": "Future Sight",
         "id": 248,
         "jname": "\u307f\u3089\u3044\u3088\u3061",
-        "power": 120,
-        "pp": 10,
+        "power": 80,
+        "pp": 15,
         "type": "Psychic"
     },
     {
@@ -2803,13 +2781,13 @@ var movedex = [
         "type": "Fighting"
     },
     {
-        "accuracy": 85,
+        "accuracy": 70,
         "category": "\u7279\u6b8a",
         "cname": "\u6f6e\u65cb",
         "ename": "Whirlpool",
         "id": 250,
         "jname": "\u3046\u305a\u3057\u304a",
-        "power": 35,
+        "power": 15,
         "pp": 15,
         "type": "Water"
     },
@@ -2820,7 +2798,7 @@ var movedex = [
         "ename": "Beat Up",
         "id": 251,
         "jname": "\u3075\u304f\u308d\u3060\u305f\u304d",
-        "power": null,
+        "power": 10,
         "pp": 10,
         "type": "Dark"
     },
@@ -2842,7 +2820,7 @@ var movedex = [
         "ename": "Uproar",
         "id": 253,
         "jname": "\u3055\u308f\u3050",
-        "power": 90,
+        "power": 50,
         "pp": 10,
         "type": "Normal"
     },
@@ -2886,7 +2864,7 @@ var movedex = [
         "ename": "Heat Wave",
         "id": 257,
         "jname": "\u306d\u3063\u3077\u3046",
-        "power": 95,
+        "power": 100,
         "pp": 10,
         "type": "Fire"
     },
@@ -2926,7 +2904,7 @@ var movedex = [
         "type": "Dark"
     },
     {
-        "accuracy": 85,
+        "accuracy": 75,
         "category": "\u53d8\u5316",
         "cname": "\u9b3c\u706b",
         "ename": "Will-O-Wisp",
@@ -2978,7 +2956,7 @@ var movedex = [
         "ename": "Smelling Salts",
         "id": 265,
         "jname": "\u304d\u3064\u3051",
-        "power": 70,
+        "power": 60,
         "pp": 10,
         "type": "Normal"
     },
@@ -3168,7 +3146,7 @@ var movedex = [
         "ename": "Knock Off",
         "id": 282,
         "jname": "\u306f\u305f\u304d\u304a\u3068\u3059",
-        "power": 65,
+        "power": 20,
         "pp": 20,
         "type": "Dark"
     },
@@ -3459,13 +3437,13 @@ var movedex = [
         "type": "Water"
     },
     {
-        "accuracy": 90,
+        "accuracy": 85,
         "category": "\u7269\u7406",
         "cname": "\u6d41\u661f\u62f3",
         "ename": "Meteor Mash",
         "id": 309,
         "jname": "\u30b3\u30e1\u30c3\u30c8\u30d1\u30f3\u30c1",
-        "power": 90,
+        "power": 100,
         "pp": 10,
         "type": "Steel"
     },
@@ -3520,7 +3498,7 @@ var movedex = [
         "ename": "Air Cutter",
         "id": 314,
         "jname": "\u30a8\u30a2\u30ab\u30c3\u30bf\u30fc",
-        "power": 60,
+        "power": 55,
         "pp": 25,
         "type": "Flying"
     },
@@ -3531,7 +3509,7 @@ var movedex = [
         "ename": "Overheat",
         "id": 315,
         "jname": "\u30aa\u30fc\u30d0\u30fc\u30d2\u30fc\u30c8",
-        "power": 130,
+        "power": 140,
         "pp": 5,
         "tm": 50,
         "type": "Fire"
@@ -3548,14 +3526,14 @@ var movedex = [
         "type": "Normal"
     },
     {
-        "accuracy": 95,
+        "accuracy": 80,
         "category": "\u7269\u7406",
         "cname": "\u5ca9\u77f3\u5c01\u95ed",
         "ename": "Rock Tomb",
         "id": 317,
         "jname": "\u304c\u3093\u305b\u304d\u3075\u3046\u3058",
-        "power": 60,
-        "pp": 15,
+        "power": 50,
+        "pp": 10,
         "tm": 39,
         "type": "Rock"
     },
@@ -3670,13 +3648,13 @@ var movedex = [
         "type": "Fighting"
     },
     {
-        "accuracy": 85,
+        "accuracy": 70,
         "category": "\u7269\u7406",
         "cname": "\u6d41\u6c99\u5730\u72f1",
         "ename": "Sand Tomb",
         "id": 328,
         "jname": "\u3059\u306a\u3058\u3054\u304f",
-        "power": 35,
+        "power": 15,
         "pp": 15,
         "type": "Ground"
     },
@@ -3698,7 +3676,7 @@ var movedex = [
         "ename": "Muddy Water",
         "id": 330,
         "jname": "\u3060\u304f\u308a\u3085\u3046",
-        "power": 90,
+        "power": 95,
         "pp": 10,
         "type": "Water"
     },
@@ -3709,7 +3687,7 @@ var movedex = [
         "ename": "Bullet Seed",
         "id": 331,
         "jname": "\u30bf\u30cd\u30de\u30b7\u30f3\u30ac\u30f3",
-        "power": 25,
+        "power": 10,
         "pp": 30,
         "type": "Grass"
     },
@@ -3732,7 +3710,7 @@ var movedex = [
         "ename": "Icicle Spear",
         "id": 333,
         "jname": "\u3064\u3089\u3089\u3070\u308a",
-        "power": 25,
+        "power": 10,
         "pp": 30,
         "type": "Ice"
     },
@@ -3844,7 +3822,7 @@ var movedex = [
         "ename": "Covet",
         "id": 343,
         "jname": "\u307b\u3057\u304c\u308b",
-        "power": 60,
+        "power": 40,
         "pp": 40,
         "type": "Normal"
     },
@@ -3916,7 +3894,7 @@ var movedex = [
         "type": "Dragon"
     },
     {
-        "accuracy": 90,
+        "accuracy": 80,
         "category": "\u7269\u7406",
         "cname": "\u5ca9\u77f3\u7206\u7834",
         "ename": "Rock Blast",
@@ -3949,13 +3927,13 @@ var movedex = [
         "type": "Water"
     },
     {
-        "accuracy": 100,
+        "accuracy": 85,
         "category": "\u7279\u6b8a",
         "cname": "\u7834\u706d\u613f\u671b",
         "ename": "Doom Desire",
         "id": 353,
         "jname": "\u306f\u3081\u3064\u306e\u306d\u304c\u3044",
-        "power": 140,
+        "power": 120,
         "pp": 5,
         "type": "Steel"
     },
@@ -4011,7 +3989,7 @@ var movedex = [
         "ename": "Wake-Up Slap",
         "id": 358,
         "jname": "\u3081\u3056\u307e\u3057\u30d3\u30f3\u30bf",
-        "power": 70,
+        "power": 60,
         "pp": 10,
         "type": "Fighting"
     },
@@ -4168,7 +4146,7 @@ var movedex = [
         "ename": "Assurance",
         "id": 372,
         "jname": "\u30c0\u30e1\u304a\u3057",
-        "power": 60,
+        "power": 50,
         "pp": 10,
         "type": "Dark"
     },
@@ -4197,7 +4175,7 @@ var movedex = [
         "type": "Dark"
     },
     {
-        "accuracy": 100,
+        "accuracy": 90,
         "category": "\u53d8\u5316",
         "cname": "\u5e7b\u8c61\u8f6c\u79fb",
         "ename": "Psycho Shift",
@@ -4335,7 +4313,7 @@ var movedex = [
         "ename": "Last Resort",
         "id": 387,
         "jname": "\u3068\u3063\u3066\u304a\u304d",
-        "power": 140,
+        "power": 130,
         "pp": 5,
         "type": "Normal"
     },
@@ -4434,7 +4412,7 @@ var movedex = [
         "ename": "Aura Sphere",
         "id": 396,
         "jname": "\u306f\u3069\u3046\u3060\u3093",
-        "power": 80,
+        "power": 90,
         "pp": 20,
         "type": "Fighting"
     },
@@ -4515,7 +4493,7 @@ var movedex = [
         "id": 403,
         "jname": "\u30a8\u30a2\u30b9\u30e9\u30c3\u30b7\u30e5",
         "power": 75,
-        "pp": 15,
+        "pp": 20,
         "type": "Flying"
     },
     {
@@ -4548,7 +4526,7 @@ var movedex = [
         "ename": "Dragon Pulse",
         "id": 406,
         "jname": "\u308a\u3085\u3046\u306e\u306f\u3069\u3046",
-        "power": 85,
+        "power": 90,
         "pp": 10,
         "type": "Dragon"
     },
@@ -4570,7 +4548,7 @@ var movedex = [
         "ename": "Power Gem",
         "id": 408,
         "jname": "\u30d1\u30ef\u30fc\u30b8\u30a7\u30e0",
-        "power": 80,
+        "power": 70,
         "pp": 20,
         "type": "Rock"
     },
@@ -4581,8 +4559,8 @@ var movedex = [
         "ename": "Drain Punch",
         "id": 409,
         "jname": "\u30c9\u30ec\u30a4\u30f3\u30d1\u30f3\u30c1",
-        "power": 75,
-        "pp": 10,
+        "power": 60,
+        "pp": 5,
         "type": "Fighting"
     },
     {
@@ -4615,7 +4593,7 @@ var movedex = [
         "ename": "Energy Ball",
         "id": 412,
         "jname": "\u30a8\u30ca\u30b8\u30fc\u30dc\u30fc\u30eb",
-        "power": 90,
+        "power": 80,
         "pp": 10,
         "tm": 53,
         "type": "Grass"
@@ -4862,7 +4840,7 @@ var movedex = [
         "ename": "Draco Meteor",
         "id": 434,
         "jname": "\u308a\u3085\u3046\u305b\u3044\u3050\u3093",
-        "power": 130,
+        "power": 140,
         "pp": 5,
         "type": "Dragon"
     },
@@ -4895,7 +4873,7 @@ var movedex = [
         "ename": "Leaf Storm",
         "id": 437,
         "jname": "\u30ea\u30fc\u30d5\u30b9\u30c8\u30fc\u30e0",
-        "power": 130,
+        "power": 140,
         "pp": 5,
         "type": "Grass"
     },
@@ -4933,7 +4911,7 @@ var movedex = [
         "type": "Poison"
     },
     {
-        "accuracy": 80,
+        "accuracy": 70,
         "category": "\u7269\u7406",
         "cname": "\u7070\u5c18\u5c04\u51fb",
         "ename": "Gunk Shot",
@@ -5178,7 +5156,7 @@ var movedex = [
         "type": "Normal"
     },
     {
-        "accuracy": 75,
+        "accuracy": 70,
         "category": "\u7279\u6b8a",
         "cname": "\u5ca9\u6d46\u66b4\u98ce",
         "ename": "Magma Storm",
@@ -5375,7 +5353,7 @@ var movedex = [
         "ename": "Storm Throw",
         "id": 480,
         "jname": "\u3084\u307e\u3042\u3089\u3057",
-        "power": 60,
+        "power": 40,
         "pp": 10,
         "type": "Fighting"
     },
@@ -5431,7 +5409,7 @@ var movedex = [
         "ename": "Synchronoise",
         "id": 485,
         "jname": "\u30b7\u30f3\u30af\u30ed\u30ce\u30a4\u30ba",
-        "power": 120,
+        "power": 70,
         "pp": 15,
         "type": "Psychic"
     },
@@ -5487,7 +5465,7 @@ var movedex = [
         "ename": "Low Sweep",
         "id": 490,
         "jname": "\u30ed\u30fc\u30ad\u30c3\u30af",
-        "power": 65,
+        "power": 60,
         "pp": 20,
         "tm": 47,
         "type": "Fighting"
@@ -5589,7 +5567,7 @@ var movedex = [
         "ename": "Clear Smog",
         "id": 499,
         "jname": "\u30af\u30ea\u30a2\u30b9\u30e2\u30c3\u30b0",
-        "power": 50,
+        "power": 20,
         "pp": 15,
         "type": "Poison"
     },
@@ -5667,7 +5645,7 @@ var movedex = [
         "ename": "Hex",
         "id": 506,
         "jname": "\u305f\u305f\u308a\u3081",
-        "power": 65,
+        "power": 50,
         "pp": 10,
         "type": "Ghost"
     },
@@ -5712,7 +5690,7 @@ var movedex = [
         "ename": "Incinerate",
         "id": 510,
         "jname": "\u3084\u304d\u3064\u304f\u3059",
-        "power": 60,
+        "power": 30,
         "pp": 15,
         "tm": 59,
         "type": "Fire"
@@ -5804,7 +5782,7 @@ var movedex = [
         "ename": "Water Pledge",
         "id": 518,
         "jname": "\u307f\u305a\u306e\u3061\u304b\u3044",
-        "power": 80,
+        "power": 50,
         "pp": 10,
         "type": "Water"
     },
@@ -5815,7 +5793,7 @@ var movedex = [
         "ename": "Fire Pledge",
         "id": 519,
         "jname": "\u307b\u306e\u304a\u306e\u3061\u304b\u3044",
-        "power": 80,
+        "power": 50,
         "pp": 10,
         "type": "Fire"
     },
@@ -5826,7 +5804,7 @@ var movedex = [
         "ename": "Grass Pledge",
         "id": 520,
         "jname": "\u304f\u3055\u306e\u3061\u304b\u3044",
-        "power": 80,
+        "power": 50,
         "pp": 10,
         "type": "Grass"
     },
@@ -5849,7 +5827,7 @@ var movedex = [
         "ename": "Struggle Bug",
         "id": 522,
         "jname": "\u3080\u3057\u306e\u3066\u3044\u3053\u3046",
-        "power": 50,
+        "power": 30,
         "pp": 20,
         "tm": 76,
         "type": "Bug"
@@ -5873,7 +5851,7 @@ var movedex = [
         "ename": "Frost Breath",
         "id": 524,
         "jname": "\u3053\u304a\u308a\u306e\u3044\u3076\u304d",
-        "power": 60,
+        "power": 40,
         "pp": 10,
         "tm": 79,
         "type": "Ice"
