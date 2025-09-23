@@ -18,7 +18,7 @@ import pokemonCard from './components/pokemon-card.vue.js';
         mounted: function () {
             const vm = this;
             V2.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/trozei/{{ species }}.png');
-            V2.initialize({ listenForSpriteUpdates: false });
+            V2.initialize();
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.hp = clientSettings.params.getBool('hp', false);
             V2.onPartyUpdate((party) => {

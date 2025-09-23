@@ -409,8 +409,9 @@
             "name": "Pokelink.Themes.Trozei.name",
             "developer": "Pokélink",
             "translate": true,
+            "defaultSpriteSet": "pokelink:trozei",
             "supports": {
-                "changingSprites": false
+                "changingSprites": true
             },
             "url": "https://assets.pokelink.xyz/v2/themes/trozei/",
             "options": [
