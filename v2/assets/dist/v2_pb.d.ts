@@ -365,6 +365,10 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
      * @generated from field: optional Pokelink.Core.Proto.V2.GraveMeta graveyardMeta = 32;
      */
     graveyardMeta?: GraveMeta;
+    /**
+     * @generated from field: optional uint32 hiddenPowerStat = 33;
+     */
+    hiddenPowerStat?: number;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Pokemon.

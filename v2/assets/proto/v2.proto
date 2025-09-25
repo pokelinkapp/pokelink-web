@@ -132,6 +132,7 @@ message Pokemon {
   optional uint32 locationMet = 30;
   optional uint32 levelMet = 31;
   optional GraveMeta graveyardMeta = 32;
+  optional uint32 hiddenPowerStat = 33;
 }
 
 message PokemonTranslations {
