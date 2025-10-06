@@ -122,7 +122,7 @@ export default defineComponent({
                 return [];
             }
             let statuses = [];
-            if (this.pokemon.status === V2DataTypes.StatusEffect.poisoned)
+            if (this.pokemon.status === V2DataTypes.StatusEffect.poisoned || this.pokemon.status === V2DataTypes.StatusEffect.badlyPoisoned)
                 statuses = [...statuses, 'isPoisoned'];
             if (this.pokemon.status === V2DataTypes.StatusEffect.paralyzed)
                 statuses = [...statuses, 'isParalyzed'];

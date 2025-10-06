@@ -680,7 +680,11 @@ export declare enum StatusEffect {
     /**
      * @generated from enum value: burned = 5;
      */
-    burned = 5
+    burned = 5,
+    /**
+     * @generated from enum value: badlyPoisoned = 6;
+     */
+    badlyPoisoned = 6
 }
 /**
  * Describes the enum Pokelink.Core.Proto.V2.StatusEffect.

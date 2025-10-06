@@ -99,7 +99,7 @@ export default defineComponent({
                 return false
             }
 
-            return this.pokemon.status === V2DataTypes.StatusEffect.poisoned
+            return this.pokemon.status === V2DataTypes.StatusEffect.poisoned || this.pokemon.status === V2DataTypes.StatusEffect.badlyPoisoned
         },
         nickname() {
             return this.pokemon.nickname || this.pokemon.translations!.locale!.speciesName

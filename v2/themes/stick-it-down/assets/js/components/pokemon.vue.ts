@@ -113,7 +113,7 @@ export default defineComponent({
         statusClasses () {
             if (typeof this.pokemon === "undefined") { return []; }
             let statuses: string[] = []
-            if (this.pokemon.status === V2DataTypes.StatusEffect.poisoned) statuses = [...statuses, 'isPoisoned']
+            if (this.pokemon.status === V2DataTypes.StatusEffect.poisoned || this.pokemon.status === V2DataTypes.StatusEffect.badlyPoisoned) statuses = [...statuses, 'isPoisoned']
             if (this.pokemon.status === V2DataTypes.StatusEffect.paralyzed) statuses = [...statuses, 'isParalyzed']
             if (this.pokemon.status === V2DataTypes.StatusEffect.burned) statuses = [...statuses, 'isBurned']
             if (this.pokemon.status === V2DataTypes.StatusEffect.frozen) statuses = [...statuses, 'isFrozen']

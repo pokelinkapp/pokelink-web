@@ -1,6 +1,6 @@
 import {defineComponent, PropType} from 'vue'
-import {V2, V2DataTypes, string2ColHex, clientSettings, htmlColors, isDefined} from 'pokelink'
-import type {Pokemon} from 'v2Proto'
+import {clientSettings, htmlColors, isDefined, string2ColHex, V2, V2DataTypes} from 'pokelink'
+import {Pokemon} from 'v2Proto'
 
 export default defineComponent({
     template: `
@@ -163,6 +163,7 @@ export default defineComponent({
                 case V2DataTypes.StatusEffect.healthy:
                 default:
                     return ''
+                case V2DataTypes.StatusEffect.badlyPoisoned:
                 case V2DataTypes.StatusEffect.poisoned:
                     return 'PSN'
                 case V2DataTypes.StatusEffect.asleep:

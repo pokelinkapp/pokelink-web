@@ -114,6 +114,7 @@ export default defineComponent({
             }
 
             switch (this.pokemon.status) {
+                case V2DataTypes.StatusEffect.badlyPoisoned:
                 case V2DataTypes.StatusEffect.poisoned:
                     return 'isPoisoned'
                 case V2DataTypes.StatusEffect.paralyzed:

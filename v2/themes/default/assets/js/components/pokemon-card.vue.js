@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { V2, V2DataTypes, string2ColHex, clientSettings, htmlColors, isDefined } from 'pokelink';
+import { clientSettings, htmlColors, isDefined, string2ColHex, V2, V2DataTypes } from 'pokelink';
 export default defineComponent({
     template: `
       <div>
@@ -152,6 +152,7 @@ export default defineComponent({
                 case V2DataTypes.StatusEffect.healthy:
                 default:
                     return '';
+                case V2DataTypes.StatusEffect.badlyPoisoned:
                 case V2DataTypes.StatusEffect.poisoned:
                     return 'PSN';
                 case V2DataTypes.StatusEffect.asleep:

@@ -22,6 +22,7 @@ enum StatusEffect {
   paralyzed = 3;
   frozen = 4;
   burned = 5;
+  badlyPoisoned = 6;
 }
 
 //enum SourceType {
