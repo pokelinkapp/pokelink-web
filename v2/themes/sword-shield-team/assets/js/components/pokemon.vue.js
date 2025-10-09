@@ -23,7 +23,7 @@ export default defineComponent({
         </div>
         <div class="details" v-if="this.isValid && !this.pokemon.isEgg">
           <h2 class="name">
-            {{ pokemon.nickname }}
+            {{ nickname }}
             <span class="sex" :class="sex" v-if="!hideGender && sex !== ''">
             <female v-if="sex === 'female'"></female>
             <male v-if="sex === 'male'"></male>
