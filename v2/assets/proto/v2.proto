@@ -134,6 +134,7 @@ message Pokemon {
   optional uint32 levelMet = 31;
   optional GraveMeta graveyardMeta = 32;
   optional uint32 hiddenPowerStat = 33;
+  optional EVIV Stats = 34;
 }
 
 message PokemonTranslations {

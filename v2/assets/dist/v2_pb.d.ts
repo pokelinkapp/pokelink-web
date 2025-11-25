@@ -1,4 +1,4 @@
-import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
+import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
 import type { Timestamp } from "@bufbuild/protobuf/wkt";
 import type { Message } from "@bufbuild/protobuf";
 /**
@@ -369,6 +369,10 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
      * @generated from field: optional uint32 hiddenPowerStat = 33;
      */
     hiddenPowerStat?: number;
+    /**
+     * @generated from field: optional Pokelink.Core.Proto.V2.EVIV Stats = 34;
+     */
+    Stats?: EVIV;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Pokemon.
