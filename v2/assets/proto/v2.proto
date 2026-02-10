@@ -135,6 +135,8 @@ message Pokemon {
   optional GraveMeta graveyardMeta = 32;
   optional uint32 hiddenPowerStat = 33;
   optional EVIV Stats = 34;
+  optional bool isShadow = 35;
+  optional float heartGaugePercentage = 36;
 }
 
 message PokemonTranslations {

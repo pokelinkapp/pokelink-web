@@ -373,6 +373,14 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
      * @generated from field: optional Pokelink.Core.Proto.V2.EVIV Stats = 34;
      */
     Stats?: EVIV;
+    /**
+     * @generated from field: optional bool isShadow = 35;
+     */
+    isShadow?: boolean;
+    /**
+     * @generated from field: optional float heartGaugePercentage = 36;
+     */
+    heartGaugePercentage?: number;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Pokemon.
