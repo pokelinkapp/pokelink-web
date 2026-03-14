@@ -3,6 +3,7 @@ import {clientSettings, V2, V2DataTypes} from 'pokelink'
 import female from './female.vue.js'
 import male from './male.vue.js'
 import pokeball from './pokeball.vue.js'
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js'
 import {Pokemon} from 'v2Proto'
 
 export default defineComponent({
@@ -30,14 +31,8 @@ export default defineComponent({
           <div class="hp__text-and-exp" v-if="!pokemon.isEgg">
             <span class="text">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
 
-            <div class="heart-gauge" v-if="pokemonExists && !pokemon.isEgg && !hideLevel && pokemon.isShadow">
-              <div
-                  :style="{width:heartGaugeRemaining}"
-                  class="heart-gauge__inner"
-              ></div>
-              <div class="heart-gauge__segments"></div>
-            </div>
-            <div class="exp" v-else-if="pokemonExists && !pokemon.isEgg && !hideLevel">
+            <heart-gauge v-if="pokemonExists && !hideLevel" :pokemon="pokemon"></heart-gauge>
+            <div class="exp" v-if="pokemonExists && !pokemon.isEgg && !hideLevel && !pokemon.isShadow">
               <div
                   :style="{width:experienceRemaining}"
                   :class="{ exp__inner: true}"
@@ -62,7 +57,8 @@ export default defineComponent({
     components: {
         'female': female,
         'male': male,
-        'pokeball': pokeball
+        'pokeball': pokeball,
+        'heart-gauge': heartGauge
     },
     mounted() {
 
@@ -136,9 +132,6 @@ export default defineComponent({
         },
         experienceRemaining() {
             return `${this.pokemon.expPercentage}%`
-        },
-        heartGaugeRemaining() {
-            return `${this.pokemon.heartGaugePercentage ?? 0}%`
         }
     },
     methods: {
