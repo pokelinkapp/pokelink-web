@@ -7,7 +7,11 @@ export default defineComponent({
     <div :class="{ 'pokemon': true, 'isDead': isDead}" :style="{'opacity': opacity }">
       <div v-if="isValid">
 
-        <div class="exp" v-if="!pokemon.isEgg">
+        <div class="heart-gauge" v-if="!pokemon.isEgg && pokemon.isShadow">
+          <div :style="{width:heartGaugeRemaining}" class="heart-gauge__inner"></div>
+          <div class="heart-gauge__segments"></div>
+        </div>
+        <div class="exp" v-else-if="!pokemon.isEgg">
           <div :style="{width:experienceRemaining}" class="exp__inner"></div>
         </div>
 
@@ -158,6 +162,13 @@ export default defineComponent({
             }
 
             return this.pokemon.expPercentage + '%'
+        },
+        heartGaugeRemaining () {
+            if (!this.isValid) {
+                return '0%'
+            }
+
+            return this.pokemon.heartGaugePercentage + '%'
         },
 
         selectedPokemon: {

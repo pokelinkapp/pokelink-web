@@ -30,7 +30,14 @@ export default defineComponent({
           <div class="hp__text-and-exp" v-if="!pokemon.isEgg">
             <span class="text">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
 
-            <div class="exp" v-if="pokemonExists && !pokemon.isEgg && !hideLevel">
+            <div class="heart-gauge" v-if="pokemonExists && !pokemon.isEgg && !hideLevel && pokemon.isShadow">
+              <div
+                  :style="{width:heartGaugeRemaining}"
+                  class="heart-gauge__inner"
+              ></div>
+              <div class="heart-gauge__segments"></div>
+            </div>
+            <div class="exp" v-else-if="pokemonExists && !pokemon.isEgg && !hideLevel">
               <div
                   :style="{width:experienceRemaining}"
                   :class="{ exp__inner: true}"
@@ -129,6 +136,9 @@ export default defineComponent({
         },
         experienceRemaining() {
             return `${this.pokemon.expPercentage}%`
+        },
+        heartGaugeRemaining() {
+            return `${this.pokemon.heartGaugePercentage ?? 0}%`
         }
     },
     methods: {

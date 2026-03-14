@@ -17,7 +17,14 @@ export default defineComponent({
           </div>
 
           <div class="pokemon__details">
-            <div class="exp" v-if="pokemonExists && !pokemon.isEgg">
+            <div class="heart-gauge" v-if="pokemonExists && !pokemon.isEgg && pokemon.isShadow">
+              <div
+                  :style="{width:heartGaugeRemaining}"
+                  class="heart-gauge__inner"
+              ></div>
+              <div class="heart-gauge__segments"></div>
+            </div>
+            <div class="exp" v-else-if="pokemonExists && !pokemon.isEgg">
               <div
                   :style="{width:experienceRemaining}"
                   :class="{ exp__inner: true}"
@@ -109,6 +116,9 @@ export default defineComponent({
         },
         experienceRemaining () {
             return this.pokemon.expPercentage + '%'
+        },
+        heartGaugeRemaining() {
+            return `${this.pokemon.heartGaugePercentage ?? 0}%`
         },
         statusClasses () {
             if (typeof this.pokemon === "undefined") { return []; }
