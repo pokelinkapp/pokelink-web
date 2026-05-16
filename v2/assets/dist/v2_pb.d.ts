@@ -16,7 +16,7 @@ export type Base = Message<"Pokelink.Core.Proto.V2.Base"> & {
     /**
      * @generated from field: optional string username = 2;
      */
-    username?: string;
+    username?: string | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Base.
@@ -52,7 +52,7 @@ export type PartyObject = Message<"Pokelink.Core.Proto.V2.PartyObject"> & {
     /**
      * @generated from field: optional Pokelink.Core.Proto.V2.Pokemon pokemon = 1;
      */
-    pokemon?: Pokemon;
+    pokemon?: Pokemon | undefined;
     /**
      * @generated from field: uint32 changeId = 2;
      */
@@ -78,7 +78,7 @@ export type Settings = Message<"Pokelink.Core.Proto.V2.Settings"> & {
     /**
      * @generated from field: Pokelink.Core.Proto.V2.SettingsData data = 3;
      */
-    data?: SettingsData;
+    data?: SettingsData | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Settings.
@@ -92,7 +92,7 @@ export type SettingsData = Message<"Pokelink.Core.Proto.V2.SettingsData"> & {
     /**
      * @generated from field: optional string spriteTemplate = 1;
      */
-    spriteTemplate?: string;
+    spriteTemplate?: string | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.SettingsData.
@@ -148,19 +148,19 @@ export type Badge = Message<"Pokelink.Core.Proto.V2.Badge"> & {
     /**
      * @generated from field: optional string englishCategory = 6;
      */
-    englishCategory?: string;
+    englishCategory?: string | undefined;
     /**
      * @generated from field: optional string localeCategory = 7;
      */
-    localeCategory?: string;
+    localeCategory?: string | undefined;
     /**
      * @generated from field: optional string levelText = 8;
      */
-    levelText?: string;
+    levelText?: string | undefined;
     /**
      * @generated from field: optional uint32 levelCap = 9;
      */
-    levelCap?: number;
+    levelCap?: number | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Badge.
@@ -204,7 +204,7 @@ export type PokemonDeath = Message<"Pokelink.Core.Proto.V2.PokemonDeath"> & {
     /**
      * @generated from field: Pokelink.Core.Proto.V2.Pokemon pokemon = 3;
      */
-    pokemon?: Pokemon;
+    pokemon?: Pokemon | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.PokemonDeath.
@@ -264,7 +264,7 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
     /**
      * @generated from field: Pokelink.Core.Proto.V2.HP hp = 7;
      */
-    hp?: HP;
+    hp?: HP | undefined;
     /**
      * @generated from field: repeated Pokelink.Core.Proto.V2.Move moves = 8;
      */
@@ -272,15 +272,15 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
     /**
      * @generated from field: Pokelink.Core.Proto.V2.EVIV ivs = 9;
      */
-    ivs?: EVIV;
+    ivs?: EVIV | undefined;
     /**
      * @generated from field: Pokelink.Core.Proto.V2.EVIV evs = 10;
      */
-    evs?: EVIV;
+    evs?: EVIV | undefined;
     /**
      * @generated from field: Pokelink.Core.Proto.V2.BaseStats baseStats = 11;
      */
-    baseStats?: BaseStats;
+    baseStats?: BaseStats | undefined;
     /**
      * @generated from field: Pokelink.Core.Proto.V2.StatusEffect status = 12;
      */
@@ -288,7 +288,7 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
     /**
      * @generated from field: Pokelink.Core.Proto.V2.PokemonTranslations translations = 13;
      */
-    translations?: PokemonTranslations;
+    translations?: PokemonTranslations | undefined;
     /**
      * @generated from field: bool hasFemaleSprite = 14;
      */
@@ -296,91 +296,91 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
     /**
      * @generated from field: optional string color = 15;
      */
-    color?: string;
+    color?: string | undefined;
     /**
      * @generated from field: optional string fallbackSprite = 16;
      */
-    fallbackSprite?: string;
+    fallbackSprite?: string | undefined;
     /**
      * @generated from field: optional string fallbackPartySprite = 17;
      */
-    fallbackPartySprite?: string;
+    fallbackPartySprite?: string | undefined;
     /**
      * @generated from field: optional string nickname = 18;
      */
-    nickname?: string;
+    nickname?: string | undefined;
     /**
      * @generated from field: optional uint32 heldItem = 19;
      */
-    heldItem?: number;
+    heldItem?: number | undefined;
     /**
      * @generated from field: optional Pokelink.Core.Proto.V2.Gender gender = 20;
      */
-    gender?: Gender;
+    gender?: Gender | undefined;
     /**
      * @generated from field: optional uint32 form = 21;
      */
-    form?: number;
+    form?: number | undefined;
     /**
      * @generated from field: optional bool isEgg = 22;
      */
-    isEgg?: boolean;
+    isEgg?: boolean | undefined;
     /**
      * @generated from field: optional uint32 hiddenPower = 23;
      */
-    hiddenPower?: number;
+    hiddenPower?: number | undefined;
     /**
      * @generated from field: optional uint32 nature = 24;
      */
-    nature?: number;
+    nature?: number | undefined;
     /**
      * @generated from field: optional bool isShiny = 25;
      */
-    isShiny?: boolean;
+    isShiny?: boolean | undefined;
     /**
      * @generated from field: optional uint32 pokeball = 26;
      */
-    pokeball?: number;
+    pokeball?: number | undefined;
     /**
      * @generated from field: optional uint32 friendship = 27;
      */
-    friendship?: number;
+    friendship?: number | undefined;
     /**
      * @generated from field: optional uint32 ability = 28;
      */
-    ability?: number;
+    ability?: number | undefined;
     /**
      * @generated from field: optional Pokelink.Core.Proto.V2.Pokerus pokerus = 29;
      */
-    pokerus?: Pokerus;
+    pokerus?: Pokerus | undefined;
     /**
      * @generated from field: optional uint32 locationMet = 30;
      */
-    locationMet?: number;
+    locationMet?: number | undefined;
     /**
      * @generated from field: optional uint32 levelMet = 31;
      */
-    levelMet?: number;
+    levelMet?: number | undefined;
     /**
      * @generated from field: optional Pokelink.Core.Proto.V2.GraveMeta graveyardMeta = 32;
      */
-    graveyardMeta?: GraveMeta;
+    graveyardMeta?: GraveMeta | undefined;
     /**
      * @generated from field: optional uint32 hiddenPowerStat = 33;
      */
-    hiddenPowerStat?: number;
+    hiddenPowerStat?: number | undefined;
     /**
      * @generated from field: optional Pokelink.Core.Proto.V2.EVIV Stats = 34;
      */
-    Stats?: EVIV;
+    Stats?: EVIV | undefined;
     /**
      * @generated from field: optional bool isShadow = 35;
      */
-    isShadow?: boolean;
+    isShadow?: boolean | undefined;
     /**
      * @generated from field: optional float heartGaugePercentage = 36;
      */
-    heartGaugePercentage?: number;
+    heartGaugePercentage?: number | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Pokemon.
@@ -394,11 +394,11 @@ export type PokemonTranslations = Message<"Pokelink.Core.Proto.V2.PokemonTransla
     /**
      * @generated from field: Pokelink.Core.Proto.V2.TranslationsObject english = 1;
      */
-    english?: TranslationsObject;
+    english?: TranslationsObject | undefined;
     /**
      * @generated from field: Pokelink.Core.Proto.V2.TranslationsObject locale = 2;
      */
-    locale?: TranslationsObject;
+    locale?: TranslationsObject | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.PokemonTranslations.
@@ -424,39 +424,39 @@ export type TranslationsObject = Message<"Pokelink.Core.Proto.V2.TranslationsObj
     /**
      * @generated from field: optional string formName = 4;
      */
-    formName?: string;
+    formName?: string | undefined;
     /**
      * @generated from field: optional string heldItemName = 5;
      */
-    heldItemName?: string;
+    heldItemName?: string | undefined;
     /**
      * @generated from field: optional string gender = 6;
      */
-    gender?: string;
+    gender?: string | undefined;
     /**
      * @generated from field: optional string hiddenPowerName = 7;
      */
-    hiddenPowerName?: string;
+    hiddenPowerName?: string | undefined;
     /**
      * @generated from field: optional string pokeballName = 8;
      */
-    pokeballName?: string;
+    pokeballName?: string | undefined;
     /**
      * @generated from field: optional string abilityName = 9;
      */
-    abilityName?: string;
+    abilityName?: string | undefined;
     /**
      * @generated from field: optional string pokerusStatus = 10;
      */
-    pokerusStatus?: string;
+    pokerusStatus?: string | undefined;
     /**
      * @generated from field: optional string locationMetName = 11;
      */
-    locationMetName?: string;
+    locationMetName?: string | undefined;
     /**
      * @generated from field: optional string natureName = 12;
      */
-    natureName?: string;
+    natureName?: string | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.TranslationsObject.
@@ -500,11 +500,11 @@ export type Move = Message<"Pokelink.Core.Proto.V2.Move"> & {
     /**
      * @generated from field: Pokelink.Core.Proto.V2.MoveTranslation english = 4;
      */
-    english?: MoveTranslation;
+    english?: MoveTranslation | undefined;
     /**
      * @generated from field: Pokelink.Core.Proto.V2.MoveTranslation locale = 5;
      */
-    locale?: MoveTranslation;
+    locale?: MoveTranslation | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Move.
@@ -526,7 +526,7 @@ export type MoveTranslation = Message<"Pokelink.Core.Proto.V2.MoveTranslation"> 
     /**
      * @generated from field: optional string secondType = 3;
      */
-    secondType?: string;
+    secondType?: string | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.MoveTranslation.
@@ -612,7 +612,7 @@ export type GraveMeta = Message<"Pokelink.Core.Proto.V2.GraveMeta"> & {
     /**
      * @generated from field: google.protobuf.Timestamp timeOfDeath = 1;
      */
-    timeOfDeath?: Timestamp;
+    timeOfDeath?: Timestamp | undefined;
     /**
      * @generated from field: string id = 2;
      */

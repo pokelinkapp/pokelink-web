@@ -115,6 +115,9 @@ export default defineComponent({
     },
     methods: {
         getSprite() {
+            if (this.pokemon.isEgg) {
+                return `https://assets.pokelink.xyz/v2/sprites/pokemon/home/normal/egg.png`;
+            }
             return V2.getSprite(this.pokemon);
         }
     },
@@ -131,6 +134,9 @@ export default defineComponent({
             }
             if (clientSettings.params.getBool('hideHPBar', false)) {
                 return 0;
+            }
+            if (this.pokemon.isEgg) {
+                return 600;
             }
             return 600 - (this.healthPercent / 100 * 600);
         },
@@ -195,13 +201,13 @@ export default defineComponent({
             return styles;
         },
         borderColor() {
-            if (!this.isValid) {
+            if (!this.isValid || this.pokemon.isEgg) {
                 return '#7375ae';
             }
             return typeColors[this.pokemon.translations.english.types[0]];
         },
         nature() {
-            if (!this.isValid) {
+            if (!this.isValid || this.pokemon.isEgg) {
                 return '';
             }
             if (!this.pokemon.nature) {
