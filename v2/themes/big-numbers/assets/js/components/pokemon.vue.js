@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue';
 import { clientSettings, typeColors, V2, V2DataTypes } from 'pokelink';
 import { pokemonTCGCardSets } from '../party.js';
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js';
 export default defineComponent({
     template: `
       <div
@@ -31,12 +32,17 @@ export default defineComponent({
 
           <!--<div class="pokemon__heldItem" v-if="hasItem"><img :src="pokemon.heldItem.img" /></div>-->
 
+          <heart-gauge v-if="isValid" :pokemon="pokemon"></heart-gauge>
+
           <!--<div class="exp" v-if="pokemonExists && !pokemon.isEgg">
             <div :style="{width:experienceRemaining}" class="exp__inner"></div>
           </div>-->
         </div>
       </div>
     `,
+    components: {
+        'heart-gauge': heartGauge
+    },
     props: {
         pokemon: {
             type: Object,

@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 .arrow {
     position: absolute;
     left: 0;
@@ -449,4 +450,15 @@ h1 {
 
 .browser-connected {
     display: block !important;
+}
+
+.pokemon > .heart-gauge {
+    position: absolute;
+    bottom: 2px;
+    left: 10px;
+    right: 10px;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
 }

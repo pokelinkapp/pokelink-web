@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue';
 import { V2 } from 'pokelink';
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js';
 export default defineComponent({
     template: `
       <div>
@@ -7,6 +8,7 @@ export default defineComponent({
           <div :class="{ 'pokemon__image': true, 'pokemon__dead': (pokemon.hp.current === 0)}">
             <img ref="pokemonSprite" @error="useFallback" :src="sprite()"/>
           </div>
+          <heart-gauge :pokemon="pokemon"></heart-gauge>
         </div>
         <div class="pokemon__slot pokemon__empty" v-else>
           <div class="pokemon__image">
@@ -14,6 +16,9 @@ export default defineComponent({
         </div>
       </div>
     `,
+    components: {
+        'heart-gauge': heartGauge
+    },
     mounted() {
         const vm = this;
         V2.onSpriteTemplateUpdate(() => {

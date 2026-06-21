@@ -85,6 +85,27 @@ export default defineComponent({
               class="slot__border"
           >
           </path>
+          <path
+              v-if="isValid && pokemon.isShadow && !pokemon.isEgg"
+              fill="transparent"
+              stroke="rgba(123, 47, 190, 0.3)"
+              stroke-width="5"
+              stroke-linecap="butt"
+              :stroke-dasharray="heartGaugeCircumference + ' ' + heartGaugeCircumference"
+              stroke-dashoffset="0"
+              d="M86.6 11L164.2 57.9L164.2 148.1L86.6 195L9.8 148.1L9.8 57.9Z"
+          />
+          <path
+              v-if="isValid && pokemon.isShadow && !pokemon.isEgg"
+              fill="transparent"
+              stroke="#7B2FBE"
+              stroke-width="5"
+              stroke-linecap="butt"
+              :stroke-dasharray="heartGaugeCircumference + ' ' + heartGaugeCircumference"
+              :stroke-dashoffset="heartGaugeDashOffset"
+              d="M86.6 11L164.2 57.9L164.2 148.1L86.6 195L9.8 148.1L9.8 57.9Z"
+              class="heart-gauge-arc"
+          />
         </svg>
       </div>
     `,
@@ -136,6 +157,13 @@ export default defineComponent({
                 return 0
             }
             return 600 - (this.healthPercent / 100 * 600)
+        },
+        heartGaugeCircumference() {
+            return 542
+        },
+        heartGaugeDashOffset() {
+            if (!this.isValid) return this.heartGaugeCircumference
+            return this.heartGaugeCircumference - ((this.pokemon.heartGaugePercentage ?? 0) / 100 * this.heartGaugeCircumference)
         },
         healthPercent() {
             if (!this.isValid) {

@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 .pokes {
     margin-top: 110px;
 }
@@ -142,4 +143,15 @@
 
 .browser-connected {
     display: block !important;
+}
+
+.pokemon > div .heart-gauge {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }

@@ -1,6 +1,4 @@
-import {defineComponent, PropType} from 'vue'
-import type {Pokemon} from 'v2Proto'
-
+import { defineComponent } from 'vue';
 export default defineComponent({
     template: `
       <div
@@ -21,13 +19,14 @@ export default defineComponent({
     `,
     props: {
         pokemon: {
-            type: Object as PropType<Pokemon>,
+            type: Object,
             required: true
         }
     },
     computed: {
-        heartGaugeRemaining(): string {
-            return `${this.pokemon.heartGaugePercentage ?? 0}%`
+        heartGaugeRemaining() {
+            return `${this.pokemon.heartGaugePercentage ?? 0}%`;
         }
     }
-})
+});
+//# sourceMappingURL=heartGauge.vue.js.map

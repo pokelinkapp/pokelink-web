@@ -23,8 +23,11 @@ export default defineComponent({
           <div class="hp" v-if="!pokemon.isEgg">
             <h5>HP: </h5>
             <div class="bar">
-              <div class="health" :style="{ width: healthPercent }"
-                   :class="{ low: parseFloat(healthPercent) <= 50, critical: parseFloat(healthPercent) <= 15 }"></div>
+                <div
+                    class="health" :style="{ width: healthPercent }"
+                    :class="{ low: parseFloat(healthPercent) <= 50, critical: parseFloat(healthPercent) <= 15 }"
+                    >
+                </div>
             </div>
 
           </div>

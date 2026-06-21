@@ -1,6 +1,7 @@
 import {defineComponent, PropType} from 'vue'
 import type {Pokemon} from 'v2Proto'
 import {clientSettings, V2} from 'pokelink'
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js'
 
 export default defineComponent({
     template: `
@@ -27,6 +28,7 @@ export default defineComponent({
                   :style="{ 'backgroundColor': getTypeColor(pokemon.translations.english.types[idx]) }"
                   v-for="(type, idx) in pokemon.translations.locale.types">{{ type }}</span>
           </div>
+          <heart-gauge v-if="!this.pokemon.isEgg" :pokemon="pokemon"></heart-gauge>
         </div>
         <div v-else>
           <div class="pokemon__image">
@@ -35,6 +37,9 @@ export default defineComponent({
         </div>
       </div>
     `,
+    components: {
+        'heart-gauge': heartGauge
+    },
     props: {
         pokemon: {
             type: Object as PropType<Pokemon>,

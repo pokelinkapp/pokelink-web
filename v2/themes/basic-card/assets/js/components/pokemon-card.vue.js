@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue';
 import { V2, clientSettings } from 'pokelink';
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js';
 export default defineComponent({
     template: `
       <div class="card has-text-weight-bold has-text-white">
@@ -22,6 +23,7 @@ export default defineComponent({
               </div>
               <span class="text">{{ pokemon.hp.current }} / {{ pokemon.hp.max }}</span>
             </div>
+            <heart-gauge v-if="!this.pokemon.isEgg" :pokemon="pokemon"></heart-gauge>
           </div>
           <div class="stats" v-if="!this.pokemon.isEgg">
             <div v-if="this.pokemon.level > 0">
@@ -42,6 +44,9 @@ export default defineComponent({
         </div>
       </div>
     `,
+    components: {
+        'heart-gauge': heartGauge
+    },
     props: {
         pokemon: {
             type: Object,

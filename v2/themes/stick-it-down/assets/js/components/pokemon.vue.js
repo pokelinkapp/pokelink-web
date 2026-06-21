@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue';
 import { V2, V2DataTypes } from 'pokelink';
 import trimmedSprite from '../../../../_shared/components/trimmedSprite.vue.js';
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js';
 export default defineComponent({
     template: `
       <div :class="[...statusClasses, { 'pokemon': true, 'isDead': isDead, isDamaged: justTookDamage }]">
@@ -15,7 +16,8 @@ export default defineComponent({
           </div>
 
           <div class="pokemon__details">
-            <div class="exp" v-if="pokemonExists && !pokemon.isEgg">
+            <heart-gauge v-if="pokemonExists" :pokemon="pokemon"></heart-gauge>
+            <div class="exp" v-if="pokemonExists && !pokemon.isEgg && !pokemon.isShadow">
               <div
                   :style="{width:experienceRemaining}"
                   :class="{ exp__inner: true}"
@@ -38,7 +40,8 @@ export default defineComponent({
       </div>
     `,
     components: {
-        trimmedSprite: trimmedSprite
+        trimmedSprite: trimmedSprite,
+        'heart-gauge': heartGauge
     },
     props: {
         pokemon: {

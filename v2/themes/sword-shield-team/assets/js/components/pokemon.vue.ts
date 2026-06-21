@@ -4,6 +4,7 @@ import trimmedSprite from '../../../../_shared/components/trimmedSprite.vue.js'
 import pokeball from './pokeball.vue.js'
 import male from './male.vue.js'
 import female from './female.vue.js'
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js'
 import type {Pokemon} from 'v2Proto'
 
 export default defineComponent({
@@ -38,6 +39,7 @@ export default defineComponent({
             </div>
             <span class="text">{{ pokemon.hp.current }} / {{ pokemon.hp.max }}</span>
           </div>
+          <heart-gauge :pokemon="pokemon"></heart-gauge>
           <span class="lvl" v-if="!hideLevel && this.isValid">Lv.
             {{ pokemon.level }}</span>
         </div>
@@ -48,7 +50,8 @@ export default defineComponent({
         'trimmedSprite': trimmedSprite,
         'pokeball': pokeball,
         'male': male,
-        'female': female
+        'female': female,
+        'heart-gauge': heartGauge
     },
     props: {
         pokemon: {

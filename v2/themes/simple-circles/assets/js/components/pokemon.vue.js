@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue';
-import { V2, V2DataTypes } from 'pokelink';
+import { V2, V2DataTypes, clientSettings } from 'pokelink';
 import trimmedSprite from '../../../../_shared/components/trimmedSprite.vue.js';
 export default defineComponent({
     template: `
@@ -31,6 +31,38 @@ export default defineComponent({
                 :stroke-width="stroke"
                 fill="transparent"
                 :r="normalizedRadius"
+                :cx="radius"
+                :cy="radius"
+            />
+            <circle
+                v-if="pokemonExists && showInnerRing && !pokemon.isEgg"
+                stroke="rgba(200,200,200,0.25)"
+                :stroke-dasharray="innerCircumference + ' ' + innerCircumference"
+                :stroke-width="innerStroke"
+                fill="transparent"
+                :r="innerRadius"
+                :cx="radius"
+                :cy="radius"
+            />
+            <circle
+                v-if="pokemonExists && showExp && !pokemon.isShadow && !pokemon.isEgg"
+                stroke="#4fc3f7"
+                :stroke-dasharray="innerCircumference + ' ' + innerCircumference"
+                :style="'stroke-dashoffset:' + expDashOffset"
+                :stroke-width="innerStroke"
+                fill="transparent"
+                :r="innerRadius"
+                :cx="radius"
+                :cy="radius"
+            />
+            <circle
+                v-if="pokemonExists && pokemon.isShadow && !pokemon.isEgg"
+                stroke="#7B2FBE"
+                :stroke-dasharray="innerCircumference + ' ' + innerCircumference"
+                :style="'stroke-dashoffset:' + heartGaugeDashOffset"
+                :stroke-width="innerStroke"
+                fill="transparent"
+                :r="innerRadius"
                 :cx="radius"
                 :cy="radius"
             />
@@ -111,6 +143,31 @@ export default defineComponent({
                 return false;
             }
             return this.circumference - (this.healthPercent / 100 * this.circumference);
+        },
+        innerStroke() {
+            return 5;
+        },
+        innerRadius() {
+            return this.normalizedRadius - this.stroke / 2 - this.innerStroke / 2;
+        },
+        innerCircumference() {
+            return this.innerRadius * 2 * Math.PI;
+        },
+        showExp() {
+            return clientSettings.params.getBool('showExp', true);
+        },
+        showInnerRing() {
+            return this.showExp || (this.pokemonExists && this.pokemon.isShadow);
+        },
+        expDashOffset() {
+            if (!this.pokemonExists)
+                return this.innerCircumference;
+            return this.innerCircumference - (this.pokemon.expPercentage / 100 * this.innerCircumference);
+        },
+        heartGaugeDashOffset() {
+            if (!this.pokemonExists)
+                return this.innerCircumference;
+            return this.innerCircumference - ((this.pokemon.heartGaugePercentage ?? 0) / 100 * this.innerCircumference);
         },
         healthPercent() {
             if (!this.pokemonExists) {

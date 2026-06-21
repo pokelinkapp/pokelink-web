@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue';
 import { V2 } from 'pokelink';
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js';
 export default defineComponent({
     template: `
   <div class="party_row" v-if="isValid">
@@ -28,9 +29,13 @@ export default defineComponent({
           <div class="healthBar__chock"></div>
         </div>
       </div>
+      <heart-gauge :pokemon="pokemon"></heart-gauge>
     </div>
   </div>
   `,
+    components: {
+        'heart-gauge': heartGauge
+    },
     props: {
         pokemon: {
             default: null,
