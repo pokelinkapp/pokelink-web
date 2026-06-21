@@ -29,8 +29,34 @@
             transparent calc(80% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(80% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(80% + 0.5px), transparent calc(80% + 0.5px));
 }
 
+/*
+ * Vertical orientation: the bar drains top-down instead of left-to-right,
+ * so the fill is height-based and anchored to the bottom (mirrors how HP
+ * bars in vertical-bar themes like friday are built).
+ */
+.heart-gauge--vertical {
+    display: flex;
+    align-items: flex-end;
+}
+
+.heart-gauge--vertical .heart-gauge__inner {
+    width: 100%;
+    height: 0;
+    transition: height 2s ease-out;
+}
+
+.heart-gauge--vertical .heart-gauge__segments {
+    background-image:
+        linear-gradient(to bottom,
+            transparent calc(20% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(20% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(20% + 0.5px), transparent calc(20% + 0.5px),
+            transparent calc(40% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(40% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(40% + 0.5px), transparent calc(40% + 0.5px),
+            transparent calc(60% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(60% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(60% + 0.5px), transparent calc(60% + 0.5px),
+            transparent calc(80% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(80% - 0.5px), var(--heart-gauge-tick, rgba(255,255,255,0.5)) calc(80% + 0.5px), transparent calc(80% + 0.5px));
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .heart-gauge__inner {
+    .heart-gauge__inner,
+    .heart-gauge--vertical .heart-gauge__inner {
         transition: none;
     }
 }

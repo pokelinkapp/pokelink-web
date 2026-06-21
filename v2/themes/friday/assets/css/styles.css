@@ -347,12 +347,11 @@
 }
 
 .pokemon .heart-gauge {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
+    height: 75%;
+    width: 8px;
+    margin-left: 6px;
+    align-self: flex-end;
     background: rgba(0, 0, 0, 0.15);
-    z-index: 5;
     overflow: hidden;
+    position: relative;
 }

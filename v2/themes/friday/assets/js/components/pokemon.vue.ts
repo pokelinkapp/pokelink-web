@@ -22,13 +22,13 @@ export default defineComponent({
             <img v-if="pokemon.isEgg" @error="useFallback" ref="pokemonImg" class="sprite" :src="sprite()" style="transform: scale(0.8); bottom: 0px;"/>
             <img v-else class="sprite" @error="useFallback" ref="pokemonImg" :src="sprite()"/>
           </div>
-          <heart-gauge v-if="!pokemon.isEgg" :pokemon="pokemon"></heart-gauge>
           <div class="hp" v-if="!pokemon.isEgg">
             <div
                 :style="{height:healthPercent}"
                 :class="{ hp__inner: true, low: parseFloat(healthPercent) <= 50, critical: parseFloat(healthPercent) <= 15 }"
             ></div>
           </div>
+          <heart-gauge v-if="!pokemon.isEgg" :pokemon="pokemon" orientation="vertical"></heart-gauge>
         </div>
         <div v-else></div>
       </div>
