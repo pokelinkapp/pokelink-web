@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 /* @font-face{font-family:RifficFree;src:local("RifficFree"),url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap")} */
 @font-face{font-family:RifficFree;src:local("RifficFree"),url("../RifficFree-Bold.ttf")}
@@ -324,3 +325,4 @@
 .switchFast-move {
   transition: transform 0.5s;
 }
+

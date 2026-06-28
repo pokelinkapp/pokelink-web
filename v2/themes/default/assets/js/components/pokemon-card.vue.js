@@ -1,5 +1,6 @@
 import { defineComponent } from 'vue';
 import { clientSettings, htmlColors, isDefined, string2ColHex, V2, V2DataTypes } from 'pokelink';
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js';
 export default defineComponent({
     template: `
       <div>
@@ -40,6 +41,7 @@ export default defineComponent({
                      :aria-valuemax="pokemon.hp.max"></div>
               </div>
             </div>
+            <heart-gauge v-if="!pokemon.isEgg" :pokemon="pokemon"></heart-gauge>
           </div>
         </div>
         <div class="pokemon__slot pokemon__empty" v-else>
@@ -47,6 +49,9 @@ export default defineComponent({
           </div>
         </div>
       </div>`,
+    components: {
+        'heart-gauge': heartGauge
+    },
     props: {
         pokemon: {
             default: null,

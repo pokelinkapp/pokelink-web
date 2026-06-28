@@ -5,6 +5,9 @@
     "license": "MIT",
     "repository": "https://github.com/pokelinkapp/pokelink-web",
     "type": "module",
+    "engines": {
+        "node": ">=20 <25"
+    },
     "scripts": {
         "prep": "yarn install",
         "build:themes": "yarn build:core && yarn build:themes:nodeps",
@@ -14,7 +17,7 @@
         "build:graveyards": "yarn build:core && yarn build:badges:nodeps",
         "build:graveyards:nodeps": "yarn tsc -p ./graveyards/tsconfig.json",
         "build:core": "yarn tsc -p ./assets/tsconfig.json && yarn webpack --config webpack.config.js",
-        "build": "yarn prep && yarn buf generate && yarn build:core && yarn build:themes:nodeps && yarn build:badges:nodeps && yarn build:graveyards:nodeps"
+        "build": "cross-env-shell NODE_OPTIONS=--no-experimental-webstorage \"yarn prep && yarn buf generate && yarn build:core && yarn build:themes:nodeps && yarn build:badges:nodeps && yarn build:graveyards:nodeps\""
     },
     "dependencies": {
         "@bufbuild/buf": "^1.51.0",
@@ -31,5 +34,8 @@
         "vue-tsc": "^2.2.8",
         "webpack": "^5.98.0",
         "webpack-cli": "^6.0.1"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3"
     }
 }

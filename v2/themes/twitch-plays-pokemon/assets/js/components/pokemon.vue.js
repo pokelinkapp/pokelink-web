@@ -1,11 +1,13 @@
 import { defineComponent } from 'vue';
 import { clientSettings, isDefined, V2, V2DataTypes } from 'pokelink';
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js';
 export default defineComponent({
     template: `
     <div :class="{ 'pokemon': true, 'isDead': isDead}" :style="{'opacity': opacity }">
       <div v-if="isValid">
 
-        <div class="exp" v-if="!pokemon.isEgg">
+        <heart-gauge :pokemon="pokemon"></heart-gauge>
+        <div class="exp" v-if="!pokemon.isEgg && !pokemon.isShadow">
           <div :style="{width:experienceRemaining}" class="exp__inner"></div>
         </div>
 
@@ -60,6 +62,9 @@ export default defineComponent({
       </div>
     </div>
   `,
+    components: {
+        'heart-gauge': heartGauge
+    },
     props: {
         pokemon: {
             type: Object,

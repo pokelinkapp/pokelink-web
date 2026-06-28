@@ -2,6 +2,7 @@ import {defineComponent, PropType} from 'vue'
 import {V2, clientSettings, typeColors, V2DataTypes} from 'pokelink'
 import type {Pokemon} from 'v2Proto'
 import type {Nullable} from 'global'
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js'
 
 export default defineComponent({
     template: `
@@ -27,10 +28,14 @@ export default defineComponent({
                 :class="{ hp__inner: true, low: parseFloat(healthPercent) <= 50, critical: parseFloat(healthPercent) <= 15 }"
             ></div>
           </div>
+          <heart-gauge v-if="!pokemon.isEgg" :pokemon="pokemon" orientation="vertical"></heart-gauge>
         </div>
         <div v-else></div>
       </div>
     `,
+    components: {
+        'heart-gauge': heartGauge
+    },
     props: {
         pokemon: {
             type: Object as PropType<Pokemon>,

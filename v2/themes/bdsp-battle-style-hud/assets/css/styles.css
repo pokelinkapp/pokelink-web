@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 :root {
     --border-color: #464845;
     --border-width: 5px;
@@ -192,6 +193,19 @@
     background-color: #5ecaef;
     height: 10px;
     border-radius: 2px;
+}
+
+.hp__text-and-exp .heart-gauge {
+    background-color: #e0e0e1;
+    height: 8px;
+    width: 195px;
+    right: 19px;
+    top: 10px;
+    position: absolute;
+    overflow: hidden;
+    border-radius: 2px;
+    padding: 1px;
+    padding-top: 2px;
 }
 
 .pokemon .details span.lvl {

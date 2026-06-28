@@ -1,5 +1,6 @@
 import {defineComponent, PropType} from 'vue'
 import trimmedSprite from '../../../../_shared/components/trimmedSprite.vue.js'
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js'
 import {Pokemon} from 'v2Proto'
 import {pokemonTCGCardSets} from '../party.js'
 import {clientSettings, hex2rgba, V2, V2DataTypes} from 'pokelink'
@@ -35,10 +36,12 @@ export default defineComponent({
             {{ statusEffectsSlide }}
           </div>
         </div>
+        <heart-gauge :pokemon="pokemon"></heart-gauge>
       </div>
     `,
     components: {
-        'trimmedSprite': trimmedSprite
+        'trimmedSprite': trimmedSprite,
+        'heart-gauge': heartGauge
     },
     props: {
         pokemon: {

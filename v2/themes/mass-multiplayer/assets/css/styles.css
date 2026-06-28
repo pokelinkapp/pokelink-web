@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 html, body {
     width: 100%;
     height: 100%;
@@ -20,6 +21,7 @@ body {
     width: 150px;
     margin-left: 10px;
     background-size: contain;
+    position: relative;
 }
 
 .pokemon__image {
@@ -174,4 +176,15 @@ body {
 
 .browser-connected {
     display: block !important;
+}
+
+.pokemon__slot .heart-gauge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+    overflow: hidden;
 }

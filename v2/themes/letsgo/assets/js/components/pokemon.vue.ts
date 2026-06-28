@@ -4,6 +4,7 @@ import female from './female.vue.js'
 import male from './male.vue.js'
 import pokeball from './pokeball.vue.js'
 import bg from './bg.vue.js'
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js'
 import {Pokemon} from 'v2Proto'
 
 export default defineComponent({
@@ -34,6 +35,7 @@ export default defineComponent({
           </div>
         </label>
         <label v-else></label>
+        <heart-gauge v-if="isValid && !pokemon.isEgg" :pokemon="pokemon"></heart-gauge>
       </div>
     `,
     props: {
@@ -45,7 +47,8 @@ export default defineComponent({
         'female': female,
         'male': male,
         'pokeball': pokeball,
-        'bg': bg
+        'bg': bg,
+        'heart-gauge': heartGauge
     },
     mounted() {
         const vm = this

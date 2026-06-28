@@ -1,6 +1,7 @@
 import {defineComponent, PropType} from 'vue'
 import {V2, V2DataTypes, string2ColHex, clientSettings, htmlColors, isDefined} from 'pokelink'
 import type {Pokemon} from 'v2Proto'
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js'
 
 export default defineComponent({
   template: `
@@ -30,9 +31,13 @@ export default defineComponent({
           <div class="healthBar__chock"></div>
         </div>
       </div>
+      <heart-gauge :pokemon="pokemon"></heart-gauge>
     </div>
   </div>
   `,
+  components: {
+    'heart-gauge': heartGauge
+  },
   props: {
     pokemon: {
       default: null,

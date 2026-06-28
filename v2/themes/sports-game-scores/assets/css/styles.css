@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 
 * {
     font-family: 'Open Sans', sans-serif;
@@ -164,4 +165,15 @@ html, body {
 
 .switchFast-move {
     transition: transform 0.5s;
+}
+
+.pokemon > .heart-gauge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    z-index: 5;
 }

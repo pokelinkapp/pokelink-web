@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 @font-face {
     font-family: PokemonGB;
     src: local("Pokemon GB"), url("./../../../../assets/fonts/Pokemon GB.ttf")
@@ -201,6 +202,24 @@
     background-color: cyan;
     height: 3px;
     transition: width 2s;
+}
+
+.pokemon__list .pokemon .heart-gauge {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 5;
+    overflow: hidden;
+}
+
+.pokemon__list.flipped .pokemon .heart-gauge {
+    transform: scaleX(-1);
+    right: unset;
+    left: 0px;
 }
 
 .pokemon__list .pokemon .pokemon__details {

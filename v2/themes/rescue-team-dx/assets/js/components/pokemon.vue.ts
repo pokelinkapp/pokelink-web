@@ -3,6 +3,7 @@ import {clientSettings, Nullable, typeColors, V2, V2DataTypes} from 'pokelink'
 import type {Pokemon} from 'v2Proto'
 import male from './male.vue.js'
 import female from './female.vue.js'
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js'
 
 export default defineComponent({
     template: `
@@ -20,13 +21,15 @@ export default defineComponent({
           <male v-if="sex === 'male'"></male>
           <male v-if="sex === 'male'" color="#000000"></male>
         </span>
+          <heart-gauge v-if="!pokemon.isEgg" :pokemon="pokemon"></heart-gauge>
         </div>
         <label v-else></label>
       </div>
     `,
     components: {
         'female': female,
-        'male': male
+        'male': male,
+        'heart-gauge': heartGauge
     },
     props: {
         pokemon: {

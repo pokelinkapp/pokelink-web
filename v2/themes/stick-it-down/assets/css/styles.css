@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 /* @font-face{font-family:RifficFree;src:local("RifficFree"),url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap")} */
 @font-face{font-family:RifficFree;src:local("RifficFree"),url("../RifficFree-Bold.ttf")}
@@ -166,7 +167,14 @@
     height: 100%;
     align-self: flex-end;
     width: 12px;
+}
 
+.pokemon .heart-gauge {
+    height: 5px;
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .pokemon__list .pokemon.isPoisoned .hp .hp__inner {

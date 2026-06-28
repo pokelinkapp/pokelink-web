@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 @font-face {
     font-family: PokemonGB;
     src: local("Pokemon GB"), url("./../../../../assets/fonts/Pokemon GB.ttf")
@@ -201,4 +202,15 @@ body {
 
 .switchFast-move {
     transition: transform 0.5s;
+}
+
+.pokemon.card .heart-gauge {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 10;
 }

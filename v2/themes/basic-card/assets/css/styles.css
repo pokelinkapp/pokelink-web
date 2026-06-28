@@ -1,3 +1,4 @@
+@import '../../../_shared/styles/heartGauge.css';
 html, body {
     width: 100%;
     height: 100%;
@@ -225,4 +226,14 @@ body {
 
 .browser-connected {
     display: block !important;
+}
+
+.card-content .heart-gauge {
+    width: 60%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    margin: 4px auto 0;
+    position: relative;
+    overflow: hidden;
 }
