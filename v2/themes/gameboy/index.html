@@ -11,7 +11,7 @@
     <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
         <transition-group :name="switchSpeed" tag="div" class="pokemon__list" v-if="loaded">
             <pokemon-card v-for="poke in pokemonToShow"
-                          :pokemon="poke" :key="poke?.pid"></pokemon-card>
+                          :pokemon="poke" :key="poke?.uid ?? poke?.pid"></pokemon-card>
         </transition-group>
         <div class="no-connection" v-if="!connected">
             <p>Waiting for successful connection to Pokélink...</p>

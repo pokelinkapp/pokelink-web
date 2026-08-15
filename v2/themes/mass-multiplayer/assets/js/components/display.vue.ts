@@ -20,7 +20,7 @@ export default defineComponent({
             <span class="text-6xl" :class="'text-[' + data.color + ']'">{{ user }}</span>
             <transition-group :name="switchSpeed" tag="div" class="flex">
               <pokemon-card v-for="poke in data.party" v-if="poke !== null"
-                            :pokemon="poke" :key="poke?.pid"></pokemon-card>
+                            :pokemon="poke" :key="poke?.uid ?? poke?.pid"></pokemon-card>
             </transition-group>
             <div class="text-5xl" :class="'text-[' + data.color + ']'">Badges {{ data.badges.filter(x => x.obtained).length }}/{{ data.badges.length }}
             </div>

@@ -137,6 +137,7 @@ message Pokemon {
   optional EVIV Stats = 34;
   optional bool isShadow = 35;
   optional float heartGaugePercentage = 36;
+  optional string uid = 37;
 }
 
 message PokemonTranslations {

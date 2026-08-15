@@ -381,6 +381,10 @@ export type Pokemon = Message<"Pokelink.Core.Proto.V2.Pokemon"> & {
      * @generated from field: optional float heartGaugePercentage = 36;
      */
     heartGaugePercentage?: number | undefined;
+    /**
+     * @generated from field: optional string uid = 37;
+     */
+    uid?: string | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V2.Pokemon.
