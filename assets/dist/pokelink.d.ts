@@ -10,11 +10,11 @@ export declare const itemSpriteTemplate = "https://assets.pokelink.xyz/v2/sprite
 export declare const clientSettings: ClientSettings;
 export declare function spriteTestInitialize(): void;
 export type ComponentConfig = {
-    [key: string]: ComponentConfig | string | number | boolean | Array<any>;
+    [key: string]: ComponentConfig | string | number | boolean | Array<ComponentConfig | string>;
 };
 export type ComponentCallback<T extends Message> = (component: T) => void;
 declare const partyId = "pokelink.component.party";
-declare const goalId = "pokelink.component.goals";
+declare const goalsId = "pokelink.component.goals";
 declare const graveyardId = "pokelink.component.graveyard";
 declare const reviveId = "pokelink.component.revive";
 declare const deathId = "pokelink.component.death";
@@ -50,4 +50,4 @@ export declare namespace V3 {
     export function getComponentSchema<T2 extends Message, T extends GenMessage<T2>>(id: string): T | null;
     export {};
 }
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalId, graveyardId, reviveId, deathId, settingsId, pcId, routesId };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId };

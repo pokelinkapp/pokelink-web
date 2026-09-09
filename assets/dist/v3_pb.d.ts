@@ -10,9 +10,9 @@ export declare const file_v3: GenFile;
  */
 export type SettingValue = Message<"Pokelink.Core.Proto.V3.SettingValue"> & {
     /**
-     * @generated from oneof Pokelink.Core.Proto.V3.SettingValue.value
+     * @generated from oneof Pokelink.Core.Proto.V3.SettingValue.setting
      */
-    value: {
+    setting: {
         /**
          * @generated from field: string string = 1;
          */
@@ -79,79 +79,79 @@ export type Packet = Message<"Pokelink.Core.Proto.V3.Packet"> & {
  */
 export declare const PacketSchema: GenMessage<Packet>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.GoalComponent
+ * @generated from message Pokelink.Core.Proto.V3.GoalsMessage
  */
-export type GoalComponent = Message<"Pokelink.Core.Proto.V3.GoalComponent"> & {
+export type GoalsMessage = Message<"Pokelink.Core.Proto.V3.GoalsMessage"> & {
     /**
      * @generated from field: repeated Pokelink.Core.Proto.V3.Goal goals = 1;
      */
     goals: Goal[];
 };
 /**
- * Describes the message Pokelink.Core.Proto.V3.GoalComponent.
- * Use `create(GoalComponentSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V3.GoalsMessage.
+ * Use `create(GoalsMessageSchema)` to create a new message.
  */
-export declare const GoalComponentSchema: GenMessage<GoalComponent>;
+export declare const GoalsMessageSchema: GenMessage<GoalsMessage>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.GraveyardComponent
+ * @generated from message Pokelink.Core.Proto.V3.GraveyardMessage
  */
-export type GraveyardComponent = Message<"Pokelink.Core.Proto.V3.GraveyardComponent"> & {
+export type GraveyardMessage = Message<"Pokelink.Core.Proto.V3.GraveyardMessage"> & {
     /**
      * @generated from field: repeated Pokelink.Core.Proto.V3.PokemonGrave graves = 1;
      */
     graves: PokemonGrave[];
 };
 /**
- * Describes the message Pokelink.Core.Proto.V3.GraveyardComponent.
- * Use `create(GraveyardComponentSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V3.GraveyardMessage.
+ * Use `create(GraveyardMessageSchema)` to create a new message.
  */
-export declare const GraveyardComponentSchema: GenMessage<GraveyardComponent>;
+export declare const GraveyardMessageSchema: GenMessage<GraveyardMessage>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.PokemonReviveComponent
+ * @generated from message Pokelink.Core.Proto.V3.PokemonReviveMessage
  */
-export type PokemonReviveComponent = Message<"Pokelink.Core.Proto.V3.PokemonReviveComponent"> & {
+export type PokemonReviveMessage = Message<"Pokelink.Core.Proto.V3.PokemonReviveMessage"> & {
     /**
      * @generated from field: string graveId = 1;
      */
     graveId: string;
 };
 /**
- * Describes the message Pokelink.Core.Proto.V3.PokemonReviveComponent.
- * Use `create(PokemonReviveComponentSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V3.PokemonReviveMessage.
+ * Use `create(PokemonReviveMessageSchema)` to create a new message.
  */
-export declare const PokemonReviveComponentSchema: GenMessage<PokemonReviveComponent>;
+export declare const PokemonReviveMessageSchema: GenMessage<PokemonReviveMessage>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.PokemonDeathComponent
+ * @generated from message Pokelink.Core.Proto.V3.PokemonDeathMessage
  */
-export type PokemonDeathComponent = Message<"Pokelink.Core.Proto.V3.PokemonDeathComponent"> & {
+export type PokemonDeathMessage = Message<"Pokelink.Core.Proto.V3.PokemonDeathMessage"> & {
     /**
      * @generated from field: Pokelink.Core.Proto.V3.PokemonGrave grave = 1;
      */
     grave?: PokemonGrave | undefined;
 };
 /**
- * Describes the message Pokelink.Core.Proto.V3.PokemonDeathComponent.
- * Use `create(PokemonDeathComponentSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V3.PokemonDeathMessage.
+ * Use `create(PokemonDeathMessageSchema)` to create a new message.
  */
-export declare const PokemonDeathComponentSchema: GenMessage<PokemonDeathComponent>;
+export declare const PokemonDeathMessageSchema: GenMessage<PokemonDeathMessage>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.PartyComponent
+ * @generated from message Pokelink.Core.Proto.V3.PartyMessage
  */
-export type PartyComponent = Message<"Pokelink.Core.Proto.V3.PartyComponent"> & {
+export type PartyMessage = Message<"Pokelink.Core.Proto.V3.PartyMessage"> & {
     /**
      * @generated from field: repeated Pokelink.Core.Proto.V3.Pokemon party = 1;
      */
     party: Pokemon[];
 };
 /**
- * Describes the message Pokelink.Core.Proto.V3.PartyComponent.
- * Use `create(PartyComponentSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V3.PartyMessage.
+ * Use `create(PartyMessageSchema)` to create a new message.
  */
-export declare const PartyComponentSchema: GenMessage<PartyComponent>;
+export declare const PartyMessageSchema: GenMessage<PartyMessage>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.SettingsComponent
+ * @generated from message Pokelink.Core.Proto.V3.SettingsMessage
  */
-export type SettingsComponent = Message<"Pokelink.Core.Proto.V3.SettingsComponent"> & {
+export type SettingsMessage = Message<"Pokelink.Core.Proto.V3.SettingsMessage"> & {
     /**
      * @generated from field: map<string, Pokelink.Core.Proto.V3.SettingValue> settings = 1;
      */
@@ -160,28 +160,28 @@ export type SettingsComponent = Message<"Pokelink.Core.Proto.V3.SettingsComponen
     };
 };
 /**
- * Describes the message Pokelink.Core.Proto.V3.SettingsComponent.
- * Use `create(SettingsComponentSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V3.SettingsMessage.
+ * Use `create(SettingsMessageSchema)` to create a new message.
  */
-export declare const SettingsComponentSchema: GenMessage<SettingsComponent>;
+export declare const SettingsMessageSchema: GenMessage<SettingsMessage>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.PCComponent
+ * @generated from message Pokelink.Core.Proto.V3.PCMessage
  */
-export type PCComponent = Message<"Pokelink.Core.Proto.V3.PCComponent"> & {
+export type PCMessage = Message<"Pokelink.Core.Proto.V3.PCMessage"> & {
     /**
      * @generated from field: repeated Pokelink.Core.Proto.V3.PCBox boxes = 1;
      */
     boxes: PCBox[];
 };
 /**
- * Describes the message Pokelink.Core.Proto.V3.PCComponent.
- * Use `create(PCComponentSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V3.PCMessage.
+ * Use `create(PCMessageSchema)` to create a new message.
  */
-export declare const PCComponentSchema: GenMessage<PCComponent>;
+export declare const PCMessageSchema: GenMessage<PCMessage>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.RoutesComponent
+ * @generated from message Pokelink.Core.Proto.V3.RoutesMessage
  */
-export type RoutesComponent = Message<"Pokelink.Core.Proto.V3.RoutesComponent"> & {
+export type RoutesMessage = Message<"Pokelink.Core.Proto.V3.RoutesMessage"> & {
     /**
      * @generated from field: map<string, Pokelink.Core.Proto.V3.RouteEvent> Encounters = 1;
      */
@@ -190,10 +190,10 @@ export type RoutesComponent = Message<"Pokelink.Core.Proto.V3.RoutesComponent"> 
     };
 };
 /**
- * Describes the message Pokelink.Core.Proto.V3.RoutesComponent.
- * Use `create(RoutesComponentSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V3.RoutesMessage.
+ * Use `create(RoutesMessageSchema)` to create a new message.
  */
-export declare const RoutesComponentSchema: GenMessage<RoutesComponent>;
+export declare const RoutesMessageSchema: GenMessage<RoutesMessage>;
 /**
  * @generated from message Pokelink.Core.Proto.V3.PCBox
  */

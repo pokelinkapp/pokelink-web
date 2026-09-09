@@ -3,23 +3,25 @@ import {
     PokelinkClientV3
 } from './clientv3.js'
 import {
-    GoalComponentSchema,
-    GraveyardComponentSchema,
-    PartyComponent,
-    PartyComponentSchema,
-    PCComponentSchema,
-    PokemonDeathComponentSchema,
+    GoalsMessageSchema,
+    GraveyardMessageSchema,
+    PartyMessage,
+    PartyMessageSchema,
+    PCMessageSchema,
+    PokemonDeathMessageSchema,
     PokemonEVIVSchema,
     PokemonHiddenPowerSchema,
     PokemonHPSchema,
     PokemonMetSchema,
     PokemonMiscSchema,
     PokemonMovesSchema,
-    PokemonReviveComponentSchema, PokemonShadowSchema,
+    PokemonReviveMessageSchema, PokemonShadowSchema,
     PokemonStatusSchema,
-    RoutesComponentSchema,
-    SettingsComponentSchema,
-    Pokemon as PokemonPB, GraveyardComponent, PokemonDeathComponent, PokemonReviveComponent, PokemonEXPSchema
+    RoutesMessageSchema,
+    SettingsMessageSchema,
+    Pokemon as PokemonPB, GraveyardMessage, PokemonDeathMessage, PokemonReviveMessage, PokemonEXPSchema,
+    SettingsMessage,
+    PokemonSchema
 } from './v3_pb.js'
 import * as V3DataTypes from './v3_pb.js'
 import {fromBinary, Message, toJson, toJsonString} from '@bufbuild/protobuf'
@@ -39,6 +41,7 @@ import {
 import Handlebars from 'handlebars'
 import collect from 'collect.js'
 import {GenMessage} from '@bufbuild/protobuf/codegenv2'
+
 export const homeSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/pokemon/home/' +
     '{{ifElse isShiny "shiny" "normal"}}' +
     '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
@@ -113,7 +116,9 @@ export function spriteTestInitialize() {
     globalInitialize()
 }
 
-export type ComponentConfig = { [key: string]: ComponentConfig | string | number | boolean | Array<any> }
+export type ComponentConfig = {
+    [key: string]: ComponentConfig | string | number | boolean | Array<ComponentConfig | string>
+}
 
 export type ComponentCallback<T extends Message> = (component: T) => void
 
@@ -121,26 +126,27 @@ const schemaStorage: { [key: string]: GenMessage<any> } = {}
 const componentCallbacks: { [key: string]: ComponentCallback<any>[] } = {}
 
 const partyId = 'pokelink.component.party'
-const goalId = 'pokelink.component.goals'
+const goalsId = 'pokelink.component.goals'
 const graveyardId = 'pokelink.component.graveyard'
 const reviveId = 'pokelink.component.revive'
 const deathId = 'pokelink.component.death'
 const settingsId = 'pokelink.component.settings'
 const pcId = 'pokelink.component.pc'
 const routesId = 'pokelink.component.routes'
+const pokemonId = 'pokemon'
 
-const partySubcomponents = {
-    "misc": "misc",
-    "status": "status",
-    "hp": "hp",
-    "exp": "exp",
-    "evs": "evs",
-    "ivs": "ivs",
-    "stats": "stats",
-    "hiddenPower": "hiddenPower",
-    "met": "met",
-    "moves": "moves",
-    "shadow": "shadow"
+const pokemonSubcomponents = {
+    'misc': 'misc',
+    'status': 'status',
+    'hp': 'hp',
+    'exp': 'exp',
+    'evs': 'evs',
+    'ivs': 'ivs',
+    'stats': 'stats',
+    'hiddenPower': 'hiddenPower',
+    'met': 'met',
+    'moves': 'moves',
+    'shadow': 'shadow'
 }
 
 export namespace V3 {
@@ -153,7 +159,7 @@ export namespace V3 {
         numberOfPlayers: 1,
         listenForSpriteUpdates: true
     }
-    
+
     let hasRegisteredParty = false
     let hasRegisteredGraveyard = false
     let hasRegisteredDeath = false
@@ -171,10 +177,10 @@ export namespace V3 {
         client.events.on('connect', () => {
             events.emit('connect')
         })
-        
+
         client.events.on('componentUpdate', (key: string, component: Message) => {
             const callbacks = componentCallbacks[key] ?? []
-            
+
             for (const cb of callbacks) {
                 cb(component)
             }
@@ -195,9 +201,9 @@ export namespace V3 {
             }
         }
     }
-    
+
     function registerPartyComponentListener() {
-        registerComponentListener<PartyComponent>(partyId, (component) => {
+        registerComponentListener<PartyMessage>(partyId, (component) => {
             let party: Nullable<Pokemon>[] = []
 
             for (let member of component.party) {
@@ -212,9 +218,9 @@ export namespace V3 {
             events.emit(partyId, party)
         })
     }
-    
+
     function registerGraveyardComponentListener() {
-        registerComponentListener<GraveyardComponent>(graveyardId, (component) => {
+        registerComponentListener<GraveyardMessage>(graveyardId, (component) => {
             let graves: Nullable<PokemonGrave>[] = []
 
             for (let grave of component.graves) {
@@ -233,22 +239,22 @@ export namespace V3 {
             events.emit(graveyardId, graves)
         })
     }
-    
+
     function registerDeathComponentListener() {
-        registerComponentListener<PokemonDeathComponent>(deathId, (component) => {
+        registerComponentListener<PokemonDeathMessage>(deathId, (component) => {
             if (!isDefined(component.grave?.pokemon)) {
                 return
             }
             let flatGrave = convertFromPokemonProtobuf(component.grave!.pokemon as PokemonPB) as PokemonGrave
             flatGrave.id = component.grave!.id
             flatGrave.timeOfDeath = component.grave!.timeOfDeath!
-            
+
             events.emit(deathId, flatGrave)
         })
     }
-    
+
     function registerReviveComponentListener() {
-        registerComponentListener<PokemonReviveComponent>(reviveId, (component) => {
+        registerComponentListener<PokemonReviveMessage>(reviveId, (component) => {
             events.emit(reviveId, component.graveId)
         })
     }
@@ -264,20 +270,20 @@ export namespace V3 {
             species: pokemon.species,
             translations: pokemon.translations!,
             uid: pokemon.uid
-        };
+        }
 
         for (const key in pokemon.subComponents) {
             const schema = getComponentSchema(`${partyId}.${key}`)
-            
+
             if (!isDefined(schema)) {
-                continue;
+                continue
             }
 
             const component = fromBinary(schema!, pokemon.subComponents[key].value)
-            
-            let temp: {[key: string]: any} = {}
+
+            let temp: { [key: string]: any } = {}
             temp[key] = JSON.parse(toJsonString(schema!, component))
-            
+
             flatPokemon = {...flatPokemon, ...temp}
         }
 
@@ -354,12 +360,12 @@ export namespace V3 {
 
         return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
     }
-    
+
     export function getFallbackImg(pokemon: Pokemon) {
         // noinspection HttpUrlsUsage
         return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/fallback/` // TODO: Replace with API call
     }
-    
+
     export function getPartyFallbackImg(pokmeon: Pokemon) {
         // noinspection HttpUrlsUsage
         return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/partyFallback/` // TODO: Replace with API call
@@ -437,9 +443,9 @@ export namespace V3 {
         if (!isDefined(componentCallbacks[id])) {
             componentCallbacks[id] = []
         }
-        
+
         let callbacks = componentCallbacks[id]
-        
+
         callbacks.push(callback)
     }
 
@@ -447,9 +453,9 @@ export namespace V3 {
         if (isDefined(schemaStorage[id])) {
             return false
         }
-        
+
         schemaStorage[id] = componentSchema
-        
+
         return true
     }
 
@@ -458,30 +464,42 @@ export namespace V3 {
         if (isDefined(schema)) {
             return schema as T
         }
-        
+
         return null
     }
+
+    registerComponentListener<SettingsMessage>(settingsId, (component) => {
+        if (v3Settings.listenForSpriteUpdates && !clientSettings.params.hasKey('template')) {
+            const spriteTemplate = component.settings["spriteTemplate"];
+            if (isDefined(spriteTemplate)) {
+                if (spriteTemplate.setting.case === 'string') {
+                    updateSpriteTemplate(spriteTemplate.setting.value)
+                }
+            }
+        }
+    })
 }
 
-V3.registerComponentSchema(partyId, PartyComponentSchema)
-V3.registerComponentSchema(goalId, GoalComponentSchema)
-V3.registerComponentSchema(graveyardId, GraveyardComponentSchema)
-V3.registerComponentSchema(reviveId, PokemonReviveComponentSchema)
-V3.registerComponentSchema(deathId, PokemonDeathComponentSchema)
-V3.registerComponentSchema(settingsId, SettingsComponentSchema)
-V3.registerComponentSchema(pcId, PCComponentSchema)
-V3.registerComponentSchema(routesId, RoutesComponentSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.misc}`, PokemonMiscSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.status}`, PokemonStatusSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.hp}`, PokemonHPSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.exp}`, PokemonEXPSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.evs}`, PokemonEVIVSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.ivs}`, PokemonEVIVSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.stats}`, PokemonEVIVSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.hiddenPower}`, PokemonHiddenPowerSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.met}`, PokemonMetSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.moves}`, PokemonMovesSchema)
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.shadow}`, PokemonShadowSchema)
+V3.registerComponentSchema(partyId, PartyMessageSchema)
+V3.registerComponentSchema(goalsId, GoalsMessageSchema)
+V3.registerComponentSchema(graveyardId, GraveyardMessageSchema)
+V3.registerComponentSchema(reviveId, PokemonReviveMessageSchema)
+V3.registerComponentSchema(deathId, PokemonDeathMessageSchema)
+V3.registerComponentSchema(settingsId, SettingsMessageSchema)
+V3.registerComponentSchema(pcId, PCMessageSchema)
+V3.registerComponentSchema(routesId, RoutesMessageSchema)
+V3.registerComponentSchema(pokemonId, PokemonSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.misc}`, PokemonMiscSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.status}`, PokemonStatusSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.hp}`, PokemonHPSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.exp}`, PokemonEXPSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.evs}`, PokemonEVIVSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.ivs}`, PokemonEVIVSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.stats}`, PokemonEVIVSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.hiddenPower}`, PokemonHiddenPowerSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.met}`, PokemonMetSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.moves}`, PokemonMovesSchema)
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.shadow}`, PokemonShadowSchema)
 
 export {
     htmlColors,
@@ -499,7 +517,7 @@ export {
     Pokemon,
     PokemonGrave,
     partyId,
-    goalId,
+    goalsId,
     graveyardId,
     reviveId,
     deathId,

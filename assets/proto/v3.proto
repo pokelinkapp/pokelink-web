@@ -4,8 +4,6 @@ package Pokelink.Core.Proto.V3;
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/any.proto";
 
-
-
 enum Gender {
   male = 0;
   female = 1;
@@ -36,7 +34,7 @@ enum RouteEvent {
 }
 
 message SettingValue {
-  oneof value {
+  oneof setting {
     string string = 1;
     uint32 uint = 2;
     int32 int = 3;
@@ -54,35 +52,35 @@ message Packet {
 
 // Pokelink Components
 
-message GoalComponent {
+message GoalsMessage {
   repeated Goal goals = 1;
 }
 
-message GraveyardComponent {
+message GraveyardMessage {
   repeated PokemonGrave graves = 1;
 }
 
-message PokemonReviveComponent {
+message PokemonReviveMessage {
   string graveId = 1;
 }
 
-message PokemonDeathComponent {
+message PokemonDeathMessage {
   PokemonGrave grave = 1;
 }
 
-message PartyComponent {
+message PartyMessage {
   repeated Pokemon party = 1;
 }
 
-message SettingsComponent {
+message SettingsMessage {
   map<string, SettingValue> settings = 1;
 }
 
-message PCComponent {
+message PCMessage {
   repeated PCBox boxes = 1;
 }
 
-message RoutesComponent {
+message RoutesMessage {
   map<string, RouteEvent> Encounters = 1;
 }
 
