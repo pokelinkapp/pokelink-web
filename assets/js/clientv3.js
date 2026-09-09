@@ -4,23 +4,30 @@ import { fromBinary } from '@bufbuild/protobuf';
 import { clientSettings, V3 } from './pokelink.js';
 export class PokelinkClientV3 extends PokelinkClientBase {
     allowAllUsers = false;
-    constructor(allowAllUsers) {
+    componentConfigs = null;
+    constructor(allowAllUsers, componentConfigs = null) {
         super();
         this.allowAllUsers = allowAllUsers;
+        this.componentConfigs = componentConfigs;
         this.openConnection();
     }
     SendHandshake() {
         if (this.connection === null || this.connection == undefined) {
             return;
         }
-        this.connection.send(JSON.stringify({
+        const sending = JSON.stringify({
             handshake: {
                 version: 3,
                 client: 'Overlay',
                 dataType: 'Protobuf',
-                gzip: false
+                gzip: false,
+                components: this.componentConfigs
             }
-        }));
+        });
+        if (clientSettings.debug) {
+            console.log(sending);
+        }
+        this.connection.send(sending);
     }
     OnMessageReceived(buffer) {
         let user = null;

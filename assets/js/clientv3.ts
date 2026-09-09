@@ -3,15 +3,17 @@ import {
     PacketSchema,
 } from './v3_pb.js'
 import {fromBinary} from '@bufbuild/protobuf'
-import {Nullable} from './global'
-import {clientSettings, V3} from './pokelink.js'
+import {Nullable} from './global.js'
+import {clientSettings, ComponentConfig, V3} from './pokelink.js'
 
 export class PokelinkClientV3 extends PokelinkClientBase {
     private readonly allowAllUsers: boolean = false
+    private readonly componentConfigs: Nullable<ComponentConfig> = null
 
-    constructor(allowAllUsers: boolean) {
+    constructor(allowAllUsers: boolean, componentConfigs: Nullable<ComponentConfig> = null) {
         super()
         this.allowAllUsers = allowAllUsers
+        this.componentConfigs = componentConfigs
         this.openConnection()
     }
 
@@ -19,15 +21,22 @@ export class PokelinkClientV3 extends PokelinkClientBase {
         if (this.connection === null || this.connection == undefined) {
             return
         }
-
-        this.connection.send(JSON.stringify({
+        
+        const sending = JSON.stringify({
             handshake: {
                 version: 3,
                 client: 'Overlay',
                 dataType: 'Protobuf',
-                gzip: false
+                gzip: false,
+                components: this.componentConfigs
             }
-        }))
+        });
+        
+        if (clientSettings.debug) {
+            console.log(sending)
+        }
+
+        this.connection.send(sending)
     }
 
     protected OnMessageReceived(buffer: Uint8Array): void {

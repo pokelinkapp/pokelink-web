@@ -285,13 +285,13 @@ export declare const PokemonMoveTranslationSchema: GenMessage<PokemonMoveTransla
  */
 export type PokemonTranslationObject = Message<"Pokelink.Core.Proto.V3.PokemonTranslationObject"> & {
     /**
-     * @generated from field: string species = 1;
+     * @generated from field: optional string species = 1;
      */
-    species: string;
+    species?: string | undefined;
     /**
-     * @generated from field: string formName = 2;
+     * @generated from field: optional string form = 2;
      */
-    formName: string;
+    form?: string | undefined;
     /**
      * @generated from field: optional string status = 3;
      */

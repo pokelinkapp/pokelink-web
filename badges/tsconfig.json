@@ -5,8 +5,10 @@
         "esModuleInterop": true,
         "allowJs": false,
         "strict": true,
+        "moduleResolution": "node",
         "skipLibCheck": true,
         "declaration": false,
+        "baseUrl": "./",
         "sourceMap": true,
         "paths": {
             "pokelink": [

@@ -13,6 +13,9 @@ export default {
         futureDefaults: true,
         outputModule: true
     },
+    resolve: {
+        extensions: [".js", ".json"],
+    },
     output: {
         path: path.resolve(__dirname, 'assets/dist'),
         filename: 'pokelink.js',

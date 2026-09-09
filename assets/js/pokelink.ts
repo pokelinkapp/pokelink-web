@@ -45,10 +45,10 @@ import {GenMessage} from '@bufbuild/protobuf/codegenv2'
 export const homeSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/pokemon/home/' +
     '{{ifElse isShiny "shiny" "normal"}}' +
     '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
-    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+    '{{ifElse (isDefined translations.english.form) (concat "-" (toLower (noSpaces translations.english.form))) ""}}' +
     '{{addFemaleTag this "-f"}}.png'
 
-export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItemName "."))}}.png'
+export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItem "."))}}.png'
 
 export const clientSettings: ClientSettings = {
     debug: false,
@@ -117,7 +117,7 @@ export function spriteTestInitialize() {
 }
 
 export type ComponentConfig = {
-    [key: string]: ComponentConfig | string | number | boolean | Array<ComponentConfig | string>
+    [key: string]: Nullable<ComponentConfig | string | number | boolean | Array<ComponentConfig | string>>
 }
 
 export type ComponentCallback<T extends Message> = (component: T) => void
@@ -165,8 +165,8 @@ export namespace V3 {
     let hasRegisteredDeath = false
     let hasRegisteredRevive = false
 
-    function initializeClient() {
-        client = new PokelinkClientV3(v3Settings.numberOfPlayers === -1)
+    function initializeClient(componentConfigs: Nullable<ComponentConfig> = null) {
+        client = new PokelinkClientV3(v3Settings.numberOfPlayers === -1, componentConfigs)
 
         client.events.once('disconnected', () => {
             events.emit('disconnected')
@@ -187,10 +187,10 @@ export namespace V3 {
         })
     }
 
-    export function initialize(settings?: V3Settings, component?: ComponentConfig) {
+    export function initialize(settings: Nullable<V3Settings> = null, componentConfigs: Nullable<ComponentConfig> = null) {
         v3Settings = {...v3Settings, ...settings}
         globalInitialize(v3Settings.numberOfPlayers)
-        initializeClient()
+        initializeClient(componentConfigs)
 
         if (v3Settings.listenForSpriteUpdates) {
             if (clientSettings.params.hasKey('template')) {
@@ -273,7 +273,7 @@ export namespace V3 {
         }
 
         for (const key in pokemon.subComponents) {
-            const schema = getComponentSchema(`${partyId}.${key}`)
+            const schema = getComponentSchema(`${pokemonId}.${key}`)
 
             if (!isDefined(schema)) {
                 continue

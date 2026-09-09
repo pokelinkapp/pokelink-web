@@ -1,5 +1,5 @@
 import { PokelinkClientV3 } from './clientv3.js';
-import { GoalComponentSchema, GraveyardComponentSchema, PartyComponentSchema, PCComponentSchema, PokemonDeathComponentSchema, PokemonEVIVSchema, PokemonHiddenPowerSchema, PokemonHPSchema, PokemonMetSchema, PokemonMiscSchema, PokemonMovesSchema, PokemonReviveComponentSchema, PokemonShadowSchema, PokemonStatusSchema, RoutesComponentSchema, SettingsComponentSchema, PokemonEXPSchema } from './v3_pb.js';
+import { GoalsMessageSchema, GraveyardMessageSchema, PartyMessageSchema, PCMessageSchema, PokemonDeathMessageSchema, PokemonEVIVSchema, PokemonHiddenPowerSchema, PokemonHPSchema, PokemonMetSchema, PokemonMiscSchema, PokemonMovesSchema, PokemonReviveMessageSchema, PokemonShadowSchema, PokemonStatusSchema, RoutesMessageSchema, SettingsMessageSchema, PokemonEXPSchema, PokemonSchema } from './v3_pb.js';
 import * as V3DataTypes from './v3_pb.js';
 import { fromBinary, toJsonString } from '@bufbuild/protobuf';
 import { EventEmitter, htmlColors, statusColors, typeColors, string2ColHex, ParamsManager, isDefined, hex2rgba, examplePokemon, resolveIllegalCharacters } from './global.js';
@@ -8,9 +8,9 @@ import collect from 'collect.js';
 export const homeSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/pokemon/home/' +
     '{{ifElse isShiny "shiny" "normal"}}' +
     '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
-    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+    '{{ifElse (isDefined translations.english.form) (concat "-" (toLower (noSpaces translations.english.form))) ""}}' +
     '{{addFemaleTag this "-f"}}.png';
-export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItemName "."))}}.png';
+export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItem "."))}}.png';
 export const clientSettings = {
     debug: false,
     params: new ParamsManager(),
@@ -65,25 +65,26 @@ export function spriteTestInitialize() {
 const schemaStorage = {};
 const componentCallbacks = {};
 const partyId = 'pokelink.component.party';
-const goalId = 'pokelink.component.goals';
+const goalsId = 'pokelink.component.goals';
 const graveyardId = 'pokelink.component.graveyard';
 const reviveId = 'pokelink.component.revive';
 const deathId = 'pokelink.component.death';
 const settingsId = 'pokelink.component.settings';
 const pcId = 'pokelink.component.pc';
 const routesId = 'pokelink.component.routes';
-const partySubcomponents = {
-    "misc": "misc",
-    "status": "status",
-    "hp": "hp",
-    "exp": "exp",
-    "evs": "evs",
-    "ivs": "ivs",
-    "stats": "stats",
-    "hiddenPower": "hiddenPower",
-    "met": "met",
-    "moves": "moves",
-    "shadow": "shadow"
+const pokemonId = 'pokemon';
+const pokemonSubcomponents = {
+    'misc': 'misc',
+    'status': 'status',
+    'hp': 'hp',
+    'exp': 'exp',
+    'evs': 'evs',
+    'ivs': 'ivs',
+    'stats': 'stats',
+    'hiddenPower': 'hiddenPower',
+    'met': 'met',
+    'moves': 'moves',
+    'shadow': 'shadow'
 };
 export var V3;
 (function (V3) {
@@ -95,8 +96,8 @@ export var V3;
     let hasRegisteredGraveyard = false;
     let hasRegisteredDeath = false;
     let hasRegisteredRevive = false;
-    function initializeClient() {
-        client = new PokelinkClientV3(v3Settings.numberOfPlayers === -1);
+    function initializeClient(componentConfigs = null) {
+        client = new PokelinkClientV3(v3Settings.numberOfPlayers === -1, componentConfigs);
         client.events.once('disconnected', () => {
             events.emit('disconnected');
             setTimeout(initializeClient, 1000);
@@ -111,10 +112,10 @@ export var V3;
             }
         });
     }
-    function initialize(settings, component) {
+    function initialize(settings = null, componentConfigs = null) {
         v3Settings = { ...v3Settings, ...settings };
         globalInitialize(v3Settings.numberOfPlayers);
-        initializeClient();
+        initializeClient(componentConfigs);
         if (v3Settings.listenForSpriteUpdates) {
             if (clientSettings.params.hasKey('template')) {
                 const newTemplate = clientSettings.params.getString('template', undefined);
@@ -183,7 +184,7 @@ export var V3;
             uid: pokemon.uid
         };
         for (const key in pokemon.subComponents) {
-            const schema = getComponentSchema(`${partyId}.${key}`);
+            const schema = getComponentSchema(`${pokemonId}.${key}`);
             if (!isDefined(schema)) {
                 continue;
             }
@@ -358,24 +359,35 @@ export var V3;
         return null;
     }
     V3.getComponentSchema = getComponentSchema;
+    registerComponentListener(settingsId, (component) => {
+        if (v3Settings.listenForSpriteUpdates && !clientSettings.params.hasKey('template')) {
+            const spriteTemplate = component.settings["spriteTemplate"];
+            if (isDefined(spriteTemplate)) {
+                if (spriteTemplate.setting.case === 'string') {
+                    updateSpriteTemplate(spriteTemplate.setting.value);
+                }
+            }
+        }
+    });
 })(V3 || (V3 = {}));
-V3.registerComponentSchema(partyId, PartyComponentSchema);
-V3.registerComponentSchema(goalId, GoalComponentSchema);
-V3.registerComponentSchema(graveyardId, GraveyardComponentSchema);
-V3.registerComponentSchema(reviveId, PokemonReviveComponentSchema);
-V3.registerComponentSchema(deathId, PokemonDeathComponentSchema);
-V3.registerComponentSchema(settingsId, SettingsComponentSchema);
-V3.registerComponentSchema(pcId, PCComponentSchema);
-V3.registerComponentSchema(routesId, RoutesComponentSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.misc}`, PokemonMiscSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.status}`, PokemonStatusSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.hp}`, PokemonHPSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.exp}`, PokemonEXPSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.evs}`, PokemonEVIVSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.ivs}`, PokemonEVIVSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.stats}`, PokemonEVIVSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.hiddenPower}`, PokemonHiddenPowerSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.met}`, PokemonMetSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.moves}`, PokemonMovesSchema);
-V3.registerComponentSchema(`${partyId}.${partySubcomponents.shadow}`, PokemonShadowSchema);
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalId, graveyardId, reviveId, deathId, settingsId, pcId, routesId };
+V3.registerComponentSchema(partyId, PartyMessageSchema);
+V3.registerComponentSchema(goalsId, GoalsMessageSchema);
+V3.registerComponentSchema(graveyardId, GraveyardMessageSchema);
+V3.registerComponentSchema(reviveId, PokemonReviveMessageSchema);
+V3.registerComponentSchema(deathId, PokemonDeathMessageSchema);
+V3.registerComponentSchema(settingsId, SettingsMessageSchema);
+V3.registerComponentSchema(pcId, PCMessageSchema);
+V3.registerComponentSchema(routesId, RoutesMessageSchema);
+V3.registerComponentSchema(pokemonId, PokemonSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.misc}`, PokemonMiscSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.status}`, PokemonStatusSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.hp}`, PokemonHPSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.exp}`, PokemonEXPSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.evs}`, PokemonEVIVSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.ivs}`, PokemonEVIVSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.stats}`, PokemonEVIVSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.hiddenPower}`, PokemonHiddenPowerSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.met}`, PokemonMetSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.moves}`, PokemonMovesSchema);
+V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.shadow}`, PokemonShadowSchema);
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId };

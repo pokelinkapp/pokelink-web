@@ -110,8 +110,8 @@ message PokemonMoveTranslation {
 }
 
 message PokemonTranslationObject {
-  string species = 1;
-  string formName = 2;
+  optional string species = 1;
+  optional string form = 2;
   optional string status = 3;
   repeated string types = 4;
   optional string heldItem = 5;

@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V3, clientSettings, homeSpriteTemplate, type Nullable, isDefined} from 'pokelink'
+import {V3, clientSettings, homeSpriteTemplate, type Nullable, isDefined, ComponentConfig, partyId} from 'pokelink'
 import pokemonCard from './components/pokemon-card.vue.js'
 
 (() => {
@@ -26,8 +26,14 @@ import pokemonCard from './components/pokemon-card.vue.js'
             V3.onSpriteSetReset(() => {
                 V3.updateSpriteTemplate(homeSpriteTemplate)
             })
+            
+            let components: ComponentConfig = {};
+            components[partyId] = {
+                "hp": null,
+                "shadow": null
+            };
 
-            V3.initialize()
+            V3.initialize(null, components)
 
             V3.onPartyUpdate((party => {
                 vm.party = party

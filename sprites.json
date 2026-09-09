@@ -18,7 +18,7 @@
                 6,
                 7
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/artwork/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/artwork/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:black-white",
@@ -35,7 +35,7 @@
                 4,
                 5
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/black-white/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/black-white/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:crystal",
@@ -49,7 +49,7 @@
                 1,
                 2
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/crystal/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/crystal/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}.png"
         },
         {
             "id": "pokelink:crystal:animated",
@@ -63,7 +63,7 @@
                 1,
                 2
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/crystal/{{ifElse isShiny \"animated-shiny\" \"animated-normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}.gif"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/crystal/{{ifElse isShiny \"animated-shiny\" \"animated-normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}.gif"
         },
         {
             "id": "pokelink:diamond-pearl",
@@ -79,7 +79,7 @@
                 3,
                 4
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/diamond-pearl/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/diamond-pearl/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:fireRed-leafGreen",
@@ -94,7 +94,7 @@
                 2,
                 3
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/firered-leafgreen/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/firered-leafgreen/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}.png"
         },
         {
             "id": "pokelink:generation:5",
@@ -115,7 +115,7 @@
                 8,
                 9
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen5/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen5/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}.png"
         },
         {
             "id": "pokelink:generation:5:animated",
@@ -132,7 +132,7 @@
                 4,
                 5
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen5/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen5/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
         },
         {
             "id": "pokelink:generation:6",
@@ -150,7 +150,7 @@
                 5,
                 6
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen6/normal/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen6/normal/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:generation:6:animated",
@@ -168,7 +168,7 @@
                 5,
                 6
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen6/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen6/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
         },
         {
             "id": "pokelink:generation:7",
@@ -187,7 +187,7 @@
                 6,
                 7
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen7/normal/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen7/normal/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:generation:7:animated",
@@ -206,7 +206,7 @@
                 6,
                 7
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen7/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen7/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
         },
         {
             "id": "pokelink:generation:8:party",
@@ -226,7 +226,7 @@
                 7,
                 8
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen8/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/gen8/party/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:green",
@@ -239,7 +239,7 @@
             "supportedGenerations": [
                 1
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/green/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/green/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}.png"
         },
         {
             "id": "pokelink:heartgold-soulsilver",
@@ -255,7 +255,7 @@
                 3,
                 4
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/heartgold-soulsilver/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/heartgold-soulsilver/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:home",
@@ -276,7 +276,7 @@
                 8,
                 9
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/home/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/home/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:home:animated",
@@ -297,7 +297,7 @@
                 8,
                 9
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/home/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/home/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
         },
         {
             "id": "pokelink:legends:za",
@@ -317,7 +317,7 @@
                 7,
                 8
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/legendsz-a/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (underscoreSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/legendsz-a/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (underscoreSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:moemon",
@@ -332,7 +332,7 @@
                 2,
                 3
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/moemon/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/moemon/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}.png"
         },
         {
             "id": "pokelink:national:animated",
@@ -352,7 +352,7 @@
                 7,
                 8
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/national/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/national/{{ifElse isShiny \"animated-shiny\" \"animated\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.gif"
         },
         {
             "id": "pokelink:national:party",
@@ -372,7 +372,7 @@
                 7,
                 8
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/national/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/national/party/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}.png"
         },
         {
             "id": "pokelink:pkhex:party",
@@ -393,7 +393,7 @@
                 8,
                 9
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}.png"
         },
         {
             "id": "pokelink:platinum",
@@ -409,7 +409,7 @@
                 3,
                 4
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/platinum/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/platinum/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:red-blue",
@@ -422,7 +422,7 @@
             "supportedGenerations": [
                 1
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/red-blue/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/red-blue/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}.png"
         },
         {
             "id": "pokelink:rescue-team-dx",
@@ -470,7 +470,7 @@
                 1,
                 2
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/silver/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/silver/{{ifElse isShiny \"shiny\" \"normal\"}}/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}.png"
         },
         {
             "id": "pokelink:sugimori",
@@ -488,7 +488,7 @@
                 6,
                 7
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/sugimori/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/sugimori/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:trozei",
@@ -525,7 +525,7 @@
                 5,
                 6
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/x-y/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}{{ifElse (isDefined translations.english.formName) (concat \"-\" (toLower (noSpaces translations.english.formName))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/x-y/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}{{ifElse (isDefined translations.english.form) (concat \"-\" (toLower (noSpaces translations.english.form))) \"\"}}{{addFemaleTag this \"-f\"}}.png"
         },
         {
             "id": "pokelink:yellow",
@@ -538,7 +538,7 @@
             "supportedGenerations": [
                 1
             ],
-            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/yellow/{{toLower (noSpaces (nidoranGender translations.english.speciesName \"\" \"-f\"))}}.png"
+            "templateString": "https://assets.pokelink.xyz/v2/sprites/pokemon/yellow/{{toLower (noSpaces (nidoranGender translations.english.species \"\" \"-f\"))}}.png"
         }
     ]
 }

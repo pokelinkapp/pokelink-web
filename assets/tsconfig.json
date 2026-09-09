@@ -6,8 +6,8 @@
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "skipLibCheck": true,
+        "moduleResolution": "node",
         "declaration": true,
-        "outDir": "./dist",
-        "rootDir": "./js"
+        "declarationDir": "./dist",
     }
 }

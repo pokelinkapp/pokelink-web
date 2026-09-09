@@ -6,11 +6,11 @@ import Handlebars from 'handlebars';
 import collect from 'collect.js';
 import { GenMessage } from '@bufbuild/protobuf/codegenv2';
 export declare const homeSpriteTemplate: string;
-export declare const itemSpriteTemplate = "https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItemName \".\"))}}.png";
+export declare const itemSpriteTemplate = "https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItem \".\"))}}.png";
 export declare const clientSettings: ClientSettings;
 export declare function spriteTestInitialize(): void;
 export type ComponentConfig = {
-    [key: string]: ComponentConfig | string | number | boolean | Array<ComponentConfig | string>;
+    [key: string]: Nullable<ComponentConfig | string | number | boolean | Array<ComponentConfig | string>>;
 };
 export type ComponentCallback<T extends Message> = (component: T) => void;
 declare const partyId = "pokelink.component.party";
@@ -26,7 +26,7 @@ export declare namespace V3 {
         numberOfPlayers?: number;
         listenForSpriteUpdates?: boolean;
     }
-    export function initialize(settings?: V3Settings, component?: ComponentConfig): void;
+    export function initialize(settings?: Nullable<V3Settings>, componentConfigs?: Nullable<ComponentConfig>): void;
     export function convertFromPokemonProtobuf(pokemon: PokemonPB): Pokemon;
     export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], username: string) => void): void;
     export function onGraveyardUpdate(handler: (graves: PokemonGrave[], username: string) => void): void;
