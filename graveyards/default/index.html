@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<meta name="robots" content="noindex">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Deaths</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script> -->
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-139026483-5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-139026483-5');
+    </script>
+</head>
+<body>
+<div id="deaths">
+    <div style="display: none;" :class="{ 'browser-connected' : true }">
+        <div class="deaths" v-if="showCounter">
+            <strong>{{prefixText}}{{deaths.length}}</strong>
+        </div>
+        <div class="deaths" v-if="!showCounter">
+            <transition-group
+                    name="switchMedium"
+                    tag="div"
+                    :class="['deaths__list', {'marquee': scroll}]"
+                    v-if="loaded"
+            >
+                <div
+                        class="deaths__pokemon"
+                        v-for="pokemon in deaths"
+                        :key="pokemon.pid + '_' + pokemon.graveyardMeta.timeOfDeath.seconds"
+                >
+                    <div class="pokemon__image"><poke-img :pokemon="pokemon"></poke-img></div>
+                    <div class="pokemon__name" v-if="showNames">{{pokemon.nickname || pokemon.translations.locale.speciesName}}</div>
+                </div>
+            </transition-group>
+        </div>
+    </div>
+</div>
+<script type="importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js",
+        "pokelink": "../../assets/dist/pokelink.js"
+      }
+    }
+</script>
+<script type="module" src="./assets/js/deathCounter.js"></script>
+
+</body>
+</html>

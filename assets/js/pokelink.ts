@@ -1,0 +1,509 @@
+import {PokelinkClientBase} from './client.js'
+import {
+    PokelinkClientV3
+} from './clientv3.js'
+import {
+    GoalComponentSchema,
+    GraveyardComponentSchema,
+    PartyComponent,
+    PartyComponentSchema,
+    PCComponentSchema,
+    PokemonDeathComponentSchema,
+    PokemonEVIVSchema,
+    PokemonHiddenPowerSchema,
+    PokemonHPSchema,
+    PokemonMetSchema,
+    PokemonMiscSchema,
+    PokemonMovesSchema,
+    PokemonReviveComponentSchema, PokemonShadowSchema,
+    PokemonStatusSchema,
+    RoutesComponentSchema,
+    SettingsComponentSchema,
+    Pokemon as PokemonPB, GraveyardComponent, PokemonDeathComponent, PokemonReviveComponent, PokemonEXPSchema
+} from './v3_pb.js'
+import * as V3DataTypes from './v3_pb.js'
+import {fromBinary, Message, toJson, toJsonString} from '@bufbuild/protobuf'
+import {
+    EventEmitter,
+    Nullable,
+    htmlColors,
+    statusColors,
+    typeColors,
+    string2ColHex,
+    ClientSettings,
+    ParamsManager,
+    isDefined,
+    hex2rgba, examplePokemon, resolveIllegalCharacters,
+    Pokemon, PokemonGrave
+} from './global.js'
+import Handlebars from 'handlebars'
+import collect from 'collect.js'
+import {GenMessage} from '@bufbuild/protobuf/codegenv2'
+export const homeSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/pokemon/home/' +
+    '{{ifElse isShiny "shiny" "normal"}}' +
+    '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
+    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+    '{{addFemaleTag this "-f"}}.png'
+
+export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItemName "."))}}.png'
+
+export const clientSettings: ClientSettings = {
+    debug: false,
+    params: new ParamsManager(),
+    host: 'localhost',
+    port: 3000,
+    users: [],
+    useFallbackSprites: false,
+    spriteTemplate: Handlebars.compile(homeSpriteTemplate),
+    itemSpriteTemplate: Handlebars.compile(itemSpriteTemplate)
+}
+
+const spriteUpdate = 'theme:settings:sprite'
+
+const spriteReset = 'theme:settings:spriteReset'
+
+let client: Nullable<PokelinkClientBase> = null
+
+const events = new EventEmitter()
+
+function globalInitialize(numberOfPlayers: number = 1) {
+    if (numberOfPlayers < 1) {
+        numberOfPlayers = 1
+    }
+    clientSettings.debug = clientSettings.params.getBool('debug', false)
+
+    if (clientSettings.debug) {
+        console.debug('Pokélink library now running in debug mode')
+    }
+
+    clientSettings.host = clientSettings.params.getString('server', 'localhost')!
+
+    clientSettings.port = clientSettings.params.getNumber('port', 3000)
+
+    let value = clientSettings.params.getString('users', '')!
+
+    if (value.indexOf(',') === -1) {
+        clientSettings.users = [value]
+    } else {
+        clientSettings.users = value.split(',')
+    }
+
+    if (numberOfPlayers < clientSettings.users.length) {
+        let newList = []
+
+        for (let i = 0; i < numberOfPlayers && i < clientSettings.users.length; i++) {
+            if (clientSettings.users[0] === undefined) {
+                i--
+                clientSettings.users.shift()
+                continue
+            }
+            newList.push(clientSettings.users.shift()!)
+        }
+
+        if (newList.length <= numberOfPlayers) {
+            console.error('The following users will not be updated due to not fitting in the theme:', clientSettings.users)
+        }
+        clientSettings.users = newList
+    }
+
+    clientSettings.useFallbackSprites = clientSettings.params.getBool('useLocalSprites', false)
+}
+
+export function spriteTestInitialize() {
+    globalInitialize()
+}
+
+export type ComponentConfig = { [key: string]: ComponentConfig | string | number | boolean | Array<any> }
+
+export type ComponentCallback<T extends Message> = (component: T) => void
+
+const schemaStorage: { [key: string]: GenMessage<any> } = {}
+const componentCallbacks: { [key: string]: ComponentCallback<any>[] } = {}
+
+const partyId = 'pokelink.component.party'
+const goalId = 'pokelink.component.goals'
+const graveyardId = 'pokelink.component.graveyard'
+const reviveId = 'pokelink.component.revive'
+const deathId = 'pokelink.component.death'
+const settingsId = 'pokelink.component.settings'
+const pcId = 'pokelink.component.pc'
+const routesId = 'pokelink.component.routes'
+
+const partySubcomponents = {
+    "misc": "misc",
+    "status": "status",
+    "hp": "hp",
+    "exp": "exp",
+    "evs": "evs",
+    "ivs": "ivs",
+    "stats": "stats",
+    "hiddenPower": "hiddenPower",
+    "met": "met",
+    "moves": "moves",
+    "shadow": "shadow"
+}
+
+export namespace V3 {
+    interface V3Settings {
+        numberOfPlayers?: number,
+        listenForSpriteUpdates?: boolean
+    }
+
+    let v3Settings: V3Settings = {
+        numberOfPlayers: 1,
+        listenForSpriteUpdates: true
+    }
+    
+    let hasRegisteredParty = false
+    let hasRegisteredGraveyard = false
+    let hasRegisteredDeath = false
+    let hasRegisteredRevive = false
+
+    function initializeClient() {
+        client = new PokelinkClientV3(v3Settings.numberOfPlayers === -1)
+
+        client.events.once('disconnected', () => {
+            events.emit('disconnected')
+
+            setTimeout(initializeClient, 1000)
+        })
+
+        client.events.on('connect', () => {
+            events.emit('connect')
+        })
+        
+        client.events.on('componentUpdate', (key: string, component: Message) => {
+            const callbacks = componentCallbacks[key] ?? []
+            
+            for (const cb of callbacks) {
+                cb(component)
+            }
+        })
+    }
+
+    export function initialize(settings?: V3Settings, component?: ComponentConfig) {
+        v3Settings = {...v3Settings, ...settings}
+        globalInitialize(v3Settings.numberOfPlayers)
+        initializeClient()
+
+        if (v3Settings.listenForSpriteUpdates) {
+            if (clientSettings.params.hasKey('template')) {
+                const newTemplate = clientSettings.params.getString('template', undefined)
+                if (isDefined(newTemplate)) {
+                    updateSpriteTemplate(newTemplate!)
+                }
+            }
+        }
+    }
+    
+    function registerPartyComponentListener() {
+        registerComponentListener<PartyComponent>(partyId, (component) => {
+            let party: Nullable<Pokemon>[] = []
+
+            for (let member of component.party) {
+                if (!isDefined(member)) {
+                    party.push(null)
+                    continue
+                }
+
+                party.push(convertFromPokemonProtobuf(member))
+            }
+
+            events.emit(partyId, party)
+        })
+    }
+    
+    function registerGraveyardComponentListener() {
+        registerComponentListener<GraveyardComponent>(graveyardId, (component) => {
+            let graves: Nullable<PokemonGrave>[] = []
+
+            for (let grave of component.graves) {
+                if (!isDefined(grave)) {
+                    graves.push(null)
+                    continue
+                }
+
+                let flatGrave = convertFromPokemonProtobuf(grave.pokemon as PokemonPB) as PokemonGrave
+                flatGrave.id = grave.id
+                flatGrave.timeOfDeath = grave.timeOfDeath!
+
+                graves.push(flatGrave)
+            }
+
+            events.emit(graveyardId, graves)
+        })
+    }
+    
+    function registerDeathComponentListener() {
+        registerComponentListener<PokemonDeathComponent>(deathId, (component) => {
+            if (!isDefined(component.grave?.pokemon)) {
+                return
+            }
+            let flatGrave = convertFromPokemonProtobuf(component.grave!.pokemon as PokemonPB) as PokemonGrave
+            flatGrave.id = component.grave!.id
+            flatGrave.timeOfDeath = component.grave!.timeOfDeath!
+            
+            events.emit(deathId, flatGrave)
+        })
+    }
+    
+    function registerReviveComponentListener() {
+        registerComponentListener<PokemonReviveComponent>(reviveId, (component) => {
+            events.emit(reviveId, component.graveId)
+        })
+    }
+
+    export function convertFromPokemonProtobuf(pokemon: PokemonPB): Pokemon {
+        let flatPokemon: Pokemon = {
+            form: pokemon.form,
+            gender: pokemon.gender,
+            hasFemaleSprite: pokemon.hasFemaleSprite,
+            isEgg: pokemon.isEgg,
+            isShiny: pokemon.isShiny,
+            pid: pokemon.pid,
+            species: pokemon.species,
+            translations: pokemon.translations!,
+            uid: pokemon.uid
+        };
+
+        for (const key in pokemon.subComponents) {
+            const schema = getComponentSchema(`${partyId}.${key}`)
+            
+            if (!isDefined(schema)) {
+                continue;
+            }
+
+            const component = fromBinary(schema!, pokemon.subComponents[key].value)
+            
+            let temp: {[key: string]: any} = {}
+            temp[key] = JSON.parse(toJsonString(schema!, component))
+            
+            flatPokemon = {...flatPokemon, ...temp}
+        }
+
+        return flatPokemon
+    }
+
+    export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], username: string) => void) {
+        if (!hasRegisteredParty) {
+            hasRegisteredParty = true
+            registerPartyComponentListener()
+        }
+        events.on(partyId, handler)
+    }
+
+    export function onGraveyardUpdate(handler: (graves: PokemonGrave[], username: string) => void) {
+        if (!hasRegisteredGraveyard) {
+            hasRegisteredGraveyard = true
+            registerGraveyardComponentListener()
+        }
+        events.on(graveyardId, handler)
+    }
+
+    export function onDeath(handler: (pokemon: Pokemon, username: string) => void) {
+        if (!hasRegisteredDeath) {
+            hasRegisteredDeath = true
+            registerDeathComponentListener()
+        }
+        events.on(deathId, handler)
+    }
+
+    export function onRevive(handler: (graveId: string, username: string) => void) {
+        if (!hasRegisteredRevive) {
+            hasRegisteredRevive = true
+            registerReviveComponentListener()
+        }
+        events.on(reviveId, handler)
+    }
+
+    export function onSpriteTemplateUpdate(handler: () => void) {
+        events.on(spriteUpdate, handler)
+    }
+
+    export function onSpriteSetReset(handler: () => void) {
+        events.on(spriteReset, handler)
+    }
+
+    export function onConnect(handler: () => void) {
+        events.on('connect', handler)
+    }
+
+    export function isValidPokemon(pokemon: Nullable<Pokemon>) {
+        return isDefined(pokemon?.species)
+    }
+
+    export function getSprite(pokemon: Pokemon) {
+        let output: Nullable<string>
+        if (clientSettings.useFallbackSprites) {
+            // noinspection HttpUrlsUsage
+            output = getFallbackImg(pokemon)
+        } else {
+            output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
+        }
+
+        return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+    }
+
+    export function getPartySprite(pokemon: Pokemon) {
+        let output: Nullable<string>
+        if (clientSettings.useFallbackSprites) {
+            output = getPartyFallbackImg(pokemon)
+        } else {
+            output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
+        }
+
+        return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+    }
+    
+    export function getFallbackImg(pokemon: Pokemon) {
+        // noinspection HttpUrlsUsage
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/fallback/` // TODO: Replace with API call
+    }
+    
+    export function getPartyFallbackImg(pokmeon: Pokemon) {
+        // noinspection HttpUrlsUsage
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/partyFallback/` // TODO: Replace with API call
+    }
+
+    export function useFallback(img: HTMLImageElement, pokemon: Pokemon) {
+        let fallback = getFallbackImg(pokemon)
+        if (img.src === fallback || !isDefined(fallback)) {
+            return
+        }
+
+        if (clientSettings.debug) {
+            console.debug(`${img.src} encountered an error. Falling back to ${fallback}`)
+        }
+
+        img.src = fallback!
+    }
+
+    export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon) {
+        let fallback = getPartyFallbackImg(pokemon)
+        if (img.src === fallback || !isDefined(fallback)) {
+            return
+        }
+
+        if (clientSettings.debug) {
+            console.debug(`${img.src} encountered an error. Falling back to ${fallback}`)
+        }
+
+        img.src = fallback!
+    }
+
+    export function getTypeColor(englishType: string) {
+        let value = typeColors[englishType]
+
+        if (!isDefined(value)) {
+            return 'white'
+        }
+
+        return value
+    }
+
+    export function getStatusColor(englishStatus: string) {
+        let value = statusColors[englishStatus]
+
+        if (isDefined(value)) {
+            return 'white'
+        }
+
+        return value
+    }
+
+    export function updateSpriteTemplate(template: Nullable<string>) {
+        if (!v3Settings.listenForSpriteUpdates || !isDefined(template) || template!.length <= 0) {
+            events.emit(spriteReset)
+            return
+        }
+
+        try {
+            let test = Handlebars.compile(template)
+            test(examplePokemon)
+            clientSettings.spriteTemplate = test
+
+            if (clientSettings.debug) {
+                console.debug('Received new sprite template:', template)
+            }
+
+            events.emit(spriteUpdate)
+        } catch (ex) {
+            console.error('Failed to assign new sprite template')
+            console.error(ex)
+        }
+    }
+
+    export function registerComponentListener<T extends Message>(id: string, callback: ComponentCallback<T>) {
+        if (!isDefined(componentCallbacks[id])) {
+            componentCallbacks[id] = []
+        }
+        
+        let callbacks = componentCallbacks[id]
+        
+        callbacks.push(callback)
+    }
+
+    export function registerComponentSchema<T extends Message>(id: string, componentSchema: GenMessage<T>) {
+        if (isDefined(schemaStorage[id])) {
+            return false
+        }
+        
+        schemaStorage[id] = componentSchema
+        
+        return true
+    }
+
+    export function getComponentSchema<T2 extends Message, T extends GenMessage<T2>>(id: string): T | null {
+        let schema = schemaStorage[id]
+        if (isDefined(schema)) {
+            return schema as T
+        }
+        
+        return null
+    }
+}
+
+V3.registerComponentSchema(partyId, PartyComponentSchema)
+V3.registerComponentSchema(goalId, GoalComponentSchema)
+V3.registerComponentSchema(graveyardId, GraveyardComponentSchema)
+V3.registerComponentSchema(reviveId, PokemonReviveComponentSchema)
+V3.registerComponentSchema(deathId, PokemonDeathComponentSchema)
+V3.registerComponentSchema(settingsId, SettingsComponentSchema)
+V3.registerComponentSchema(pcId, PCComponentSchema)
+V3.registerComponentSchema(routesId, RoutesComponentSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.misc}`, PokemonMiscSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.status}`, PokemonStatusSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.hp}`, PokemonHPSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.exp}`, PokemonEXPSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.evs}`, PokemonEVIVSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.ivs}`, PokemonEVIVSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.stats}`, PokemonEVIVSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.hiddenPower}`, PokemonHiddenPowerSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.met}`, PokemonMetSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.moves}`, PokemonMovesSchema)
+V3.registerComponentSchema(`${partyId}.${partySubcomponents.shadow}`, PokemonShadowSchema)
+
+export {
+    htmlColors,
+    statusColors,
+    typeColors,
+    EventEmitter,
+    V3DataTypes,
+    string2ColHex,
+    collect,
+    isDefined,
+    hex2rgba,
+    resolveIllegalCharacters,
+    Handlebars,
+    Nullable,
+    Pokemon,
+    PokemonGrave,
+    partyId,
+    goalId,
+    graveyardId,
+    reviveId,
+    deathId,
+    settingsId,
+    pcId,
+    routesId
+}

@@ -1,0 +1,214 @@
+syntax = "proto3";
+package Pokelink.Core.Proto.V3;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/any.proto";
+
+
+
+enum Gender {
+  male = 0;
+  female = 1;
+  genderless = 2;
+}
+
+enum Pokerus {
+  clean = 0;
+  infected = 1;
+  cured = 2;
+}
+
+enum StatusEffect {
+  healthy = 0;
+  poisoned = 1;
+  asleep = 2;
+  paralyzed = 3;
+  frozen = 4;
+  burned = 5;
+  badlyPoisoned = 6;
+}
+
+enum RouteEvent {
+  available = 0;
+  caught = 1;
+  ranAway = 2;
+  defeated = 3;
+}
+
+message SettingValue {
+  oneof value {
+    string string = 1;
+    uint32 uint = 2;
+    int32 int = 3;
+    float float = 4;
+    bool bool = 5;
+    google.protobuf.Any message = 6;
+  }
+}
+
+message Packet {
+  string username = 1;
+  
+  map<string, google.protobuf.Any> components = 2;
+}
+
+// Pokelink Components
+
+message GoalComponent {
+  repeated Goal goals = 1;
+}
+
+message GraveyardComponent {
+  repeated PokemonGrave graves = 1;
+}
+
+message PokemonReviveComponent {
+  string graveId = 1;
+}
+
+message PokemonDeathComponent {
+  PokemonGrave grave = 1;
+}
+
+message PartyComponent {
+  repeated Pokemon party = 1;
+}
+
+message SettingsComponent {
+  map<string, SettingValue> settings = 1;
+}
+
+message PCComponent {
+  repeated PCBox boxes = 1;
+}
+
+message RoutesComponent {
+  map<string, RouteEvent> Encounters = 1;
+}
+
+// Pokelink Components
+
+message PCBox {
+  repeated Pokemon pokemon = 1;
+  string name = 2;
+}
+
+message Goal {
+  string id = 1;
+  string localeName = 2;
+  string englishName = 3;
+  bool obtained = 4;
+  string sprite = 5;
+  optional string englishCategory = 6;
+  optional string localeCategory = 7;
+  optional string levelText = 8;
+  optional uint32 levelCap = 9;
+}
+
+message PokemonMoveTranslation {
+  string name = 1;
+  string type = 2;
+  optional string secondType = 3;
+}
+
+message PokemonTranslationObject {
+  string species = 1;
+  string formName = 2;
+  optional string status = 3;
+  repeated string types = 4;
+  optional string heldItem = 5;
+  optional string gender = 6;
+  optional string hiddenPowerType = 7;
+  optional string pokeball = 8;
+  optional string ability = 9;
+  optional string pokerus = 10;
+  optional string locationMet = 11;
+  optional string nature = 12;
+  repeated PokemonMoveTranslation moves = 13;
+}
+
+message PokemonTranslations {
+  PokemonTranslationObject english = 1;
+  PokemonTranslationObject locale = 2;
+}
+
+message PokemonEVIV {
+  uint32 attack = 1;
+  uint32 defense = 2;
+  uint32 specialAttack = 3;
+  uint32 specialDefense = 4;
+  uint32 speed = 5;
+  uint32 hp = 6;
+}
+
+message PokemonStatus {
+  StatusEffect status = 1;
+}
+
+message PokemonHiddenPower {
+  uint32 type = 1;
+  uint32 power = 2;
+}
+
+message PokemonMisc {
+  string color = 1;
+  Pokerus pokerus = 2;
+  uint32 heldItem = 3;
+  uint32 nature = 4;
+  string nickname = 5;
+}
+
+message PokemonHP {
+  uint32 current = 1;
+  uint32 max = 2;
+}
+
+message PokemonEXP {
+  uint32 level = 1;
+  uint32 current = 2;
+  uint32 nextLevel = 3;
+  float nextLevelPercent = 4;
+}
+
+message PokemonMet {
+  uint32 location = 1;
+  uint32 level = 2;
+  uint32 pokeball = 3;
+}
+
+message PokemonMove {
+  uint32 id = 1;
+  uint32 pp = 2;
+  uint32 maxPP = 3;
+}
+
+message PokemonMoves {
+  repeated PokemonMove moves = 1;
+}
+
+message PokemonShadow {
+  bool isShadow = 1;
+  float heartGaugePercentage = 2;
+}
+
+message Pokemon {
+  // Required fields
+  string uid = 1;
+  PokemonTranslations translations = 2;
+  uint32 pid = 3;
+  uint32 species = 4;
+  uint32 form = 5;
+  Gender gender = 6;
+  bool hasFemaleSprite = 7;
+  bool isEgg = 8;
+  bool isShiny = 9;
+  // Required fields
+  
+  map<string, google.protobuf.Any> subComponents = 11;
+}
+
+message PokemonGrave {
+  google.protobuf.Timestamp timeOfDeath = 1;
+  string id = 2;
+  Pokemon pokemon = 3;
+}

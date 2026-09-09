@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PokeLink v2 Theme Preview</title>
+    <link rel="stylesheet" href="preview.css">
+</head>
+<body>
+    <h1>PokeLink v2 Theme Preview</h1>
+
+    <div class="settings-bar">
+        <label>
+            Server
+            <input id="setting-server" type="text" placeholder="localhost">
+        </label>
+        <label>
+            Port
+            <input id="setting-port" type="text" placeholder="3000">
+        </label>
+        <label>
+            Users (comma-separated)
+            <input id="setting-users" type="text" placeholder="username1,username2">
+        </label>
+        <button id="reload-button">Reload all</button>
+    </div>
+
+    <div class="primary-section">
+        <div class="primary-header" id="primary-label"></div>
+        <div class="primary-row">
+            <button class="nav-button" id="back-button">&larr; Back</button>
+            <div class="primary-frame-wrap" id="primary-frame-wrap"></div>
+            <button class="nav-button" id="next-button">Next &rarr;</button>
+        </div>
+    </div>
+
+    <h2 class="grid-heading">All themes</h2>
+    <div class="theme-grid" id="theme-grid"></div>
+
+    <script src="preview.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+import {createApp} from 'vue'
+import {V3, clientSettings, isDefined} from 'pokelink'
+import list from './components/list.vue.js'
+
+(() => {
+    createApp({
+        components: {
+            'list': list
+        },
+        data() {
+            return {
+                connected: false,
+                loaded: false,
+                settings: {}
+            }
+        },
+        created: function () {
+            const vm = this
+
+            this.resetSpriteSet()
+
+            V3.onSpriteSetReset(this.resetSpriteSet)
+
+            V3.initialize()
+
+            V3.onConnect(() => {
+                vm.connected = true
+                this.loaded = true
+            })
+            this.settings = clientSettings
+        },
+        mounted: function () {
+        },
+        methods: {
+            resetSpriteSet() {
+                V3.updateSpriteTemplate('https://assets.pokelink.xyz/V3/sprites/pokemon/gen7/normal/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}{{addFemaleTag this "-f"}}.png')
+            }
+        }
+    }).mount('#party')
+})()

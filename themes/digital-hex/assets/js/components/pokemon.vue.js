@@ -1,0 +1,257 @@
+import { defineComponent } from 'vue';
+import { V3, clientSettings, typeColors, V3DataTypes } from 'pokelink';
+import trimmedSprite from '../../../../_shared/components/trimmedSprite.vue.js';
+export default defineComponent({
+    template: `
+      <div :style="mainStyle"
+           :class="{ 'pokemon': true, 'isDead': isDead, 'isEmpty': !isValid, 'loaded': loaded, 'staggered': staggered }">
+        <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="250"
+            height="250"
+            viewbox="0 0 250 200"
+            style="padding:0px;"
+        >
+          <path
+              id="background"
+              class="slot__background"
+              fill="#252027"
+              stroke-width="0px"
+              style=""
+              d="M86.60254037844386 5L169.20508075688772 55L169.20508075688772 151L86.60254037844386 201L5 151L5 55Z"
+          >
+          </path>
+          <defs>
+            <clipPath id="hexagon">
+              <path
+                  fill="transparent"
+                  stroke-width="0"
+                  style=""
+                  d="M86.60254037844386 5L169.20508075688772 55L169.20508075688772 151L86.60254037844386 201L5 151L5 55Z"
+                  class="slot__border-background"
+              >
+              </path>
+            </clipPath>
+          </defs>
+          <path
+              id="clip"
+              class="slot__background-inner"
+              :fill="borderColor"
+              stroke-width="0px"
+              style="opacity:0.3;"
+              d="M91.28203230275508 29L155.56406460551017 64L155.56406460551017 137L89.28203230275508 177L29 141L29 61Z"
+          >
+          </path>
+        </svg>
+
+        <trimmedSprite
+            v-if="isValid"
+            :key="ident"
+            :get-sprite="getSprite"
+            :pokemon="pokemon"
+            :maxBoundingBoxHeight="150"
+            @done="loaded = true"
+        ></trimmedSprite>
+
+        <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            width="250"
+            height="250"
+            viewbox="0 0 250 200"
+            style="padding:0px;"
+            class="slot__border-wrapper"
+        >
+          <path
+              fill="transparent"
+              stroke="rgb(62 62 75)"
+              stroke-width="10px"
+              style=""
+              d="M86.60254037844386 5L169.20508075688772 55L169.20508075688772 151L86.60254037844386 201L5 151L5 55Z"
+              class="slot__border-background"
+          >
+          </path>
+          <path
+              fill="transparent"
+              :stroke="borderColor"
+              stroke-dasharray="600 600"
+              stroke-width="10px"
+              stroke-linecap="butt"
+              :stroke-dashoffset="dashOffset"
+              d="M86.60254037844386 5L169.20508075688772 55L169.20508075688772 151L86.60254037844386 201L5 151L5 55Z"
+              class="slot__border"
+          >
+          </path>
+          <path
+              v-if="isValid && pokemon.isShadow && !pokemon.isEgg"
+              fill="transparent"
+              stroke="rgba(123, 47, 190, 0.3)"
+              stroke-width="5"
+              stroke-linecap="butt"
+              :stroke-dasharray="heartGaugeCircumference + ' ' + heartGaugeCircumference"
+              stroke-dashoffset="0"
+              d="M86.6 11L164.2 57.9L164.2 148.1L86.6 195L9.8 148.1L9.8 57.9Z"
+          />
+          <path
+              v-if="isValid && pokemon.isShadow && !pokemon.isEgg"
+              fill="transparent"
+              stroke="#7B2FBE"
+              stroke-width="5"
+              stroke-linecap="butt"
+              :stroke-dasharray="heartGaugeCircumference + ' ' + heartGaugeCircumference"
+              :stroke-dashoffset="heartGaugeDashOffset"
+              d="M86.6 11L164.2 57.9L164.2 148.1L86.6 195L9.8 148.1L9.8 57.9Z"
+              class="heart-gauge-arc"
+          />
+        </svg>
+      </div>
+    `,
+    components: {
+        'trimmedSprite': trimmedSprite
+    },
+    props: {
+        pokemon: {
+            type: Object,
+            required: true
+        },
+        key: {},
+        stroke: {
+            type: Number,
+            default() {
+                return 10;
+            }
+        }
+    },
+    data() {
+        return {
+            loaded: false
+        };
+    },
+    created() {
+    },
+    mounted() {
+        const vm = this;
+        V3.onSpriteTemplateUpdate(vm.$forceUpdate);
+    },
+    methods: {
+        getSprite() {
+            if (this.pokemon.isEgg) {
+                return `https://assets.pokelink.xyz/V3/sprites/pokemon/home/normal/egg.png`;
+            }
+            return V3.getSprite(this.pokemon);
+        }
+    },
+    computed: {
+        staggered() {
+            return clientSettings.params.getBool('staggered', true);
+        },
+        isValid() {
+            return V3.isValidPokemon(this.pokemon);
+        },
+        dashOffset() {
+            if (!this.isValid) {
+                return false;
+            }
+            if (clientSettings.params.getBool('hideHPBar', false)) {
+                return 0;
+            }
+            if (this.pokemon.isEgg) {
+                return 600;
+            }
+            return 600 - (this.healthPercent / 100 * 600);
+        },
+        heartGaugeCircumference() {
+            return 542;
+        },
+        heartGaugeDashOffset() {
+            if (!this.isValid)
+                return this.heartGaugeCircumference;
+            return this.heartGaugeCircumference - ((this.pokemon.shadow?.heartGaugePercent ?? 0) / 100 * this.heartGaugeCircumference);
+        },
+        healthPercent() {
+            if (!this.isValid) {
+                return 100;
+            }
+            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current;
+        },
+        isDead() {
+            if (!this.isValid) {
+                return false;
+            }
+            return this.pokemon.hp.current === 0;
+        },
+        level() {
+            if (!this.isValid) {
+                return null;
+            }
+            return this.pokemon.exp?.level.toString() || '0';
+        },
+        nickname() {
+            if (!this.isValid) {
+                return null;
+            }
+            return this.pokemon.misc?.nickname || this.pokemon.translations.locale.species;
+        },
+        sex() {
+            return (this.pokemon.gender === V3DataTypes.Gender.genderless ? '' : (this.pokemon.gender === V3DataTypes.Gender.female ? 'female' : 'male'));
+        },
+        ident() {
+            if (!this.isValid) {
+                return null;
+            }
+            return this.pokemon.pid;
+        },
+        opacity() {
+            if (!this.isValid) {
+                return '0.4';
+            }
+            return '1';
+        },
+        hasItem() {
+            if (!this.isValid) {
+                return false;
+            }
+            return this.pokemon.misc?.heldItem !== 0;
+        },
+        sprite() {
+            return V3.getSprite(this.pokemon);
+        },
+        mainStyle() {
+            if (!this.isValid) {
+                return null;
+            }
+            let styles = {
+                'opacity': this.opacity
+            };
+            if (this.pokemon) {
+                styles = { ...styles }; //'background-image': 'linear-gradient(180deg, ' + this.settings.typeColors[primaryType] + ', white)'}
+            }
+            return styles;
+        },
+        borderColor() {
+            if (!this.isValid || this.pokemon.isEgg) {
+                return '#7375ae';
+            }
+            return typeColors[this.pokemon.translations.english.types[0]];
+        },
+        nature() {
+            if (!this.isValid || this.pokemon.isEgg) {
+                return '';
+            }
+            if (!this.pokemon.misc?.nature) {
+                return '';
+            }
+            return this.pokemon.translations.locale.nature;
+        },
+        selectedPokemon: {
+            get: function () {
+                return this.nickname;
+            },
+            set: function () {
+                this.$emit('change', this.nickname);
+            }
+        }
+    }
+});
+//# sourceMappingURL=pokemon.vue.js.map

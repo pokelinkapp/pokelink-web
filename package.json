@@ -1,0 +1,38 @@
+{
+    "name": "pokelink_themes_v2",
+    "version": "2.0.0",
+    "description": "",
+    "license": "MIT",
+    "repository": "https://github.com/pokelinkapp/pokelink-web",
+    "type": "module",
+    "engines": {
+        "node": "24"
+    },
+    "scripts": {
+        "prep": "yarn install",
+        "build:themes": "yarn build:core && yarn build:themes:nodeps",
+        "build:themes:nodeps": "yarn tsc -p ./themes/tsconfig.json",
+        "build:badges": "yarn build:core && yarn build:badges:nodeps",
+        "build:badges:nodeps": "yarn tsc -p ./badges/tsconfig.json",
+        "build:graveyards": "yarn build:core && yarn build:badges:nodeps",
+        "build:graveyards:nodeps": "yarn tsc -p ./graveyards/tsconfig.json",
+        "build:core": "yarn tsc -p ./assets/tsconfig.json && yarn webpack --config webpack.config.js",
+        "build": "yarn prep && yarn buf generate && yarn build:core && yarn build:themes:nodeps && yarn build:badges:nodeps && yarn build:graveyards:nodeps && cd v2 && yarn build"
+    },
+    "dependencies": {
+        "@bufbuild/buf": "^1.51.0",
+        "@bufbuild/protobuf": "^2.2.5",
+        "@bufbuild/protoc-gen-es": "^2.2.5",
+        "@types/color-hash": "^2.0.0",
+        "collect.js": "^4.36.1",
+        "color-hash": "^2.0.2",
+        "esbuild-loader": "^4.3.0",
+        "handlebars": "^4.7.8",
+        "run-script-os": "^1.1.6",
+        "typescript": "^5.8.2",
+        "vue": "^3.5.13",
+        "vue-tsc": "^2.2.8",
+        "webpack": "^5.98.0",
+        "webpack-cli": "^6.0.1"
+    }
+}

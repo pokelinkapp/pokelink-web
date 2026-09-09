@@ -1,0 +1,280 @@
+import {defineComponent, PropType} from 'vue'
+import trimmedSprite from '../../../../_shared/components/trimmedSprite.vue.js'
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js'
+import type {Pokemon} from 'pokelink'
+import {pokemonTCGCardSets} from '../party.js'
+import {clientSettings, hex2rgba, V3, V3DataTypes} from 'pokelink'
+import getTypeColor = V3.getTypeColor
+
+export default defineComponent({
+    template: `
+      <div :class="{ 'pokemon': true, 'isDead': isDead, 'opaque': !fixedSprite}" :style="backgroundGradientStyle"
+           v-if="pokemonExists">
+        <div
+            class="pokemon__card-art"
+            :style="{'background-image': 'url(' + customCardArt + ')'}"
+        ></div>
+        <div
+            class="pokemon__sprite"
+            v-if="pokemonExists"
+        >
+          <trimmedSprite
+              :pokemon="pokemon"
+              :maxBoundingBoxHeight="150"
+              v-if="pokemonExists"
+              @done="actionOnImageLoaded"
+              :getSprite="getSprite"
+          ></trimmedSprite>
+        </div>
+        <div class="pokemon__details" v-if="pokemonExists && !pokemon.isEgg">
+          <div class="pokemon__hp">
+            <div v-if="!hideLevel"><small>Lv.</small>{{ pokemon.exp?.level }}</div>
+            <div>{{ pokemon.hp.current }} / {{ pokemon.hp.max }}</div>
+          </div>
+          <div class="pokemon__nickname">{{ pokemon.misc?.nickname || pokemon.translations.locale.species }}</div>
+          <div class="pokemon__extra-deets">
+            {{ statusEffectsSlide }}
+          </div>
+        </div>
+        <heart-gauge :pokemon="pokemon"></heart-gauge>
+      </div>
+    `,
+    components: {
+        'trimmedSprite': trimmedSprite,
+        'heart-gauge': heartGauge
+    },
+    props: {
+        pokemon: {
+            type: Object as PropType<Pokemon>,
+            required: true
+        },
+        key: {}
+    },
+    data() {
+        return {
+            fixedSprite: false,
+            settings: {
+                useCardArtBackground: clientSettings.params.getBool('useCardArtBackground', true)
+            },
+            customCardArt: null,
+            pokeIsChanging: false,
+            isFresh: true,
+            newCardArt: null,
+            sets: [] as string[],
+            justTookDamage: false
+        }
+    },
+    created() {
+        this.sets = pokemonTCGCardSets()
+    },
+    mounted() {
+        const vm = this
+        V3.onSpriteTemplateUpdate(() => {
+            vm.$forceUpdate()
+        })
+        this.pokeIsChanging = false
+        if (this.pokemonExists) {
+            if (this.settings.useCardArtBackground) {
+                this.getNewCardArt(this.pokemon)
+            } else {
+                this.actionOnImageLoaded()
+            }
+        }
+        if (!this.pokemonExists) {
+            this.actionOnImageLoaded()
+        }
+    },
+    computed: {
+        isDead() {
+            if (!this.pokemonExists) {
+                return false
+            }
+
+            return parseFloat(this.healthPercent) === 0
+        },
+        pokemonExists() {
+            return V3.isValidPokemon(this.pokemon)
+        },
+        healthPercent() {
+            if (!this.pokemonExists) {
+                return '0%'
+            }
+            return (100 / this.pokemon.hp!.max) * this.pokemon.hp!.current + '%'
+        },
+        sex() {
+            if (!this.pokemonExists) {
+                return null
+            }
+            return (this.pokemon.gender === V3DataTypes.Gender.genderless ? '' : (this.pokemon.gender === V3DataTypes.Gender.female ? 'female' : 'male'))
+        },
+        ident() {
+            if (!this.pokemonExists) {
+                return null
+            }
+            return this.pokemon.species
+        },
+        opacity() {
+            if (!this.pokemonExists) {
+                return '1'
+            }
+            if (!this.fixedSprite) {
+                return ''
+            }
+            return ''
+        },
+        hasItem() {
+            if (!this.pokemonExists) {
+                return false
+            }
+            if (typeof this.pokemon.misc?.heldItem === 'undefined') {
+                return false
+            }
+            return this.pokemon.misc?.heldItem !== 0
+        },
+
+        type1() {
+            if (!this.pokemonExists) {
+                return 'rgba(255,255,255,.2)'
+            }
+
+            return hex2rgba(getTypeColor(this.pokemon.translations!.english!.types[0]), 50)
+        },
+        type2() {
+            if (!this.pokemonExists) {
+                return 'rgba(255,255,255,.2)'
+            }
+
+            if (this.pokemon.translations!.english!.types.length >= 2) {
+                return hex2rgba(getTypeColor(this.pokemon.translations!.english!.types[1]), 50)
+            }
+            return hex2rgba(getTypeColor(this.pokemon.translations!.english!.types[0]), 50)
+        },
+        backgroundGradientStyle() {
+            if (!this.pokemonExists) {
+                return false
+            }
+            // let styles = {
+            //   'opacity': this.opacity,
+            // }
+
+            let primaryType = this.pokemon.translations!.english!.types[0]
+            return {'background-image': 'linear-gradient(180deg, ' + getTypeColor(primaryType) + ', black)'}
+        },
+
+        statusEffectsSlide() {
+            // const titles = {'psn': 'Poisoned', 'slp': 'Sleeping', 'par': 'Paralyzed', 'fzn': 'Frozen', 'brn': 'Burned'}
+            // let activeEffects = ['psn', 'slp', 'par', 'frz', 'brn']
+            //   .filter(effect => this.pokemon.status[effect] === 1)
+
+            if (this.isDead) return 'DEAD'
+
+            // if (this.pokemon.misc?.nature ) {
+                return this.pokemon.translations!.locale!.nature
+            // }
+
+            // if (this.pokemon.ability && this.pokemon.ability !== 0) {
+            //     return this.pokemon.translations!.locale!.abilityName
+            // }
+            //
+            // return ``
+        },
+        hideLevel() {
+            return clientSettings.params.getBool('hideLevels', false)
+        }
+    },
+    methods: {
+        getSprite(pokemon: Pokemon){
+            return V3.getSprite(pokemon)
+        },
+        getNewCardArt(poke: Pokemon) {
+            let vm = this
+            if (!this.isFresh) {
+                this.pokeIsChanging = true
+            }
+
+            if (!this.settings.useCardArtBackground || this.pokemon.isEgg) {
+                setTimeout(() => {
+                    this.pokeIsChanging = false
+                    this.actionOnImageLoaded()
+                }, 100)
+                return false
+            }
+
+            let isFresh = this.customCardArt === null && this.isFresh
+            if (!this.isFresh) {
+                this.pokeIsChanging = true
+            }
+            this.isFresh = false
+
+            if (!this.pokemonExists) {
+                this.customCardArt = null
+                this.pokeIsChanging = false
+                this.actionOnImageLoaded()
+                this.newCardArt = null
+            }
+
+            fetch('https://api.pokemontcg.io/v1/cards?setCode=' + this.sets.join('|') + '&supertype=pokemon&nationalPokedexNumber=' + poke.species)
+                .then(response => response.json())
+                .then(cards => {
+                    console.log(cards)
+                    let setOrder = this.sets
+                    // try {
+                    let cardImages = cards
+                        .cards
+                        .sort((a: any, b: any) => {
+                            return setOrder.findIndex(set => set === a.setCode) - setOrder.findIndex(set => set === b.setCode)
+                        })
+
+                    cardImages = cardImages.find((card: any) => card.nationalPokedexNumber === poke.species)
+                    this.newCardArt = cardImages.imageUrl
+
+                    if (!isFresh) {
+                        setTimeout(() => {
+                            this.customCardArt = this.newCardArt
+                            this.pokeIsChanging = false
+                            this.actionOnImageLoaded()
+                        }, 1400)
+                    } else {
+                        this.customCardArt = cardImages.imageUrl
+                        this.pokeIsChanging = false
+                        this.actionOnImageLoaded()
+                    }
+                    // } catch (e) {
+                    //   console.log(e)
+                    //   // console.log(`unknown image for ${vm.pokemon.species}`)
+                    //   // console.info(cards.cards)
+                    //
+                })
+
+            setTimeout(() => {
+                this.actionOnImageLoaded()
+            }, 500)
+        },
+        actionOnImageLoaded() {
+            this.fixedSprite = true
+            this.$emit('loaded')
+        }
+    },
+    watch: {
+        pokemon(newVal, oldVal) {
+            try {
+                if (newVal.species !== oldVal.species) {
+                    this.getNewCardArt(newVal)
+                }
+
+                if (!newVal.hasOwnProperty('hp')) {
+                    this.customCardArt = null
+                }
+
+                if (newVal.hp.current < oldVal.hp.current) {
+                    this.justTookDamage = true
+                    setTimeout(() => {
+                        this.justTookDamage = false
+                    }, 3000)
+                }
+            } catch (e) {
+                return
+            }
+        }
+    }
+})

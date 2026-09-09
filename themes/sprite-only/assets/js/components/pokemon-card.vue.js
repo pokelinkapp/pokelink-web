@@ -1,0 +1,44 @@
+import { defineComponent } from 'vue';
+import { V3 } from 'pokelink';
+import heartGauge from '../../../../_shared/components/heartGauge.vue.js';
+export default defineComponent({
+    template: `
+      <div>
+        <div :class="{ 'pokemon__slot': true }" v-if="pokemon !== null">
+          <div :class="{ 'pokemon__image': true, 'pokemon__dead': (pokemon.hp.current === 0)}">
+            <img ref="pokemonSprite" @error="useFallback" :src="sprite()"/>
+          </div>
+          <heart-gauge :pokemon="pokemon"></heart-gauge>
+        </div>
+        <div class="pokemon__slot pokemon__empty" v-else>
+          <div class="pokemon__image">
+          </div>
+        </div>
+      </div>
+    `,
+    components: {
+        'heart-gauge': heartGauge
+    },
+    mounted() {
+        const vm = this;
+        V3.onSpriteTemplateUpdate(() => {
+            vm.$forceUpdate();
+        });
+    },
+    props: {
+        pokemon: {
+            default: null,
+            type: Object,
+            required: false
+        }
+    },
+    methods: {
+        useFallback() {
+            V3.useFallback(this.$refs.pokemonSprite, this.pokemon);
+        },
+        sprite() {
+            return V3.getSprite(this.pokemon);
+        }
+    }
+});
+//# sourceMappingURL=pokemon-card.vue.js.map

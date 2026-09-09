@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "ES2022",
+        "esModuleInterop": true,
+        "allowJs": false,
+        "strict": true,
+        "moduleResolution": "node",
+        "skipLibCheck": true,
+        "declaration": false,
+        "baseUrl": "./",
+        "sourceMap": true,
+        "paths": {
+            "pokelink": [
+                "../assets/dist/pokelink"
+            ],
+            "global": [
+                "../assets/dist/global"
+            ],
+            "v2Proto": [
+                "../assets/dist/v2_pb"
+            ]
+        }
+    },
+    "include": [
+        "./**/*"
+    ],
+    "exclude": [
+        "../assets"
+    ]
+}
