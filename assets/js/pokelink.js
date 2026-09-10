@@ -86,6 +86,12 @@ const pokemonSubcomponents = {
     'moves': 'moves',
     'shadow': 'shadow'
 };
+const goalsSubcomponents = {
+    'sprite': 'sprite',
+    'name': 'name',
+    'category': 'category',
+    'levelCap': 'levelCap'
+};
 export var V3;
 (function (V3) {
     let v3Settings = {
@@ -97,18 +103,28 @@ export var V3;
     let hasRegisteredDeath = false;
     let hasRegisteredRevive = false;
     function initializeClient(componentConfigs = null) {
-        client = new PokelinkClientV3(v3Settings.numberOfPlayers === -1, componentConfigs);
+        client = new PokelinkClientV3(componentConfigs, clientSettings.users);
         client.events.once('disconnected', () => {
             events.emit('disconnected');
-            setTimeout(initializeClient, 1000);
+            setTimeout(() => {
+                initializeClient(componentConfigs);
+            }, 1000);
         });
         client.events.on('connect', () => {
             events.emit('connect');
         });
         client.events.on('componentUpdate', (key, component) => {
             const callbacks = componentCallbacks[key] ?? [];
+            if (clientSettings.debug) {
+                console.debug(`Received update for ${key} calling:`, callbacks);
+            }
             for (const cb of callbacks) {
-                cb(component);
+                try {
+                    cb(component);
+                }
+                catch (ex) {
+                    console.error(cb, "encountered the following error:", ex);
+                }
             }
         });
     }
@@ -359,9 +375,13 @@ export var V3;
         return null;
     }
     V3.getComponentSchema = getComponentSchema;
+    function pokelinkHostToUrl(input) {
+        return input.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
+    }
+    V3.pokelinkHostToUrl = pokelinkHostToUrl;
     registerComponentListener(settingsId, (component) => {
         if (v3Settings.listenForSpriteUpdates && !clientSettings.params.hasKey('template')) {
-            const spriteTemplate = component.settings["spriteTemplate"];
+            const spriteTemplate = component.settings['spriteTemplate'];
             if (isDefined(spriteTemplate)) {
                 if (spriteTemplate.setting.case === 'string') {
                     updateSpriteTemplate(spriteTemplate.setting.value);
@@ -390,4 +410,4 @@ V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.hiddenPower}`, P
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.met}`, PokemonMetSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.moves}`, PokemonMovesSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.shadow}`, PokemonShadowSchema);
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents };

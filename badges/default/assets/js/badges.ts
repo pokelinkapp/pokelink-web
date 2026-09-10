@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {clientSettings, isDefined, V3, V3DataTypes} from 'pokelink'
+import {clientSettings, ComponentConfig, goalsId, isDefined, V3, V3DataTypes} from 'pokelink'
 
 (() => {
     createApp({
@@ -22,11 +22,58 @@ import {clientSettings, isDefined, V3, V3DataTypes} from 'pokelink'
         mounted() {
             const vm = this
 
-            V3.initialize()
-
             this.settings.port = clientSettings.port
             this.settings.showCategories = clientSettings.params.getBool('showCategories', false)
             this.settings.numberOnly = clientSettings.params.getBool('numbersOnly', false)
+
+            const components: ComponentConfig = {}
+            components[goalsId] = [
+                'sprite',
+                'name'
+            ]
+
+            if (this.settings.numberOnly) {
+                components[goalsId] = null
+            } else if (this.settings.showCategories) {
+                components[goalsId].push('category')
+            }
+
+            V3.initialize(null, components)
+
+            V3.registerComponentListener<V3DataTypes.GoalsMessage>(goalsId, (component) => {
+                this.settings.showCategories = clientSettings.params.getBool('showCategories', false)
+                if (this.settings.showCategories) {
+                    let categories: string[] = []
+
+                    for (let badge of component.goals) {
+                        if (!isDefined(badge.translations?.locale?.category)) {
+                            continue
+                        }
+                        if (categories.indexOf(badge.translations!.locale!.category!) === -1) {
+                            categories.push(badge.translations!.locale!.category!)
+                        }
+                    }
+
+                    this.categories = categories
+
+                    if (categories.length === 0) {
+                        this.settings.showCategories = false
+                    }
+                }
+                
+                for (let goal of component.goals) {
+                    if (isDefined(goal.sprite)) {
+                        goal.sprite = V3.pokelinkHostToUrl(goal.sprite!)
+                    }
+                }
+
+                vm.badges = component.goals
+                if (clientSettings.debug) {
+                    console.debug(vm.badges)
+                }
+                vm.loaded = true
+                vm.$forceUpdate()
+            })
 
             // V2.onBadgeUpdate((badges => {
             //     this.settings.showCategories = clientSettings.params.getBool('showCategories', false)

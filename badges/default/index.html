@@ -51,14 +51,14 @@
     <div class="badges" v-if="connected">
         <div v-for="category in categories" v-if="settings.showCategories">
             <div v-if="settings.numberOnly">
-                <span class="category" :class="{'browser-connected': connected}">{{ category }}: {{ badges.filter(x => x.obtained && x.localeCategory === category).length }} / {{ badges.filter(x => x.localeCategory === category).length }}</span>
+                <span class="category" :class="{'browser-connected': connected}">{{ category }}: {{ badges.filter(x => x.obtained && x.translations.locale.category === category).length }} / {{ badges.filter(x => x.translations.locale.category === category).length }}</span>
             </div>
             <div v-else>
                 <div class="category row" :class="{'browser-connected': connected}">{{ category }}</div>
                 <div class="row">
                     <div v-for="badge in badges">
-                        <div v-if="badge.localeCategory === category" :class="{ 'badge__slot': true, 'badge__slot--inactive': !badge.obtained }">
-                            <img :src="badge.sprite" :alt="badge.localeName">
+                        <div v-if="badge.translations.locale.category === category" :class="{ 'badge__slot': true, 'badge__slot--inactive': !badge.obtained }">
+                            <img :src="badge.sprite" :alt="badge.translations.locale.name">
                         </div>
                     </div>
                 </div>
@@ -68,7 +68,7 @@
             <span class="badge-count" :class="{'browser-connected': connected}">{{ badges.filter(x => x.obtained).length }} / {{ badges.length }}</span>
         </div>
         <div v-else v-for="badge in badges" :class="{ 'badge__slot': true, 'badge__slot--inactive': !badge.obtained }">
-            <img :src="badge.sprite" :alt="badge.localeName">
+            <img :src="badge.sprite" :alt="badge.translations.locale.name">
         </div>
     </div>
     <div class="no-connection" v-if="!connected">

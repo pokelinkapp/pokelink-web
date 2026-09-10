@@ -213,6 +213,42 @@ export type PCBox = Message<"Pokelink.Core.Proto.V3.PCBox"> & {
  */
 export declare const PCBoxSchema: GenMessage<PCBox>;
 /**
+ * @generated from message Pokelink.Core.Proto.V3.GoalTranslationsObject
+ */
+export type GoalTranslationsObject = Message<"Pokelink.Core.Proto.V3.GoalTranslationsObject"> & {
+    /**
+     * @generated from field: optional string name = 1;
+     */
+    name?: string | undefined;
+    /**
+     * @generated from field: optional string category = 2;
+     */
+    category?: string | undefined;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.GoalTranslationsObject.
+ * Use `create(GoalTranslationsObjectSchema)` to create a new message.
+ */
+export declare const GoalTranslationsObjectSchema: GenMessage<GoalTranslationsObject>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.GoalTranslations
+ */
+export type GoalTranslations = Message<"Pokelink.Core.Proto.V3.GoalTranslations"> & {
+    /**
+     * @generated from field: Pokelink.Core.Proto.V3.GoalTranslationsObject english = 1;
+     */
+    english?: GoalTranslationsObject | undefined;
+    /**
+     * @generated from field: Pokelink.Core.Proto.V3.GoalTranslationsObject locale = 2;
+     */
+    locale?: GoalTranslationsObject | undefined;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.GoalTranslations.
+ * Use `create(GoalTranslationsSchema)` to create a new message.
+ */
+export declare const GoalTranslationsSchema: GenMessage<GoalTranslations>;
+/**
  * @generated from message Pokelink.Core.Proto.V3.Goal
  */
 export type Goal = Message<"Pokelink.Core.Proto.V3.Goal"> & {
@@ -221,35 +257,23 @@ export type Goal = Message<"Pokelink.Core.Proto.V3.Goal"> & {
      */
     id: string;
     /**
-     * @generated from field: string localeName = 2;
-     */
-    localeName: string;
-    /**
-     * @generated from field: string englishName = 3;
-     */
-    englishName: string;
-    /**
-     * @generated from field: bool obtained = 4;
+     * @generated from field: bool obtained = 2;
      */
     obtained: boolean;
     /**
-     * @generated from field: string sprite = 5;
+     * @generated from field: Pokelink.Core.Proto.V3.GoalTranslations translations = 3;
      */
-    sprite: string;
+    translations?: GoalTranslations | undefined;
     /**
-     * @generated from field: optional string englishCategory = 6;
+     * @generated from field: optional string sprite = 4;
      */
-    englishCategory?: string | undefined;
+    sprite?: string | undefined;
     /**
-     * @generated from field: optional string localeCategory = 7;
-     */
-    localeCategory?: string | undefined;
-    /**
-     * @generated from field: optional string levelText = 8;
+     * @generated from field: optional string levelText = 5;
      */
     levelText?: string | undefined;
     /**
-     * @generated from field: optional uint32 levelCap = 9;
+     * @generated from field: optional uint32 levelCap = 6;
      */
     levelCap?: number | undefined;
 };

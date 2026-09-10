@@ -8,11 +8,13 @@ import {clientSettings, ComponentConfig, V3} from './pokelink.js'
 
 export class PokelinkClientV3 extends PokelinkClientBase {
     private readonly allowAllUsers: boolean = false
+    private readonly users: string[] = []
     private readonly componentConfigs: Nullable<ComponentConfig> = null
 
-    constructor(allowAllUsers: boolean, componentConfigs: Nullable<ComponentConfig> = null) {
+    constructor(componentConfigs: Nullable<ComponentConfig> = null, users: string[] = []) {
         super()
-        this.allowAllUsers = allowAllUsers
+        this.users = users;
+        this.allowAllUsers = this.users.length == 0
         this.componentConfigs = componentConfigs
         this.openConnection()
     }
@@ -28,12 +30,13 @@ export class PokelinkClientV3 extends PokelinkClientBase {
                 client: 'Overlay',
                 dataType: 'Protobuf',
                 gzip: false,
-                components: this.componentConfigs
+                components: this.componentConfigs,
+                users: this.users
             }
         });
         
         if (clientSettings.debug) {
-            console.log(sending)
+            console.debug(sending)
         }
 
         this.connection.send(sending)

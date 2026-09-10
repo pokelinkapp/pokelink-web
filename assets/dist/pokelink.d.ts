@@ -21,6 +21,25 @@ declare const deathId = "pokelink.component.death";
 declare const settingsId = "pokelink.component.settings";
 declare const pcId = "pokelink.component.pc";
 declare const routesId = "pokelink.component.routes";
+declare const pokemonSubcomponents: {
+    misc: string;
+    status: string;
+    hp: string;
+    exp: string;
+    evs: string;
+    ivs: string;
+    stats: string;
+    hiddenPower: string;
+    met: string;
+    moves: string;
+    shadow: string;
+};
+declare const goalsSubcomponents: {
+    sprite: string;
+    name: string;
+    category: string;
+    levelCap: string;
+};
 export declare namespace V3 {
     interface V3Settings {
         numberOfPlayers?: number;
@@ -48,6 +67,7 @@ export declare namespace V3 {
     export function registerComponentListener<T extends Message>(id: string, callback: ComponentCallback<T>): void;
     export function registerComponentSchema<T extends Message>(id: string, componentSchema: GenMessage<T>): boolean;
     export function getComponentSchema<T2 extends Message, T extends GenMessage<T2>>(id: string): T | null;
+    export function pokelinkHostToUrl(input: string): string;
     export {};
 }
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents };

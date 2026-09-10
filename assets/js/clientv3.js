@@ -4,10 +4,12 @@ import { fromBinary } from '@bufbuild/protobuf';
 import { clientSettings, V3 } from './pokelink.js';
 export class PokelinkClientV3 extends PokelinkClientBase {
     allowAllUsers = false;
+    users = [];
     componentConfigs = null;
-    constructor(allowAllUsers, componentConfigs = null) {
+    constructor(componentConfigs = null, users = []) {
         super();
-        this.allowAllUsers = allowAllUsers;
+        this.users = users;
+        this.allowAllUsers = this.users.length == 0;
         this.componentConfigs = componentConfigs;
         this.openConnection();
     }
@@ -21,11 +23,12 @@ export class PokelinkClientV3 extends PokelinkClientBase {
                 client: 'Overlay',
                 dataType: 'Protobuf',
                 gzip: false,
-                components: this.componentConfigs
+                components: this.componentConfigs,
+                users: this.users
             }
         });
         if (clientSettings.debug) {
-            console.log(sending);
+            console.debug(sending);
         }
         this.connection.send(sending);
     }

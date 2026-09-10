@@ -149,6 +149,13 @@ const pokemonSubcomponents = {
     'shadow': 'shadow'
 }
 
+const goalsSubcomponents = {
+    'sprite': 'sprite',
+    'name': 'name',
+    'category': 'category',
+    'levelCap': 'levelCap'
+}
+
 export namespace V3 {
     interface V3Settings {
         numberOfPlayers?: number,
@@ -166,12 +173,14 @@ export namespace V3 {
     let hasRegisteredRevive = false
 
     function initializeClient(componentConfigs: Nullable<ComponentConfig> = null) {
-        client = new PokelinkClientV3(v3Settings.numberOfPlayers === -1, componentConfigs)
+        client = new PokelinkClientV3(componentConfigs, clientSettings.users)
 
         client.events.once('disconnected', () => {
             events.emit('disconnected')
 
-            setTimeout(initializeClient, 1000)
+            setTimeout(() => {
+                initializeClient(componentConfigs)
+            }, 1000)
         })
 
         client.events.on('connect', () => {
@@ -181,8 +190,16 @@ export namespace V3 {
         client.events.on('componentUpdate', (key: string, component: Message) => {
             const callbacks = componentCallbacks[key] ?? []
 
+            if (clientSettings.debug) {
+                console.debug(`Received update for ${key} calling:`, callbacks)
+            }
+
             for (const cb of callbacks) {
-                cb(component)
+                try {
+                    cb(component)
+                } catch (ex) {
+                    console.error(cb, "encountered the following error:", ex)
+                }
             }
         })
     }
@@ -467,10 +484,14 @@ export namespace V3 {
 
         return null
     }
+    
+    export function pokelinkHostToUrl(input: string) {
+        return input.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+    }
 
     registerComponentListener<SettingsMessage>(settingsId, (component) => {
         if (v3Settings.listenForSpriteUpdates && !clientSettings.params.hasKey('template')) {
-            const spriteTemplate = component.settings["spriteTemplate"];
+            const spriteTemplate = component.settings['spriteTemplate']
             if (isDefined(spriteTemplate)) {
                 if (spriteTemplate.setting.case === 'string') {
                     updateSpriteTemplate(spriteTemplate.setting.value)
@@ -523,5 +544,7 @@ export {
     deathId,
     settingsId,
     pcId,
-    routesId
+    routesId,
+    pokemonSubcomponents,
+    goalsSubcomponents
 }

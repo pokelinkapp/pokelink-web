@@ -91,16 +91,23 @@ message PCBox {
   string name = 2;
 }
 
+message GoalTranslationsObject {
+  optional string name = 1;
+  optional string category = 2;
+}
+
+message GoalTranslations {
+  GoalTranslationsObject english = 1;
+  GoalTranslationsObject locale = 2;
+}
+
 message Goal {
   string id = 1;
-  string localeName = 2;
-  string englishName = 3;
-  bool obtained = 4;
-  string sprite = 5;
-  optional string englishCategory = 6;
-  optional string localeCategory = 7;
-  optional string levelText = 8;
-  optional uint32 levelCap = 9;
+  bool obtained = 2;
+  GoalTranslations translations = 3;
+  optional string sprite = 4;
+  optional string levelText = 5;
+  optional uint32 levelCap = 6;
 }
 
 message PokemonMoveTranslation {
