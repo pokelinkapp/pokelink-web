@@ -119,17 +119,18 @@ message PokemonMoveTranslation {
 message PokemonTranslationObject {
   optional string species = 1;
   optional string form = 2;
-  optional string status = 3;
-  repeated string types = 4;
-  optional string heldItem = 5;
-  optional string gender = 6;
-  optional string hiddenPowerType = 7;
-  optional string pokeball = 8;
-  optional string ability = 9;
-  optional string pokerus = 10;
-  optional string locationMet = 11;
-  optional string nature = 12;
-  repeated PokemonMoveTranslation moves = 13;
+  optional string color = 3;
+  optional string status = 4;
+  repeated string types = 5;
+  optional string heldItem = 6;
+  optional string gender = 7;
+  optional string hiddenPowerType = 8;
+  optional string pokeball = 9;
+  optional string ability = 10;
+  optional string pokerus = 11;
+  optional string locationMet = 12;
+  optional string nature = 13;
+  repeated PokemonMoveTranslation moves = 14;
 }
 
 message PokemonTranslations {
@@ -156,11 +157,10 @@ message PokemonHiddenPower {
 }
 
 message PokemonMisc {
-  string color = 1;
-  Pokerus pokerus = 2;
-  uint32 heldItem = 3;
-  uint32 nature = 4;
-  string nickname = 5;
+  Pokerus pokerus = 1;
+  uint32 heldItem = 2;
+  uint32 nature = 3;
+  optional string nickname = 4;
 }
 
 message PokemonHP {
@@ -172,7 +172,8 @@ message PokemonEXP {
   uint32 level = 1;
   uint32 current = 2;
   uint32 nextLevel = 3;
-  float nextLevelPercent = 4;
+  uint32 nextLevelRemaining = 4;
+  double nextLevelPercent = 5;
 }
 
 message PokemonMet {

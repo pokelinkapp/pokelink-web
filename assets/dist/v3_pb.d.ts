@@ -317,47 +317,51 @@ export type PokemonTranslationObject = Message<"Pokelink.Core.Proto.V3.PokemonTr
      */
     form?: string | undefined;
     /**
-     * @generated from field: optional string status = 3;
+     * @generated from field: optional string color = 3;
+     */
+    color?: string | undefined;
+    /**
+     * @generated from field: optional string status = 4;
      */
     status?: string | undefined;
     /**
-     * @generated from field: repeated string types = 4;
+     * @generated from field: repeated string types = 5;
      */
     types: string[];
     /**
-     * @generated from field: optional string heldItem = 5;
+     * @generated from field: optional string heldItem = 6;
      */
     heldItem?: string | undefined;
     /**
-     * @generated from field: optional string gender = 6;
+     * @generated from field: optional string gender = 7;
      */
     gender?: string | undefined;
     /**
-     * @generated from field: optional string hiddenPowerType = 7;
+     * @generated from field: optional string hiddenPowerType = 8;
      */
     hiddenPowerType?: string | undefined;
     /**
-     * @generated from field: optional string pokeball = 8;
+     * @generated from field: optional string pokeball = 9;
      */
     pokeball?: string | undefined;
     /**
-     * @generated from field: optional string ability = 9;
+     * @generated from field: optional string ability = 10;
      */
     ability?: string | undefined;
     /**
-     * @generated from field: optional string pokerus = 10;
+     * @generated from field: optional string pokerus = 11;
      */
     pokerus?: string | undefined;
     /**
-     * @generated from field: optional string locationMet = 11;
+     * @generated from field: optional string locationMet = 12;
      */
     locationMet?: string | undefined;
     /**
-     * @generated from field: optional string nature = 12;
+     * @generated from field: optional string nature = 13;
      */
     nature?: string | undefined;
     /**
-     * @generated from field: repeated Pokelink.Core.Proto.V3.PokemonMoveTranslation moves = 13;
+     * @generated from field: repeated Pokelink.Core.Proto.V3.PokemonMoveTranslation moves = 14;
      */
     moves: PokemonMoveTranslation[];
 };
@@ -455,25 +459,21 @@ export declare const PokemonHiddenPowerSchema: GenMessage<PokemonHiddenPower>;
  */
 export type PokemonMisc = Message<"Pokelink.Core.Proto.V3.PokemonMisc"> & {
     /**
-     * @generated from field: string color = 1;
-     */
-    color: string;
-    /**
-     * @generated from field: Pokelink.Core.Proto.V3.Pokerus pokerus = 2;
+     * @generated from field: Pokelink.Core.Proto.V3.Pokerus pokerus = 1;
      */
     pokerus: Pokerus;
     /**
-     * @generated from field: uint32 heldItem = 3;
+     * @generated from field: uint32 heldItem = 2;
      */
     heldItem: number;
     /**
-     * @generated from field: uint32 nature = 4;
+     * @generated from field: uint32 nature = 3;
      */
     nature: number;
     /**
-     * @generated from field: string nickname = 5;
+     * @generated from field: optional string nickname = 4;
      */
-    nickname: string;
+    nickname?: string | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V3.PokemonMisc.
@@ -515,7 +515,11 @@ export type PokemonEXP = Message<"Pokelink.Core.Proto.V3.PokemonEXP"> & {
      */
     nextLevel: number;
     /**
-     * @generated from field: float nextLevelPercent = 4;
+     * @generated from field: uint32 nextLevelRemaining = 4;
+     */
+    nextLevelRemaining: number;
+    /**
+     * @generated from field: double nextLevelPercent = 5;
      */
     nextLevelPercent: number;
 };
