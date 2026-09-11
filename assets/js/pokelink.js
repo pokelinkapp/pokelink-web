@@ -92,6 +92,9 @@ const goalsSubcomponents = {
     'category': 'category',
     'levelCap': 'levelCap'
 };
+const graveyardSubcomponents = {
+    'pokemon': 'pokemon'
+};
 export var V3;
 (function (V3) {
     let v3Settings = {
@@ -123,7 +126,7 @@ export var V3;
                     cb(component);
                 }
                 catch (ex) {
-                    console.error(cb, "encountered the following error:", ex);
+                    console.error(cb, 'encountered the following error:', ex);
                 }
             }
         });
@@ -163,9 +166,13 @@ export var V3;
                     graves.push(null);
                     continue;
                 }
-                let flatGrave = convertFromPokemonProtobuf(grave.pokemon);
-                flatGrave.id = grave.id;
-                flatGrave.timeOfDeath = grave.timeOfDeath;
+                let flatGrave = {
+                    id: grave.id,
+                    timeOfDeath: grave.timeOfDeath
+                };
+                if (isDefined(grave.pokemon)) {
+                    flatGrave.pokemon = convertFromPokemonProtobuf(grave.pokemon);
+                }
                 graves.push(flatGrave);
             }
             events.emit(graveyardId, graves);
@@ -176,9 +183,14 @@ export var V3;
             if (!isDefined(component.grave?.pokemon)) {
                 return;
             }
-            let flatGrave = convertFromPokemonProtobuf(component.grave.pokemon);
-            flatGrave.id = component.grave.id;
-            flatGrave.timeOfDeath = component.grave.timeOfDeath;
+            const grave = component.grave;
+            let flatGrave = {
+                id: grave.id,
+                timeOfDeath: grave.timeOfDeath
+            };
+            if (isDefined(grave.pokemon)) {
+                flatGrave.pokemon = convertFromPokemonProtobuf(grave.pokemon);
+            }
             events.emit(deathId, flatGrave);
         });
     }
@@ -206,7 +218,7 @@ export var V3;
             }
             const component = fromBinary(schema, pokemon.subComponents[key].value);
             let temp = {};
-            temp[key] = JSON.parse(toJsonString(schema, component));
+            temp[key] = JSON.parse(toJsonString(schema, component, { alwaysEmitImplicit: true }));
             flatPokemon = { ...flatPokemon, ...temp };
         }
         return flatPokemon;
@@ -269,6 +281,7 @@ export var V3;
         else {
             output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon));
         }
+        console.debug(output, pokemon);
         return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
     }
     V3.getSprite = getSprite;
@@ -410,4 +423,4 @@ V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.hiddenPower}`, P
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.met}`, PokemonMetSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.moves}`, PokemonMovesSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.shadow}`, PokemonShadowSchema);
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents };

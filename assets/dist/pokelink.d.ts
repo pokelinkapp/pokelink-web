@@ -40,6 +40,9 @@ declare const goalsSubcomponents: {
     category: string;
     levelCap: string;
 };
+declare const graveyardSubcomponents: {
+    pokemon: string;
+};
 export declare namespace V3 {
     interface V3Settings {
         numberOfPlayers?: number;
@@ -70,4 +73,4 @@ export declare namespace V3 {
     export function pokelinkHostToUrl(input: string): string;
     export {};
 }
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents };

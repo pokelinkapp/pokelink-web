@@ -673,7 +673,7 @@ export type PokemonGrave = Message<"Pokelink.Core.Proto.V3.PokemonGrave"> & {
      */
     id: string;
     /**
-     * @generated from field: Pokelink.Core.Proto.V3.Pokemon pokemon = 3;
+     * @generated from field: optional Pokelink.Core.Proto.V3.Pokemon pokemon = 3;
      */
     pokemon?: Pokemon | undefined;
 };

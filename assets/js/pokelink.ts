@@ -24,7 +24,7 @@ import {
     PokemonSchema
 } from './v3_pb.js'
 import * as V3DataTypes from './v3_pb.js'
-import {fromBinary, Message, toJson, toJsonString} from '@bufbuild/protobuf'
+import {fromBinary, Message, toJsonString} from '@bufbuild/protobuf'
 import {
     EventEmitter,
     Nullable,
@@ -156,6 +156,10 @@ const goalsSubcomponents = {
     'levelCap': 'levelCap'
 }
 
+const graveyardSubcomponents = {
+    'pokemon': 'pokemon'
+}
+
 export namespace V3 {
     interface V3Settings {
         numberOfPlayers?: number,
@@ -198,7 +202,7 @@ export namespace V3 {
                 try {
                     cb(component)
                 } catch (ex) {
-                    console.error(cb, "encountered the following error:", ex)
+                    console.error(cb, 'encountered the following error:', ex)
                 }
             }
         })
@@ -246,9 +250,14 @@ export namespace V3 {
                     continue
                 }
 
-                let flatGrave = convertFromPokemonProtobuf(grave.pokemon as PokemonPB) as PokemonGrave
-                flatGrave.id = grave.id
-                flatGrave.timeOfDeath = grave.timeOfDeath!
+                let flatGrave: PokemonGrave = {
+                    id: grave.id,
+                    timeOfDeath: grave.timeOfDeath!
+                }
+
+                if (isDefined(grave.pokemon)) {
+                    flatGrave.pokemon = convertFromPokemonProtobuf(grave.pokemon!)
+                }
 
                 graves.push(flatGrave)
             }
@@ -262,9 +271,17 @@ export namespace V3 {
             if (!isDefined(component.grave?.pokemon)) {
                 return
             }
-            let flatGrave = convertFromPokemonProtobuf(component.grave!.pokemon as PokemonPB) as PokemonGrave
-            flatGrave.id = component.grave!.id
-            flatGrave.timeOfDeath = component.grave!.timeOfDeath!
+
+            const grave = component.grave!
+
+            let flatGrave: PokemonGrave = {
+                id: grave.id,
+                timeOfDeath: grave.timeOfDeath!
+            }
+
+            if (isDefined(grave.pokemon)) {
+                flatGrave.pokemon = convertFromPokemonProtobuf(grave.pokemon!)
+            }
 
             events.emit(deathId, flatGrave)
         })
@@ -299,7 +316,7 @@ export namespace V3 {
             const component = fromBinary(schema!, pokemon.subComponents[key].value)
 
             let temp: { [key: string]: any } = {}
-            temp[key] = JSON.parse(toJsonString(schema!, component))
+            temp[key] = JSON.parse(toJsonString(schema!, component, {alwaysEmitImplicit: true}))
 
             flatPokemon = {...flatPokemon, ...temp}
         }
@@ -363,6 +380,8 @@ export namespace V3 {
         } else {
             output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
         }
+
+        console.debug(output, pokemon)
 
         return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
     }
@@ -484,7 +503,7 @@ export namespace V3 {
 
         return null
     }
-    
+
     export function pokelinkHostToUrl(input: string) {
         return input.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
     }
@@ -546,5 +565,6 @@ export {
     pcId,
     routesId,
     pokemonSubcomponents,
-    goalsSubcomponents
+    goalsSubcomponents,
+    graveyardSubcomponents
 }

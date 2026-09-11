@@ -55,9 +55,10 @@ export interface Pokemon {
         heartGaugePercent: number;
     };
 }
-export interface PokemonGrave extends Pokemon {
+export interface PokemonGrave {
     timeOfDeath: Timestamp;
     id: string;
+    pokemon?: Pokemon;
 }
 export declare const examplePokemon: Pokemon;
 export declare class EventEmitter {

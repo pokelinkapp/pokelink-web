@@ -216,5 +216,5 @@ message Pokemon {
 message PokemonGrave {
   google.protobuf.Timestamp timeOfDeath = 1;
   string id = 2;
-  Pokemon pokemon = 3;
+  optional Pokemon pokemon = 3;
 }

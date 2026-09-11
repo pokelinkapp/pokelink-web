@@ -204,9 +204,10 @@ export interface Pokemon {
     }
 }
 
-export interface PokemonGrave extends Pokemon {
+export interface PokemonGrave {
     timeOfDeath: Timestamp
     id: string
+    pokemon?: Pokemon
 }
 
 export const examplePokemon = {

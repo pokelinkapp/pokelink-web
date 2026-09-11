@@ -33,11 +33,11 @@
             >
                 <div
                         class="deaths__pokemon"
-                        v-for="pokemon in deaths"
-                        :key="pokemon.pid + '_' + pokemon.graveyardMeta.timeOfDeath.seconds"
+                        v-for="grave in deaths"
+                        :key="grave.pokemon.pid + '_' + grave.timeOfDeath.seconds"
                 >
-                    <div class="pokemon__image"><poke-img :pokemon="pokemon"></poke-img></div>
-                    <div class="pokemon__name" v-if="showNames">{{pokemon.nickname || pokemon.translations.locale.speciesName}}</div>
+                    <div class="pokemon__image"><poke-img :pokemon="grave.pokemon"></poke-img></div>
+                    <div class="pokemon__name" v-if="showNames">{{grave.pokemon.misc.nickname || grave.pokemon.translations.locale.species}}</div>
                 </div>
             </transition-group>
         </div>
