@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { clientSettings, isDefined, V3, pokemonSubcomponents, graveyardSubcomponents, graveyardId } from 'pokelink';
+import { clientSettings, isDefined, V3, pokemonSubcomponents, graveyardSubcomponents, graveyardId, deathId, reviveId } from 'pokelink';
 import pokeImg from './components/pokeImg.vue.js';
 function sortDeaths(x, y) {
     let f = x.timeOfDeath?.seconds;
@@ -35,6 +35,7 @@ function sortDeaths(x, y) {
             const vm = this;
             const components = {};
             components[graveyardId] = {};
+            components[reviveId] = null;
             if (!this.showCounter) {
                 components[graveyardId][graveyardSubcomponents.pokemon] = [];
                 if (this.showNames) {
@@ -43,6 +44,7 @@ function sortDeaths(x, y) {
                     ];
                 }
             }
+            components[deathId] = components[graveyardId];
             V3.initialize({ listenForSpriteUpdates: false }, components);
             this.prefixText = clientSettings.params.getString('prefixText', '');
             V3.onGraveyardUpdate((graveyard) => {

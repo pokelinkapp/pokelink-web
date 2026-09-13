@@ -235,6 +235,10 @@ export namespace V3 {
 
                 party.push(convertFromPokemonProtobuf(member))
             }
+            
+            if (clientSettings.debug) {
+                console.debug('Party:', party)
+            }
 
             events.emit(partyId, party)
         })
@@ -261,6 +265,10 @@ export namespace V3 {
 
                 graves.push(flatGrave)
             }
+            
+            if (clientSettings.debug) {
+                console.debug('Graves:', graves)
+            }
 
             events.emit(graveyardId, graves)
         })
@@ -268,7 +276,7 @@ export namespace V3 {
 
     function registerDeathComponentListener() {
         registerComponentListener<PokemonDeathMessage>(deathId, (component) => {
-            if (!isDefined(component.grave?.pokemon)) {
+            if (!isDefined(component.grave)) {
                 return
             }
 
@@ -282,6 +290,10 @@ export namespace V3 {
             if (isDefined(grave.pokemon)) {
                 flatGrave.pokemon = convertFromPokemonProtobuf(grave.pokemon!)
             }
+            
+            if (clientSettings.debug) {
+                console.debug('Grave added:', flatGrave)
+            }
 
             events.emit(deathId, flatGrave)
         })
@@ -289,6 +301,9 @@ export namespace V3 {
 
     function registerReviveComponentListener() {
         registerComponentListener<PokemonReviveMessage>(reviveId, (component) => {
+            if (clientSettings.debug) {
+                console.debug(`Revived ${component.graveId}`)
+            }
             events.emit(reviveId, component.graveId)
         })
     }
@@ -380,8 +395,6 @@ export namespace V3 {
         } else {
             output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
         }
-
-        console.debug(output, pokemon)
 
         return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
     }

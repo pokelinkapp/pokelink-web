@@ -6,7 +6,7 @@ import {
     PokemonGrave,
     ComponentConfig,
     pokemonSubcomponents,
-    graveyardSubcomponents, graveyardId
+    graveyardSubcomponents, graveyardId, deathId, reviveId
 } from 'pokelink'
 import pokeImg from './components/pokeImg.vue.js'
 
@@ -50,6 +50,7 @@ function sortDeaths(x: PokemonGrave, y: PokemonGrave) {
             
             const components: ComponentConfig = {}
             components[graveyardId] = {}
+            components[reviveId] = null
             
             if (!this.showCounter) {
                 components[graveyardId][graveyardSubcomponents.pokemon] = []
@@ -60,6 +61,8 @@ function sortDeaths(x: PokemonGrave, y: PokemonGrave) {
                     ]
                 }
             }
+            
+            components[deathId] = components[graveyardId]
 
             V3.initialize({listenForSpriteUpdates: false}, components)
 

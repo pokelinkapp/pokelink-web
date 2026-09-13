@@ -155,6 +155,9 @@ export var V3;
                 }
                 party.push(convertFromPokemonProtobuf(member));
             }
+            if (clientSettings.debug) {
+                console.debug('Party:', party);
+            }
             events.emit(partyId, party);
         });
     }
@@ -175,12 +178,15 @@ export var V3;
                 }
                 graves.push(flatGrave);
             }
+            if (clientSettings.debug) {
+                console.debug('Graves:', graves);
+            }
             events.emit(graveyardId, graves);
         });
     }
     function registerDeathComponentListener() {
         registerComponentListener(deathId, (component) => {
-            if (!isDefined(component.grave?.pokemon)) {
+            if (!isDefined(component.grave)) {
                 return;
             }
             const grave = component.grave;
@@ -191,11 +197,17 @@ export var V3;
             if (isDefined(grave.pokemon)) {
                 flatGrave.pokemon = convertFromPokemonProtobuf(grave.pokemon);
             }
+            if (clientSettings.debug) {
+                console.debug('Grave added:', flatGrave);
+            }
             events.emit(deathId, flatGrave);
         });
     }
     function registerReviveComponentListener() {
         registerComponentListener(reviveId, (component) => {
+            if (clientSettings.debug) {
+                console.debug(`Revived ${component.graveId}`);
+            }
             events.emit(reviveId, component.graveId);
         });
     }
@@ -281,7 +293,6 @@ export var V3;
         else {
             output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon));
         }
-        console.debug(output, pokemon);
         return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
     }
     V3.getSprite = getSprite;
