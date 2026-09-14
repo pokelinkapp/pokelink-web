@@ -166,6 +166,7 @@ message PokemonMisc {
 message PokemonHP {
   uint32 current = 1;
   uint32 max = 2;
+  double currentPercent = 3;
 }
 
 message PokemonEXP {

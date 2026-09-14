@@ -1,12 +1,12 @@
-import { Pokemon as PokemonPB } from './v3_pb.js';
 import * as V3DataTypes from './v3_pb.js';
+import { Pokemon as PokemonPB } from './v3_pb.js';
 import { Message } from '@bufbuild/protobuf';
-import { EventEmitter, Nullable, htmlColors, statusColors, typeColors, string2ColHex, ClientSettings, isDefined, hex2rgba, resolveIllegalCharacters, Pokemon, PokemonGrave } from './global.js';
+import { ClientSettings, EventEmitter, hex2rgba, htmlColors, isDefined, Nullable, Pokemon, PokemonGrave, resolveIllegalCharacters, statusColors, string2ColHex, typeColors } from './global.js';
 import Handlebars from 'handlebars';
 import collect from 'collect.js';
 import { GenMessage } from '@bufbuild/protobuf/codegenv2';
 export declare const homeSpriteTemplate: string;
-export declare const itemSpriteTemplate = "https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItem \".\"))}}.png";
+export declare const itemSpriteTemplate = "https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.heldItem \".\"))}}.png";
 export declare const clientSettings: ClientSettings;
 export declare function spriteTestInitialize(): void;
 export type ComponentConfig = {
@@ -43,12 +43,14 @@ declare const goalsSubcomponents: {
 declare const graveyardSubcomponents: {
     pokemon: string;
 };
+declare const settingsSubcomponents: {
+    spriteTemplate: string;
+};
 export declare namespace V3 {
     interface V3Settings {
         numberOfPlayers?: number;
-        listenForSpriteUpdates?: boolean;
     }
-    export function initialize(settings?: Nullable<V3Settings>, componentConfigs?: Nullable<ComponentConfig>): void;
+    export function initialize(componentConfigs?: Nullable<ComponentConfig>, settings?: Nullable<V3Settings>): void;
     export function convertFromPokemonProtobuf(pokemon: PokemonPB): Pokemon;
     export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], username: string) => void): void;
     export function onGraveyardUpdate(handler: (graves: PokemonGrave[], username: string) => void): void;
@@ -61,7 +63,7 @@ export declare namespace V3 {
     export function getSprite(pokemon: Pokemon): string;
     export function getPartySprite(pokemon: Pokemon): string;
     export function getFallbackImg(pokemon: Pokemon): string;
-    export function getPartyFallbackImg(pokmeon: Pokemon): string;
+    export function getPartyFallbackImg(pokemon: Pokemon): string;
     export function useFallback(img: HTMLImageElement, pokemon: Pokemon): void;
     export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon): void;
     export function getTypeColor(englishType: string): string;
@@ -73,4 +75,4 @@ export declare namespace V3 {
     export function pokelinkHostToUrl(input: string): string;
     export {};
 }
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents };

@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V3, clientSettings, isDefined } from 'pokelink';
+import { V3, clientSettings, isDefined, settingsId, settingsSubcomponents, partyId, pokemonSubcomponents } from 'pokelink';
 import list from './components/list.vue.js';
 export function pokemonTCGCardSets() {
     let userDefinedSets = clientSettings.params.getString('sets', '');
@@ -64,7 +64,19 @@ export function pokemonTCGCardSets() {
             const vm = this;
             this.resetSpriteSet();
             V3.onSpriteSetReset(this.resetSpriteSet);
-            V3.initialize();
+            const components = {};
+            components[settingsId] = [
+                settingsSubcomponents.spriteTemplate
+            ];
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.stats,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.status,
+                pokemonSubcomponents.shadow
+            ];
+            V3.initialize(components);
             V3.onConnect(() => {
                 vm.connected = true;
                 this.loaded = true;
@@ -75,7 +87,7 @@ export function pokemonTCGCardSets() {
         },
         methods: {
             resetSpriteSet() {
-                V3.updateSpriteTemplate('https://assets.pokelink.xyz/V3/sprites/pokemon/heartgold-soulsilver/' +
+                V3.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/heartgold-soulsilver/' +
                     '{{ifElse isShiny "shiny" "normal"}}' +
                     '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
                     '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +

@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V3, clientSettings, type Nullable, isDefined} from 'pokelink'
+import {V3, clientSettings, type Nullable, isDefined, ComponentConfig, partyId, pokemonSubcomponents} from 'pokelink'
 import pokemon from './components/pokemon.vue.js'
 
 (() => {
@@ -20,7 +20,18 @@ import pokemon from './components/pokemon.vue.js'
         },
         mounted: function () {
             const vm = this
-            V3.initialize({listenForSpriteUpdates: false})
+            const components: ComponentConfig = {}
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.shadow
+            ]
+            
+            if (!clientSettings.params.getBool('hideLevel', false)) {
+                components[partyId].push(pokemonSubcomponents.exp)
+            }
+            
+            V3.initialize(components)
 
             V3.onPartyUpdate((party => {
                 vm.party = party

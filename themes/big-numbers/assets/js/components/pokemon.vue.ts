@@ -22,7 +22,7 @@ export default defineComponent({
               <small>Lv.</small>{{ pokemon.exp?.level }}
             </div>
             <div class="pokemon__image" v-if="isValid">
-              <img ref="pokemonSprite" @error="useFallback" v-if="pokemon.isEgg" class="sprite" :src="sprite"
+              <img ref="pokemonSprite" @error="useFallback" v-if="pokemon.isEgg" class="sprite" src="https://assets.pokelink.xyz/v2/sprites/pokemon/heartgold-soulsilver/normal/egg.png"
                    style="transform: scale(0.8); bottom: 0px;"/>
               <img v-else ref="pokemonSprite" @error="useFallback" class="sprite" :src="sprite"/>
             </div>
@@ -165,7 +165,7 @@ export default defineComponent({
             if (!V3.isValidPokemon(this.pokemon)) {
                 return '0%'
             }
-            return (100 / this.pokemon.hp!.max) * this.pokemon.hp!.current + '%'
+            return (this.pokemon.hp?.currentPercent ?? 0) + '%'
         },
         isDead() {
             return parseFloat(this.healthPercent) === 0

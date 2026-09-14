@@ -19,14 +19,8 @@ import {
     PokemonRevive,
     PokemonReviveSchema,
     PokemonSchema,
-    Gender,
-    StatusEffect,
-    SettingsData,
-    SettingsSchema,
     Settings,
-    SettingsDataSchema,
     GraveyardUpdate,
-    GraveyardUpdateSchema
 } from './v2_pb.js'
 import {toJson} from '@bufbuild/protobuf'
 import {
@@ -129,6 +123,19 @@ export namespace V2 {
         numberOfPlayers: 1,
         listenForSpriteUpdates: true
     }
+    
+    function updateTranslations(translations: V2DataTypes.TranslationsObject) {
+        let temp = translations as any
+        
+        temp.species = translations.speciesName
+        temp.form = translations.formName
+        temp.heldItem = translations.heldItemName
+        temp.hiddenPower = translations.hiddenPowerName
+        temp.pokeball = translations.pokeballName
+        temp.ability = translations.abilityName
+        temp.locationMet = translations.locationMetName
+        temp.nature = translations.natureName
+    }
 
     function initializeClient() {
         client = new PokelinkClientV2(v2Settings.numberOfPlayers === -1)
@@ -148,14 +155,33 @@ export namespace V2 {
                 console.debug('Graveyard update: ', graveyard.graves.map(x => toJson(PokemonSchema, x)))
             }
 
-            events.emit(GraveyardChannel, graveyard.graves, graveyard.username)
+            let p = graveyard.graves
+
+            for (let pokemon of p) {
+                if (isDefined(pokemon?.translations)) {
+                    updateTranslations(pokemon!.translations!.english!)
+                    updateTranslations(pokemon!.translations!.locale!)
+                }
+            }
+
+            events.emit(GraveyardChannel, p, graveyard.username)
         })
 
-        client.events.on(PartyChannel, (party: Party) => {
+        client.events.on(PartyChannel, (party: Party) => {            
+            let p = party.party.map(x => x.pokemon)
+            
+            for (let pokemon of p) {
+                if (isDefined(pokemon?.translations)) {
+                    updateTranslations(pokemon!.translations!.english!)
+                    updateTranslations(pokemon!.translations!.locale!)
+                }
+            }
+            
             if (clientSettings.debug && events.hasEvents(PartyChannel)) {
                 console.debug(`Party update:`, party.party.map(x => x.pokemon == null ? null : toJson(PokemonSchema, x.pokemon)))
             }
-            events.emit(PartyChannel, party.party.map(x => x.pokemon), party.username)
+            
+            events.emit(PartyChannel, p, party.username)
         })
 
         client.events.on(BadgesChannel, (badges: Badges) => {
@@ -174,6 +200,12 @@ export namespace V2 {
             if (clientSettings.debug && events.hasEvents(DeathChannel)) {
                 console.debug(`Death update:`, toJson(PokemonDeathSchema, death))
             }
+            
+            if (isDefined(death.pokemon?.translations)) {
+                updateTranslations(death.pokemon!.translations!.english!)
+                updateTranslations(death.pokemon!.translations!.locale!)
+            }
+            
             events.emit(DeathChannel, death.pokemon, death.username)
         })
 

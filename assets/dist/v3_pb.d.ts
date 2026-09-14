@@ -492,6 +492,10 @@ export type PokemonHP = Message<"Pokelink.Core.Proto.V3.PokemonHP"> & {
      * @generated from field: uint32 max = 2;
      */
     max: number;
+    /**
+     * @generated from field: double currentPercent = 3;
+     */
+    currentPercent: number;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V3.PokemonHP.

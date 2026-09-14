@@ -17,7 +17,7 @@ export default defineComponent({
             <div class="title has-text-white">
               {{ this.pokemon.misc?.nickname || this.pokemon.translations.locale.species }}
             </div>
-            <div class="hp" v-if="settings.hp">
+            <div class="hp" v-if="settings.hp && !this.pokemon.isEgg">
               <div class="bar">
                 <div class="health" :style="{ width: healthPercent }"
                      :class="{ low: parseFloat(healthPercent) <= 50, critical: parseFloat(healthPercent) <= 15 }"></div>
@@ -37,7 +37,7 @@ export default defineComponent({
               <span class="tag">Type(s)</span>
             </div>
             <div v-if="this.pokemon.misc?.heldItem !== 0">
-              <span class="img"><img onerror="this.src='https://assets.pokelink.xyz/V3/sprites/items/0.png'"
+              <span class="img"><img onerror="this.src='https://assets.pokelink.xyz/v2/sprites/items/0.png'"
                                      :src="heldItemImage"/></span>
               <span class="tag">Item</span>
             </div>

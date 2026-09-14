@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V3, clientSettings, isDefined } from 'pokelink';
+import { V3, clientSettings, isDefined, partyId } from 'pokelink';
 import pokemonCard from './components/pokemon-card.vue.js';
 (() => {
     createApp({
@@ -17,7 +17,14 @@ import pokemonCard from './components/pokemon-card.vue.js';
         },
         mounted: function () {
             const vm = this;
-            V3.initialize({ listenForSpriteUpdates: false });
+            const components = {};
+            components[partyId] = [
+                "stats",
+                "hp",
+                "misc",
+                "exp"
+            ];
+            V3.initialize(components);
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.hp = clientSettings.params.getBool('hp', false);
             V3.onPartyUpdate((party) => {

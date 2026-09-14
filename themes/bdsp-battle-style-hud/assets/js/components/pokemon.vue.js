@@ -33,7 +33,7 @@ export default defineComponent({
             <span class="text">{{ pokemon.hp.current }}/{{ pokemon.hp.max }}</span>
 
             <heart-gauge v-if="pokemonExists && !hideLevel" :pokemon="pokemon"></heart-gauge>
-            <div class="exp" v-if="pokemonExists && !pokemon.isEgg && !hideLevel && !pokemon.isShadow">
+            <div class="exp" v-if="pokemonExists && !pokemon.isEgg && !hideLevel && !pokemon.shadow.isShadow">
               <div
                   :style="{width:experienceRemaining}"
                   :class="{ exp__inner: true}"
@@ -74,7 +74,7 @@ export default defineComponent({
             return false;
         },
         healthPercent() {
-            return (100 / this.pokemon.hp.max) * this.pokemon.hp.current + '%';
+            return (this.pokemon.hp?.currentPercent ?? 0) + '%';
         },
         nickname() {
             if (!V3.isValidPokemon(this.pokemon)) {

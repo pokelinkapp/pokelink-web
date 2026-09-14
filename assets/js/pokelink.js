@@ -1,8 +1,8 @@
 import { PokelinkClientV3 } from './clientv3.js';
-import { GoalsMessageSchema, GraveyardMessageSchema, PartyMessageSchema, PCMessageSchema, PokemonDeathMessageSchema, PokemonEVIVSchema, PokemonHiddenPowerSchema, PokemonHPSchema, PokemonMetSchema, PokemonMiscSchema, PokemonMovesSchema, PokemonReviveMessageSchema, PokemonShadowSchema, PokemonStatusSchema, RoutesMessageSchema, SettingsMessageSchema, PokemonEXPSchema, PokemonSchema } from './v3_pb.js';
 import * as V3DataTypes from './v3_pb.js';
+import { Gender, GoalsMessageSchema, GraveyardMessageSchema, PartyMessageSchema, PCMessageSchema, PokemonDeathMessageSchema, PokemonEVIVSchema, PokemonEXPSchema, PokemonHiddenPowerSchema, PokemonHPSchema, PokemonMetSchema, PokemonMiscSchema, PokemonMovesSchema, PokemonReviveMessageSchema, PokemonSchema, PokemonShadowSchema, PokemonStatusSchema, RoutesMessageSchema, SettingsMessageSchema } from './v3_pb.js';
 import { fromBinary, toJsonString } from '@bufbuild/protobuf';
-import { EventEmitter, htmlColors, statusColors, typeColors, string2ColHex, ParamsManager, isDefined, hex2rgba, examplePokemon, resolveIllegalCharacters } from './global.js';
+import { EventEmitter, examplePokemon, hex2rgba, htmlColors, isDefined, ParamsManager, resolveIllegalCharacters, statusColors, string2ColHex, typeColors } from './global.js';
 import Handlebars from 'handlebars';
 import collect from 'collect.js';
 export const homeSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/pokemon/home/' +
@@ -10,7 +10,7 @@ export const homeSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/pokemo
     '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
     '{{ifElse (isDefined translations.english.form) (concat "-" (toLower (noSpaces translations.english.form))) ""}}' +
     '{{addFemaleTag this "-f"}}.png';
-export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItem "."))}}.png';
+export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.heldItem "."))}}.png';
 export const clientSettings = {
     debug: false,
     params: new ParamsManager(),
@@ -95,11 +95,13 @@ const goalsSubcomponents = {
 const graveyardSubcomponents = {
     'pokemon': 'pokemon'
 };
+const settingsSubcomponents = {
+    'spriteTemplate': 'spriteTemplate'
+};
 export var V3;
 (function (V3) {
     let v3Settings = {
-        numberOfPlayers: 1,
-        listenForSpriteUpdates: true
+        numberOfPlayers: 1
     };
     let hasRegisteredParty = false;
     let hasRegisteredGraveyard = false;
@@ -131,16 +133,14 @@ export var V3;
             }
         });
     }
-    function initialize(settings = null, componentConfigs = null) {
+    function initialize(componentConfigs = null, settings = null) {
         v3Settings = { ...v3Settings, ...settings };
         globalInitialize(v3Settings.numberOfPlayers);
         initializeClient(componentConfigs);
-        if (v3Settings.listenForSpriteUpdates) {
-            if (clientSettings.params.hasKey('template')) {
-                const newTemplate = clientSettings.params.getString('template', undefined);
-                if (isDefined(newTemplate)) {
-                    updateSpriteTemplate(newTemplate);
-                }
+        if (clientSettings.params.hasKey('template')) {
+            const newTemplate = clientSettings.params.getString('template', undefined);
+            if (isDefined(newTemplate)) {
+                updateSpriteTemplate(newTemplate);
             }
         }
     }
@@ -309,12 +309,12 @@ export var V3;
     V3.getPartySprite = getPartySprite;
     function getFallbackImg(pokemon) {
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/fallback/`; // TODO: Replace with API call
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/${pokemon.species}/${pokemon.form}?shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}`;
     }
     V3.getFallbackImg = getFallbackImg;
-    function getPartyFallbackImg(pokmeon) {
+    function getPartyFallbackImg(pokemon) {
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/partyFallback/`; // TODO: Replace with API call
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/party/${pokemon.species}/${pokemon.form}`;
     }
     V3.getPartyFallbackImg = getPartyFallbackImg;
     function useFallback(img, pokemon) {
@@ -356,7 +356,7 @@ export var V3;
     }
     V3.getStatusColor = getStatusColor;
     function updateSpriteTemplate(template) {
-        if (!v3Settings.listenForSpriteUpdates || !isDefined(template) || template.length <= 0) {
+        if (!isDefined(template) || template.length <= 0) {
             events.emit(spriteReset);
             return;
         }
@@ -404,7 +404,7 @@ export var V3;
     }
     V3.pokelinkHostToUrl = pokelinkHostToUrl;
     registerComponentListener(settingsId, (component) => {
-        if (v3Settings.listenForSpriteUpdates && !clientSettings.params.hasKey('template')) {
+        if (!clientSettings.params.hasKey('template')) {
             const spriteTemplate = component.settings['spriteTemplate'];
             if (isDefined(spriteTemplate)) {
                 if (spriteTemplate.setting.case === 'string') {
@@ -434,4 +434,4 @@ V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.hiddenPower}`, P
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.met}`, PokemonMetSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.moves}`, PokemonMovesSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.shadow}`, PokemonShadowSchema);
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents };

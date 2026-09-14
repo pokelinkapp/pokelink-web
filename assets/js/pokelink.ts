@@ -1,42 +1,49 @@
 import {PokelinkClientBase} from './client.js'
+import {PokelinkClientV3} from './clientv3.js'
+import * as V3DataTypes from './v3_pb.js'
 import {
-    PokelinkClientV3
-} from './clientv3.js'
-import {
+    Gender,
     GoalsMessageSchema,
+    GraveyardMessage,
     GraveyardMessageSchema,
     PartyMessage,
     PartyMessageSchema,
     PCMessageSchema,
+    Pokemon as PokemonPB,
+    PokemonDeathMessage,
     PokemonDeathMessageSchema,
     PokemonEVIVSchema,
+    PokemonEXPSchema,
     PokemonHiddenPowerSchema,
     PokemonHPSchema,
     PokemonMetSchema,
     PokemonMiscSchema,
     PokemonMovesSchema,
-    PokemonReviveMessageSchema, PokemonShadowSchema,
+    PokemonReviveMessage,
+    PokemonReviveMessageSchema,
+    PokemonSchema,
+    PokemonShadowSchema,
     PokemonStatusSchema,
     RoutesMessageSchema,
-    SettingsMessageSchema,
-    Pokemon as PokemonPB, GraveyardMessage, PokemonDeathMessage, PokemonReviveMessage, PokemonEXPSchema,
     SettingsMessage,
-    PokemonSchema
+    SettingsMessageSchema
 } from './v3_pb.js'
-import * as V3DataTypes from './v3_pb.js'
 import {fromBinary, Message, toJsonString} from '@bufbuild/protobuf'
 import {
-    EventEmitter,
-    Nullable,
-    htmlColors,
-    statusColors,
-    typeColors,
-    string2ColHex,
     ClientSettings,
-    ParamsManager,
+    EventEmitter,
+    examplePokemon,
+    hex2rgba,
+    htmlColors,
     isDefined,
-    hex2rgba, examplePokemon, resolveIllegalCharacters,
-    Pokemon, PokemonGrave
+    Nullable,
+    ParamsManager,
+    Pokemon,
+    PokemonGrave,
+    resolveIllegalCharacters,
+    statusColors,
+    string2ColHex,
+    typeColors
 } from './global.js'
 import Handlebars from 'handlebars'
 import collect from 'collect.js'
@@ -48,7 +55,7 @@ export const homeSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/pokemo
     '{{ifElse (isDefined translations.english.form) (concat "-" (toLower (noSpaces translations.english.form))) ""}}' +
     '{{addFemaleTag this "-f"}}.png'
 
-export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.misc?.heldItem "."))}}.png'
+export const itemSpriteTemplate = 'https://assets.pokelink.xyz/v2/sprites/items/{{toLower (underscoreSpaces (remove translations.english.heldItem "."))}}.png'
 
 export const clientSettings: ClientSettings = {
     debug: false,
@@ -160,15 +167,17 @@ const graveyardSubcomponents = {
     'pokemon': 'pokemon'
 }
 
+const settingsSubcomponents = {
+    'spriteTemplate': 'spriteTemplate'
+}
+
 export namespace V3 {
     interface V3Settings {
-        numberOfPlayers?: number,
-        listenForSpriteUpdates?: boolean
+        numberOfPlayers?: number
     }
 
     let v3Settings: V3Settings = {
-        numberOfPlayers: 1,
-        listenForSpriteUpdates: true
+        numberOfPlayers: 1
     }
 
     let hasRegisteredParty = false
@@ -208,17 +217,15 @@ export namespace V3 {
         })
     }
 
-    export function initialize(settings: Nullable<V3Settings> = null, componentConfigs: Nullable<ComponentConfig> = null) {
+    export function initialize(componentConfigs: Nullable<ComponentConfig> = null, settings: Nullable<V3Settings> = null) {
         v3Settings = {...v3Settings, ...settings}
         globalInitialize(v3Settings.numberOfPlayers)
         initializeClient(componentConfigs)
 
-        if (v3Settings.listenForSpriteUpdates) {
-            if (clientSettings.params.hasKey('template')) {
-                const newTemplate = clientSettings.params.getString('template', undefined)
-                if (isDefined(newTemplate)) {
-                    updateSpriteTemplate(newTemplate!)
-                }
+        if (clientSettings.params.hasKey('template')) {
+            const newTemplate = clientSettings.params.getString('template', undefined)
+            if (isDefined(newTemplate)) {
+                updateSpriteTemplate(newTemplate!)
             }
         }
     }
@@ -235,7 +242,7 @@ export namespace V3 {
 
                 party.push(convertFromPokemonProtobuf(member))
             }
-            
+
             if (clientSettings.debug) {
                 console.debug('Party:', party)
             }
@@ -265,7 +272,7 @@ export namespace V3 {
 
                 graves.push(flatGrave)
             }
-            
+
             if (clientSettings.debug) {
                 console.debug('Graves:', graves)
             }
@@ -290,7 +297,7 @@ export namespace V3 {
             if (isDefined(grave.pokemon)) {
                 flatGrave.pokemon = convertFromPokemonProtobuf(grave.pokemon!)
             }
-            
+
             if (clientSettings.debug) {
                 console.debug('Grave added:', flatGrave)
             }
@@ -412,12 +419,12 @@ export namespace V3 {
 
     export function getFallbackImg(pokemon: Pokemon) {
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/fallback/` // TODO: Replace with API call
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/${pokemon.species}/${pokemon.form}?shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`
     }
 
-    export function getPartyFallbackImg(pokmeon: Pokemon) {
+    export function getPartyFallbackImg(pokemon: Pokemon) {
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/partyFallback/` // TODO: Replace with API call
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/party/${pokemon.species}/${pokemon.form}?user=${clientSettings.users[0]}`
     }
 
     export function useFallback(img: HTMLImageElement, pokemon: Pokemon) {
@@ -467,7 +474,7 @@ export namespace V3 {
     }
 
     export function updateSpriteTemplate(template: Nullable<string>) {
-        if (!v3Settings.listenForSpriteUpdates || !isDefined(template) || template!.length <= 0) {
+        if (!isDefined(template) || template!.length <= 0) {
             events.emit(spriteReset)
             return
         }
@@ -522,7 +529,7 @@ export namespace V3 {
     }
 
     registerComponentListener<SettingsMessage>(settingsId, (component) => {
-        if (v3Settings.listenForSpriteUpdates && !clientSettings.params.hasKey('template')) {
+        if (!clientSettings.params.hasKey('template')) {
             const spriteTemplate = component.settings['spriteTemplate']
             if (isDefined(spriteTemplate)) {
                 if (spriteTemplate.setting.case === 'string') {
@@ -579,5 +586,6 @@ export {
     routesId,
     pokemonSubcomponents,
     goalsSubcomponents,
-    graveyardSubcomponents
+    graveyardSubcomponents,
+    settingsSubcomponents
 }
