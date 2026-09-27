@@ -28,7 +28,7 @@ import pokemonCard from './components/pokemon-card.vue.js';
                 "hp": null,
                 "shadow": null
             };
-            V3.initialize(null, components);
+            V3.initialize(components);
             V3.onPartyUpdate((party => {
                 vm.party = party;
                 this.loaded = true;

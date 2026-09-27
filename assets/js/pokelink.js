@@ -309,12 +309,12 @@ export var V3;
     V3.getPartySprite = getPartySprite;
     function getFallbackImg(pokemon) {
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/${pokemon.species}/${pokemon.form}?shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}`;
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/${pokemon.species}/${pokemon.form}?shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`;
     }
     V3.getFallbackImg = getFallbackImg;
     function getPartyFallbackImg(pokemon) {
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/party/${pokemon.species}/${pokemon.form}`;
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/party/${pokemon.species}/${pokemon.form}?user=${clientSettings.users[0]}`;
     }
     V3.getPartyFallbackImg = getPartyFallbackImg;
     function useFallback(img, pokemon) {
