@@ -1,0 +1,240 @@
+name: CI
+
+# The repository holds several generations of web sources (v3 at the root,
+# then v2/ and v1/). Each generation has its own lane, and a lane only runs
+# when its files change. `ci-gate` is the single check branch protection needs.
+
+on:
+  pull_request:
+    # labeled/unlabeled re-run the guards when a maintainer adds `allow-frozen-proto`.
+    types: [opened, reopened, synchronize, ready_for_review, labeled, unlabeled]
+  push:
+    branches: [v3, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  changes:
+    name: Detect changed generations
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      v3: ${{ steps.lanes.outputs.v3 }}
+      v2: ${{ steps.lanes.outputs.v2 }}
+      v1: ${{ steps.lanes.outputs.v1 }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Work out which lanes to run
+        id: lanes
+        env:
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          set -euo pipefail
+          all=false
+          # Manual runs, new branches and force pushes have no usable base.
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ] \
+             || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then
+            all=true
+            changed=""
+          else
+            changed="$(git diff --name-only "$BASE" HEAD)"
+          fi
+          # Changing the pipeline itself re-runs everything.
+          if grep -qE '^(\.github/workflows/ci\.yml|scripts/)' <<< "$changed"; then
+            all=true
+          fi
+          v3=$all; v2=$all; v1=$all
+          if grep -qE '^v1/' <<< "$changed"; then v1=true; fi
+          if grep -qE '^v2/' <<< "$changed"; then v2=true; fi
+          # v3 is the repository root, so it owns every file that is not in v1/,
+          # in v2/, repository metadata or prose.
+          outside_v3='^(v1/|v2/|\.github/|.*\.md$|CODEOWNERS$)'
+          if [ -n "$(grep -vE "$outside_v3" <<< "$changed" || true)" ]; then v3=true; fi
+          echo "v3=$v3" >> "$GITHUB_OUTPUT"
+          echo "v2=$v2" >> "$GITHUB_OUTPUT"
+          echo "v1=$v1" >> "$GITHUB_OUTPUT"
+          echo "lanes: v3=$v3 v2=$v2 v1=$v1"
+
+  guards:
+    name: Frozen contracts
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: v1 and v2 protocol files are frozen
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          LABELS: ${{ toJSON(github.event.pull_request.labels.*.name) }}
+        run: |
+          set -euo pipefail
+          frozen="$(git diff --name-only "$BASE" HEAD -- v1/assets/proto v2/assets/proto)"
+          if [ -z "$frozen" ]; then
+            echo "No frozen protocol files changed."
+            exit 0
+          fi
+          printf 'Changed frozen files:\n%s\n' "$frozen"
+          if printf '%s' "$LABELS" | jq -e 'index("allow-frozen-proto")' >/dev/null; then
+            echo "::notice::Frozen protocol change allowed by the allow-frozen-proto label."
+            exit 0
+          fi
+          echo "::error::v1 and v2 protocol files are frozen because the desktop app compiles them into released builds. If this change is intended, add the allow-frozen-proto label to the pull request."
+          exit 1
+      - name: Warn when the set of protocol files changes
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          set -euo pipefail
+          paths='assets/proto v1/assets/proto v2/assets/proto'
+          # shellcheck disable=SC2086
+          before="$(git ls-tree -r --name-only "$BASE" -- $paths | sort)"
+          # shellcheck disable=SC2086
+          after="$(git ls-tree -r --name-only HEAD -- $paths | sort)"
+          if [ "$before" != "$after" ]; then
+            diff <(printf '%s\n' "$before") <(printf '%s\n' "$after") || true
+            echo "::warning::The list of .proto files changed. pokelink-neo compiles assets/proto/*.proto and v2/assets/proto/*.proto by path, so check that it still finds every version it needs."
+          fi
+
+  v3:
+    name: v3 build and checks
+    needs: changes
+    if: needs.changes.outputs.v3 == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Check protocol compatibility (advisory)
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          set -o pipefail
+          yarn --silent buf breaking assets/proto \
+            --against ".git#ref=origin/${BASE_REF},subdir=assets/proto" \
+            --config '{"version":"v1","breaking":{"use":["WIRE_JSON"]}}' \
+            --error-format=github-actions | sed 's/^::error /::warning /'
+      - name: Generate protobuf code
+        run: yarn buf generate
+      - name: Build client bundle
+        run: yarn build:core
+      - name: Compile themes
+        run: yarn build:themes:nodeps
+      - name: Compile badges
+        run: yarn build:badges:nodeps
+      - name: Compile graveyards
+        run: yarn build:graveyards:nodeps
+      - name: Validate manifests and theme references
+        run: node scripts/validate-manifests.mjs v3
+      - name: Committed build output is up to date
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --short
+            git --no-pager diff --stat
+            echo "::error::Committed build output does not match a fresh build. Run the commands in .github/CONTRIBUTING.md (Building), then commit the result."
+            exit 1
+          fi
+
+  v2:
+    name: v2 build and checks
+    needs: changes
+    if: needs.changes.outputs.v2 == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: v2
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: yarn
+          cache-dependency-path: v2/yarn.lock
+      - name: Note that v2 is maintained for fixes
+        if: github.event_name == 'pull_request'
+        run: echo "::notice::v2/ is a released generation. Keep changes to bug fixes so hosted overlays keep behaving the same."
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Generate protobuf code
+        run: yarn buf generate
+      - name: Build client bundle
+        run: yarn build:core
+      - name: Compile themes
+        run: yarn build:themes:nodeps
+      - name: Compile badges
+        run: yarn build:badges:nodeps
+      - name: Compile graveyards
+        run: yarn build:graveyards:nodeps
+      - name: Validate manifests and theme references
+        working-directory: .
+        run: node scripts/validate-manifests.mjs v2
+      - name: Committed build output is up to date
+        run: |
+          # The bundler output in assets/dist does not reproduce from a clean
+          # install (master differs from its own committed bundle too), so it is
+          # reported below but does not fail the run. Compiled theme code does.
+          bundle=assets/dist/pokelink.js
+          if ! git diff --quiet -- "$bundle"; then
+            echo "::notice file=v2/$bundle::v2 bundle differs from a fresh build. Rebuild it if you changed v2/assets/js."
+            git checkout -- "$bundle"
+          fi
+          if [ -n "$(git status --porcelain -- .)" ]; then
+            git status --short -- .
+            git --no-pager diff --stat -- .
+            echo "::error::Committed v2 build output does not match a fresh build. Run the v2 commands in .github/CONTRIBUTING.md (Building), then commit the result."
+            exit 1
+          fi
+
+  v1:
+    name: v1 checks
+    needs: changes
+    if: needs.changes.outputs.v1 == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+      - name: Validate manifests and theme folders
+        run: node scripts/validate-manifests.mjs v1
+
+  ci-gate:
+    name: ci-gate
+    if: always()
+    needs: [changes, guards, v3, v2, v1]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Every job passed or was skipped
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          printf '%s' "$NEEDS" | jq -r 'to_entries[] | "\(.key): \(.value.result)"'
+          printf '%s' "$NEEDS" | jq -e 'all(.[]; .result == "success" or .result == "skipped")' > /dev/null
