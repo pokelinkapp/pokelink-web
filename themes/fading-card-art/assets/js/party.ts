@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V3, clientSettings, isDefined} from 'pokelink'
+import {V3, clientSettings, isDefined, ComponentConfig, partyId, pokemonSubcomponents} from 'pokelink'
 import list from './components/list.vue.js'
 
 export function pokemonTCGCardSets() {
@@ -66,7 +66,14 @@ export function pokemonTCGCardSets() {
         },
         created: function () {
             const vm = this
-            V3.initialize({listenForSpriteUpdates: false})
+            const components: ComponentConfig = {}
+            components[partyId] = [
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.status,
+                pokemonSubcomponents.misc
+            ]
+            V3.initialize(components)
 
             V3.onConnect(() => {
                 vm.connected = true

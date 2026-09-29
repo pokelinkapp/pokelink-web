@@ -57,10 +57,10 @@ import { homeSpriteTemplate, Handlebars, clientSettings, spriteTestInitialize, i
                     <div>{{ entry.translations.locale.species }} / {{ entry.translations.english.species }}</div>
                     <div>#{{ entry.species }}</div>
                     <div v-if="entry.hasFemaleSprite && entry.gender === 'female'">Female</div>
-                    <div v-if="hasValue(entry.translations.english.formName)">{{ entry.translations.locale.formName }} /
-                      {{ entry.translations.english.formName }}
+                    <div v-if="hasValue(entry.translations.english.form)">{{ entry.translations.locale.form }} /
+                      {{ entry.translations.english.form }}
                     </div>
-                    <div v-if="hasValue(entry.translations.english.formName)">#{{ entry.form }}</div>
+                    <div v-if="hasValue(entry.translations.english.form)">#{{ entry.form }}</div>
                   </div>
                 </div>
               </div>
@@ -85,29 +85,27 @@ import { homeSpriteTemplate, Handlebars, clientSettings, spriteTestInitialize, i
                     'evs': {},
                     'translations': {
                         'english': {
-                            'speciesName': 'Charizard',
+                            'species': 'Charizard',
                             'status': 'Healthy',
                             'types': [
                                 'Fire',
                                 'Dragon'
                             ],
-                            'formName': 'Mega X',
+                            'form': 'Mega X',
                             'pokerusStatus': 'No'
                         },
                         'locale': {
-                            'speciesName': 'Charizard',
+                            'species': 'Charizard',
                             'status': 'Healthy',
                             'types': [
                                 'Fire',
                                 'Dragon'
                             ],
-                            'formName': 'Mega X',
+                            'form': 'Mega X',
                             'pokerusStatus': 'No'
                         }
                     },
                     'color': 'Black',
-                    'fallbackSprite': '$POKELINK_HOST/assets:/assets/sprites/pokemon/home/normal/charizard-megax.png',
-                    'fallbackPartySprite': '$POKELINK_HOST/pokelink:/pkhex/img/sprites/a_6-1.png',
                     'heldItem': 0,
                     'gender': 'male',
                     'form': 1,
@@ -132,7 +130,7 @@ import { homeSpriteTemplate, Handlebars, clientSettings, spriteTestInitialize, i
                 return V3.getSprite(pokemon);
             },
             getFallback(pokemon) {
-                return pokemon.fallbackSprite?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
+                return V3.getFallbackImg(pokemon);
             },
             async getSpriteDex() {
                 this.show = null;

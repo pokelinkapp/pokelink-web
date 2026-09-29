@@ -49,7 +49,7 @@ export class PokelinkClientV3 extends PokelinkClientBase {
                     continue;
                 }
                 let parsedComponent = fromBinary(schema, component.value);
-                this.events.emit('componentUpdate', key, parsedComponent);
+                this.events.emit('componentUpdate', key, parsedComponent, user);
             }
         }
         catch (ex) {

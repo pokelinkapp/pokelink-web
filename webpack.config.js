@@ -8,7 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 export default {
     entry: './assets/js/pokelink.js',
     mode: 'production',
-    devtool: false,
+    devtool: 'source-map',
     experiments: {
         futureDefaults: true,
         outputModule: true
@@ -29,7 +29,8 @@ export default {
     optimization: {
         minimizer: [
             new EsbuildPlugin({
-                keepNames: true
+                keepNames: true,
+                platform: 'browser'
             })
         ]
     }

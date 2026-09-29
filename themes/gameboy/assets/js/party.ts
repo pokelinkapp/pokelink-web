@@ -1,5 +1,14 @@
 import {createApp} from 'vue'
-import {V3, clientSettings, type Nullable, isDefined} from 'pokelink'
+import {
+    V3,
+    clientSettings,
+    type Nullable,
+    isDefined,
+    settingsId,
+    settingsSubcomponents,
+    partyId,
+    pokemonSubcomponents, ComponentConfig
+} from 'pokelink'
 import pokemonCard from './components/pokemon-card.vue.js'
 
 (() => {
@@ -26,7 +35,18 @@ import pokemonCard from './components/pokemon-card.vue.js'
 
             V3.onSpriteSetReset(this.resetSpriteSet)
 
-            V3.initialize()
+            const components: ComponentConfig = {}
+            components[settingsId] = [
+                settingsSubcomponents.spriteTemplate
+            ]
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.shadow
+            ]
+
+            V3.initialize(components)
 
             V3.onPartyUpdate((party => {
                 vm.party = party
@@ -81,7 +101,7 @@ import pokemonCard from './components/pokemon-card.vue.js'
         },
         methods: {
             resetSpriteSet() {
-                V3.updateSpriteTemplate('https://assets.pokelink.xyz/V3/sprites/pokemon/gen8/party' +
+                V3.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/gen8/party' +
                     '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
                     '{{addFemaleTag this "-f"}}.png')
             },

@@ -85,9 +85,9 @@ export default defineComponent({
                 name = (this.pokemon.species + 2000) + '-Shiny'
             }
 
-            let englishFormName = this.pokemon.translations!.english!.form
+            let englishform = this.pokemon.translations!.english!.form
 
-            if (englishFormName !== null && englishFormName !== undefined && this.pokemon.form !== 0) {
+            if (englishform !== null && englishform !== undefined && this.pokemon.form !== 0) {
                 // We use the fallback sprite due to pokemonpets having a very inconsistent image naming scheme
                 return V3.getFallbackImg(this.pokemon)
             }

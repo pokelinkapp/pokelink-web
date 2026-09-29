@@ -140,7 +140,7 @@ export default defineComponent({
     methods: {
         getSprite() {
             if (this.pokemon.isEgg) {
-                return `https://assets.pokelink.xyz/V3/sprites/pokemon/home/normal/egg.png`
+                return `https://assets.pokelink.xyz/v2/sprites/pokemon/home/normal/egg.png`
             }
             return V3.getSprite(this.pokemon)
         }
@@ -175,7 +175,7 @@ export default defineComponent({
             if (!this.isValid) {
                 return 100
             }
-            return (100 / this.pokemon.hp!.max) * this.pokemon.hp!.current
+            return this.pokemon.hp?.currentPercent ?? 100
         },
         isDead() {
             if (!this.isValid) {

@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V3, clientSettings, homeSpriteTemplate } from 'pokelink';
+import { V3, clientSettings, homeSpriteTemplate, settingsId, settingsSubcomponents, pokemonSubcomponents, partyId } from 'pokelink';
 import list from './components/list.vue.js';
 (() => {
     createApp({
@@ -18,7 +18,19 @@ import list from './components/list.vue.js';
             V3.onSpriteSetReset(() => {
                 V3.updateSpriteTemplate(homeSpriteTemplate);
             });
-            V3.initialize();
+            const components = {};
+            components[settingsId] = [
+                settingsSubcomponents.spriteTemplate
+            ];
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.stats,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.status,
+                pokemonSubcomponents.shadow
+            ];
+            V3.initialize(components);
             V3.onConnect(() => {
                 vm.connected = true;
                 this.loaded = true;

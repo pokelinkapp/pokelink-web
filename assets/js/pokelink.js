@@ -26,9 +26,6 @@ const spriteReset = 'theme:settings:spriteReset';
 let client = null;
 const events = new EventEmitter();
 function globalInitialize(numberOfPlayers = 1) {
-    if (numberOfPlayers < 1) {
-        numberOfPlayers = 1;
-    }
     clientSettings.debug = clientSettings.params.getBool('debug', false);
     if (clientSettings.debug) {
         console.debug('Pokélink library now running in debug mode');
@@ -36,7 +33,10 @@ function globalInitialize(numberOfPlayers = 1) {
     clientSettings.host = clientSettings.params.getString('server', 'localhost');
     clientSettings.port = clientSettings.params.getNumber('port', 3000);
     let value = clientSettings.params.getString('users', '');
-    if (value.indexOf(',') === -1) {
+    if (value == '' && numberOfPlayers === -1) {
+        clientSettings.users = [];
+    }
+    else if (value.indexOf(',') === -1) {
         clientSettings.users = [value];
     }
     else {
@@ -118,14 +118,14 @@ export var V3;
         client.events.on('connect', () => {
             events.emit('connect');
         });
-        client.events.on('componentUpdate', (key, component) => {
+        client.events.on('componentUpdate', (key, component, user) => {
             const callbacks = componentCallbacks[key] ?? [];
             if (clientSettings.debug) {
-                console.debug(`Received update for ${key} calling:`, callbacks);
+                console.debug(`Received update for ${key} calling(${user}):`, callbacks);
             }
             for (const cb of callbacks) {
                 try {
-                    cb(component);
+                    cb(component, user);
                 }
                 catch (ex) {
                     console.error(cb, 'encountered the following error:', ex);
@@ -146,7 +146,7 @@ export var V3;
     }
     V3.initialize = initialize;
     function registerPartyComponentListener() {
-        registerComponentListener(partyId, (component) => {
+        registerComponentListener(partyId, (component, user) => {
             let party = [];
             for (let member of component.party) {
                 if (!isDefined(member)) {
@@ -156,13 +156,13 @@ export var V3;
                 party.push(convertFromPokemonProtobuf(member));
             }
             if (clientSettings.debug) {
-                console.debug('Party:', party);
+                console.debug(`Party(${user}):`, party);
             }
-            events.emit(partyId, party);
+            events.emit(partyId, party, user);
         });
     }
     function registerGraveyardComponentListener() {
-        registerComponentListener(graveyardId, (component) => {
+        registerComponentListener(graveyardId, (component, user) => {
             let graves = [];
             for (let grave of component.graves) {
                 if (!isDefined(grave)) {
@@ -179,13 +179,13 @@ export var V3;
                 graves.push(flatGrave);
             }
             if (clientSettings.debug) {
-                console.debug('Graves:', graves);
+                console.debug(`Graves(${user}):`, graves);
             }
-            events.emit(graveyardId, graves);
+            events.emit(graveyardId, graves, user);
         });
     }
     function registerDeathComponentListener() {
-        registerComponentListener(deathId, (component) => {
+        registerComponentListener(deathId, (component, user) => {
             if (!isDefined(component.grave)) {
                 return;
             }
@@ -198,17 +198,17 @@ export var V3;
                 flatGrave.pokemon = convertFromPokemonProtobuf(grave.pokemon);
             }
             if (clientSettings.debug) {
-                console.debug('Grave added:', flatGrave);
+                console.debug(`Grave added(${user}):`, flatGrave);
             }
-            events.emit(deathId, flatGrave);
+            events.emit(deathId, flatGrave, user);
         });
     }
     function registerReviveComponentListener() {
-        registerComponentListener(reviveId, (component) => {
+        registerComponentListener(reviveId, (component, user) => {
             if (clientSettings.debug) {
-                console.debug(`Revived ${component.graveId}`);
+                console.debug(`Revived(${user}) ${component.graveId}`);
             }
-            events.emit(reviveId, component.graveId);
+            events.emit(reviveId, component.graveId, user);
         });
     }
     function convertFromPokemonProtobuf(pokemon) {
@@ -307,18 +307,20 @@ export var V3;
         return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
     }
     V3.getPartySprite = getPartySprite;
-    function getFallbackImg(pokemon) {
+    function getFallbackImg(pokemon, user) {
+        user ??= clientSettings.users[0];
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/${pokemon.species}/${pokemon.form}?shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`;
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite?species=${pokemon.species}&form=${pokemon.form}&shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`;
     }
     V3.getFallbackImg = getFallbackImg;
-    function getPartyFallbackImg(pokemon) {
+    function getPartyFallbackImg(pokemon, user) {
+        user ??= clientSettings.users[0];
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/party/${pokemon.species}/${pokemon.form}?user=${clientSettings.users[0]}`;
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/party?species=${pokemon.species}&form=${pokemon.form}&shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`;
     }
     V3.getPartyFallbackImg = getPartyFallbackImg;
-    function useFallback(img, pokemon) {
-        let fallback = getFallbackImg(pokemon);
+    function useFallback(img, pokemon, user) {
+        let fallback = getFallbackImg(pokemon, user);
         if (img.src === fallback || !isDefined(fallback)) {
             return;
         }
@@ -328,8 +330,8 @@ export var V3;
         img.src = fallback;
     }
     V3.useFallback = useFallback;
-    function usePartyFallback(img, pokemon) {
-        let fallback = getPartyFallbackImg(pokemon);
+    function usePartyFallback(img, pokemon, user) {
+        let fallback = getPartyFallbackImg(pokemon, user);
         if (img.src === fallback || !isDefined(fallback)) {
             return;
         }

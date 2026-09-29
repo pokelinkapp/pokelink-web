@@ -1,5 +1,5 @@
 import {createApp} from 'vue'
-import {V3, clientSettings, isDefined} from 'pokelink'
+import {V3, clientSettings, isDefined, partyId, pokemonSubcomponents, ComponentConfig} from 'pokelink'
 import type {Nullable} from 'global'
 import type {Pokemon} from 'pokelink'
 import pokemonCard from './components/pokemon-card.vue.js'
@@ -21,9 +21,17 @@ import pokemonCard from './components/pokemon-card.vue.js'
         mounted: function () {
             const vm = this
 
-            V3.updateSpriteTemplate('https://assets.pokelink.xyz/V3/sprites/pokemon/trozei/{{ species }}.png')
+            V3.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/trozei/{{ species }}.png')
+            
+            const components: ComponentConfig = {}
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.shadow
+            ]
 
-            V3.initialize()
+            V3.initialize(components)
 
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false)
             this.settings.hp = clientSettings.params.getBool('hp', false)

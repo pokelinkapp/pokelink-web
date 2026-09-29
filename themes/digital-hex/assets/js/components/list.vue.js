@@ -1,16 +1,17 @@
 import { defineComponent } from 'vue';
-import { V3, clientSettings, homeSpriteTemplate, isDefined } from 'pokelink';
+import { V3, clientSettings, homeSpriteTemplate, isDefined, partyId, pokemonSubcomponents, settingsId, settingsSubcomponents } from 'pokelink';
 import pokemon from './pokemon.vue.js';
 export default defineComponent({
     template: `
-      <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
-        <transition-group :name="switchSpeed" tag="div"
-                          :class="['pokemon__list', {'flipped': flipped}]"
-                          v-if="loaded">
-          <pokemon v-for="( poke, idx ) in partySlots" :slotId="idx + 1" :key="poke?.uid ?? poke?.pid" :pokemon="poke">
-          </pokemon>
-        </transition-group>
-      </div>
+        <div style="display: none" :class="{ 'browser-connected' : true }" class="pokes">
+            <transition-group :name="switchSpeed" tag="div"
+                              :class="['pokemon__list', {'flipped': flipped}]"
+                              v-if="loaded">
+                <pokemon v-for="( poke, idx ) in partySlots" :slotId="idx + 1" :key="poke?.uid ?? poke?.pid"
+                         :pokemon="poke">
+                </pokemon>
+            </transition-group>
+        </div>
     `,
     components: {
         'pokemon': pokemon
@@ -31,7 +32,18 @@ export default defineComponent({
         V3.onSpriteSetReset(() => {
             V3.updateSpriteTemplate(homeSpriteTemplate);
         });
-        V3.initialize();
+        const components = {};
+        components[settingsId] = [
+            settingsSubcomponents.spriteTemplate
+        ];
+        components[partyId] = [
+            pokemonSubcomponents.exp,
+            pokemonSubcomponents.hp,
+            pokemonSubcomponents.status,
+            pokemonSubcomponents.shadow,
+            pokemonSubcomponents.stats
+        ];
+        V3.initialize(components);
         V3.onPartyUpdate((party => {
             vm.loaded = true;
             vm.party = party;

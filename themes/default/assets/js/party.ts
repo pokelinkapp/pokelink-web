@@ -1,5 +1,13 @@
 import {createApp} from 'vue'
-import {V3, clientSettings, type Nullable, isDefined} from 'pokelink'
+import {
+    V3,
+    clientSettings,
+    type Nullable,
+    isDefined,
+    ComponentConfig,
+    settingsId,
+    settingsSubcomponents, partyId, pokemonSubcomponents
+} from 'pokelink'
 import pokemonCard from './components/pokemon-card.vue.js'
 
 (() => {
@@ -24,8 +32,15 @@ import pokemonCard from './components/pokemon-card.vue.js'
 
             this.resetSpriteSet()
 
-            V3.initialize({listenForSpriteUpdates: false})
-
+            const components: ComponentConfig = {}
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.status,
+                pokemonSubcomponents.shadow
+            ]
+            V3.initialize(components)
             V3.onPartyUpdate((party => {
                 vm.party = party
                 this.loaded = true
@@ -79,10 +94,10 @@ import pokemonCard from './components/pokemon-card.vue.js'
         },
         methods: {
             resetSpriteSet() {
-                V3.updateSpriteTemplate('https://assets.pokelink.xyz/V3/sprites/pokemon/gen7/animated' +
+                V3.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/gen7/animated' +
                     '{{ifElse isShiny "-shiny" ""}}' +
                     '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
-                    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+                    '{{ifElse (isDefined translations.english.form) (concat "-" (toLower (noSpaces translations.english.form))) ""}}' +
                     '{{addFemaleTag this "-f"}}.gif')
             },
             isDefined(obj: Nullable<any>) {

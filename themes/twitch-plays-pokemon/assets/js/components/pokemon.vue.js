@@ -45,19 +45,19 @@ export default defineComponent({
         </div>
 
         <div class="moves" v-if="!this.pokemon.isEgg">
-          <div v-for="move in pokemon.moves" class="move">
+          <div v-for="index in this.pokemon.moves.length" class="move">
             <div class="move__icon"></div>
             <div class="move__name">
               <svg>
-                <text x="50%" y="28" fill="white" text-anchor="middle">{{ move.locale.name }} {{ move.pp }}</text>
+                <text x="50%" y="28" fill="white" text-anchor="middle">{{ this.pokemon.translations.locale.moves[index].name }} {{ this.pokemon.moves[index].pp }}</text>
               </svg>
             </div>
-            <div class="move__pp">{{move.pp}}</div>
+            <div class="move__pp">{{this.pokemon.moves[index].pp}}</div>
           </div>
         </div>
 
         <div class="pokemon__heldItem" v-if="hasItem">
-          <img :src="heldItemImage" onerror="this.src='https://assets.pokelink.xyz/V3/sprites/items/0.png'">
+          <img :src="heldItemImage" onerror="this.src='https://assets.pokelink.xyz/v2/sprites/items/0.png'">
         </div>
       </div>
     </div>

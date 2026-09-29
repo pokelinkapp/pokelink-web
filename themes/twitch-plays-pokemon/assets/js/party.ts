@@ -1,5 +1,8 @@
 import {createApp} from 'vue'
-import {V3, clientSettings, isDefined} from 'pokelink'
+import {
+    V3, clientSettings, isDefined, pokemonSubcomponents, partyId, settingsId, settingsSubcomponents,
+    ComponentConfig
+} from 'pokelink'
 import list from './components/list.vue.js'
 
 (() => {
@@ -21,7 +24,21 @@ import list from './components/list.vue.js'
 
             V3.onSpriteSetReset(this.resetSpriteSet)
 
-            V3.initialize()
+            const components: ComponentConfig = {}
+            components[settingsId] = [
+                settingsSubcomponents.spriteTemplate
+            ]
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.stats,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.status,
+                pokemonSubcomponents.shadow,
+                pokemonSubcomponents.moves
+            ]
+
+            V3.initialize(components)
 
             V3.onConnect(() => {
                 vm.connected = true
@@ -33,7 +50,7 @@ import list from './components/list.vue.js'
         },
         methods: {
             resetSpriteSet() {
-                V3.updateSpriteTemplate('https://assets.pokelink.xyz/V3/sprites/pokemon/heartgold-soulsilver/{{ifElse isShiny "shiny" "normal"}}/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}{{addFemaleTag this "-f"}}.png')
+                V3.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/heartgold-soulsilver/{{ifElse isShiny "shiny" "normal"}}/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}{{ifElse (isDefined translations.english.form) (concat "-" (toLower (noSpaces translations.english.form))) ""}}{{addFemaleTag this "-f"}}.png')
             }
         }
     }).mount('#party')

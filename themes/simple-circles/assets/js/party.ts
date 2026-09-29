@@ -1,5 +1,13 @@
 import {createApp} from 'vue'
-import {V3, clientSettings, isDefined, homeSpriteTemplate} from 'pokelink'
+import {
+    V3,
+    clientSettings,
+    isDefined,
+    homeSpriteTemplate,
+    ComponentConfig,
+    settingsId,
+    settingsSubcomponents, partyId, pokemonSubcomponents
+} from 'pokelink'
 import list from './components/list.vue.js'
 
 (() => {
@@ -21,7 +29,19 @@ import list from './components/list.vue.js'
                 V3.updateSpriteTemplate(homeSpriteTemplate)
             })
 
-            V3.initialize()
+            const components: ComponentConfig = {}
+            components[settingsId] = [
+                settingsSubcomponents.spriteTemplate
+            ]
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.status,
+                pokemonSubcomponents.shadow
+            ]
+
+            V3.initialize(components)
 
             V3.onConnect(() => {
                 vm.connected = true

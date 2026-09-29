@@ -90,7 +90,7 @@ export function pokemonTCGCardSets() {
                 V3.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/heartgold-soulsilver/' +
                     '{{ifElse isShiny "shiny" "normal"}}' +
                     '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
-                    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+                    '{{ifElse (isDefined translations.english.form) (concat "-" (toLower (noSpaces translations.english.form))) ""}}' +
                     '{{addFemaleTag this "-f"}}.png');
             }
         }

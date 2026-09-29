@@ -12,7 +12,7 @@ export declare function spriteTestInitialize(): void;
 export type ComponentConfig = {
     [key: string]: Nullable<ComponentConfig | string | number | boolean | Array<ComponentConfig | string>>;
 };
-export type ComponentCallback<T extends Message> = (component: T) => void;
+export type ComponentCallback<T extends Message> = (component: T, user: string) => void;
 declare const partyId = "pokelink.component.party";
 declare const goalsId = "pokelink.component.goals";
 declare const graveyardId = "pokelink.component.graveyard";
@@ -54,7 +54,7 @@ export declare namespace V3 {
     export function convertFromPokemonProtobuf(pokemon: PokemonPB): Pokemon;
     export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], username: string) => void): void;
     export function onGraveyardUpdate(handler: (graves: PokemonGrave[], username: string) => void): void;
-    export function onDeath(handler: (pokemon: Pokemon, username: string) => void): void;
+    export function onDeath(handler: (pokemon: PokemonGrave, username: string) => void): void;
     export function onRevive(handler: (graveId: string, username: string) => void): void;
     export function onSpriteTemplateUpdate(handler: () => void): void;
     export function onSpriteSetReset(handler: () => void): void;
@@ -62,10 +62,10 @@ export declare namespace V3 {
     export function isValidPokemon(pokemon: Nullable<Pokemon>): boolean;
     export function getSprite(pokemon: Pokemon): string;
     export function getPartySprite(pokemon: Pokemon): string;
-    export function getFallbackImg(pokemon: Pokemon): string;
-    export function getPartyFallbackImg(pokemon: Pokemon): string;
-    export function useFallback(img: HTMLImageElement, pokemon: Pokemon): void;
-    export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon): void;
+    export function getFallbackImg(pokemon: Pokemon, user?: string): string;
+    export function getPartyFallbackImg(pokemon: Pokemon, user?: string): string;
+    export function useFallback(img: HTMLImageElement, pokemon: Pokemon, user?: string): void;
+    export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon, user?: string): void;
     export function getTypeColor(englishType: string): string;
     export function getStatusColor(englishStatus: string): string;
     export function updateSpriteTemplate(template: Nullable<string>): void;

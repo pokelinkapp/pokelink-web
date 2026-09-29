@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V3, clientSettings, homeSpriteTemplate, isDefined } from 'pokelink';
+import { V3, clientSettings, homeSpriteTemplate, isDefined, settingsId, settingsSubcomponents, partyId, pokemonSubcomponents } from 'pokelink';
 import pokemonCard from './components/pokemon.vue.js';
 export function pokemonTCGCardSets() {
     let userDefinedSets = clientSettings.params.getString('sets', '');
@@ -67,7 +67,18 @@ export function pokemonTCGCardSets() {
             V3.onSpriteSetReset(() => {
                 V3.updateSpriteTemplate(homeSpriteTemplate);
             });
-            V3.initialize();
+            const components = {};
+            components[settingsId] = [
+                settingsSubcomponents.spriteTemplate
+            ];
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.stats,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.shadow
+            ];
+            V3.initialize(components);
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.noGap = clientSettings.params.getBool('noGap', false);
             V3.onPartyUpdate((party) => {

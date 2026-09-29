@@ -66,7 +66,7 @@ export default defineComponent({
     methods: {
         getSprite(pokemon) {
             if (pokemon.isEgg) {
-                return 'https://assets.pokelink.xyz/V3/sprites/egg.png';
+                return 'https://assets.pokelink.xyz/v2/sprites/egg.png';
             }
             return V3.getSprite(pokemon);
         }

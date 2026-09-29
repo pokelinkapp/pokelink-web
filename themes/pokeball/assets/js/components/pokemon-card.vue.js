@@ -81,7 +81,7 @@ export default defineComponent({
         },
         getSprite() {
             if (this.pokemon.isEgg) {
-                return 'https://assets.pokelink.xyz/V3/sprites/egg.gif';
+                return 'https://assets.pokelink.xyz/v2/sprites/egg.gif';
             }
             return V3.getSprite(this.pokemon);
         },

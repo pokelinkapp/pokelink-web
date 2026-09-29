@@ -77,9 +77,6 @@ let client: Nullable<PokelinkClientBase> = null
 const events = new EventEmitter()
 
 function globalInitialize(numberOfPlayers: number = 1) {
-    if (numberOfPlayers < 1) {
-        numberOfPlayers = 1
-    }
     clientSettings.debug = clientSettings.params.getBool('debug', false)
 
     if (clientSettings.debug) {
@@ -91,8 +88,10 @@ function globalInitialize(numberOfPlayers: number = 1) {
     clientSettings.port = clientSettings.params.getNumber('port', 3000)
 
     let value = clientSettings.params.getString('users', '')!
-
-    if (value.indexOf(',') === -1) {
+    
+    if (value == '' && numberOfPlayers === -1) {
+        clientSettings.users = []
+    } else if (value.indexOf(',') === -1) {
         clientSettings.users = [value]
     } else {
         clientSettings.users = value.split(',')
@@ -127,7 +126,7 @@ export type ComponentConfig = {
     [key: string]: Nullable<ComponentConfig | string | number | boolean | Array<ComponentConfig | string>>
 }
 
-export type ComponentCallback<T extends Message> = (component: T) => void
+export type ComponentCallback<T extends Message> = (component: T, user: string) => void
 
 const schemaStorage: { [key: string]: GenMessage<any> } = {}
 const componentCallbacks: { [key: string]: ComponentCallback<any>[] } = {}
@@ -200,16 +199,16 @@ export namespace V3 {
             events.emit('connect')
         })
 
-        client.events.on('componentUpdate', (key: string, component: Message) => {
+        client.events.on('componentUpdate', (key: string, component: Message, user: string) => {
             const callbacks = componentCallbacks[key] ?? []
 
             if (clientSettings.debug) {
-                console.debug(`Received update for ${key} calling:`, callbacks)
+                console.debug(`Received update for ${key} calling(${user}):`, callbacks)
             }
 
             for (const cb of callbacks) {
                 try {
-                    cb(component)
+                    cb(component, user)
                 } catch (ex) {
                     console.error(cb, 'encountered the following error:', ex)
                 }
@@ -231,7 +230,7 @@ export namespace V3 {
     }
 
     function registerPartyComponentListener() {
-        registerComponentListener<PartyMessage>(partyId, (component) => {
+        registerComponentListener<PartyMessage>(partyId, (component, user) => {
             let party: Nullable<Pokemon>[] = []
 
             for (let member of component.party) {
@@ -244,15 +243,15 @@ export namespace V3 {
             }
 
             if (clientSettings.debug) {
-                console.debug('Party:', party)
+                console.debug(`Party(${user}):`, party)
             }
 
-            events.emit(partyId, party)
+            events.emit(partyId, party, user)
         })
     }
 
     function registerGraveyardComponentListener() {
-        registerComponentListener<GraveyardMessage>(graveyardId, (component) => {
+        registerComponentListener<GraveyardMessage>(graveyardId, (component, user) => {
             let graves: Nullable<PokemonGrave>[] = []
 
             for (let grave of component.graves) {
@@ -274,15 +273,15 @@ export namespace V3 {
             }
 
             if (clientSettings.debug) {
-                console.debug('Graves:', graves)
+                console.debug(`Graves(${user}):`, graves)
             }
 
-            events.emit(graveyardId, graves)
+            events.emit(graveyardId, graves, user)
         })
     }
 
     function registerDeathComponentListener() {
-        registerComponentListener<PokemonDeathMessage>(deathId, (component) => {
+        registerComponentListener<PokemonDeathMessage>(deathId, (component, user) => {
             if (!isDefined(component.grave)) {
                 return
             }
@@ -299,19 +298,19 @@ export namespace V3 {
             }
 
             if (clientSettings.debug) {
-                console.debug('Grave added:', flatGrave)
+                console.debug(`Grave added(${user}):`, flatGrave)
             }
 
-            events.emit(deathId, flatGrave)
+            events.emit(deathId, flatGrave, user)
         })
     }
 
     function registerReviveComponentListener() {
-        registerComponentListener<PokemonReviveMessage>(reviveId, (component) => {
+        registerComponentListener<PokemonReviveMessage>(reviveId, (component, user) => {
             if (clientSettings.debug) {
-                console.debug(`Revived ${component.graveId}`)
+                console.debug(`Revived(${user}) ${component.graveId}`)
             }
-            events.emit(reviveId, component.graveId)
+            events.emit(reviveId, component.graveId, user)
         })
     }
 
@@ -362,7 +361,7 @@ export namespace V3 {
         events.on(graveyardId, handler)
     }
 
-    export function onDeath(handler: (pokemon: Pokemon, username: string) => void) {
+    export function onDeath(handler: (pokemon: PokemonGrave, username: string) => void) {
         if (!hasRegisteredDeath) {
             hasRegisteredDeath = true
             registerDeathComponentListener()
@@ -417,18 +416,20 @@ export namespace V3 {
         return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
     }
 
-    export function getFallbackImg(pokemon: Pokemon) {
+    export function getFallbackImg(pokemon: Pokemon, user?: string) {
+        user ??= clientSettings.users[0]
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/${pokemon.species}/${pokemon.form}?shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite?species=${pokemon.species}&form=${pokemon.form}&shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`
     }
 
-    export function getPartyFallbackImg(pokemon: Pokemon) {
+    export function getPartyFallbackImg(pokemon: Pokemon, user?: string) {
+        user ??= clientSettings.users[0]
         // noinspection HttpUrlsUsage
-        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/party/${pokemon.species}/${pokemon.form}?user=${clientSettings.users[0]}`
+        return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/party?species=${pokemon.species}&form=${pokemon.form}&shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`
     }
 
-    export function useFallback(img: HTMLImageElement, pokemon: Pokemon) {
-        let fallback = getFallbackImg(pokemon)
+    export function useFallback(img: HTMLImageElement, pokemon: Pokemon, user?: string) {
+        let fallback = getFallbackImg(pokemon, user)
         if (img.src === fallback || !isDefined(fallback)) {
             return
         }
@@ -440,8 +441,8 @@ export namespace V3 {
         img.src = fallback!
     }
 
-    export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon) {
-        let fallback = getPartyFallbackImg(pokemon)
+    export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon, user?: string) {
+        let fallback = getPartyFallbackImg(pokemon, user)
         if (img.src === fallback || !isDefined(fallback)) {
             return
         }

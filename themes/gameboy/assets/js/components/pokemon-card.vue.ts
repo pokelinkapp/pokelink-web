@@ -58,7 +58,7 @@ export default defineComponent({
     imageTag() {
       if (!this.isValid) { return null; }
       if (this.pokemon.isEgg) {
-        return 'https://assets.pokelink.xyz/V3/sprites/small_egg.png'
+        return 'https://assets.pokelink.xyz/v2/sprites/small_egg.png'
       }
       return V3.getPartySprite(this.pokemon)
     },

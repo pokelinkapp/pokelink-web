@@ -1,5 +1,13 @@
 import {createApp} from 'vue'
-import {V3, clientSettings, type Nullable, isDefined} from 'pokelink'
+import {
+    V3,
+    clientSettings,
+    type Nullable,
+    isDefined,
+    ComponentConfig,
+    settingsId,
+    settingsSubcomponents, partyId, pokemonSubcomponents
+} from 'pokelink'
 import pokemon from './components/pokemon.vue.js'
 
 (() => {
@@ -25,7 +33,18 @@ import pokemon from './components/pokemon.vue.js'
 
             V3.onSpriteSetReset(this.resetSpriteSet)
 
-            V3.initialize()
+            const components: ComponentConfig = {}
+            components[settingsId] = [
+                settingsSubcomponents.spriteTemplate
+            ]
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.shadow
+            ]
+
+            V3.initialize(components)
 
             V3.onPartyUpdate((party => {
                 vm.party = party
@@ -80,7 +99,7 @@ import pokemon from './components/pokemon.vue.js'
         },
         methods: {
             resetSpriteSet() {
-                V3.updateSpriteTemplate('https://assets.pokelink.xyz/V3/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}.png')
+                V3.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/pkhex/party/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}{{ifElse (isDefined translations.english.form) (concat "-" (toLower (noSpaces translations.english.form))) ""}}.png')
             },
             isDefined(obj: Nullable<any>) {
                 return isDefined(obj)

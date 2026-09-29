@@ -1,5 +1,5 @@
 import { createApp } from 'vue';
-import { V3, clientSettings, isDefined } from 'pokelink';
+import { V3, clientSettings, isDefined, settingsId, settingsSubcomponents, partyId, pokemonSubcomponents } from 'pokelink';
 import pokemonCard from './components/pokemon.vue.js';
 (() => {
     createApp({
@@ -19,7 +19,19 @@ import pokemonCard from './components/pokemon.vue.js';
             const vm = this;
             this.resetSpriteSet();
             V3.onSpriteSetReset(this.resetSpriteSet);
-            V3.initialize();
+            const components = {};
+            components[settingsId] = [
+                settingsSubcomponents.spriteTemplate
+            ];
+            components[partyId] = [
+                pokemonSubcomponents.misc,
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.stats,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.status,
+                pokemonSubcomponents.shadow
+            ];
+            V3.initialize(components);
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.hp = clientSettings.params.getBool('hp', false);
             V3.onPartyUpdate((party) => {
@@ -68,10 +80,10 @@ import pokemonCard from './components/pokemon.vue.js';
         },
         methods: {
             resetSpriteSet() {
-                V3.updateSpriteTemplate('https://assets.pokelink.xyz/V3/sprites/pokemon/national/animated' +
+                V3.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/national/animated' +
                     '{{ifElse isShiny "-shiny" ""}}' +
                     '/{{toLower (noSpaces (nidoranGender translations.english.species "" "-f"))}}' +
-                    '{{ifElse (isDefined translations.english.formName) (concat "-" (toLower (noSpaces translations.english.formName))) ""}}' +
+                    '{{ifElse (isDefined translations.english.form) (concat "-" (toLower (noSpaces translations.english.form))) ""}}' +
                     '{{addFemaleTag this "-f"}}.gif');
             },
             isDefined(obj) {

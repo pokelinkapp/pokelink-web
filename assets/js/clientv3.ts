@@ -66,7 +66,7 @@ export class PokelinkClientV3 extends PokelinkClientBase {
                 
                 let parsedComponent= fromBinary(schema, component.value)
                 
-                this.events.emit('componentUpdate', key, parsedComponent)
+                this.events.emit('componentUpdate', key, parsedComponent, user)
             }
         } catch (ex) {
             console.error(ex)
