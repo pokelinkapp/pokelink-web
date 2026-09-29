@@ -59,9 +59,11 @@ jobs:
           # in v2/, repository metadata or prose.
           outside_v3='^(v1/|v2/|\.github/|.*\.md$|CODEOWNERS$)'
           if [ -n "$(grep -vE "$outside_v3" <<< "$changed" || true)" ]; then v3=true; fi
-          echo "v3=$v3" >> "$GITHUB_OUTPUT"
-          echo "v2=$v2" >> "$GITHUB_OUTPUT"
-          echo "v1=$v1" >> "$GITHUB_OUTPUT"
+          {
+            echo "v3=$v3"
+            echo "v2=$v2"
+            echo "v1=$v1"
+          } >> "$GITHUB_OUTPUT"
           echo "lanes: v3=$v3 v2=$v2 v1=$v1"
 
   guards:
