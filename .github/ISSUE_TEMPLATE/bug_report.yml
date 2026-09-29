@@ -1,0 +1,69 @@
+name: Bug report
+description: A theme, badge set or graveyard looks wrong or stops updating.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: Web source version
+      description: The number in the URL of your browser source, for example .../v3/themes/default/.
+      options:
+        - v3
+        - v2
+        - v1
+        - Not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Theme
+        - Badges
+        - Graveyard
+        - Sprites
+        - Build or tooling
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Theme, badge set or graveyard name
+      placeholder: Default
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Add the theme as an OBS browser source
+        2. Catch a Pokémon with a held item
+        3. The item icon does not appear
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead
+    validations:
+      required: true
+  - type: input
+    id: app-version
+    attributes:
+      label: PokeLink app version
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Screenshots or console output
+      description: Open the browser source in a normal browser and add `?debug=true` to the URL to see debug output.
