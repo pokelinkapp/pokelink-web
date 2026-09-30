@@ -64,7 +64,7 @@ function sortDeaths(x: PokemonGrave, y: PokemonGrave) {
             
             components[deathId] = components[graveyardId]
 
-            V3.initialize({listenForSpriteUpdates: false}, components)
+            V3.initialize(components)
 
             this.prefixText = clientSettings.params.getString('prefixText', '')!
 

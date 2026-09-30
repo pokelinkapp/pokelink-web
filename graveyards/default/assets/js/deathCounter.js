@@ -45,7 +45,7 @@ function sortDeaths(x, y) {
                 }
             }
             components[deathId] = components[graveyardId];
-            V3.initialize({ listenForSpriteUpdates: false }, components);
+            V3.initialize(components);
             this.prefixText = clientSettings.params.getString('prefixText', '');
             V3.onGraveyardUpdate((graveyard) => {
                 vm.deaths = graveyard.sort(sortDeaths);

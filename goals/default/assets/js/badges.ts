@@ -38,7 +38,7 @@ import {clientSettings, ComponentConfig, goalsId, isDefined, V3, V3DataTypes} fr
                 components[goalsId].push('category')
             }
 
-            V3.initialize(null, components)
+            V3.initialize(components)
 
             V3.registerComponentListener<V3DataTypes.GoalsMessage>(goalsId, (component) => {
                 this.settings.showCategories = clientSettings.params.getBool('showCategories', false)

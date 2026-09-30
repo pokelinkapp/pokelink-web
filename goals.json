@@ -1,24 +1,24 @@
 {
-    "version": 2,
-    "badges": [
+    "version": 3,
+    "goals": [
         {
-            "name": "Pokelink.Badges.Default.name",
+            "name": "Pokelink.Goals.Default.name",
             "translate": true,
             "developer": "Pokélink",
-            "url": "https://assets.pokelink.xyz/v3/badges/default/",
+            "url": "https://assets.pokelink.xyz/v3/goals/default/",
             "options": [
                 {
                     "key": "showCategories",
-                    "name": "Pokelink.Badges.Default.showCategories.name",
-                    "description": "Pokelink.Badges.Default.showCategories.description",
+                    "name": "Pokelink.Goals.Default.showCategories.name",
+                    "description": "Pokelink.Goals.Default.showCategories.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false
                 },
                 {
                     "key": "numbersOnly",
-                    "name": "Pokelink.Badges.Default.numbersOnly.name",
-                    "description": "Pokelink.Badges.Default.numbersOnly.description",
+                    "name": "Pokelink.Goals.Default.numbersOnly.name",
+                    "description": "Pokelink.Goals.Default.numbersOnly.description",
                     "translate": true,
                     "type": "boolean",
                     "default": false

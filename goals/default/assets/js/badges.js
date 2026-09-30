@@ -33,7 +33,7 @@ import { clientSettings, goalsId, isDefined, V3 } from 'pokelink';
             else if (this.settings.showCategories) {
                 components[goalsId].push('category');
             }
-            V3.initialize(null, components);
+            V3.initialize(components);
             V3.registerComponentListener(goalsId, (component) => {
                 this.settings.showCategories = clientSettings.params.getBool('showCategories', false);
                 if (this.settings.showCategories) {
