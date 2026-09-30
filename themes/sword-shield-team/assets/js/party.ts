@@ -37,12 +37,16 @@ import pokemon from './components/pokemon.vue.js'
             components[settingsId] = [
                 settingsSubcomponents.spriteTemplate
             ]
-            components[partyId] = [
-                pokemonSubcomponents.misc,
-                pokemonSubcomponents.exp,
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.shadow
-            ]
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.misc,
+                    pokemonSubcomponents.exp,
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.shadow
+                ]
+            }
 
             V3.initialize(components)
 

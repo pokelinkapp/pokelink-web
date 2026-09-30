@@ -67,12 +67,16 @@ export function pokemonTCGCardSets() {
         created: function () {
             const vm = this
             const components: ComponentConfig = {}
-            components[partyId] = [
-                pokemonSubcomponents.exp,
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.status,
-                pokemonSubcomponents.misc
-            ]
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.exp,
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.status,
+                    pokemonSubcomponents.misc
+                ]
+            }
             V3.initialize(components)
 
             V3.onConnect(() => {

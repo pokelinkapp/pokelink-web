@@ -43,10 +43,14 @@ export default defineComponent({
         components[settingsId] = [
             settingsSubcomponents.spriteTemplate
         ]
-        components[partyId] = [
-            pokemonSubcomponents.hp,
-            pokemonSubcomponents.shadow
-        ]
+        components[partyId] = {
+            partySize: V3.getPartySize(),
+            fromSlot: V3.getFromSlot(),
+            pokemon: [
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.shadow
+            ]
+        }
         
         components[graveyardId] = null
         components[deathId] = null
@@ -54,7 +58,7 @@ export default defineComponent({
 
         V3.initialize(components, {numberOfPlayers: -1})
 
-        V3.onPartyUpdate(((party, username) => {
+        V3.onPartyUpdate(((party, _, username) => {
             this.initializeIfUndefined(username)
 
             this.users[username].party = party.filter(this.isDefined)

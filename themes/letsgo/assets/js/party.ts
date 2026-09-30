@@ -32,14 +32,18 @@ import pokemonCard from './components/pokemon.vue.js'
             components[settingsId] = [
                 settingsSubcomponents.spriteTemplate
             ]
-            components[partyId] = [
-                pokemonSubcomponents.misc,
-                pokemonSubcomponents.exp,
-                pokemonSubcomponents.stats,
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.status,
-                pokemonSubcomponents.shadow
-            ]
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.misc,
+                    pokemonSubcomponents.exp,
+                    pokemonSubcomponents.stats,
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.status,
+                    pokemonSubcomponents.shadow
+                ]
+            }
 
             V3.initialize(components)
 

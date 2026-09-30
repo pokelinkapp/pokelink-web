@@ -20,13 +20,17 @@ import pokemon from './components/pokemon.vue.js';
         mounted: function () {
             const vm = this;
             const components = {};
-            components[partyId] = [
-                pokemonSubcomponents.misc,
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.shadow
-            ];
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.misc,
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.shadow
+                ]
+            };
             if (!clientSettings.params.getBool('hideLevel', false)) {
-                components[partyId].push(pokemonSubcomponents.exp);
+                components[partyId].pokemon.push(pokemonSubcomponents.exp);
             }
             V3.initialize(components);
             V3.onPartyUpdate((party => {

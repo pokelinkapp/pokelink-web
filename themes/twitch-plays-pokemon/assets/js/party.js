@@ -21,15 +21,19 @@ import list from './components/list.vue.js';
             components[settingsId] = [
                 settingsSubcomponents.spriteTemplate
             ];
-            components[partyId] = [
-                pokemonSubcomponents.misc,
-                pokemonSubcomponents.exp,
-                pokemonSubcomponents.stats,
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.status,
-                pokemonSubcomponents.shadow,
-                pokemonSubcomponents.moves
-            ];
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.misc,
+                    pokemonSubcomponents.exp,
+                    pokemonSubcomponents.stats,
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.status,
+                    pokemonSubcomponents.shadow,
+                    pokemonSubcomponents.moves
+                ]
+            };
             V3.initialize(components);
             V3.onConnect(() => {
                 vm.connected = true;

@@ -71,13 +71,17 @@ export function pokemonTCGCardSets() {
             components[settingsId] = [
                 settingsSubcomponents.spriteTemplate
             ];
-            components[partyId] = [
-                pokemonSubcomponents.misc,
-                pokemonSubcomponents.exp,
-                pokemonSubcomponents.stats,
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.shadow
-            ];
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.misc,
+                    pokemonSubcomponents.exp,
+                    pokemonSubcomponents.stats,
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.shadow
+                ]
+            };
             V3.initialize(components);
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.noGap = clientSettings.params.getBool('noGap', false);

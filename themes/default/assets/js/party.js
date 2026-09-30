@@ -22,13 +22,17 @@ import pokemonCard from './components/pokemon-card.vue.js';
             const vm = this;
             this.resetSpriteSet();
             const components = {};
-            components[partyId] = [
-                pokemonSubcomponents.misc,
-                pokemonSubcomponents.exp,
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.status,
-                pokemonSubcomponents.shadow
-            ];
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.misc,
+                    pokemonSubcomponents.exp,
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.status,
+                    pokemonSubcomponents.shadow
+                ]
+            };
             V3.initialize(components);
             V3.onPartyUpdate((party => {
                 vm.party = party;

@@ -139,7 +139,11 @@ export declare const PokemonDeathMessageSchema: GenMessage<PokemonDeathMessage>;
  */
 export type PartyMessage = Message<"Pokelink.Core.Proto.V3.PartyMessage"> & {
     /**
-     * @generated from field: repeated Pokelink.Core.Proto.V3.Pokemon party = 1;
+     * @generated from field: uint32 maxPartySize = 1;
+     */
+    maxPartySize: number;
+    /**
+     * @generated from field: repeated Pokelink.Core.Proto.V3.Pokemon party = 2;
      */
     party: Pokemon[];
 };

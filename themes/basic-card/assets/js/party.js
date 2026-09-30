@@ -18,12 +18,16 @@ import pokemonCard from './components/pokemon-card.vue.js';
         mounted: function () {
             const vm = this;
             const components = {};
-            components[partyId] = [
-                "stats",
-                "hp",
-                "misc",
-                "exp"
-            ];
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    "stats",
+                    "hp",
+                    "misc",
+                    "exp"
+                ]
+            };
             V3.initialize(components);
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.hp = clientSettings.params.getBool('hp', false);

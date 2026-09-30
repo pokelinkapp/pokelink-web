@@ -52,7 +52,7 @@ export declare namespace V3 {
     }
     export function initialize(componentConfigs?: Nullable<ComponentConfig>, settings?: Nullable<V3Settings>): void;
     export function convertFromPokemonProtobuf(pokemon: PokemonPB): Pokemon;
-    export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], username: string) => void): void;
+    export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], maxPartySize: number, username: string) => void): void;
     export function onGraveyardUpdate(handler: (graves: PokemonGrave[], username: string) => void): void;
     export function onDeath(handler: (pokemon: PokemonGrave, username: string) => void): void;
     export function onRevive(handler: (graveId: string, username: string) => void): void;
@@ -73,6 +73,8 @@ export declare namespace V3 {
     export function registerComponentSchema<T extends Message>(id: string, componentSchema: GenMessage<T>): boolean;
     export function getComponentSchema<T2 extends Message, T extends GenMessage<T2>>(id: string): T | null;
     export function pokelinkHostToUrl(input: string): string;
+    export function getPartySize(): number;
+    export function getFromSlot(): number;
     export {};
 }
 export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents };

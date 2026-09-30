@@ -35,8 +35,9 @@ export default defineComponent({
     mounted() {
         let vm = this
         this.flipped = clientSettings.params.getBool('flipped', false)
-        V3.onPartyUpdate((party => {
+        V3.onPartyUpdate(((party, maxPartySize) => {
             vm.party = party
+            vm.party_count = maxPartySize
             vm.$forceUpdate()
         }))
     },
@@ -51,7 +52,7 @@ export default defineComponent({
     computed: {
         partySlots() {
             const filteredParty = this.party.filter(this.isDefined)
-            return [...new Array(6).keys()]
+            return [...new Array(this.party_count).keys()]
                 .map(slot => {
                     return filteredParty[slot] || {}
                 })

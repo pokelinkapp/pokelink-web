@@ -158,7 +158,7 @@ export var V3;
             if (clientSettings.debug) {
                 console.debug(`Party(${user}):`, party);
             }
-            events.emit(partyId, party, user);
+            events.emit(partyId, party, component.maxPartySize, user);
         });
     }
     function registerGraveyardComponentListener() {
@@ -405,6 +405,14 @@ export var V3;
         return input.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
     }
     V3.pokelinkHostToUrl = pokelinkHostToUrl;
+    function getPartySize() {
+        return clientSettings.params.getNumber('partySize', 6);
+    }
+    V3.getPartySize = getPartySize;
+    function getFromSlot() {
+        return clientSettings.params.getNumber('fromSlot', 0);
+    }
+    V3.getFromSlot = getFromSlot;
     registerComponentListener(settingsId, (component) => {
         if (!clientSettings.params.hasKey('template')) {
             const spriteTemplate = component.settings['spriteTemplate'];

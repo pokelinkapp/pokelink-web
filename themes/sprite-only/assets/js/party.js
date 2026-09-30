@@ -24,10 +24,14 @@ import pokemonCard from './components/pokemon-card.vue.js';
                 V3.updateSpriteTemplate(homeSpriteTemplate);
             });
             let components = {};
-            components[partyId] = [
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.shadow
-            ];
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.shadow
+                ]
+            };
             V3.initialize(components);
             V3.onPartyUpdate((party => {
                 vm.party = party;

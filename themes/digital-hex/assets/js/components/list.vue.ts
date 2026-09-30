@@ -47,13 +47,17 @@ export default defineComponent({
         components[settingsId] = [
             settingsSubcomponents.spriteTemplate
         ]
-        components[partyId] = [
-            pokemonSubcomponents.exp,
-            pokemonSubcomponents.hp,
-            pokemonSubcomponents.status,
-            pokemonSubcomponents.shadow,
-            pokemonSubcomponents.stats
-        ]
+        components[partyId] = {
+            partySize: V3.getPartySize(),
+            fromSlot: V3.getFromSlot(),
+            pokemon: [
+                pokemonSubcomponents.exp,
+                pokemonSubcomponents.hp,
+                pokemonSubcomponents.status,
+                pokemonSubcomponents.shadow,
+                pokemonSubcomponents.stats
+            ]
+        }
 
         V3.initialize(components)
         V3.onPartyUpdate((party => {

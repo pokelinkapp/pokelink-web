@@ -88,7 +88,7 @@ function globalInitialize(numberOfPlayers: number = 1) {
     clientSettings.port = clientSettings.params.getNumber('port', 3000)
 
     let value = clientSettings.params.getString('users', '')!
-    
+
     if (value == '' && numberOfPlayers === -1) {
         clientSettings.users = []
     } else if (value.indexOf(',') === -1) {
@@ -246,7 +246,7 @@ export namespace V3 {
                 console.debug(`Party(${user}):`, party)
             }
 
-            events.emit(partyId, party, user)
+            events.emit(partyId, party, component.maxPartySize, user)
         })
     }
 
@@ -345,7 +345,7 @@ export namespace V3 {
         return flatPokemon
     }
 
-    export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], username: string) => void) {
+    export function onPartyUpdate(handler: (party: Nullable<Pokemon>[], maxPartySize: number, username: string) => void) {
         if (!hasRegisteredParty) {
             hasRegisteredParty = true
             registerPartyComponentListener()
@@ -527,6 +527,14 @@ export namespace V3 {
 
     export function pokelinkHostToUrl(input: string) {
         return input.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+    }
+
+    export function getPartySize() {
+        return clientSettings.params.getNumber('partySize', 6)
+    }
+
+    export function getFromSlot() {
+        return clientSettings.params.getNumber('fromSlot', 0)
     }
 
     registerComponentListener<SettingsMessage>(settingsId, (component) => {

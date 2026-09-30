@@ -22,12 +22,16 @@ import pokemonCard from './components/pokemon-card.vue.js'
             const vm = this
             
             const components: ComponentConfig = {}
-            components[partyId] = [
-                "stats",
-                "hp",
-                "misc",
-                "exp"
-            ]
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    "stats",
+                    "hp",
+                    "misc",
+                    "exp"
+                ]
+            }
             
             V3.initialize(components)
 

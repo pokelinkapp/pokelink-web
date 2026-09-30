@@ -19,12 +19,16 @@ import pokemonCard from './components/pokemon-card.vue.js';
             const vm = this;
             V3.updateSpriteTemplate('https://assets.pokelink.xyz/v2/sprites/pokemon/trozei/{{ species }}.png');
             const components = {};
-            components[partyId] = [
-                pokemonSubcomponents.misc,
-                pokemonSubcomponents.exp,
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.shadow
-            ];
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.misc,
+                    pokemonSubcomponents.exp,
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.shadow
+                ]
+            };
             V3.initialize(components);
             this.settings.verticalPokemon = clientSettings.params.getBool('verticalPokemon', false);
             this.settings.hp = clientSettings.params.getBool('hp', false);

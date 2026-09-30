@@ -69,7 +69,8 @@ message PokemonDeathMessage {
 }
 
 message PartyMessage {
-  repeated Pokemon party = 1;
+  uint32 maxPartySize = 1;
+  repeated Pokemon party = 2;
 }
 
 message SettingsMessage {

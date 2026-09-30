@@ -17,7 +17,6 @@ import pokemonCard from './components/pokemon-card.vue.js'
                 settings: {},
                 party: [],
                 switchSpeed: 'switchMedium',
-
             }
         },
         created: function () {
@@ -31,10 +30,14 @@ import pokemonCard from './components/pokemon-card.vue.js'
             })
             
             let components: ComponentConfig = {};
-            components[partyId] = [
-                pokemonSubcomponents.hp,
-                pokemonSubcomponents.shadow
-            ]
+            components[partyId] = {
+                partySize: V3.getPartySize(),
+                fromSlot: V3.getFromSlot(),
+                pokemon: [
+                    pokemonSubcomponents.hp,
+                    pokemonSubcomponents.shadow
+                ]
+            }
 
             V3.initialize(components)
 
