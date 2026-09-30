@@ -187,9 +187,9 @@ export declare const PCMessageSchema: GenMessage<PCMessage>;
  */
 export type RoutesMessage = Message<"Pokelink.Core.Proto.V3.RoutesMessage"> & {
     /**
-     * @generated from field: map<string, Pokelink.Core.Proto.V3.RouteEvent> Encounters = 1;
+     * @generated from field: map<string, Pokelink.Core.Proto.V3.RouteEvent> encounters = 1;
      */
-    Encounters: {
+    encounters: {
         [key: string]: RouteEvent;
     };
 };
@@ -198,6 +198,34 @@ export type RoutesMessage = Message<"Pokelink.Core.Proto.V3.RoutesMessage"> & {
  * Use `create(RoutesMessageSchema)` to create a new message.
  */
 export declare const RoutesMessageSchema: GenMessage<RoutesMessage>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.TrainerTrackerMessage
+ */
+export type TrainerTrackerMessage = Message<"Pokelink.Core.Proto.V3.TrainerTrackerMessage"> & {
+    /**
+     * @generated from field: optional uint32 levelCap = 1;
+     */
+    levelCap?: number | undefined;
+    /**
+     * @generated from field: optional uint32 trainersDefeated = 2;
+     */
+    trainersDefeated?: number | undefined;
+    /**
+     * @generated from field: optional uint32 trainerCount = 3;
+     */
+    trainerCount?: number | undefined;
+    /**
+     * @generated from field: map<string, google.protobuf.Any> components = 4;
+     */
+    components: {
+        [key: string]: Any;
+    };
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.TrainerTrackerMessage.
+ * Use `create(TrainerTrackerMessageSchema)` to create a new message.
+ */
+export declare const TrainerTrackerMessageSchema: GenMessage<TrainerTrackerMessage>;
 /**
  * @generated from message Pokelink.Core.Proto.V3.PCBox
  */
@@ -690,6 +718,186 @@ export type PokemonGrave = Message<"Pokelink.Core.Proto.V3.PokemonGrave"> & {
  * Use `create(PokemonGraveSchema)` to create a new message.
  */
 export declare const PokemonGraveSchema: GenMessage<PokemonGrave>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.TTTranslationObject
+ */
+export type TTTranslationObject = Message<"Pokelink.Core.Proto.V3.TTTranslationObject"> & {
+    /**
+     * @generated from field: optional string trainerClass = 1;
+     */
+    trainerClass?: string | undefined;
+    /**
+     * @generated from field: optional string name = 2;
+     */
+    name?: string | undefined;
+    /**
+     * @generated from field: optional string location = 3;
+     */
+    location?: string | undefined;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.TTTranslationObject.
+ * Use `create(TTTranslationObjectSchema)` to create a new message.
+ */
+export declare const TTTranslationObjectSchema: GenMessage<TTTranslationObject>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.TTTranslations
+ */
+export type TTTranslations = Message<"Pokelink.Core.Proto.V3.TTTranslations"> & {
+    /**
+     * @generated from field: Pokelink.Core.Proto.V3.TTTranslationObject english = 1;
+     */
+    english?: TTTranslationObject | undefined;
+    /**
+     * @generated from field: Pokelink.Core.Proto.V3.TTTranslationObject locale = 2;
+     */
+    locale?: TTTranslationObject | undefined;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.TTTranslations.
+ * Use `create(TTTranslationsSchema)` to create a new message.
+ */
+export declare const TTTranslationsSchema: GenMessage<TTTranslations>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.TTTrainer
+ */
+export type TTTrainer = Message<"Pokelink.Core.Proto.V3.TTTrainer"> & {
+    /**
+     * @generated from field: bool isBoss = 1;
+     */
+    isBoss: boolean;
+    /**
+     * @generated from field: bool isGymLeader = 2;
+     */
+    isGymLeader: boolean;
+    /**
+     * @generated from field: optional string notes = 3;
+     */
+    notes?: string | undefined;
+    /**
+     * @generated from field: optional string trainerSprite = 4;
+     */
+    trainerSprite?: string | undefined;
+    /**
+     * @generated from field: optional string badgeSprite = 5;
+     */
+    badgeSprite?: string | undefined;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.TTTrainer.
+ * Use `create(TTTrainerSchema)` to create a new message.
+ */
+export declare const TTTrainerSchema: GenMessage<TTTrainer>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.TTPokemonTranslationsObject
+ */
+export type TTPokemonTranslationsObject = Message<"Pokelink.Core.Proto.V3.TTPokemonTranslationsObject"> & {
+    /**
+     * @generated from field: optional string gender = 1;
+     */
+    gender?: string | undefined;
+    /**
+     * @generated from field: repeated string moves = 2;
+     */
+    moves: string[];
+    /**
+     * @generated from field: optional string item = 3;
+     */
+    item?: string | undefined;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.TTPokemonTranslationsObject.
+ * Use `create(TTPokemonTranslationsObjectSchema)` to create a new message.
+ */
+export declare const TTPokemonTranslationsObjectSchema: GenMessage<TTPokemonTranslationsObject>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.TTPokemonTranslations
+ */
+export type TTPokemonTranslations = Message<"Pokelink.Core.Proto.V3.TTPokemonTranslations"> & {
+    /**
+     * @generated from field: Pokelink.Core.Proto.V3.TTPokemonTranslationsObject english = 1;
+     */
+    english?: TTPokemonTranslationsObject | undefined;
+    /**
+     * @generated from field: Pokelink.Core.Proto.V3.TTPokemonTranslationsObject locale = 2;
+     */
+    locale?: TTPokemonTranslationsObject | undefined;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.TTPokemonTranslations.
+ * Use `create(TTPokemonTranslationsSchema)` to create a new message.
+ */
+export declare const TTPokemonTranslationsSchema: GenMessage<TTPokemonTranslations>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.TTPokemon
+ */
+export type TTPokemon = Message<"Pokelink.Core.Proto.V3.TTPokemon"> & {
+    /**
+     * @generated from field: uint32 species = 1;
+     */
+    species: number;
+    /**
+     * @generated from field: uint32 form = 2;
+     */
+    form: number;
+    /**
+     * @generated from field: optional uint32 item = 3;
+     */
+    item?: number | undefined;
+    /**
+     * @generated from field: optional uint32 level = 4;
+     */
+    level?: number | undefined;
+    /**
+     * @generated from field: Pokelink.Core.Proto.V3.Gender gender = 5;
+     */
+    gender: Gender;
+    /**
+     * @generated from field: bool hasFemaleSprite = 6;
+     */
+    hasFemaleSprite: boolean;
+    /**
+     * @generated from field: bool isShiny = 7;
+     */
+    isShiny: boolean;
+    /**
+     * @generated from field: Pokelink.Core.Proto.V3.TTPokemonTranslations translations = 8;
+     */
+    translations?: TTPokemonTranslations | undefined;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.TTPokemon.
+ * Use `create(TTPokemonSchema)` to create a new message.
+ */
+export declare const TTPokemonSchema: GenMessage<TTPokemon>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.TTPartyObject
+ */
+export type TTPartyObject = Message<"Pokelink.Core.Proto.V3.TTPartyObject"> & {
+    /**
+     * @generated from field: repeated Pokelink.Core.Proto.V3.TTPokemon pokemon = 1;
+     */
+    pokemon: TTPokemon[];
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.TTPartyObject.
+ * Use `create(TTPartyObjectSchema)` to create a new message.
+ */
+export declare const TTPartyObjectSchema: GenMessage<TTPartyObject>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.TTParty
+ */
+export type TTParty = Message<"Pokelink.Core.Proto.V3.TTParty"> & {
+    /**
+     * @generated from field: repeated Pokelink.Core.Proto.V3.TTPartyObject parties = 1;
+     */
+    parties: TTPartyObject[];
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.TTParty.
+ * Use `create(TTPartySchema)` to create a new message.
+ */
+export declare const TTPartySchema: GenMessage<TTParty>;
 /**
  * @generated from enum Pokelink.Core.Proto.V3.Gender
  */

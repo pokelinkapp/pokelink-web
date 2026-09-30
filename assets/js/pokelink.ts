@@ -26,7 +26,7 @@ import {
     PokemonStatusSchema,
     RoutesMessageSchema,
     SettingsMessage,
-    SettingsMessageSchema
+    SettingsMessageSchema, TrainerTrackerMessage, TrainerTrackerMessageSchema
 } from './v3_pb.js'
 import {fromBinary, Message, toJsonString} from '@bufbuild/protobuf'
 import {
@@ -139,6 +139,7 @@ const deathId = 'pokelink.component.death'
 const settingsId = 'pokelink.component.settings'
 const pcId = 'pokelink.component.pc'
 const routesId = 'pokelink.component.routes'
+const trainerTrackerId = 'pokelink.component.trainerTracker'
 const pokemonId = 'pokemon'
 
 const pokemonSubcomponents = {
@@ -170,6 +171,10 @@ const settingsSubcomponents = {
     'spriteTemplate': 'spriteTemplate'
 }
 
+const trainerTrackerSubcomponents = {
+    
+}
+
 export namespace V3 {
     interface V3Settings {
         numberOfPlayers?: number
@@ -183,6 +188,7 @@ export namespace V3 {
     let hasRegisteredGraveyard = false
     let hasRegisteredDeath = false
     let hasRegisteredRevive = false
+    let hasRegisteredTrainerTracking = false
 
     function initializeClient(componentConfigs: Nullable<ComponentConfig> = null) {
         client = new PokelinkClientV3(componentConfigs, clientSettings.users)
@@ -313,6 +319,15 @@ export namespace V3 {
             events.emit(reviveId, component.graveId, user)
         })
     }
+    
+    function registerTrainerTrackerComponentListener() {
+        registerComponentListener<TrainerTrackerMessage>(trainerTrackerId, (component, user) => {
+            if (clientSettings.debug) {
+                console.debug(`Trainer(${user})`, component)
+            }
+            events.emit(trainerTrackerId, component, user)
+        })
+    }
 
     export function convertFromPokemonProtobuf(pokemon: PokemonPB): Pokemon {
         let flatPokemon: Pokemon = {
@@ -375,6 +390,14 @@ export namespace V3 {
             registerReviveComponentListener()
         }
         events.on(reviveId, handler)
+    }
+    
+    export function onTrainerTrackerUpdate(handler: (data: any, username: string) => void) {
+        if (!hasRegisteredTrainerTracking) {
+            hasRegisteredTrainerTracking = true
+            registerTrainerTrackerComponentListener()
+        }
+        events.on(trainerTrackerId, handler)
     }
 
     export function onSpriteTemplateUpdate(handler: () => void) {
@@ -557,6 +580,7 @@ V3.registerComponentSchema(deathId, PokemonDeathMessageSchema)
 V3.registerComponentSchema(settingsId, SettingsMessageSchema)
 V3.registerComponentSchema(pcId, PCMessageSchema)
 V3.registerComponentSchema(routesId, RoutesMessageSchema)
+V3.registerComponentSchema(trainerTrackerId, TrainerTrackerMessageSchema)
 V3.registerComponentSchema(pokemonId, PokemonSchema)
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.misc}`, PokemonMiscSchema)
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.status}`, PokemonStatusSchema)
@@ -593,8 +617,10 @@ export {
     settingsId,
     pcId,
     routesId,
+    trainerTrackerId,
     pokemonSubcomponents,
     goalsSubcomponents,
     graveyardSubcomponents,
-    settingsSubcomponents
+    settingsSubcomponents,
+    trainerTrackerSubcomponents
 }

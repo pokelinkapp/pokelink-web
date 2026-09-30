@@ -1,6 +1,6 @@
 import { PokelinkClientV3 } from './clientv3.js';
 import * as V3DataTypes from './v3_pb.js';
-import { Gender, GoalsMessageSchema, GraveyardMessageSchema, PartyMessageSchema, PCMessageSchema, PokemonDeathMessageSchema, PokemonEVIVSchema, PokemonEXPSchema, PokemonHiddenPowerSchema, PokemonHPSchema, PokemonMetSchema, PokemonMiscSchema, PokemonMovesSchema, PokemonReviveMessageSchema, PokemonSchema, PokemonShadowSchema, PokemonStatusSchema, RoutesMessageSchema, SettingsMessageSchema } from './v3_pb.js';
+import { Gender, GoalsMessageSchema, GraveyardMessageSchema, PartyMessageSchema, PCMessageSchema, PokemonDeathMessageSchema, PokemonEVIVSchema, PokemonEXPSchema, PokemonHiddenPowerSchema, PokemonHPSchema, PokemonMetSchema, PokemonMiscSchema, PokemonMovesSchema, PokemonReviveMessageSchema, PokemonSchema, PokemonShadowSchema, PokemonStatusSchema, RoutesMessageSchema, SettingsMessageSchema, TrainerTrackerMessageSchema } from './v3_pb.js';
 import { fromBinary, toJsonString } from '@bufbuild/protobuf';
 import { EventEmitter, examplePokemon, hex2rgba, htmlColors, isDefined, ParamsManager, resolveIllegalCharacters, statusColors, string2ColHex, typeColors } from './global.js';
 import Handlebars from 'handlebars';
@@ -72,6 +72,7 @@ const deathId = 'pokelink.component.death';
 const settingsId = 'pokelink.component.settings';
 const pcId = 'pokelink.component.pc';
 const routesId = 'pokelink.component.routes';
+const trainerTrackerId = 'pokelink.component.trainerTracker';
 const pokemonId = 'pokemon';
 const pokemonSubcomponents = {
     'misc': 'misc',
@@ -98,6 +99,7 @@ const graveyardSubcomponents = {
 const settingsSubcomponents = {
     'spriteTemplate': 'spriteTemplate'
 };
+const trainerTrackerSubcomponents = {};
 export var V3;
 (function (V3) {
     let v3Settings = {
@@ -107,6 +109,7 @@ export var V3;
     let hasRegisteredGraveyard = false;
     let hasRegisteredDeath = false;
     let hasRegisteredRevive = false;
+    let hasRegisteredTrainerTracking = false;
     function initializeClient(componentConfigs = null) {
         client = new PokelinkClientV3(componentConfigs, clientSettings.users);
         client.events.once('disconnected', () => {
@@ -211,6 +214,14 @@ export var V3;
             events.emit(reviveId, component.graveId, user);
         });
     }
+    function registerTrainerTrackerComponentListener() {
+        registerComponentListener(trainerTrackerId, (component, user) => {
+            if (clientSettings.debug) {
+                console.debug(`Trainer(${user})`, component);
+            }
+            events.emit(trainerTrackerId, component, user);
+        });
+    }
     function convertFromPokemonProtobuf(pokemon) {
         let flatPokemon = {
             form: pokemon.form,
@@ -268,6 +279,14 @@ export var V3;
         events.on(reviveId, handler);
     }
     V3.onRevive = onRevive;
+    function onTrainerTrackerUpdate(handler) {
+        if (!hasRegisteredTrainerTracking) {
+            hasRegisteredTrainerTracking = true;
+            registerTrainerTrackerComponentListener();
+        }
+        events.on(trainerTrackerId, handler);
+    }
+    V3.onTrainerTrackerUpdate = onTrainerTrackerUpdate;
     function onSpriteTemplateUpdate(handler) {
         events.on(spriteUpdate, handler);
     }
@@ -432,6 +451,7 @@ V3.registerComponentSchema(deathId, PokemonDeathMessageSchema);
 V3.registerComponentSchema(settingsId, SettingsMessageSchema);
 V3.registerComponentSchema(pcId, PCMessageSchema);
 V3.registerComponentSchema(routesId, RoutesMessageSchema);
+V3.registerComponentSchema(trainerTrackerId, TrainerTrackerMessageSchema);
 V3.registerComponentSchema(pokemonId, PokemonSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.misc}`, PokemonMiscSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.status}`, PokemonStatusSchema);
@@ -444,4 +464,4 @@ V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.hiddenPower}`, P
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.met}`, PokemonMetSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.moves}`, PokemonMovesSchema);
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.shadow}`, PokemonShadowSchema);
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, trainerTrackerId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents, trainerTrackerSubcomponents };

@@ -21,6 +21,7 @@ declare const deathId = "pokelink.component.death";
 declare const settingsId = "pokelink.component.settings";
 declare const pcId = "pokelink.component.pc";
 declare const routesId = "pokelink.component.routes";
+declare const trainerTrackerId = "pokelink.component.trainerTracker";
 declare const pokemonSubcomponents: {
     misc: string;
     status: string;
@@ -46,6 +47,7 @@ declare const graveyardSubcomponents: {
 declare const settingsSubcomponents: {
     spriteTemplate: string;
 };
+declare const trainerTrackerSubcomponents: {};
 export declare namespace V3 {
     interface V3Settings {
         numberOfPlayers?: number;
@@ -56,6 +58,7 @@ export declare namespace V3 {
     export function onGraveyardUpdate(handler: (graves: PokemonGrave[], username: string) => void): void;
     export function onDeath(handler: (pokemon: PokemonGrave, username: string) => void): void;
     export function onRevive(handler: (graveId: string, username: string) => void): void;
+    export function onTrainerTrackerUpdate(handler: (data: any, username: string) => void): void;
     export function onSpriteTemplateUpdate(handler: () => void): void;
     export function onSpriteSetReset(handler: () => void): void;
     export function onConnect(handler: () => void): void;
@@ -77,4 +80,4 @@ export declare namespace V3 {
     export function getFromSlot(): number;
     export {};
 }
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, trainerTrackerId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents, trainerTrackerSubcomponents };

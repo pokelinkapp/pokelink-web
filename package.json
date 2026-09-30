@@ -16,8 +16,10 @@
         "build:goals:nodeps": "yarn tsc -p ./goals/tsconfig.json",
         "build:graveyards": "yarn build:core && yarn build:graveyard:nodeps",
         "build:graveyards:nodeps": "yarn tsc -p ./graveyards/tsconfig.json",
+        "build:trainers": "yarn build:core && yarn build:trainers:nodeps",
+        "build:trainers:nodeps": "yarn tsc -p ./trainers/tsconfig.json",
         "build:core": "yarn tsc -p ./assets/tsconfig.json && yarn webpack --config webpack.config.js",
-        "build:v3": "yarn prep && yarn buf generate && yarn build:core && yarn build:themes:nodeps && yarn build:goals:nodeps && yarn build:graveyards:nodeps",
+        "build:v3": "yarn prep && yarn buf generate && yarn build:core && yarn build:themes:nodeps && yarn build:goals:nodeps && yarn build:graveyards:nodeps && yarn build:trainers:nodeps",
         "build:v2": "cd v2 && yarn build",
         "build": "yarn build:v3 && yarn build:v2"
     },

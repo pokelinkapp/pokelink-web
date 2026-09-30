@@ -82,7 +82,14 @@ message PCMessage {
 }
 
 message RoutesMessage {
-  map<string, RouteEvent> Encounters = 1;
+  map<string, RouteEvent> encounters = 1;
+}
+
+message TrainerTrackerMessage {
+  optional uint32 levelCap = 1;
+  optional uint32 trainersDefeated = 2;
+  optional uint32 trainerCount = 3;
+  map<string, google.protobuf.Any> components = 4;
 }
 
 // Pokelink Components
@@ -219,4 +226,53 @@ message PokemonGrave {
   google.protobuf.Timestamp timeOfDeath = 1;
   string id = 2;
   optional Pokemon pokemon = 3;
+}
+
+message TTTranslationObject {
+  optional string trainerClass = 1;
+  optional string name = 2;
+  optional string location = 3;
+}
+
+message TTTranslations {
+  TTTranslationObject english = 1;
+  TTTranslationObject locale = 2;
+}
+
+message TTTrainer {
+  bool isBoss = 1;
+  bool isGymLeader = 2;
+  optional string notes = 3;
+  optional string trainerSprite = 4;
+  optional string badgeSprite = 5;
+}
+
+message TTPokemonTranslationsObject {
+  optional string gender = 1;
+  repeated string moves = 2;
+  optional string item = 3;
+}
+
+message TTPokemonTranslations {
+  TTPokemonTranslationsObject english = 1;
+  TTPokemonTranslationsObject locale = 2;
+}
+
+message TTPokemon {
+  uint32 species = 1;
+  uint32 form = 2;
+  optional uint32 item = 3;
+  optional uint32 level = 4;
+  Gender gender = 5;
+  bool hasFemaleSprite = 6;
+  bool isShiny = 7;
+  TTPokemonTranslations translations = 8;
+}
+
+message TTPartyObject {
+  repeated TTPokemon pokemon = 1;
+}
+
+message TTParty {
+  repeated TTPartyObject parties = 1;
 }
