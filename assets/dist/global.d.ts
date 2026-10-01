@@ -67,6 +67,7 @@ export interface TrackedTrainer {
     notes?: string;
     trainerSprite?: string;
     badgeSprite?: string;
+    highestLevel: number;
     parties?: {
         pokemon: {
             species: number;
@@ -84,6 +85,8 @@ export interface TrainerTracker {
     levelCap?: number;
     trainersDefeated?: number;
     trainerCount?: number;
+    hasItems: boolean;
+    hasAbilities: boolean;
     trainers: TrackedTrainer[];
 }
 export declare const examplePokemon: Pokemon;

@@ -1,7 +1,7 @@
 import * as V3DataTypes from './v3_pb.js';
-import { Pokemon as PokemonPB } from './v3_pb.js';
+import { Pokemon as PokemonPB, TTPokemon } from './v3_pb.js';
 import { Message } from '@bufbuild/protobuf';
-import { ClientSettings, EventEmitter, hex2rgba, htmlColors, isDefined, Nullable, Pokemon, PokemonGrave, resolveIllegalCharacters, statusColors, string2ColHex, typeColors } from './global.js';
+import { ClientSettings, EventEmitter, hex2rgba, htmlColors, isDefined, Nullable, Pokemon, PokemonGrave, resolveIllegalCharacters, statusColors, string2ColHex, TrainerTracker, typeColors } from './global.js';
 import Handlebars from 'handlebars';
 import collect from 'collect.js';
 import { GenMessage } from '@bufbuild/protobuf/codegenv2';
@@ -65,6 +65,7 @@ declare const trainerTrackerSubcomponents: {
             level: string;
             moves: string;
             ability: string;
+            types: string;
         };
     };
 };
@@ -78,15 +79,15 @@ export declare namespace V3 {
     export function onGraveyardUpdate(handler: (graves: PokemonGrave[], username: string) => void): void;
     export function onDeath(handler: (pokemon: PokemonGrave, username: string) => void): void;
     export function onRevive(handler: (graveId: string, username: string) => void): void;
-    export function onTrainerTrackerUpdate(handler: (data: any, username: string) => void): void;
+    export function onTrainerTrackerUpdate(handler: (trainerTracker: TrainerTracker, username: string) => void): void;
     export function onSpriteTemplateUpdate(handler: () => void): void;
     export function onSpriteSetReset(handler: () => void): void;
     export function onConnect(handler: () => void): void;
     export function isValidPokemon(pokemon: Nullable<Pokemon>): boolean;
-    export function getSprite(pokemon: Pokemon): string;
-    export function getPartySprite(pokemon: Pokemon): string;
-    export function getFallbackImg(pokemon: Pokemon, user?: string): string;
-    export function getPartyFallbackImg(pokemon: Pokemon, user?: string): string;
+    export function getSprite(pokemon: Pokemon | TTPokemon): string | undefined;
+    export function getPartySprite(pokemon: Pokemon | TTPokemon): string | undefined;
+    export function getFallbackImg(pokemon: Pokemon | TTPokemon, user?: string): string;
+    export function getPartyFallbackImg(pokemon: Pokemon | TTPokemon, user?: string): string;
     export function useFallback(img: HTMLImageElement, pokemon: Pokemon, user?: string): void;
     export function usePartyFallback(img: HTMLImageElement, pokemon: Pokemon, user?: string): void;
     export function getTypeColor(englishType: string): string;
@@ -95,9 +96,9 @@ export declare namespace V3 {
     export function registerComponentListener<T extends Message>(id: string, callback: ComponentCallback<T>): void;
     export function registerComponentSchema<T extends Message>(id: string, componentSchema: GenMessage<T>): boolean;
     export function getComponentSchema<T2 extends Message, T extends GenMessage<T2>>(id: string): T | null;
-    export function pokelinkHostToUrl(input: string): string;
+    export function pokelinkHostToUrl(input: Nullable<string>): string | undefined;
     export function getPartySize(): number;
     export function getFromSlot(): number;
     export {};
 }
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, trainerTrackerId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents, trainerTrackerSubcomponents };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, trainerTrackerId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents, trainerTrackerSubcomponents, TrainerTracker };

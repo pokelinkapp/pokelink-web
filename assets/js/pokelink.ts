@@ -26,7 +26,8 @@ import {
     PokemonStatusSchema,
     RoutesMessageSchema,
     SettingsMessage,
-    SettingsMessageSchema, TrainerTrackerMessage, TrainerTrackerMessageSchema, TTPartiesSchema, TTTrainerSchema
+    SettingsMessageSchema, TrainerTrackerMessage, TrainerTrackerMessageSchema, TTPartiesSchema,
+    TTPokemon, TTTrainerSchema
 } from './v3_pb.js'
 import {fromBinary, Message, toJsonString} from '@bufbuild/protobuf'
 import {
@@ -189,7 +190,8 @@ const trainerTrackerSubcomponents = {
             item: 'item',
             level: 'level',
             moves: 'moves',
-            ability: 'ability'
+            ability: 'ability',
+            types: 'types'
         }
     }
 }
@@ -342,19 +344,20 @@ export namespace V3 {
     function registerTrainerTrackerComponentListener() {
         registerComponentListener<TrainerTrackerMessage>(trainerTrackerId, (component, user) => {
             
-            let output: TrainerTracker = {trainers: []}
+            let output: TrainerTracker = {trainers: [], hasAbilities: component.hasAbilities, hasItems: component.hasItems}
             output.levelCap = component.levelCap
             output.trainerCount = component.trainerCount
             output.trainersDefeated = component.trainersDefeated
+            
             
             for (let trainer of component.trainers) {
                 let flatTrainer: TrackedTrainer = {
                     isBoss: trainer.isBoss,
                     isGymLeader: trainer.isGymLeader,
                     translations: trainer.translations!,
-                    notes: trainer.notes,
-                    trainerSprite: trainer.trainerSprite,
-                    badgeSprite: trainer.badgeSprite
+                    trainerSprite: pokelinkHostToUrl(trainer.trainerSprite),
+                    badgeSprite: pokelinkHostToUrl(trainer.badgeSprite),
+                    highestLevel: trainer.highestLevel ?? 0
                 }
 
                 for (const key in trainer.subComponents) {
@@ -367,7 +370,7 @@ export namespace V3 {
                     const component = fromBinary(schema!, trainer.subComponents[key].value)
 
                     let temp: { [key: string]: any } = {}
-                    temp[key] = JSON.parse(toJsonString(schema!, component, {alwaysEmitImplicit: true}))
+                    temp[key] = JSON.parse(toJsonString(schema!, component, {alwaysEmitImplicit: false}))
 
                     flatTrainer = {...flatTrainer, ...temp}
                 }
@@ -446,7 +449,7 @@ export namespace V3 {
         events.on(reviveId, handler)
     }
     
-    export function onTrainerTrackerUpdate(handler: (data: any, username: string) => void) {
+    export function onTrainerTrackerUpdate(handler: (trainerTracker: TrainerTracker, username: string) => void) {
         if (!hasRegisteredTrainerTracking) {
             hasRegisteredTrainerTracking = true
             registerTrainerTrackerComponentListener()
@@ -470,7 +473,7 @@ export namespace V3 {
         return isDefined(pokemon?.species)
     }
 
-    export function getSprite(pokemon: Pokemon) {
+    export function getSprite(pokemon: Pokemon | TTPokemon) {
         let output: Nullable<string>
         if (clientSettings.useFallbackSprites) {
             // noinspection HttpUrlsUsage
@@ -479,10 +482,10 @@ export namespace V3 {
             output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
         }
 
-        return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+        return pokelinkHostToUrl(output)
     }
 
-    export function getPartySprite(pokemon: Pokemon) {
+    export function getPartySprite(pokemon: Pokemon | TTPokemon) {
         let output: Nullable<string>
         if (clientSettings.useFallbackSprites) {
             output = getPartyFallbackImg(pokemon)
@@ -490,16 +493,16 @@ export namespace V3 {
             output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon))
         }
 
-        return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+        return pokelinkHostToUrl(output)
     }
 
-    export function getFallbackImg(pokemon: Pokemon, user?: string) {
+    export function getFallbackImg(pokemon: Pokemon | TTPokemon, user?: string) {
         user ??= clientSettings.users[0]
         // noinspection HttpUrlsUsage
         return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite?species=${pokemon.species}&form=${pokemon.form}&shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`
     }
 
-    export function getPartyFallbackImg(pokemon: Pokemon, user?: string) {
+    export function getPartyFallbackImg(pokemon: Pokemon | TTPokemon, user?: string) {
         user ??= clientSettings.users[0]
         // noinspection HttpUrlsUsage
         return `http://${clientSettings.host}:${clientSettings.port}/api/pokelink/v1/pokedex/getSprite/party?species=${pokemon.species}&form=${pokemon.form}&shiny=${pokemon.isShiny ? 'true' : 'false'}&female=${pokemon.gender === Gender.female ? 'true' : 'false'}&user=${clientSettings.users[0]}`
@@ -602,8 +605,8 @@ export namespace V3 {
         return null
     }
 
-    export function pokelinkHostToUrl(input: string) {
-        return input.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
+    export function pokelinkHostToUrl(input: Nullable<string>) {
+        return input?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`)
     }
 
     export function getPartySize() {
@@ -678,5 +681,6 @@ export {
     goalsSubcomponents,
     graveyardSubcomponents,
     settingsSubcomponents,
-    trainerTrackerSubcomponents
+    trainerTrackerSubcomponents,
+    TrainerTracker
 }

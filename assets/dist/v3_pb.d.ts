@@ -215,7 +215,15 @@ export type TrainerTrackerMessage = Message<"Pokelink.Core.Proto.V3.TrainerTrack
      */
     trainerCount?: number | undefined;
     /**
-     * @generated from field: repeated Pokelink.Core.Proto.V3.TTTrainer trainers = 4;
+     * @generated from field: bool hasItems = 4;
+     */
+    hasItems: boolean;
+    /**
+     * @generated from field: bool hasAbilities = 5;
+     */
+    hasAbilities: boolean;
+    /**
+     * @generated from field: repeated Pokelink.Core.Proto.V3.TTTrainer trainers = 6;
      */
     trainers: TTTrainer[];
 };
@@ -732,6 +740,10 @@ export type TTTranslationObject = Message<"Pokelink.Core.Proto.V3.TTTranslationO
      * @generated from field: optional string location = 3;
      */
     location?: string | undefined;
+    /**
+     * @generated from field: optional string notes = 4;
+     */
+    notes?: string | undefined;
 };
 /**
  * Describes the message Pokelink.Core.Proto.V3.TTTranslationObject.
@@ -773,19 +785,19 @@ export type TTTrainer = Message<"Pokelink.Core.Proto.V3.TTTrainer"> & {
      */
     translations?: TTTranslations | undefined;
     /**
-     * @generated from field: optional string notes = 4;
-     */
-    notes?: string | undefined;
-    /**
-     * @generated from field: optional string trainerSprite = 5;
+     * @generated from field: optional string trainerSprite = 4;
      */
     trainerSprite?: string | undefined;
     /**
-     * @generated from field: optional string badgeSprite = 6;
+     * @generated from field: optional string badgeSprite = 5;
      */
     badgeSprite?: string | undefined;
     /**
-     * @generated from field: map<string, google.protobuf.Any> subComponents = 10;
+     * @generated from field: optional uint32 highestLevel = 6;
+     */
+    highestLevel?: number | undefined;
+    /**
+     * @generated from field: map<string, google.protobuf.Any> subComponents = 7;
      */
     subComponents: {
         [key: string]: Any;
@@ -805,9 +817,9 @@ export type TTPokemonTranslationsObject = Message<"Pokelink.Core.Proto.V3.TTPoke
      */
     species: string;
     /**
-     * @generated from field: string form = 2;
+     * @generated from field: optional string form = 2;
      */
-    form: string;
+    form?: string | undefined;
     /**
      * @generated from field: string gender = 3;
      */
@@ -824,6 +836,10 @@ export type TTPokemonTranslationsObject = Message<"Pokelink.Core.Proto.V3.TTPoke
      * @generated from field: optional string ability = 6;
      */
     ability?: string | undefined;
+    /**
+     * @generated from field: repeated string types = 7;
+     */
+    types: string[];
 };
 /**
  * Describes the message Pokelink.Core.Proto.V3.TTPokemonTranslationsObject.

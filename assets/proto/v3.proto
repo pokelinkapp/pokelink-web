@@ -89,7 +89,9 @@ message TrainerTrackerMessage {
   optional uint32 levelCap = 1;
   optional uint32 trainersDefeated = 2;
   optional uint32 trainerCount = 3;
-  repeated TTTrainer trainers = 4;
+  bool hasItems = 4;
+  bool hasAbilities = 5;
+  repeated TTTrainer trainers = 6;
 }
 
 // Pokelink Components
@@ -232,6 +234,7 @@ message TTTranslationObject {
   optional string trainerClass = 1;
   optional string name = 2;
   optional string location = 3;
+  optional string notes = 4;
 }
 
 message TTTranslations {
@@ -243,19 +246,20 @@ message TTTrainer {
   bool isBoss = 1;
   bool isGymLeader = 2;
   TTTranslations translations = 3;
-  optional string notes = 4;
-  optional string trainerSprite = 5;
-  optional string badgeSprite = 6;
-  map<string, google.protobuf.Any> subComponents = 10;
+  optional string trainerSprite = 4;
+  optional string badgeSprite = 5;
+  optional uint32 highestLevel = 6;
+  map<string, google.protobuf.Any> subComponents = 7;
 }
 
 message TTPokemonTranslationsObject {
   string species = 1;
-  string form = 2;
+  optional string form = 2;
   string gender = 3;
   repeated string moves = 4;
   optional string item = 5;
   optional string ability = 6;
+  repeated string types = 7;
 }
 
 message TTPokemonTranslations {

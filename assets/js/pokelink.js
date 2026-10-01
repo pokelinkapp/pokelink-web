@@ -117,7 +117,8 @@ const trainerTrackerSubcomponents = {
             item: 'item',
             level: 'level',
             moves: 'moves',
-            ability: 'ability'
+            ability: 'ability',
+            types: 'types'
         }
     }
 };
@@ -237,7 +238,7 @@ export var V3;
     }
     function registerTrainerTrackerComponentListener() {
         registerComponentListener(trainerTrackerId, (component, user) => {
-            let output = { trainers: [] };
+            let output = { trainers: [], hasAbilities: component.hasAbilities, hasItems: component.hasItems };
             output.levelCap = component.levelCap;
             output.trainerCount = component.trainerCount;
             output.trainersDefeated = component.trainersDefeated;
@@ -246,9 +247,9 @@ export var V3;
                     isBoss: trainer.isBoss,
                     isGymLeader: trainer.isGymLeader,
                     translations: trainer.translations,
-                    notes: trainer.notes,
-                    trainerSprite: trainer.trainerSprite,
-                    badgeSprite: trainer.badgeSprite
+                    trainerSprite: pokelinkHostToUrl(trainer.trainerSprite),
+                    badgeSprite: pokelinkHostToUrl(trainer.badgeSprite),
+                    highestLevel: trainer.highestLevel ?? 0
                 };
                 for (const key in trainer.subComponents) {
                     const schema = getComponentSchema(`${trainerId}.${key}`);
@@ -257,7 +258,7 @@ export var V3;
                     }
                     const component = fromBinary(schema, trainer.subComponents[key].value);
                     let temp = {};
-                    temp[key] = JSON.parse(toJsonString(schema, component, { alwaysEmitImplicit: true }));
+                    temp[key] = JSON.parse(toJsonString(schema, component, { alwaysEmitImplicit: false }));
                     flatTrainer = { ...flatTrainer, ...temp };
                 }
                 output.trainers.push(flatTrainer);
@@ -358,7 +359,7 @@ export var V3;
         else {
             output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon));
         }
-        return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
+        return pokelinkHostToUrl(output);
     }
     V3.getSprite = getSprite;
     function getPartySprite(pokemon) {
@@ -369,7 +370,7 @@ export var V3;
         else {
             output = resolveIllegalCharacters(clientSettings.spriteTemplate(pokemon));
         }
-        return output?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
+        return pokelinkHostToUrl(output);
     }
     V3.getPartySprite = getPartySprite;
     function getFallbackImg(pokemon, user) {
@@ -467,7 +468,7 @@ export var V3;
     }
     V3.getComponentSchema = getComponentSchema;
     function pokelinkHostToUrl(input) {
-        return input.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
+        return input?.replace('$POKELINK_HOST', `http://${clientSettings.host}:${clientSettings.port}`);
     }
     V3.pokelinkHostToUrl = pokelinkHostToUrl;
     function getPartySize() {
