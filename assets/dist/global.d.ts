@@ -1,4 +1,4 @@
-import { Gender, PokemonHiddenPower, PokemonMove, PokemonTranslations, Pokerus, StatusEffect } from './v3_pb.js';
+import { Gender, PokemonHiddenPower, PokemonMove, PokemonTranslations, Pokerus, StatusEffect, TTPokemonTranslations, TTTranslations } from './v3_pb.js';
 import { Timestamp } from '@bufbuild/protobuf/wkt';
 export type Nullable<T> = T | undefined | null;
 export declare function isDefined(value: Nullable<any>): boolean;
@@ -59,6 +59,32 @@ export interface PokemonGrave {
     timeOfDeath: Timestamp;
     id: string;
     pokemon?: Pokemon;
+}
+export interface TrackedTrainer {
+    isBoss: boolean;
+    isGymLeader: boolean;
+    translations: TTTranslations;
+    notes?: string;
+    trainerSprite?: string;
+    badgeSprite?: string;
+    parties?: {
+        pokemon: {
+            species: number;
+            form: number;
+            itemSprite?: string;
+            level?: number;
+            gender: Gender;
+            hasFemaleSprite: boolean;
+            isShiny: boolean;
+            translation: TTPokemonTranslations;
+        }[];
+    }[];
+}
+export interface TrainerTracker {
+    levelCap?: number;
+    trainersDefeated?: number;
+    trainerCount?: number;
+    trainers: TrackedTrainer[];
 }
 export declare const examplePokemon: Pokemon;
 export declare class EventEmitter {

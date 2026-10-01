@@ -26,7 +26,7 @@ import {
     PokemonStatusSchema,
     RoutesMessageSchema,
     SettingsMessage,
-    SettingsMessageSchema, TrainerTrackerMessage, TrainerTrackerMessageSchema
+    SettingsMessageSchema, TrainerTrackerMessage, TrainerTrackerMessageSchema, TTPartiesSchema, TTTrainerSchema
 } from './v3_pb.js'
 import {fromBinary, Message, toJsonString} from '@bufbuild/protobuf'
 import {
@@ -42,7 +42,7 @@ import {
     PokemonGrave,
     resolveIllegalCharacters,
     statusColors,
-    string2ColHex,
+    string2ColHex, TrackedTrainer, TrainerTracker,
     typeColors
 } from './global.js'
 import Handlebars from 'handlebars'
@@ -141,6 +141,7 @@ const pcId = 'pokelink.component.pc'
 const routesId = 'pokelink.component.routes'
 const trainerTrackerId = 'pokelink.component.trainerTracker'
 const pokemonId = 'pokemon'
+const trainerId = 'trainer'
 
 const pokemonSubcomponents = {
     'misc': 'misc',
@@ -172,7 +173,25 @@ const settingsSubcomponents = {
 }
 
 const trainerTrackerSubcomponents = {
-    
+    levelCap: 'levelCap',
+    trainersDefeated: 'trainersDefeated',
+    trainerCount: 'trainerCount', 
+    trainers: {
+        name: 'name',
+        trainerClass: 'trainerClass',
+        location: 'location',
+        notes: 'notes',
+        sprites: {
+            trainer: 'trainerSprite',
+            badge: 'badgeSprite'
+        },
+        pokemon: {
+            item: 'item',
+            level: 'level',
+            moves: 'moves',
+            ability: 'ability'
+        }
+    }
 }
 
 export namespace V3 {
@@ -322,10 +341,45 @@ export namespace V3 {
     
     function registerTrainerTrackerComponentListener() {
         registerComponentListener<TrainerTrackerMessage>(trainerTrackerId, (component, user) => {
-            if (clientSettings.debug) {
-                console.debug(`Trainer(${user})`, component)
+            
+            let output: TrainerTracker = {trainers: []}
+            output.levelCap = component.levelCap
+            output.trainerCount = component.trainerCount
+            output.trainersDefeated = component.trainersDefeated
+            
+            for (let trainer of component.trainers) {
+                let flatTrainer: TrackedTrainer = {
+                    isBoss: trainer.isBoss,
+                    isGymLeader: trainer.isGymLeader,
+                    translations: trainer.translations!,
+                    notes: trainer.notes,
+                    trainerSprite: trainer.trainerSprite,
+                    badgeSprite: trainer.badgeSprite
+                }
+
+                for (const key in trainer.subComponents) {
+                    const schema = getComponentSchema(`${trainerId}.${key}`)
+
+                    if (!isDefined(schema)) {
+                        continue
+                    }
+
+                    const component = fromBinary(schema!, trainer.subComponents[key].value)
+
+                    let temp: { [key: string]: any } = {}
+                    temp[key] = JSON.parse(toJsonString(schema!, component, {alwaysEmitImplicit: true}))
+
+                    flatTrainer = {...flatTrainer, ...temp}
+                }
+                
+                output.trainers.push(flatTrainer)
             }
-            events.emit(trainerTrackerId, component, user)
+            
+            if (clientSettings.debug) {
+                console.debug(`Trainer(${user})`, output)
+            }
+            
+            events.emit(trainerTrackerId, output, user)
         })
     }
 
@@ -593,6 +647,8 @@ V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.hiddenPower}`, P
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.met}`, PokemonMetSchema)
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.moves}`, PokemonMovesSchema)
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.shadow}`, PokemonShadowSchema)
+V3.registerComponentSchema(`${trainerId}`, TTTrainerSchema)
+V3.registerComponentSchema(`${trainerId}.parties`, TTPartiesSchema)
 
 export {
     htmlColors,

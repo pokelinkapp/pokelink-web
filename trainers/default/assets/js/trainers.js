@@ -18,9 +18,14 @@ import { clientSettings, trainerTrackerId, V3 } from 'pokelink';
             const vm = this;
             this.settings.port = clientSettings.port;
             const components = {};
-            components[trainerTrackerId] = [
-                'levelCap'
-            ];
+            components[trainerTrackerId] = {
+                max: 5,
+                list: 'bosses', // valid values: bosses, gyms. Anything else will list all trainers
+                levelCap: null,
+                trainersDefeated: null,
+                trainerCount: null,
+                trainers: null
+            };
             V3.initialize(components);
             V3.onTrainerTrackerUpdate(() => { });
             V3.onConnect(() => {

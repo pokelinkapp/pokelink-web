@@ -1,5 +1,8 @@
 import {createApp} from 'vue'
-import {clientSettings, ComponentConfig, goalsId, isDefined, trainerTrackerId, V3, V3DataTypes} from 'pokelink'
+import {
+    clientSettings, ComponentConfig, goalsId, isDefined, trainerTrackerId,
+    trainerTrackerSubcomponents, V3, V3DataTypes
+} from 'pokelink'
 
 (() => {
     createApp({
@@ -22,9 +25,14 @@ import {clientSettings, ComponentConfig, goalsId, isDefined, trainerTrackerId, V
             this.settings.port = clientSettings.port
 
             const components: ComponentConfig = {}
-            components[trainerTrackerId] = [
-                'levelCap'
-            ]
+            components[trainerTrackerId] = {
+                max: 5,
+                list: 'bosses', // valid values: bosses, gyms. Anything else will list all trainers
+                levelCap: null,
+                trainersDefeated: null,
+                trainerCount: null,
+                trainers: null
+            }
 
             V3.initialize(components)
             

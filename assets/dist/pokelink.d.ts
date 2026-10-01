@@ -47,7 +47,27 @@ declare const graveyardSubcomponents: {
 declare const settingsSubcomponents: {
     spriteTemplate: string;
 };
-declare const trainerTrackerSubcomponents: {};
+declare const trainerTrackerSubcomponents: {
+    levelCap: string;
+    trainersDefeated: string;
+    trainerCount: string;
+    trainers: {
+        name: string;
+        trainerClass: string;
+        location: string;
+        notes: string;
+        sprites: {
+            trainer: string;
+            badge: string;
+        };
+        pokemon: {
+            item: string;
+            level: string;
+            moves: string;
+            ability: string;
+        };
+    };
+};
 export declare namespace V3 {
     interface V3Settings {
         numberOfPlayers?: number;
