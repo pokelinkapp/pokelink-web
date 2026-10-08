@@ -8,6 +8,7 @@ import {
     V3,
     TrainerTracker, isDefined, Nullable
 } from 'pokelink'
+import getFallbackImg = V3.getFallbackImg
 
 (() => {
     createApp({
@@ -43,7 +44,7 @@ import {
                             <div class="w-6/8 flex flex-col">
                                 <div class="flex flex-row" v-for="party in trainer.parties.parties">
                                     <div class="w-1/6 flex flex-col" v-for="pokemon in party.pokemon">
-                                        <img :src="getSprite(pokemon)" width="64" height="64"/>
+                                        <img :src="getSprite(pokemon)" @error="V3.useFallback(this, pokemon)" width="64" height="64"/>
                                         <div>{{ pokemon.translations.locale.species }} Lv {{ pokemon.level }}</div>
                                         <div>{{ pokemon.translations.locale.types.join('/') }}</div>
                                         <div
@@ -103,13 +104,7 @@ import {
             V3.initialize(components)
 
             V3.onTrainerTrackerUpdate((trainerTracker, username) => {
-                if (isDefined(vm.trainerTracker?.trainers)) {
-                    if (vm.trainerTracker.trainers.length !== 0) {
-                        return
-                    }
-                }
                 vm.trainerTracker = trainerTracker
-                vm.$forceUpdate()
             })
 
             V3.onConnect(() => {

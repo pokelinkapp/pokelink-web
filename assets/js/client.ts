@@ -6,7 +6,7 @@ export abstract class PokelinkClientBase {
     private static firstConnect: boolean = true
     public readonly events: EventEmitter = new EventEmitter()
 
-    public openConnection() {
+    protected openConnection() {
         if (clientSettings.debug) {
             console.debug('Attempting to connect')
         }
@@ -14,19 +14,16 @@ export abstract class PokelinkClientBase {
         try {
             this.connection = new WebSocket(`ws://${clientSettings.host}:${clientSettings.port}`)
         } catch {
-            this.events.emit('disconnected')
+            this.events?.emit('disconnected')
             return
         }
 
         this.connection!.binaryType = 'arraybuffer'
 
         this.connection!.onopen = () => {
-            if (PokelinkClientBase.firstConnect) {
-                PokelinkClientBase.firstConnect = false
-                this.events.emit('connect')
-                console.log('Successfully connected to server')
-            }
+            this.events.emit('connect')
             this.connection!.onerror = event => {
+                this.events.emit('disconnected')
                 console.error('WebSocket error:', event)
             }
             this.connection!.onmessage = event => {
@@ -37,6 +34,11 @@ export abstract class PokelinkClientBase {
         this.connection!.onclose = () => {
             this.events.emit('disconnected')
         }
+    }
+
+    public reconnect() {
+        this.connection?.close()
+        this.openConnection()
     }
 
     protected ShowUser(user: Nullable<string>): boolean {

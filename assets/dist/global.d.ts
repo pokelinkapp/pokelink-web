@@ -89,6 +89,13 @@ export interface TrainerTracker {
     hasAbilities: boolean;
     trainers: TrackedTrainer[];
 }
+export interface PCBox {
+    name?: string;
+    stored?: number;
+    columns?: number;
+    rows?: number;
+    storage: Nullable<Pokemon>[];
+}
 export declare const examplePokemon: Pokemon;
 export declare class EventEmitter {
     private events;

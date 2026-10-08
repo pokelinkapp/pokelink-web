@@ -249,6 +249,14 @@ export interface TrainerTracker {
     trainers: TrackedTrainer[]
 }
 
+export interface PCBox {
+    name?: string
+    stored?: number
+    columns?: number
+    rows?: number
+    storage: Nullable<Pokemon>[]
+}
+
 export const examplePokemon = {
     'pid': 3791076706,
     'species': 6,

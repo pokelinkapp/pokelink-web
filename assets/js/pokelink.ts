@@ -1,4 +1,3 @@
-import {PokelinkClientBase} from './client.js'
 import {PokelinkClientV3} from './clientv3.js'
 import * as V3DataTypes from './v3_pb.js'
 import {
@@ -7,8 +6,7 @@ import {
     GraveyardMessage,
     GraveyardMessageSchema,
     PartyMessage,
-    PartyMessageSchema,
-    PCMessageSchema,
+    PartyMessageSchema, PCBoxMessage, PCBoxMessageSchema,
     Pokemon as PokemonPB,
     PokemonDeathMessage,
     PokemonDeathMessageSchema,
@@ -38,7 +36,7 @@ import {
     htmlColors,
     isDefined,
     Nullable,
-    ParamsManager,
+    ParamsManager, PCBox,
     Pokemon,
     PokemonGrave,
     resolveIllegalCharacters,
@@ -73,7 +71,7 @@ const spriteUpdate = 'theme:settings:sprite'
 
 const spriteReset = 'theme:settings:spriteReset'
 
-let client: Nullable<PokelinkClientBase> = null
+let client: Nullable<PokelinkClientV3> = null
 
 const events = new EventEmitter()
 
@@ -138,7 +136,7 @@ const graveyardId = 'pokelink.component.graveyard'
 const reviveId = 'pokelink.component.revive'
 const deathId = 'pokelink.component.death'
 const settingsId = 'pokelink.component.settings'
-const pcId = 'pokelink.component.pc'
+const pcBoxId = 'pokelink.component.pcBox'
 const routesId = 'pokelink.component.routes'
 const trainerTrackerId = 'pokelink.component.trainerTracker'
 const pokemonId = 'pokemon'
@@ -210,37 +208,37 @@ export namespace V3 {
     let hasRegisteredDeath = false
     let hasRegisteredRevive = false
     let hasRegisteredTrainerTracking = false
+    let hasRegisteredPCBox = false
 
     function initializeClient(componentConfigs: Nullable<ComponentConfig> = null) {
-        client = new PokelinkClientV3(componentConfigs, clientSettings.users)
+        if (!isDefined(client)) {
+            client = new PokelinkClientV3(componentConfigs, clientSettings.users)
 
-        client.events.once('disconnected', () => {
-            events.emit('disconnected')
+            client!.events.on('disconnected', () => {
+                events.emit('disconnected')
+                setTimeout(() => client!.reconnect(), 1000)
+            })
 
-            setTimeout(() => {
-                initializeClient(componentConfigs)
-            }, 1000)
-        })
+            client!.events.on('connect', () => {
+                events.emit('connect')
+            })
 
-        client.events.on('connect', () => {
-            events.emit('connect')
-        })
+            client!.events.on('componentUpdate', (key: string, component: Message, user: string) => {
+                const callbacks = componentCallbacks[key] ?? []
 
-        client.events.on('componentUpdate', (key: string, component: Message, user: string) => {
-            const callbacks = componentCallbacks[key] ?? []
-
-            if (clientSettings.debug) {
-                console.debug(`Received update for ${key} calling(${user}):`, callbacks)
-            }
-
-            for (const cb of callbacks) {
-                try {
-                    cb(component, user)
-                } catch (ex) {
-                    console.error(cb, 'encountered the following error:', ex)
+                if (clientSettings.debug) {
+                    console.debug(`Received update for ${key} calling(${user}):`, callbacks)
                 }
-            }
-        })
+
+                for (const cb of callbacks) {
+                    try {
+                        cb(component, user)
+                    } catch (ex) {
+                        console.error(cb, 'encountered the following error:', ex)
+                    }
+                }
+            })
+        }
     }
 
     export function initialize(componentConfigs: Nullable<ComponentConfig> = null, settings: Nullable<V3Settings> = null) {
@@ -253,6 +251,12 @@ export namespace V3 {
             if (isDefined(newTemplate)) {
                 updateSpriteTemplate(newTemplate!)
             }
+        }
+    }
+    
+    export function updateComponentsConfig(componentsConfig: Nullable<ComponentConfig>) {
+        if (isDefined(client)) {
+            client!.updateComponents(componentsConfig)
         }
     }
 
@@ -349,7 +353,6 @@ export namespace V3 {
             output.trainerCount = component.trainerCount
             output.trainersDefeated = component.trainersDefeated
             
-            
             for (let trainer of component.trainers) {
                 let flatTrainer: TrackedTrainer = {
                     isBoss: trainer.isBoss,
@@ -383,6 +386,31 @@ export namespace V3 {
             }
             
             events.emit(trainerTrackerId, output, user)
+        })
+    }
+    
+    function registerPCBoxComponentListener() {
+        registerComponentListener<PCBoxMessage>(pcBoxId, (component, user) => {
+            let output: PCBox = {storage: []}
+            output.name = component.name
+            output.stored = component.stored
+            output.columns = component.columns
+            output.rows = component.rows
+            
+            for (let entry of component.storage) {
+                if (!isDefined(entry.pokemon)) {
+                    output.storage.push(null)
+                    continue
+                }
+                
+                output.storage.push(convertFromPokemonProtobuf(entry.pokemon!))
+            }
+            
+            if (clientSettings.debug) {
+                console.debug(`PCBox(${user})`, output)
+            }
+            
+            events.emit(pcBoxId, output, user)
         })
     }
 
@@ -455,6 +483,14 @@ export namespace V3 {
             registerTrainerTrackerComponentListener()
         }
         events.on(trainerTrackerId, handler)
+    }
+    
+    export function onPCBoxUpdate(handler: (box: PCBox, username: string) => void) {
+        if (!hasRegisteredPCBox) {
+            hasRegisteredPCBox = true
+            registerPCBoxComponentListener()
+        }
+        events.on(pcBoxId, handler)
     }
 
     export function onSpriteTemplateUpdate(handler: () => void) {
@@ -635,7 +671,7 @@ V3.registerComponentSchema(graveyardId, GraveyardMessageSchema)
 V3.registerComponentSchema(reviveId, PokemonReviveMessageSchema)
 V3.registerComponentSchema(deathId, PokemonDeathMessageSchema)
 V3.registerComponentSchema(settingsId, SettingsMessageSchema)
-V3.registerComponentSchema(pcId, PCMessageSchema)
+V3.registerComponentSchema(pcBoxId, PCBoxMessageSchema)
 V3.registerComponentSchema(routesId, RoutesMessageSchema)
 V3.registerComponentSchema(trainerTrackerId, TrainerTrackerMessageSchema)
 V3.registerComponentSchema(pokemonId, PokemonSchema)
@@ -674,7 +710,7 @@ export {
     reviveId,
     deathId,
     settingsId,
-    pcId,
+    pcBoxId,
     routesId,
     trainerTrackerId,
     pokemonSubcomponents,
@@ -682,5 +718,6 @@ export {
     graveyardSubcomponents,
     settingsSubcomponents,
     trainerTrackerSubcomponents,
-    TrainerTracker
+    TrainerTracker,
+    PCBox
 }

@@ -169,20 +169,6 @@ export type SettingsMessage = Message<"Pokelink.Core.Proto.V3.SettingsMessage"> 
  */
 export declare const SettingsMessageSchema: GenMessage<SettingsMessage>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.PCMessage
- */
-export type PCMessage = Message<"Pokelink.Core.Proto.V3.PCMessage"> & {
-    /**
-     * @generated from field: repeated Pokelink.Core.Proto.V3.PCBox boxes = 1;
-     */
-    boxes: PCBox[];
-};
-/**
- * Describes the message Pokelink.Core.Proto.V3.PCMessage.
- * Use `create(PCMessageSchema)` to create a new message.
- */
-export declare const PCMessageSchema: GenMessage<PCMessage>;
-/**
  * @generated from message Pokelink.Core.Proto.V3.RoutesMessage
  */
 export type RoutesMessage = Message<"Pokelink.Core.Proto.V3.RoutesMessage"> & {
@@ -233,23 +219,35 @@ export type TrainerTrackerMessage = Message<"Pokelink.Core.Proto.V3.TrainerTrack
  */
 export declare const TrainerTrackerMessageSchema: GenMessage<TrainerTrackerMessage>;
 /**
- * @generated from message Pokelink.Core.Proto.V3.PCBox
+ * @generated from message Pokelink.Core.Proto.V3.PCBoxMessage
  */
-export type PCBox = Message<"Pokelink.Core.Proto.V3.PCBox"> & {
+export type PCBoxMessage = Message<"Pokelink.Core.Proto.V3.PCBoxMessage"> & {
     /**
-     * @generated from field: repeated Pokelink.Core.Proto.V3.Pokemon pokemon = 1;
+     * @generated from field: optional string name = 1;
      */
-    pokemon: Pokemon[];
+    name?: string | undefined;
     /**
-     * @generated from field: string name = 2;
+     * @generated from field: optional uint32 stored = 2;
      */
-    name: string;
+    stored?: number | undefined;
+    /**
+     * @generated from field: optional uint32 columns = 3;
+     */
+    columns?: number | undefined;
+    /**
+     * @generated from field: optional uint32 rows = 4;
+     */
+    rows?: number | undefined;
+    /**
+     * @generated from field: repeated Pokelink.Core.Proto.V3.PCBoxPokemon storage = 5;
+     */
+    storage: PCBoxPokemon[];
 };
 /**
- * Describes the message Pokelink.Core.Proto.V3.PCBox.
- * Use `create(PCBoxSchema)` to create a new message.
+ * Describes the message Pokelink.Core.Proto.V3.PCBoxMessage.
+ * Use `create(PCBoxMessageSchema)` to create a new message.
  */
-export declare const PCBoxSchema: GenMessage<PCBox>;
+export declare const PCBoxMessageSchema: GenMessage<PCBoxMessage>;
 /**
  * @generated from message Pokelink.Core.Proto.V3.GoalTranslationsObject
  */
@@ -934,6 +932,20 @@ export type TTParties = Message<"Pokelink.Core.Proto.V3.TTParties"> & {
  * Use `create(TTPartiesSchema)` to create a new message.
  */
 export declare const TTPartiesSchema: GenMessage<TTParties>;
+/**
+ * @generated from message Pokelink.Core.Proto.V3.PCBoxPokemon
+ */
+export type PCBoxPokemon = Message<"Pokelink.Core.Proto.V3.PCBoxPokemon"> & {
+    /**
+     * @generated from field: optional Pokelink.Core.Proto.V3.Pokemon pokemon = 1;
+     */
+    pokemon?: Pokemon | undefined;
+};
+/**
+ * Describes the message Pokelink.Core.Proto.V3.PCBoxPokemon.
+ * Use `create(PCBoxPokemonSchema)` to create a new message.
+ */
+export declare const PCBoxPokemonSchema: GenMessage<PCBoxPokemon>;
 /**
  * @generated from enum Pokelink.Core.Proto.V3.Gender
  */

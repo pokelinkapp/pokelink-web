@@ -9,15 +9,29 @@ export class PokelinkClientV3 extends PokelinkClientBase {
     constructor(componentConfigs = null, users = []) {
         super();
         this.users = users;
-        this.allowAllUsers = this.users.length == 0;
+        this.allowAllUsers = this.users.length === 0;
         this.componentConfigs = componentConfigs;
         this.openConnection();
     }
+    updateComponents(componentConfigs) {
+        this.componentConfigs = componentConfigs;
+        this.send({
+            update: {
+                components: this.componentConfigs
+            }
+        });
+    }
+    updateUsers(users = []) {
+        this.users = users;
+        this.allowAllUsers = this.users.length === 0;
+        this.send({
+            update: {
+                users: this.users
+            }
+        });
+    }
     SendHandshake() {
-        if (this.connection === null || this.connection == undefined) {
-            return;
-        }
-        const sending = JSON.stringify({
+        this.send({
             handshake: {
                 version: 3,
                 client: 'Overlay',
@@ -27,10 +41,15 @@ export class PokelinkClientV3 extends PokelinkClientBase {
                 users: this.users
             }
         });
-        if (clientSettings.debug) {
-            console.debug(sending);
+    }
+    send(message) {
+        if (this.connection?.readyState !== 1 /*OPEN*/) {
+            return;
         }
-        this.connection.send(sending);
+        if (clientSettings.debug) {
+            console.debug("Sending: ", message);
+        }
+        this.connection.send(JSON.stringify(message));
     }
     OnMessageReceived(buffer) {
         let user = null;

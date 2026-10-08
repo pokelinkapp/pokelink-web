@@ -77,10 +77,6 @@ message SettingsMessage {
   map<string, SettingValue> settings = 1;
 }
 
-message PCMessage {
-  repeated PCBox boxes = 1;
-}
-
 message RoutesMessage {
   map<string, RouteEvent> encounters = 1;
 }
@@ -94,12 +90,15 @@ message TrainerTrackerMessage {
   repeated TTTrainer trainers = 6;
 }
 
-// Pokelink Components
-
-message PCBox {
-  repeated Pokemon pokemon = 1;
-  string name = 2;
+message PCBoxMessage {
+  optional string name = 1;
+  optional uint32 stored = 2;
+  optional uint32 columns = 3;
+  optional uint32 rows = 4;
+  repeated PCBoxPokemon storage = 5;
 }
+
+// Pokelink Components
 
 message GoalTranslationsObject {
   optional string name = 1;
@@ -284,4 +283,8 @@ message TTParty {
 
 message TTParties {
   repeated TTParty parties = 1;
+}
+
+message PCBoxPokemon {
+  optional Pokemon pokemon = 1;
 }

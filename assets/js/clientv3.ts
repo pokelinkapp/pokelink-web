@@ -3,28 +3,45 @@ import {
     PacketSchema,
 } from './v3_pb.js'
 import {fromBinary} from '@bufbuild/protobuf'
-import {Nullable} from './global.js'
+import {isDefined, Nullable} from './global.js'
 import {clientSettings, ComponentConfig, V3} from './pokelink.js'
 
 export class PokelinkClientV3 extends PokelinkClientBase {
-    private readonly allowAllUsers: boolean = false
-    private readonly users: string[] = []
-    private readonly componentConfigs: Nullable<ComponentConfig> = null
+    private allowAllUsers: boolean = false
+    private users: string[] = []
+    private componentConfigs: Nullable<ComponentConfig> = null
 
     constructor(componentConfigs: Nullable<ComponentConfig> = null, users: string[] = []) {
         super()
         this.users = users;
-        this.allowAllUsers = this.users.length == 0
+        this.allowAllUsers = this.users.length === 0
         this.componentConfigs = componentConfigs
         this.openConnection()
     }
+    
+    public updateComponents(componentConfigs: Nullable<ComponentConfig>) {
+        this.componentConfigs = componentConfigs
+        
+        this.send({
+            update: {
+                components: this.componentConfigs
+            }
+        })
+    }
+    
+    public updateUsers(users: string[] = []) {
+        this.users = users;
+        this.allowAllUsers = this.users.length === 0
+        
+        this.send({
+            update: {
+                users: this.users
+            }
+        })
+    }
 
     protected SendHandshake(): void {
-        if (this.connection === null || this.connection == undefined) {
-            return
-        }
-        
-        const sending = JSON.stringify({
+        this.send({
             handshake: {
                 version: 3,
                 client: 'Overlay',
@@ -33,13 +50,19 @@ export class PokelinkClientV3 extends PokelinkClientBase {
                 components: this.componentConfigs,
                 users: this.users
             }
-        });
+        })
+    }
+    
+    private send(message: object) {
+        if (this.connection?.readyState !== 1 /*OPEN*/) {
+            return
+        }
         
         if (clientSettings.debug) {
-            console.debug(sending)
+            console.debug("Sending: ", message)
         }
 
-        this.connection.send(sending)
+        this.connection!.send(JSON.stringify(message))
     }
 
     protected OnMessageReceived(buffer: Uint8Array): void {

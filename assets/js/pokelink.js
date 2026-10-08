@@ -1,6 +1,6 @@
 import { PokelinkClientV3 } from './clientv3.js';
 import * as V3DataTypes from './v3_pb.js';
-import { Gender, GoalsMessageSchema, GraveyardMessageSchema, PartyMessageSchema, PCMessageSchema, PokemonDeathMessageSchema, PokemonEVIVSchema, PokemonEXPSchema, PokemonHiddenPowerSchema, PokemonHPSchema, PokemonMetSchema, PokemonMiscSchema, PokemonMovesSchema, PokemonReviveMessageSchema, PokemonSchema, PokemonShadowSchema, PokemonStatusSchema, RoutesMessageSchema, SettingsMessageSchema, TrainerTrackerMessageSchema, TTPartiesSchema, TTTrainerSchema } from './v3_pb.js';
+import { Gender, GoalsMessageSchema, GraveyardMessageSchema, PartyMessageSchema, PCBoxMessageSchema, PokemonDeathMessageSchema, PokemonEVIVSchema, PokemonEXPSchema, PokemonHiddenPowerSchema, PokemonHPSchema, PokemonMetSchema, PokemonMiscSchema, PokemonMovesSchema, PokemonReviveMessageSchema, PokemonSchema, PokemonShadowSchema, PokemonStatusSchema, RoutesMessageSchema, SettingsMessageSchema, TrainerTrackerMessageSchema, TTPartiesSchema, TTTrainerSchema } from './v3_pb.js';
 import { fromBinary, toJsonString } from '@bufbuild/protobuf';
 import { EventEmitter, examplePokemon, hex2rgba, htmlColors, isDefined, ParamsManager, resolveIllegalCharacters, statusColors, string2ColHex, typeColors } from './global.js';
 import Handlebars from 'handlebars';
@@ -70,7 +70,7 @@ const graveyardId = 'pokelink.component.graveyard';
 const reviveId = 'pokelink.component.revive';
 const deathId = 'pokelink.component.death';
 const settingsId = 'pokelink.component.settings';
-const pcId = 'pokelink.component.pc';
+const pcBoxId = 'pokelink.component.pcBox';
 const routesId = 'pokelink.component.routes';
 const trainerTrackerId = 'pokelink.component.trainerTracker';
 const pokemonId = 'pokemon';
@@ -132,31 +132,32 @@ export var V3;
     let hasRegisteredDeath = false;
     let hasRegisteredRevive = false;
     let hasRegisteredTrainerTracking = false;
+    let hasRegisteredPCBox = false;
     function initializeClient(componentConfigs = null) {
-        client = new PokelinkClientV3(componentConfigs, clientSettings.users);
-        client.events.once('disconnected', () => {
-            events.emit('disconnected');
-            setTimeout(() => {
-                initializeClient(componentConfigs);
-            }, 1000);
-        });
-        client.events.on('connect', () => {
-            events.emit('connect');
-        });
-        client.events.on('componentUpdate', (key, component, user) => {
-            const callbacks = componentCallbacks[key] ?? [];
-            if (clientSettings.debug) {
-                console.debug(`Received update for ${key} calling(${user}):`, callbacks);
-            }
-            for (const cb of callbacks) {
-                try {
-                    cb(component, user);
+        if (!isDefined(client)) {
+            client = new PokelinkClientV3(componentConfigs, clientSettings.users);
+            client.events.on('disconnected', () => {
+                events.emit('disconnected');
+                setTimeout(() => client.reconnect(), 1000);
+            });
+            client.events.on('connect', () => {
+                events.emit('connect');
+            });
+            client.events.on('componentUpdate', (key, component, user) => {
+                const callbacks = componentCallbacks[key] ?? [];
+                if (clientSettings.debug) {
+                    console.debug(`Received update for ${key} calling(${user}):`, callbacks);
                 }
-                catch (ex) {
-                    console.error(cb, 'encountered the following error:', ex);
+                for (const cb of callbacks) {
+                    try {
+                        cb(component, user);
+                    }
+                    catch (ex) {
+                        console.error(cb, 'encountered the following error:', ex);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     function initialize(componentConfigs = null, settings = null) {
         v3Settings = { ...v3Settings, ...settings };
@@ -170,6 +171,12 @@ export var V3;
         }
     }
     V3.initialize = initialize;
+    function updateComponentsConfig(componentsConfig) {
+        if (isDefined(client)) {
+            client.updateComponents(componentsConfig);
+        }
+    }
+    V3.updateComponentsConfig = updateComponentsConfig;
     function registerPartyComponentListener() {
         registerComponentListener(partyId, (component, user) => {
             let party = [];
@@ -269,6 +276,26 @@ export var V3;
             events.emit(trainerTrackerId, output, user);
         });
     }
+    function registerPCBoxComponentListener() {
+        registerComponentListener(pcBoxId, (component, user) => {
+            let output = { storage: [] };
+            output.name = component.name;
+            output.stored = component.stored;
+            output.columns = component.columns;
+            output.rows = component.rows;
+            for (let entry of component.storage) {
+                if (!isDefined(entry.pokemon)) {
+                    output.storage.push(null);
+                    continue;
+                }
+                output.storage.push(convertFromPokemonProtobuf(entry.pokemon));
+            }
+            if (clientSettings.debug) {
+                console.debug(`PCBox(${user})`, output);
+            }
+            events.emit(pcBoxId, output, user);
+        });
+    }
     function convertFromPokemonProtobuf(pokemon) {
         let flatPokemon = {
             form: pokemon.form,
@@ -334,6 +361,14 @@ export var V3;
         events.on(trainerTrackerId, handler);
     }
     V3.onTrainerTrackerUpdate = onTrainerTrackerUpdate;
+    function onPCBoxUpdate(handler) {
+        if (!hasRegisteredPCBox) {
+            hasRegisteredPCBox = true;
+            registerPCBoxComponentListener();
+        }
+        events.on(pcBoxId, handler);
+    }
+    V3.onPCBoxUpdate = onPCBoxUpdate;
     function onSpriteTemplateUpdate(handler) {
         events.on(spriteUpdate, handler);
     }
@@ -496,7 +531,7 @@ V3.registerComponentSchema(graveyardId, GraveyardMessageSchema);
 V3.registerComponentSchema(reviveId, PokemonReviveMessageSchema);
 V3.registerComponentSchema(deathId, PokemonDeathMessageSchema);
 V3.registerComponentSchema(settingsId, SettingsMessageSchema);
-V3.registerComponentSchema(pcId, PCMessageSchema);
+V3.registerComponentSchema(pcBoxId, PCBoxMessageSchema);
 V3.registerComponentSchema(routesId, RoutesMessageSchema);
 V3.registerComponentSchema(trainerTrackerId, TrainerTrackerMessageSchema);
 V3.registerComponentSchema(pokemonId, PokemonSchema);
@@ -513,4 +548,4 @@ V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.moves}`, Pokemon
 V3.registerComponentSchema(`${pokemonId}.${pokemonSubcomponents.shadow}`, PokemonShadowSchema);
 V3.registerComponentSchema(`${trainerId}`, TTTrainerSchema);
 V3.registerComponentSchema(`${trainerId}.parties`, TTPartiesSchema);
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcId, routesId, trainerTrackerId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents, trainerTrackerSubcomponents };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcBoxId, routesId, trainerTrackerId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents, trainerTrackerSubcomponents };
