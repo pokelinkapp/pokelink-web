@@ -93,7 +93,7 @@ import getFallbackImg = V3.getFallbackImg
                 settingsSubcomponents.spriteTemplate
             ]
             components[trainerTrackerId] = {
-                max: 5,
+                max: 5, // bosses and all trainers have a max limit of 5. Gyms will provide the full list of gym trainers
                 list: 'bosses', // valid values: bosses, gyms. Anything else will list all trainers
                 levelCap: null,
                 trainersDefeated: null,
