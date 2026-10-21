@@ -1,0 +1,51 @@
+version: 2
+
+# A dependency bump can change the committed build output (the bundle in
+# assets/dist and the generated *_pb files). When CI reports that output is out
+# of date, rebuild it on the Dependabot branch and push the result.
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      # Generated protobuf code records the plugin version and the bundle
+      # includes the runtime, so these two move together.
+      bufbuild:
+        patterns:
+          - "@bufbuild/*"
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: npm
+    directory: /v2
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      bufbuild:
+        patterns:
+          - "@bufbuild/*"
+      minor-and-patch:
+        update-types:
+          - minor
+          - patch
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 2
+    groups:
+      actions:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 5

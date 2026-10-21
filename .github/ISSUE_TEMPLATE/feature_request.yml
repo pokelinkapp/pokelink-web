@@ -1,0 +1,35 @@
+name: Theme or feature request
+description: Suggest a new theme, a theme option, or a change to the web sources.
+title: "[Request]: "
+labels:
+  - enhancement
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: Web source version
+      description: New work goes into v3. Older versions only get bug fixes.
+      options:
+        - v3
+        - v2 (bug fixes only)
+        - v1 (bug fixes only)
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What do you want to show or change?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What should it look like or do?
+      description: Mockups and screenshots of similar overlays help.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What have you tried?
+      description: For example, an existing theme option or OBS setting.
