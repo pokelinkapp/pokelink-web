@@ -1,0 +1,145 @@
+@font-face {
+  font-family: PokemonGB;
+  src: local("Pokemon GB"), url("./../../../../assets/fonts/Pokemon%20GB.ttf")
+}
+
+@font-face {
+  font-family: RifficFree;
+  src: local("RifficFree"), url("../RifficFree-Bold.ttf")
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+}
+
+.container .panel {
+  width: calc(100% / var(--panel-max-size));
+  height: 200px;
+  content: " ";
+  padding-left: 10px;
+  padding-right: 10px;
+  transform: skewX(18deg) translateX(-15px);
+  transition: 0.8s all;
+  text-align: center;
+  overflow: hidden;
+  border-right: 4px solid #000;
+  border-radius: 0px;
+}
+
+.container .panel--inactive {
+  opacity: 0.5;
+}
+
+.container .panel:hover {
+  width: calc(100% / 3);
+}
+
+.container .panel:not(.panel--inactive)+.panel--inactive {
+  width: calc(100% / 3);
+}
+
+.container .panel img.leader {
+  /* transform: skewX(-18deg) translateX(0) scale(2.5) translateY(30%);
+    position: relative; */
+
+  transform: skewX(-18deg) translateX(0) translateY(30%);
+  position: relative;
+  height: 150px;
+  top: -50px;
+}
+
+.container .panel img.badge-img {
+  transform: skewX(-18deg) translateX(0) scale(1);
+  height: 100%;
+  position: relative;
+}
+
+.container .panel .levelCap {
+  transform: skewX(-18deg);
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-font-smoothing: antialiased !important;
+  text-rendering: optimizelegibility !important;
+  letter-spacing: 0.03em;
+  display: block;
+  font-family: "RifficFree";
+  color: #fff;
+  text-shadow: 2px 2px 0px black;
+  -webkit-text-stroke: black;
+  font-size: 24pt;
+  position: fixed;
+  right: 7px;
+  bottom: 47px;
+}
+
+.container .panel .levelCap:before {
+  content: "Lv. ";
+  font-size: 15pt;
+}
+
+.container .panel:first-child {
+  padding-left: 25px;
+}
+
+.container .panel:last-child {
+  width: calc(100% / var(--panel-max-size));
+}
+
+.container .panel::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  width: 100%;
+  background-color: inherit;
+  content: "";
+  transform: skewX(-15deg) translateX(0%);
+  transform-origin: bottom left;
+  will-change: transform;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.container .panel--rock {
+  background-color: #b8a038;
+}
+
+.container .panel--water {
+  background-color: #6890f0;
+}
+
+.container .panel--electric {
+  background-color: #f8d030;
+}
+
+.container .panel--grass {
+  background-color: #78c850;
+}
+
+.container .panel--poison {
+  background-color: #9a74ed;
+}
+
+.container .panel--ghost {
+  background-color: #340a51;
+}
+
+.container .panel--grass {
+  background-color: #78c850;
+}
+
+.container .panel--fire {
+  background-color: #f08030;
+}
+
+.container .panel--ground {
+  background-color: #e0c068;
+}
+/* Bootstrap paints the body white; keep the overlay see-through outside OBS too */
+html, body {
+  background-color: transparent !important;
+}
