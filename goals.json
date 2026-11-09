@@ -24,6 +24,346 @@
                     "default": false
                 }
             ]
+        },
+        {
+            "name": "Jezzabel Personal",
+            "translate": false,
+            "developer": "Jezzabel",
+            "url": "https://assets.pokelink.xyz/v3/goals/jezzabel-personal/",
+            "options": [
+                {
+                    "key": "list",
+                    "name": "Trainers to colour from",
+                    "description": "Which trainer tracker list supplies the badge colours",
+                    "translate": false,
+                    "type": "string",
+                    "default": "gyms",
+                    "options": [
+                        "gyms",
+                        "bosses"
+                    ]
+                },
+                {
+                    "key": "containerBorder",
+                    "name": "Badge row border",
+                    "description": "CSS border, e.g. 4px solid #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "containerBackground",
+                    "name": "Badge row background",
+                    "description": "Colour, gradient or image url, e.g. #222, linear-gradient(var(--type-color), #000) or https://…/bg.png",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "containerBackgroundSize",
+                    "name": "Badge row background size",
+                    "description": "e.g. cover, contain or 100% 100%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "containerBackgroundPosition",
+                    "name": "Badge row background position",
+                    "description": "e.g. center or top left",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "containerPadding",
+                    "name": "Badge row padding",
+                    "description": "Pixels or CSS, e.g. 10 or 4px 12px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "containerMargin",
+                    "name": "Badge row margin",
+                    "description": "Pixels or CSS, e.g. 10 or 0 4px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "containerRadius",
+                    "name": "Badge row border radius",
+                    "description": "Pixels or CSS, e.g. 12 or 50%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "containerShadow",
+                    "name": "Badge row shadow",
+                    "description": "CSS box-shadow, e.g. 0 0 8px #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "panelBorder",
+                    "name": "Gym panels border",
+                    "description": "CSS border, e.g. 4px solid #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "panelBackground",
+                    "name": "Gym panels background",
+                    "description": "Colour, gradient or image url, e.g. #222, linear-gradient(var(--type-color), #000) or https://…/bg.png",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "panelBackgroundSize",
+                    "name": "Gym panels background size",
+                    "description": "e.g. cover, contain or 100% 100%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "panelBackgroundPosition",
+                    "name": "Gym panels background position",
+                    "description": "e.g. center or top left",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "panelPadding",
+                    "name": "Gym panels padding",
+                    "description": "Pixels or CSS, e.g. 10 or 4px 12px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "panelMargin",
+                    "name": "Gym panels margin",
+                    "description": "Pixels or CSS, e.g. 10 or 0 4px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "panelRadius",
+                    "name": "Gym panels border radius",
+                    "description": "Pixels or CSS, e.g. 12 or 50%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "panelShadow",
+                    "name": "Gym panels shadow",
+                    "description": "CSS box-shadow, e.g. 0 0 8px #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "leaderBorder",
+                    "name": "Leader portraits border",
+                    "description": "CSS border, e.g. 4px solid #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "leaderBackground",
+                    "name": "Leader portraits background",
+                    "description": "Colour, gradient or image url, e.g. #222, linear-gradient(var(--type-color), #000) or https://…/bg.png",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "leaderBackgroundSize",
+                    "name": "Leader portraits background size",
+                    "description": "e.g. cover, contain or 100% 100%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "leaderBackgroundPosition",
+                    "name": "Leader portraits background position",
+                    "description": "e.g. center or top left",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "leaderPadding",
+                    "name": "Leader portraits padding",
+                    "description": "Pixels or CSS, e.g. 10 or 4px 12px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "leaderMargin",
+                    "name": "Leader portraits margin",
+                    "description": "Pixels or CSS, e.g. 10 or 0 4px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "leaderRadius",
+                    "name": "Leader portraits border radius",
+                    "description": "Pixels or CSS, e.g. 12 or 50%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "leaderShadow",
+                    "name": "Leader portraits shadow",
+                    "description": "CSS box-shadow, e.g. 0 0 8px #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "badgeBorder",
+                    "name": "Badge images border",
+                    "description": "CSS border, e.g. 4px solid #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "badgeBackground",
+                    "name": "Badge images background",
+                    "description": "Colour, gradient or image url, e.g. #222, linear-gradient(var(--type-color), #000) or https://…/bg.png",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "badgeBackgroundSize",
+                    "name": "Badge images background size",
+                    "description": "e.g. cover, contain or 100% 100%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "badgeBackgroundPosition",
+                    "name": "Badge images background position",
+                    "description": "e.g. center or top left",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "badgePadding",
+                    "name": "Badge images padding",
+                    "description": "Pixels or CSS, e.g. 10 or 4px 12px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "badgeMargin",
+                    "name": "Badge images margin",
+                    "description": "Pixels or CSS, e.g. 10 or 0 4px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "badgeRadius",
+                    "name": "Badge images border radius",
+                    "description": "Pixels or CSS, e.g. 12 or 50%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "badgeShadow",
+                    "name": "Badge images shadow",
+                    "description": "CSS box-shadow, e.g. 0 0 8px #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "levelBorder",
+                    "name": "Level cap labels border",
+                    "description": "CSS border, e.g. 4px solid #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "levelBackground",
+                    "name": "Level cap labels background",
+                    "description": "Colour, gradient or image url, e.g. #222, linear-gradient(var(--type-color), #000) or https://…/bg.png",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "levelBackgroundSize",
+                    "name": "Level cap labels background size",
+                    "description": "e.g. cover, contain or 100% 100%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "levelBackgroundPosition",
+                    "name": "Level cap labels background position",
+                    "description": "e.g. center or top left",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "levelPadding",
+                    "name": "Level cap labels padding",
+                    "description": "Pixels or CSS, e.g. 10 or 4px 12px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "levelMargin",
+                    "name": "Level cap labels margin",
+                    "description": "Pixels or CSS, e.g. 10 or 0 4px",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "levelRadius",
+                    "name": "Level cap labels border radius",
+                    "description": "Pixels or CSS, e.g. 12 or 50%",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                },
+                {
+                    "key": "levelShadow",
+                    "name": "Level cap labels shadow",
+                    "description": "CSS box-shadow, e.g. 0 0 8px #000",
+                    "translate": false,
+                    "type": "string",
+                    "default": ""
+                }
+            ]
         }
     ]
 }

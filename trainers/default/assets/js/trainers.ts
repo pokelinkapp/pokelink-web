@@ -27,7 +27,7 @@ import getFallbackImg = V3.getFallbackImg
                         <div class="flex flex-row w-full h-full" v-for="trainer in trainerTracker.trainers">
                             <div class="w-1/7 flex flex-row h-full items-center justify-center">
                                 <div>
-                                    <img :src="trainer.trainerSprite" width="128" height="128"/>
+                                    <img :src="pokelinkHostToUrl(trainer.trainerSprite)" width="128" height="128"/>
                                 </div>
                                 <div>
                                     <p>
