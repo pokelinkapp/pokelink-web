@@ -41,7 +41,7 @@ import {
     PokemonGrave,
     resolveIllegalCharacters,
     statusColors,
-    string2ColHex, TrackedTrainer, TrainerTracker,
+    string2ColHex, TrackedTrainer, TrainerTracker, TrainerPokemon,
     typeColors
 } from './global.js'
 import Handlebars from 'handlebars'
@@ -174,7 +174,7 @@ const settingsSubcomponents = {
 const trainerTrackerSubcomponents = {
     levelCap: 'levelCap',
     trainersDefeated: 'trainersDefeated',
-    trainerCount: 'trainerCount', 
+    trainerCount: 'trainerCount',
     trainers: {
         name: 'name',
         trainerClass: 'trainerClass',
@@ -253,7 +253,7 @@ export namespace V3 {
             }
         }
     }
-    
+
     export function updateComponentsConfig(componentsConfig: Nullable<ComponentConfig>) {
         if (isDefined(client)) {
             client!.updateComponents(componentsConfig)
@@ -344,15 +344,19 @@ export namespace V3 {
             events.emit(reviveId, component.graveId, user)
         })
     }
-    
+
     function registerTrainerTrackerComponentListener() {
         registerComponentListener<TrainerTrackerMessage>(trainerTrackerId, (component, user) => {
-            
-            let output: TrainerTracker = {trainers: [], hasAbilities: component.hasAbilities, hasItems: component.hasItems}
+
+            let output: TrainerTracker = {
+                trainers: [],
+                hasAbilities: component.hasAbilities,
+                hasItems: component.hasItems
+            }
             output.levelCap = component.levelCap
             output.trainerCount = component.trainerCount
             output.trainersDefeated = component.trainersDefeated
-            
+
             for (let trainer of component.trainers) {
                 let flatTrainer: TrackedTrainer = {
                     isBoss: trainer.isBoss,
@@ -376,19 +380,21 @@ export namespace V3 {
                     temp[key] = JSON.parse(toJsonString(schema!, component, {alwaysEmitImplicit: false}))
 
                     flatTrainer = {...flatTrainer, ...temp}
+
+                    flatTrainer.parties = (flatTrainer.parties as any).parties
                 }
-                
+
                 output.trainers.push(flatTrainer)
             }
-            
+
             if (clientSettings.debug) {
                 console.debug(`Trainer(${user})`, output)
             }
-            
+
             events.emit(trainerTrackerId, output, user)
         })
     }
-    
+
     function registerPCBoxComponentListener() {
         registerComponentListener<PCBoxMessage>(pcBoxId, (component, user) => {
             let output: PCBox = {storage: []}
@@ -396,20 +402,20 @@ export namespace V3 {
             output.stored = component.stored
             output.columns = component.columns
             output.rows = component.rows
-            
+
             for (let entry of component.storage) {
                 if (!isDefined(entry.pokemon)) {
                     output.storage.push(null)
                     continue
                 }
-                
+
                 output.storage.push(convertFromPokemonProtobuf(entry.pokemon!))
             }
-            
+
             if (clientSettings.debug) {
                 console.debug(`PCBox(${user})`, output)
             }
-            
+
             events.emit(pcBoxId, output, user)
         })
     }
@@ -476,7 +482,7 @@ export namespace V3 {
         }
         events.on(reviveId, handler)
     }
-    
+
     export function onTrainerTrackerUpdate(handler: (trainerTracker: TrainerTracker, username: string) => void) {
         if (!hasRegisteredTrainerTracking) {
             hasRegisteredTrainerTracking = true
@@ -484,7 +490,7 @@ export namespace V3 {
         }
         events.on(trainerTrackerId, handler)
     }
-    
+
     export function onPCBoxUpdate(handler: (box: PCBox, username: string) => void) {
         if (!hasRegisteredPCBox) {
             hasRegisteredPCBox = true
@@ -719,5 +725,7 @@ export {
     settingsSubcomponents,
     trainerTrackerSubcomponents,
     TrainerTracker,
-    PCBox
+    PCBox,
+    TrackedTrainer,
+    TrainerPokemon
 }

@@ -227,17 +227,19 @@ export interface TrackedTrainer {
     badgeSprite?: string
     highestLevel: number
     parties?: {
-        pokemon: {
-            species: number
-            form: number
-            itemSprite?: string
-            level?: number
-            gender: Gender
-            hasFemaleSprite: boolean
-            isShiny: boolean
-            translation: TTPokemonTranslations
-        }[]
+        pokemon: TrainerPokemon[]
     }[]
+}
+
+export interface TrainerPokemon {
+    species: number
+    form: number
+    itemSprite?: string
+    level?: number
+    gender: Gender
+    hasFemaleSprite: boolean
+    isShiny: boolean
+    translation: TTPokemonTranslations
 }
 
 export interface TrainerTracker {

@@ -34,8 +34,9 @@
   opacity: 0.5;
 }
 
-.container .panel:hover {
-  width: calc(100% / 3);
+.container .panel:hover,
+.next {
+    width: calc(100% / 3) !important;
 }
 
 .container .panel:not(.panel--inactive)+.panel--inactive {

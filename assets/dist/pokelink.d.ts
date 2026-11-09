@@ -1,7 +1,7 @@
 import * as V3DataTypes from './v3_pb.js';
 import { Pokemon as PokemonPB, TTPokemon } from './v3_pb.js';
 import { Message } from '@bufbuild/protobuf';
-import { ClientSettings, EventEmitter, hex2rgba, htmlColors, isDefined, Nullable, PCBox, Pokemon, PokemonGrave, resolveIllegalCharacters, statusColors, string2ColHex, TrainerTracker, typeColors } from './global.js';
+import { ClientSettings, EventEmitter, hex2rgba, htmlColors, isDefined, Nullable, PCBox, Pokemon, PokemonGrave, resolveIllegalCharacters, statusColors, string2ColHex, TrackedTrainer, TrainerTracker, TrainerPokemon, typeColors } from './global.js';
 import Handlebars from 'handlebars';
 import collect from 'collect.js';
 import { GenMessage } from '@bufbuild/protobuf/codegenv2';
@@ -103,4 +103,4 @@ export declare namespace V3 {
     export function getFromSlot(): number;
     export {};
 }
-export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcBoxId, routesId, trainerTrackerId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents, trainerTrackerSubcomponents, TrainerTracker, PCBox };
+export { htmlColors, statusColors, typeColors, EventEmitter, V3DataTypes, string2ColHex, collect, isDefined, hex2rgba, resolveIllegalCharacters, Handlebars, Nullable, Pokemon, PokemonGrave, partyId, goalsId, graveyardId, reviveId, deathId, settingsId, pcBoxId, routesId, trainerTrackerId, pokemonSubcomponents, goalsSubcomponents, graveyardSubcomponents, settingsSubcomponents, trainerTrackerSubcomponents, TrainerTracker, PCBox, TrackedTrainer, TrainerPokemon };

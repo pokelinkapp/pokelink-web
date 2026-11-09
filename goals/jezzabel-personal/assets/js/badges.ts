@@ -7,26 +7,10 @@ import {
     trainerTrackerId,
     TrainerTracker,
     typeColors,
-    V3
+    V3,
+    TrackedTrainer,
+    TrainerPokemon
 } from 'pokelink'
-
-// The flattened trainer tracker payload carries parties as parsed JSON, so type it locally
-type TrackedPokemon = {
-    level?: number
-    translations?: {
-        english?: { types?: string[] }
-    }
-}
-
-type TrackedTrainerLike = {
-    isBoss: boolean
-    isGymLeader: boolean
-    badgeSprite?: string
-    trainerSprite?: string
-    highestLevel?: number
-    translations?: { locale?: { name?: string, trainerClass?: string } }
-    parties?: { parties?: { pokemon?: TrackedPokemon[] }[] }
-}
 
 type BadgeSlot = {
     id: string
@@ -36,11 +20,7 @@ type BadgeSlot = {
     obtained: boolean
     leaderArt: Nullable<string>
     levelCap: Nullable<number>
-}
-
-// Leader art the same way the default trainers page shows it: the tracker's trainer sprite, host resolved
-function leaderArt(trainerSprite: Nullable<string>): Nullable<string> {
-    return V3.pokelinkHostToUrl(trainerSprite) ?? null
+    next: boolean
 }
 
 type StyleMap = { [property: string]: string | number }
@@ -116,13 +96,13 @@ function fallbackType(badgeSprite: Nullable<string>): Nullable<string> {
 }
 
 // Counts every type across the trainer's parties; ties go to the types of the highest levelled pokemon
-function mostUsedType(trainer: TrackedTrainerLike): Nullable<string> {
+function mostUsedType(trainer: TrackedTrainer): Nullable<string> {
     const counts: { [type: string]: number } = {}
-    let ace: Nullable<TrackedPokemon> = null
+    let ace: Nullable<TrainerPokemon> = null
 
-    for (const party of trainer.parties?.parties ?? []) {
+    for (const party of trainer.parties ?? []) {
         for (const pokemon of party.pokemon ?? []) {
-            for (const type of pokemon.translations?.english?.types ?? []) {
+            for (const type of pokemon.translation?.english?.types ?? []) {
                 counts[type] = (counts[type] ?? 0) + 1
             }
             if (!isDefined(ace) || (pokemon.level ?? 0) > (ace!.level ?? 0)) {
@@ -137,12 +117,12 @@ function mostUsedType(trainer: TrackedTrainerLike): Nullable<string> {
     }
 
     const tied = Object.keys(counts).filter(type => counts[type] === max)
-    const aceTypes = ace?.translations?.english?.types ?? []
+    const aceTypes = ace?.translation?.english?.types ?? []
 
     return tied.find(type => aceTypes.indexOf(type) !== -1) ?? tied[0]
 }
 
-function filterLeaders(trainers: TrackedTrainerLike[], list: string) {
+function filterLeaders(trainers: TrackedTrainer[], list: string) {
     return trainers.filter(trainer => list === 'bosses' ? trainer.isBoss : trainer.isGymLeader)
 }
 
@@ -154,13 +134,13 @@ function filterLeaders(trainers: TrackedTrainerLike[], list: string) {
                     v-for="slot in slots"
                     :key="slot.id"
                     class="panel"
-                    :class="{ 'badge__slot': true, 'badge__slot--inactive': !slot.obtained, 'panel--inactive': !slot.obtained, ['panel--' + gymType(slot)]: true }"
+                    :class="{ 'next': slot.next && settings.enlargeNext, 'badge__slot': true, 'badge__slot--inactive': !slot.obtained, 'panel--inactive': !slot.obtained, ['panel--' + gymType(slot)]: true }"
                     :style="panelStyle(slot)"
                 >
                     <img v-if="leaderImage(slot)" :src="leaderImage(slot)" :alt="slot.leader" class="leader"
                          :style="styles.leader" @error="brokenImages[slot.leaderArt] = true">
                     <img v-else-if="slot.sprite" class="badge-img" :src="slot.sprite" :alt="slot.leader" :style="styles.badge">
-                    <span class="levelCap" v-if="slot.levelCap" :style="styles.level">{{ '' + slot.levelCap }}</span>
+                    <span class="levelCap" v-if="slot.levelCap && settings.showLevelCap" :style="styles.level">{{ '' + slot.levelCap }}</span>
                 </div>
             </div>
             <div class="no-connection" v-if="!connected">
@@ -171,7 +151,7 @@ function filterLeaders(trainers: TrackedTrainerLike[], list: string) {
         data() {
             return {
                 connected: false,
-                trainers: [] as TrackedTrainerLike[],
+                trainers: [] as TrackedTrainer[],
                 // Pokélink's current cap, the same trainerTracker.levelCap the default trainers page shows
                 trackerLevelCap: null as Nullable<number>,
                 trainersDefeated: null as Nullable<number>,
@@ -180,7 +160,9 @@ function filterLeaders(trainers: TrackedTrainerLike[], list: string) {
                 styles: {} as { [element in StyledElement]?: StyleMap },
                 settings: {
                     port: 0,
-                    list: 'gyms'
+                    list: 'gyms',
+                    enlargeNext: false,
+                    showLevelCap: true
                 }
             }
         },
@@ -192,7 +174,7 @@ function filterLeaders(trainers: TrackedTrainerLike[], list: string) {
                 // Otherwise the tracker is listing what's left, and every listed leader is still to beat
                 const defeated = this.trainerCount === leaders.length ? (this.trainersDefeated ?? 0) : 0
 
-                return leaders.map((trainer: TrackedTrainerLike, index: number) => {
+                return leaders.map((trainer: TrackedTrainer, index: number) => {
                     const badgeSprite = V3.pokelinkHostToUrl(trainer.badgeSprite) ?? null
                     return {
                         id: `${index}|${badgeName(badgeSprite) ?? trainer.translations?.locale?.name ?? ''}`,
@@ -200,7 +182,8 @@ function filterLeaders(trainers: TrackedTrainerLike[], list: string) {
                         leader: trainer.translations?.locale?.name ?? null,
                         sprite: badgeSprite,
                         obtained: index < defeated,
-                        leaderArt: leaderArt(trainer.trainerSprite),
+                        leaderArt: trainer.trainerSprite,
+                        next: index === defeated,
                         // Caps come from the tracker like the default trainers page: Pokélink's current levelCap for
                         // the next leader, then each leader's highestLevel
                         levelCap: (index === defeated ? this.trackerLevelCap : null) || trainer.highestLevel || null
@@ -236,6 +219,8 @@ function filterLeaders(trainers: TrackedTrainerLike[], list: string) {
 
             this.settings.port = clientSettings.port
             this.settings.list = clientSettings.params.getString('list', 'gyms') ?? 'gyms'
+            this.settings.enlargeNext = clientSettings.params.getBool('enlargeNext', false)
+            this.settings.showLevelCap = clientSettings.params.getBool('showLevelCap', true)
 
             for (const element of styledElements) {
                 this.styles[element] = readElementStyle(element)
@@ -258,7 +243,7 @@ function filterLeaders(trainers: TrackedTrainerLike[], list: string) {
                 vm.trackerLevelCap = trainerTracker.levelCap ?? null
                 vm.trainersDefeated = trainerTracker.trainersDefeated ?? null
                 vm.trainerCount = trainerTracker.trainerCount ?? null
-                vm.trainers = trainerTracker.trainers as unknown as TrackedTrainerLike[]
+                vm.trainers = trainerTracker.trainers
 
                 if (clientSettings.debug) {
                     console.debug('Trainers', vm.slots)

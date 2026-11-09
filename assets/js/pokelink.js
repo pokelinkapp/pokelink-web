@@ -245,7 +245,11 @@ export var V3;
     }
     function registerTrainerTrackerComponentListener() {
         registerComponentListener(trainerTrackerId, (component, user) => {
-            let output = { trainers: [], hasAbilities: component.hasAbilities, hasItems: component.hasItems };
+            let output = {
+                trainers: [],
+                hasAbilities: component.hasAbilities,
+                hasItems: component.hasItems
+            };
             output.levelCap = component.levelCap;
             output.trainerCount = component.trainerCount;
             output.trainersDefeated = component.trainersDefeated;
@@ -267,6 +271,7 @@ export var V3;
                     let temp = {};
                     temp[key] = JSON.parse(toJsonString(schema, component, { alwaysEmitImplicit: false }));
                     flatTrainer = { ...flatTrainer, ...temp };
+                    flatTrainer.parties = flatTrainer.parties.parties;
                 }
                 output.trainers.push(flatTrainer);
             }

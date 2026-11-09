@@ -1,9 +1,5 @@
 import { createApp } from 'vue';
 import { clientSettings, isDefined, trainerTrackerId, typeColors, V3 } from 'pokelink';
-// Leader art the same way the default trainers page shows it: the tracker's trainer sprite, host resolved
-function leaderArt(trainerSprite) {
-    return V3.pokelinkHostToUrl(trainerSprite) ?? null;
-}
 // Every styleable element, each read from url params named <element><Property>, e.g. panelBorder or levelBackground
 const styledElements = ['container', 'panel', 'leader', 'badge', 'level'];
 const styleParams = {
@@ -64,9 +60,9 @@ function fallbackType(badgeSprite) {
 function mostUsedType(trainer) {
     const counts = {};
     let ace = null;
-    for (const party of trainer.parties?.parties ?? []) {
+    for (const party of trainer.parties ?? []) {
         for (const pokemon of party.pokemon ?? []) {
-            for (const type of pokemon.translations?.english?.types ?? []) {
+            for (const type of pokemon.translation?.english?.types ?? []) {
                 counts[type] = (counts[type] ?? 0) + 1;
             }
             if (!isDefined(ace) || (pokemon.level ?? 0) > (ace.level ?? 0)) {
@@ -79,7 +75,7 @@ function mostUsedType(trainer) {
         return null;
     }
     const tied = Object.keys(counts).filter(type => counts[type] === max);
-    const aceTypes = ace?.translations?.english?.types ?? [];
+    const aceTypes = ace?.translation?.english?.types ?? [];
     return tied.find(type => aceTypes.indexOf(type) !== -1) ?? tied[0];
 }
 function filterLeaders(trainers, list) {
@@ -93,13 +89,13 @@ function filterLeaders(trainers, list) {
                     v-for="slot in slots"
                     :key="slot.id"
                     class="panel"
-                    :class="{ 'badge__slot': true, 'badge__slot--inactive': !slot.obtained, 'panel--inactive': !slot.obtained, ['panel--' + gymType(slot)]: true }"
+                    :class="{ 'next': slot.next && settings.enlargeNext, 'badge__slot': true, 'badge__slot--inactive': !slot.obtained, 'panel--inactive': !slot.obtained, ['panel--' + gymType(slot)]: true }"
                     :style="panelStyle(slot)"
                 >
                     <img v-if="leaderImage(slot)" :src="leaderImage(slot)" :alt="slot.leader" class="leader"
                          :style="styles.leader" @error="brokenImages[slot.leaderArt] = true">
                     <img v-else-if="slot.sprite" class="badge-img" :src="slot.sprite" :alt="slot.leader" :style="styles.badge">
-                    <span class="levelCap" v-if="slot.levelCap" :style="styles.level">{{ '' + slot.levelCap }}</span>
+                    <span class="levelCap" v-if="slot.levelCap && settings.showLevelCap" :style="styles.level">{{ '' + slot.levelCap }}</span>
                 </div>
             </div>
             <div class="no-connection" v-if="!connected">
@@ -119,7 +115,9 @@ function filterLeaders(trainers, list) {
                 styles: {},
                 settings: {
                     port: 0,
-                    list: 'gyms'
+                    list: 'gyms',
+                    enlargeNext: false,
+                    showLevelCap: true
                 }
             };
         },
@@ -137,7 +135,8 @@ function filterLeaders(trainers, list) {
                         leader: trainer.translations?.locale?.name ?? null,
                         sprite: badgeSprite,
                         obtained: index < defeated,
-                        leaderArt: leaderArt(trainer.trainerSprite),
+                        leaderArt: trainer.trainerSprite,
+                        next: index === defeated,
                         // Caps come from the tracker like the default trainers page: Pokélink's current levelCap for
                         // the next leader, then each leader's highestLevel
                         levelCap: (index === defeated ? this.trackerLevelCap : null) || trainer.highestLevel || null
@@ -171,6 +170,8 @@ function filterLeaders(trainers, list) {
             const vm = this;
             this.settings.port = clientSettings.port;
             this.settings.list = clientSettings.params.getString('list', 'gyms') ?? 'gyms';
+            this.settings.enlargeNext = clientSettings.params.getBool('enlargeNext', false);
+            this.settings.showLevelCap = clientSettings.params.getBool('showLevelCap', true);
             for (const element of styledElements) {
                 this.styles[element] = readElementStyle(element);
             }
