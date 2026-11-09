@@ -209,7 +209,7 @@ export type TrainerTrackerMessage = Message<"Pokelink.Core.Proto.V3.TrainerTrack
      */
     hasAbilities: boolean;
     /**
-     * @generated from field: repeated Pokelink.Core.Proto.V3.TTTrainer trainers = 6;
+     * @generated from field: repeated Pokelink.Core.Proto.V3.TTTrainer trainers = 7;
      */
     trainers: TTTrainer[];
 };
@@ -779,23 +779,27 @@ export type TTTrainer = Message<"Pokelink.Core.Proto.V3.TTTrainer"> & {
      */
     isGymLeader: boolean;
     /**
-     * @generated from field: Pokelink.Core.Proto.V3.TTTranslations translations = 3;
+     * @generated from field: bool isDefeated = 3;
+     */
+    isDefeated: boolean;
+    /**
+     * @generated from field: Pokelink.Core.Proto.V3.TTTranslations translations = 4;
      */
     translations?: TTTranslations | undefined;
     /**
-     * @generated from field: optional string trainerSprite = 4;
+     * @generated from field: optional string trainerSprite = 5;
      */
     trainerSprite?: string | undefined;
     /**
-     * @generated from field: optional string badgeSprite = 5;
+     * @generated from field: optional string badgeSprite = 6;
      */
     badgeSprite?: string | undefined;
     /**
-     * @generated from field: optional uint32 highestLevel = 6;
+     * @generated from field: optional uint32 highestLevel = 7;
      */
     highestLevel?: number | undefined;
     /**
-     * @generated from field: map<string, google.protobuf.Any> subComponents = 7;
+     * @generated from field: map<string, google.protobuf.Any> subComponents = 8;
      */
     subComponents: {
         [key: string]: Any;

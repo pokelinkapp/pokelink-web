@@ -87,7 +87,7 @@ message TrainerTrackerMessage {
   optional uint32 trainerCount = 3;
   bool hasItems = 4;
   bool hasAbilities = 5;
-  repeated TTTrainer trainers = 6;
+  repeated TTTrainer trainers = 7;
 }
 
 message PCBoxMessage {
@@ -244,11 +244,12 @@ message TTTranslations {
 message TTTrainer {
   bool isBoss = 1;
   bool isGymLeader = 2;
-  TTTranslations translations = 3;
-  optional string trainerSprite = 4;
-  optional string badgeSprite = 5;
-  optional uint32 highestLevel = 6;
-  map<string, google.protobuf.Any> subComponents = 7;
+  bool isDefeated = 3;
+  TTTranslations translations = 4;
+  optional string trainerSprite = 5;
+  optional string badgeSprite = 6;
+  optional uint32 highestLevel = 7;
+  map<string, google.protobuf.Any> subComponents = 8;
 }
 
 message TTPokemonTranslationsObject {
