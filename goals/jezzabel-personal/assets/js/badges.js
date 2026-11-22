@@ -139,7 +139,7 @@ function filterLeaders(trainers, list) {
                         next: index === defeated,
                         // Caps come from the tracker like the default trainers page: Pokélink's current levelCap for
                         // the next leader, then each leader's highestLevel
-                        levelCap: (index === defeated ? this.trackerLevelCap : null) || trainer.highestLevel || null
+                        levelCap: trainer.highestLevel
                     };
                 });
             }
