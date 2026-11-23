@@ -62,7 +62,7 @@ function mostUsedType(trainer) {
     let ace = null;
     for (const party of trainer.parties ?? []) {
         for (const pokemon of party.pokemon ?? []) {
-            for (const type of pokemon.translation?.english?.types ?? []) {
+            for (const type of pokemon.translations?.english?.types ?? []) {
                 counts[type] = (counts[type] ?? 0) + 1;
             }
             if (!isDefined(ace) || (pokemon.level ?? 0) > (ace.level ?? 0)) {
@@ -75,7 +75,7 @@ function mostUsedType(trainer) {
         return null;
     }
     const tied = Object.keys(counts).filter(type => counts[type] === max);
-    const aceTypes = ace?.translation?.english?.types ?? [];
+    const aceTypes = ace?.translations?.english?.types ?? [];
     return tied.find(type => aceTypes.indexOf(type) !== -1) ?? tied[0];
 }
 function filterLeaders(trainers, list) {
@@ -150,6 +150,7 @@ function filterLeaders(trainers, list) {
                 return isDefined(slot.leaderArt) && !this.brokenImages[slot.leaderArt] ? slot.leaderArt : null;
             },
             gymType(slot) {
+                console.debug(slot);
                 return slot.type?.toLowerCase() ?? 'unknown';
             },
             panelStyle(slot) {

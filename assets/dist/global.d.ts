@@ -80,7 +80,7 @@ export interface TrainerPokemon {
     gender: Gender;
     hasFemaleSprite: boolean;
     isShiny: boolean;
-    translation: TTPokemonTranslations;
+    translations: TTPokemonTranslations;
 }
 export interface TrainerTracker {
     levelCap?: number;
